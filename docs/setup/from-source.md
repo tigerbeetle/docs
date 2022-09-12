@@ -31,4 +31,6 @@ info(io): opening "0_0.tigerbeetle"...
 info(main): 0: cluster=0: listening on 127.0.0.1:3000
 ```
 
-Now you can connect to the running server [using the Node client as a CLI](node-client-as-cli).
+Now you can connect to the running server with any client. For a quick
+start, try [creating accounts and transfers in the Node
+CLI](/usage/node-cli).

@@ -1,4 +1,4 @@
-# Running a 3-node TigerBeetle cluster locally with Docker Compose
+# 3-node cluster with Docker Compose
 
 First, provision the data file for each node:
 

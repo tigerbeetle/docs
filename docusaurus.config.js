@@ -9,7 +9,7 @@ const config = {
   title: 'TigerBeetle Docs',
   tagline: '',
   url: 'https://docs.tigerbeetle.com',
-  baseUrl: '/',
+  baseUrl: '/docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.png',

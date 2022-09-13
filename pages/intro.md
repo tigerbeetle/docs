@@ -10,11 +10,11 @@ for mission critical safety and performance.
 
 # Running TigerBeetle
 
-To get TigerBeetle up-and-running locally for easy testing, check out:
+To get TigerBeetle up-and-running locally, check out:
 
 * [Run a single-node cluster with Docker](/setup/with-docker)
 * Or [run a single-node cluster from source](/setup/from-source)
-* Or [run a three-node local cluster with docker-compose](/setup/with-docker-compose)
+* Or [run a three-node cluster with docker-compose](/setup/with-docker-compose)
 
 # Using TigerBeetle
 

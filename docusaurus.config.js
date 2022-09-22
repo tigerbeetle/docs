@@ -38,8 +38,8 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/tigerbeetledb/docs/tree/main/',
+          editUrl: ({ docPath }) =>
+            'https://github.com/tigerbeetledb/tigerbeetle/blob/main/docs/' + docPath.replace('/pages/', ''),
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -98,6 +98,9 @@ const config = {
         darkTheme: darkCodeTheme,
       },
     }),
+  scripts: [
+      {src: 'https://plausible.io/js/script.js', defer: true, 'data-domain': 'docs.tigerbeetle.com'},
+  ]
 };
 
 module.exports = config;

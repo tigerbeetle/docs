@@ -12,28 +12,19 @@ for mission critical safety and performance.
 
 To get TigerBeetle up-and-running locally, check out:
 
-* [Run a single-node cluster with Docker](/setup/with-docker)
-* Or [run a single-node cluster from source](/setup/from-source)
-* Or [run a three-node cluster with docker-compose](/setup/with-docker-compose)
+* [Run a single-node cluster with Docker](./setup/with-docker)
+* Or [run a single-node cluster from source](./setup/from-source)
+* Or [run a three-node cluster with docker-compose](./setup/with-docker-compose)
 
 # Using TigerBeetle
 
 Once you've got a TigerBeetle server, check out:
 
-* [Creating accounts and transfers in the Node CLI](/usage/node-cli)
-
-# Clients
-
-When you're ready to start integrating with TigerBeetle in your
-application, check out the language-specific docs:
-
-* [Node](/clients/node)
-* [Java](/clients/java)
-* [Go](/clients/go)
+* [Creating accounts and transfers in the Node CLI](./usage/node-cli)
 
 # Reference
 
-When you need to know the details about accounts and transfers, check out:
+To understand TigerBeetle's data model, see:
 
-* [Accounts](/reference/accounts)
-* [Transfers](/reference/transfers)
+* [Accounts](./reference/accounts)
+* [Transfers](./reference/transfers)

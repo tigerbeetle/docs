@@ -21,19 +21,3 @@ To get TigerBeetle up-and-running locally, check out:
 Once you've got a TigerBeetle server, check out:
 
 * [Creating accounts and transfers in the Node CLI](/usage/node-cli)
-
-# Clients
-
-When you're ready to start integrating with TigerBeetle in your
-application, check out the language-specific docs:
-
-* [Node](/clients/node)
-* [Java](/clients/java)
-* [Go](/clients/go)
-
-# Reference
-
-When you need to know the details about accounts and transfers, check out:
-
-* [Accounts](/reference/accounts)
-* [Transfers](/reference/transfers)

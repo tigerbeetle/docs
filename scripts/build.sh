@@ -14,8 +14,7 @@ find pages -maxdepth 1 -mindepth 1 -type f -not -name "intro.md" -delete
 rm -rf tb_tmp
 
 # Build the site
-docker run -v $(pwd):/wrk -w /wrk --entrypoint npx node npm install
-docker run -v $(pwd):/wrk -w /wrk --entrypoint npx node npx docusaurus build
+npx docusaurus build
 rm -rf docs
 mv build docs
 

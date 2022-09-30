@@ -22,7 +22,8 @@ where Github Pages wants them to be.
 To build:
 
 ```bash
-$ npm run build
+$ npm install
+$ ./scripts/build.sh
 ```
 
 Then commit all the changes (in the `docs/` directory).

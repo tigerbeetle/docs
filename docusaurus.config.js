@@ -100,7 +100,13 @@ const config = {
     }),
   scripts: [
       {src: 'https://plausible.io/js/script.js', defer: true, 'data-domain': 'docs.tigerbeetle.com'},
-  ]
+  ],
+
+  markdown: {
+    mermaid: true,
+  },
+
+  themes: ['@docusaurus/theme-mermaid'],
 };
 
 module.exports = config;

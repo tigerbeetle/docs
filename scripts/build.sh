@@ -1,16 +1,22 @@
 #!/usr/bin/env bash
 
 # Build a different branch by passing the branch name in as the first argument
+# Build a different repo by passing the repo URL as the second argument (for forks)
 branch="main"
 if [[ -n "$1" ]]; then
     branch="$1"
 fi
-echo "Building branch: $branch"
+repo="https://github.com/tigerbeetledb/tigerbeetle"
+if [[ -n "$2" ]]; then
+    repo="$2"
+fi
+
+echo "Building branch: $branch from $repo"
 
 set -eu
 
 # Grab the latest docs from tigerbeetledb/tigerbeetle
-git clone https://github.com/tigerbeetledb/tigerbeetle tb_tmp
+git clone "$repo" tb_tmp
 
 if ! [[ "$branch" == "main" ]]; then
     ( cd tb_tmp && git fetch && git checkout "$branch" )

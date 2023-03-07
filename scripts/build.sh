@@ -13,7 +13,7 @@ fi
 
 echo "Building branch: $branch from $repo"
 
-set -eu
+set -eux
 
 # Grab the latest docs from tigerbeetledb/tigerbeetle
 git clone "$repo" tb_tmp
@@ -28,6 +28,12 @@ for page in $(ls pages/*.md); do
     if ! [[ "$page" == "pages/intro.md" ]] && ! [[ "$page" == "pages/FAQ.md" ]]; then
 	rm "$page"
     fi
+done
+
+mkdir pages/clients
+clients="go java node dotnet"
+for client in $clients; do
+    mv tb_tmp/src/clients/$client/README.md pages/clients/$client.md
 done
 rm -rf tb_tmp
 

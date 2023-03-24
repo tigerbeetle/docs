@@ -46,6 +46,9 @@ for page in $(ls pages/*.md); do
 done
 rm -rf tb_tmp
 
+# Unify no whitespace at the end of files
+find pages -type f | xargs -I {} perl -pi -e 'chomp if eof' {}
+
 # Build the site
 rm -rf docs build
 npx docusaurus build

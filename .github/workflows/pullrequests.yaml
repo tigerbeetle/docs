@@ -11,5 +11,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: npm install
-      - run: ./scripts/build_docker.sh
+      - run: ./scripts/build.sh
       - run: ./scripts/fail_on_diff.sh

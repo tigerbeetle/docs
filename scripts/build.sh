@@ -48,7 +48,9 @@ rm -rf tb_tmp
 
 # Build the site
 rm -rf docs build
-npx docusaurus build
+npm run docusaurus --version
+exit 0
+npm run docusaurus build
 cp -r build docs
 
 # CNAME file for Github Pages DNS matching

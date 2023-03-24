@@ -31,7 +31,7 @@ rm -rf pages
 mv tb_tmp/docs pages
 
 # Rewrite links to clients
-if false; then # Skip until the updated clients docs PR is merged
+if [[ -f tb_tmp/src/clients/integration.zig ]]; then # Skip until the updated clients docs PR is merged
     mkdir pages/clients
     clients="go java dotnet node"
     for client in $clients; do

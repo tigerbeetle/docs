@@ -349,3 +349,4 @@ Otherwise, the [credit account](../transfers.md#credit_account_id) has
 [`flags.credits_must_not_exceed_debits`](../transfers.md#flagscredits_must_not_exceed_debits)
 set, but `credit_account.credits_pending + credit_account.credits_posted + transfer.amount`
 would exceed `credit_account.debits_posted`.
+

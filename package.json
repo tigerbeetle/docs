@@ -41,8 +41,8 @@
   "engines": {
     "node": ">=16.14"
   },
-    "overrides": {
-	"trim": "^1.0.1",
-	"got": "^12.6.0"
-    }
+  "overrides": {
+    "trim": "^1.0.1",
+    "got": "^12.6.0"
+  }
 }

@@ -24,6 +24,18 @@ fi
 
 rm -rf pages
 mv tb_tmp/docs pages
+
+# Rewrite links to clients
+mkdir pages/clients
+clients="go java dotnet node"
+for client in $clients; do
+    # READMEs are rewritten to a local path since they will be on the docs site.
+    find pages -type f | xargs -I {} sed -i "s@/src/clients/$client/README.md@/clients/$client@g" {}
+    cp tb_tmp/src/clients/$client/README.md pages/clients/$client.md
+done
+# Everything else will be rewritten as a link into GitHub.
+find pages -type f | xargs -I {} sed -i "s@/src/clients/@$repo/blob/$branch/src/clients/@g" {}
+
 for page in $(ls pages/*.md); do
     if ! [[ "$page" == "pages/intro.md" ]] && ! [[ "$page" == "pages/FAQ.md" ]]; then
 	rm "$page"

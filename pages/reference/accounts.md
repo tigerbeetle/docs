@@ -34,10 +34,10 @@ Constraints:
 This is an optional secondary identifier to link this account to an
 external entity.
 
-As an example, you might use a [random id](../usage/data-modeling.md#random-identifer)
+As an example, you might use a [random id](../design/data-modeling.md#random-identifer)
 that ties together a group of accounts.
 
-For more information, see [Data Modeling](../usage/data-modeling.md#user_data).
+For more information, see [Data Modeling](../design/data-modeling.md#user_data).
 
 Constraints:
 
@@ -114,7 +114,7 @@ result set to
 
 After the link has executed, the association of each event is lost.
 To save the association, it must be
-[encoded into the data model](../usage/data-modeling.md).
+[encoded into the data model](../design/data-modeling.md).
 
 #### `flags.debits_must_not_exceed_credits`
 

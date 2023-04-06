@@ -21,6 +21,7 @@ echo "Building branch: $branch from $repo"
 set -eu
 
 # Grab the latest docs from tigerbeetledb/tigerbeetle
+rm -rf tb_tmp
 git clone "$repo" tb_tmp
 
 if ! [[ "$branch" == "main" ]]; then
@@ -39,7 +40,7 @@ if [[ -f tb_tmp/src/clients/integration.zig ]]; then # Skip until the updated cl
 	find pages -type f | xargs -I {} sed -i "s@/src/clients/$client/README.md@/clients/$client@g" {}
 	cp tb_tmp/src/clients/$client/README.md pages/clients/$client.md
     done
-    echo '{ "label": "Clients", "position": 4 }' >> pages/clients/_category_.json
+    echo '{ "label": "Client Libraries", "position": 6 }' >> pages/clients/_category_.json
     # Everything else will be rewritten as a link into GitHub.
     find pages -type f | xargs -I {} sed -i "s@/src/clients/@$repo/blob/$branch/src/clients/@g" {}
 fi
@@ -50,6 +51,12 @@ for page in $(ls pages/*.md); do
     fi
 done
 rm -rf tb_tmp
+
+# Validate links
+npx remark --use remark-validate-links --frail pages
+
+# Spellcheck
+npx cspell pages --no-progress
 
 # Build the site
 rm -rf docs build

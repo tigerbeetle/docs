@@ -41,7 +41,7 @@ Read more about how two-phase transfers work with each client.
 ## API Layer Architecture
 
 In some application architectures, the number of services that need to query TigerBeetle may:
-- [exceed `config.clients_max`](./client-session-eviction.md), or
+- [exceed `config.clients_max`](./client-sessions.md#eviction), or
 - may require additional [batching](#batching-events) to optimize throughput.
 
 Rather than each service connecting to TigerBeetle directly, application services can forward their

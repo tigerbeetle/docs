@@ -32,7 +32,7 @@ When the pending transfer is resolved (posted or voided), the
 on the respective accounts are decreased by the
 [`amount`](../reference/transfers.md#amount) of the **pending** transfer.
 
-### Posting
+### Post
 
 When the pending transfer is posted,
 [`debits_posted`](../reference/accounts.md#debits_posted) and
@@ -41,7 +41,7 @@ the respective accounts are increased by the **posting** transfer's
 [`amount`](../reference/transfers.md#amount) (which cannot exceed the
 pending amount, but need not equal the pending amount either).
 
-#### Posting a subset of pending `amount`
+#### Post partial pending `amount`
 
 Although an initial [`amount`](../reference/transfers.md#amount) is
 reserved when a pending transfer is created, you can set the
@@ -52,16 +52,16 @@ In the event that you post less than the amount you initially
 reserved, the rest of the amount not posted reverts back to the
 original account.
 
-### Voiding
+### Void
 
 When the pending transfer is voided,
 [`debits_posted`](../reference/accounts.md#debits_posted) and
 [`credits_posted`](../reference/accounts.md#credits_posted) are not
 modified.
 
-### Timeouts
+### Timeout
 
-If a pending transfer is created with a timeout (which is optional),
+If a pending transfer is created with a [timeout](../reference/transfers.md#timeout) (which is optional),
 then if it has not been posted or voided by the time the timeout
 expires, the full amount will be voided.
 
@@ -74,7 +74,6 @@ Attempting to resolve a pending transfer more than once will return the applicab
 - [`pending_transfer_already_posted`](../reference/operations/create_transfers.md#pending_transfer_already_posted)
 - [`pending_transfer_already_voided`](../reference/operations/create_transfers.md#pending_transfer_already_voided)
 - [`pending_transfer_expired`](../reference/operations/create_transfers.md#pending_transfer_expired)
-
 
 ## Interaction with account invariants
 
@@ -164,6 +163,6 @@ Read more about how two-phase transfers work with each client.
 
 Or take a look at how it works with real code.
 
-* [Node](https://github.com/tigerbeetledb/tigerbeetle/blob/pe/docs-updates/src/clients/node/samples/two-phase/main.js)
-* [Go](https://github.com/tigerbeetledb/tigerbeetle/blob/pe/docs-updates/src/clients/go/samples/two-phase/main.go)
-* [Java](https://github.com/tigerbeetledb/tigerbeetle/blob/pe/docs-updates/src/clients/java/samples/two-phase/Main.java)
+* [Node](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/node/samples/two-phase/main.js)
+* [Go](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/go/samples/two-phase/main.go)
+* [Java](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/java/samples/two-phase/Main.java)

@@ -15,9 +15,9 @@ An [`id`](../accounts.md#id) belonging to a [`Account`](../accounts.md).
 
 For language-specific docs see:
 
-* [Looking up accounts using the Java library](https://github.com/tigerbeetledb/tigerbeetle/tree/mainhttps://github.com/tigerbeetledb/tigerbeetle/blob/pe/docs-updates/src/clients/java#creating-accounts)
-* [Looking up accounts using the Go library](https://github.com/tigerbeetledb/tigerbeetle/tree/mainhttps://github.com/tigerbeetledb/tigerbeetle/blob/pe/docs-updates/src/clients/go#creating-accounts)
-* [Looking up accounts using the Node.js library](https://github.com/tigerbeetledb/tigerbeetle/tree/mainhttps://github.com/tigerbeetledb/tigerbeetle/blob/pe/docs-updates/src/clients/node#creating-accounts)
+* [Looking up accounts using the Java library](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/java#account-lookup)
+* [Looking up accounts using the Go library](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/go#account-lookup)
+* [Looking up accounts using the Node.js library](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/node#account-lookup)
 
 ## Internals
 

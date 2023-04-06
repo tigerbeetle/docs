@@ -1,6 +1,6 @@
 # Client Sessions
 
-A _client session_ is a sequence of alternating [requests](#client-requests) and replies between a
+A _client session_ is a sequence of alternating [requests](./client-requests.md) and replies between a
 client and a cluster.
 
 A client session may have at most one in-flight request — i.e. at most one unique request on the
@@ -9,9 +9,9 @@ to statically guarantee capacity in its incoming message queue. Additional reque
 application are queued by the client, to be dequeued and sent when their preceding request receives
 a reply.
 
-TigerBeetle has a [hard limit](#client-session-eviction) on the number of concurrent
+TigerBeetle has a [hard limit](#eviction) on the number of concurrent
 client sessions, and encourages minimizing the number of concurrent clients to
-[maximize throughput](#batching-events).
+[maximize throughput](./client-requests.md#batching-events).
 
 ## Lifecycle
 
@@ -28,7 +28,7 @@ A client session begins when a client registers itself with the cluster.
 
 A client session ends when either:
 
-  - the client session is [evicted](#client-session-eviction), or
+  - the client session is [evicted](#eviction), or
   - the client terminates
 
 — whichever occurs first.
@@ -51,4 +51,4 @@ to self-terminate, bubbling up to the application as an `session evicted` error.
 (TODO: Right now evicted clients panic — fix that so this is accurate.)
 
 If active clients are terminating with `session evicted` errors, it (most likely) indicates that
-the application is trying to run [too many](#batching-events) concurrent clients.
+the application is trying to run [too many](./client-requests.md#batching-events) concurrent clients.

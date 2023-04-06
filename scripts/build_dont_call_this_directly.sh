@@ -21,6 +21,7 @@ echo "Building branch: $branch from $repo"
 set -eu
 
 # Grab the latest docs from tigerbeetledb/tigerbeetle
+rm -rf tb_tmp
 git clone "$repo" tb_tmp
 
 if ! [[ "$branch" == "main" ]]; then

@@ -25,7 +25,7 @@ following:
 
 * [TigerBeetle and consistency](./design/consistency.md)
 * [Modeling application data within TigerBeetle](./design/data-modeling.md)
-* [How two-phase transfers work](./design/two-phase-transfer.md)
+* [How two-phase transfers work](./design/two-phase-transfers.md)
 * [How client sessions work](./design/client-sessions.md)
 * [How client requests work](./design/client-requests.md)
 

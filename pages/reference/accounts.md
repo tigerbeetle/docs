@@ -34,7 +34,7 @@ Constraints:
 This is an optional secondary identifier to link this account to an
 external entity.
 
-As an example, you might use a [random id](../design/data-modeling.md#random-identifer)
+As an example, you might use a [random id](../design/data-modeling.md#random-identifier)
 that ties together a group of accounts.
 
 For more information, see [Data Modeling](../design/data-modeling.md#user_data).
@@ -57,7 +57,7 @@ Constraints:
 This is an identifier that partitions the sets of accounts that can
 transact with each other. Put another way, money cannot transfer
 between two accounts with different `ledger` values. See:
-[`accounts_must_have_the_same_ledger`](./operations/create_accounts.md#accounts_must_have_the_same_ledger).
+[`accounts_must_have_the_same_ledger`](./operations/create_transfers.md#accounts_must_have_the_same_ledger).
 
 [Currency exchange](../recipes/currency-exchange.md) is implemented with two or more linked
 transfers.

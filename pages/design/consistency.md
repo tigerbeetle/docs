@@ -13,7 +13,7 @@ farther up the stack.
 
 TigerBeetle provides strict serializability
 ([serializability + linearizability](http://www.bailis.org/blog/linearizability-versus-serializability/))
-to each [client session](#client-sessions).
+to each [client session](./client-sessions.md).
 
 But consistency models can seem arcane.
 What specific guarantees does TigerBeetle provide to applications?
@@ -139,7 +139,7 @@ sequenceDiagram
 
 ### Retries
 
-A [client session](#client-sessions) will automatically retry a request until either:
+A [client session](./client-sessions.md) will automatically retry a request until either:
 
 - the client receives a corresponding reply from the cluster, or
 - the client is terminated.

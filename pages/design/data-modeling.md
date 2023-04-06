@@ -107,7 +107,7 @@ To reuse the foreign identifier, it must conform to TigerBeetle's `id`
 
 Like [randomly-generated identifiers](#random-identifier), this technique requires careful
 coordination with the foreign database for idempotent
-[application crash recovery](./consistency.md#conistency-with-foreign-databases).
+[application crash recovery](./consistency.md#consistency-with-foreign-databases).
 
 ### Examples (Advanced)
 

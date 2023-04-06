@@ -35,7 +35,7 @@ The cluster is responsible for setting this field.
 
 ### `reserved_flag`
 The account was not created.
-[`Account.flags.reserved`](../accounts.md#flagsreserved) is nonzero, but must be zero.
+`Account.flags.reserved` is nonzero, but must be zero.
 
 ### `reserved_field`
 The account was not created.

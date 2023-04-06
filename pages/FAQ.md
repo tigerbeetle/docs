@@ -88,7 +88,7 @@ are created.
 In contrast to single-phase transfers, a two-phase transfer moves
 funds in stages.
 
-See [Two-phase Transfer](./design/two-phase-transfer.md) for more
+See [Two-phase transfers](./design/two-phase-transfers.md) for more
 detail.
 
 ## How does TigerBeetle fit into my architecture?

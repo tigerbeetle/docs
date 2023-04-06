@@ -107,7 +107,7 @@ flag set.
 The second transfer will have a
 [`post_pending_transfer`](../reference/transfers.md#flagspost_pending_transfer)
 or
-[`void_pending_transfer`](../reference/transfers.md#flagsvoid_pending_transfer2)
+[`void_pending_transfer`](../reference/transfers.md#flagsvoid_pending_transfer)
 flag set and a [`pending_id`](../reference/transfers.md#pending_id) field
 set to the [`id`](../reference/transfers.md#id) of the first transfer. The
 [`id`](../reference/transfers.md#id) of the second transfer will be

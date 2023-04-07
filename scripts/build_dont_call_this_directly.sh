@@ -18,7 +18,7 @@ fi
 
 echo "Building branch: $branch from $repo"
 
-set -eu
+set -eux
 
 # Grab the latest docs from tigerbeetledb/tigerbeetle
 rm -rf tb_tmp
@@ -50,6 +50,7 @@ for page in $(ls pages/*.md); do
 	rm "$page"
     fi
 done
+
 rm -rf tb_tmp
 
 # Validate links

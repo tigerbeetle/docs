@@ -165,4 +165,4 @@ Or take a look at how it works with real code.
 
 * [Node](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/node/samples/two-phase/main.js)
 * [Go](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/go/samples/two-phase/main.go)
-* [Java](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/java/samples/two-phase/Main.java)
+* [Java](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/java/samples/two-phase/src/main/java/Main.java)

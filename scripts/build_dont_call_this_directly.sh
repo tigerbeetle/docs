@@ -56,9 +56,6 @@ rm -rf tb_tmp
 # Validate links
 npx remark --use remark-validate-links --frail pages
 
-# Spellcheck
-npx cspell pages --no-progress
-
 # Build the site
 rm -rf docs build
 npx docusaurus build

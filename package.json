@@ -25,7 +25,6 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^2.4.0",
-    "cspell": "^6.31.1",
     "remark-cli": "^11.0.0",
     "remark-lint-list-item-indent": "^3.1.1",
     "remark-preset-lint-consistent": "^5.1.1",

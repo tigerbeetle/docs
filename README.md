@@ -22,7 +22,7 @@ where Github Pages wants them to be.
 To build:
 
 ```bash
-$ ./scripts/build_docker.sh
+$ ./scripts/build.sh
 ```
 
 Then commit all the changes (in the `docs/` directory).

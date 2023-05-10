@@ -34,9 +34,9 @@ because this has not yet been implemented within the clients themselves.
 
 Read more about how two-phase transfers work with each client.
 
-* [Node](/clients/node#batching)
-* [Go](/clients/go#batching)
-* [Java](/clients/java#batching)
+* [Node](../clients/node.md#batching)
+* [Go](../clients/go.md#batching)
+* [Java](../clients/java.md#batching)
 
 ## API Layer Architecture
 

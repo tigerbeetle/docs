@@ -28,6 +28,7 @@ if ! [[ "$branch" == "main" ]]; then
     ( cd tb_tmp && git fetch && git checkout "$branch" )
 fi
 
+root="$(pwd)"
 rm -rf pages
 mv tb_tmp/docs pages
 
@@ -37,7 +38,13 @@ if [[ -f tb_tmp/src/clients/integration.zig ]]; then # Skip until the updated cl
     clients="go java dotnet node"
     for client in $clients; do
 	# READMEs are rewritten to a local path since they will be on the docs site.
-	find pages -type f | xargs -I {} sed -i "s@/src/clients/$client/README.md@/clients/$client@g" {}
+	for page in $(find pages -type f); do
+	    # Need a relative path for the link checker to work.
+	    readme="$root/pages/clients/$client.md"
+	    relpath="$(realpath --relative-to="$(dirname $root/$page)" "$readme")"
+	    sed -i "s@/src/clients/$client/README.md@$relpath@g" "$page"
+	done
+
 	cp tb_tmp/src/clients/$client/README.md pages/clients/$client.md
     done
     echo '{ "label": "Client Libraries", "position": 6 }' >> pages/clients/_category_.json

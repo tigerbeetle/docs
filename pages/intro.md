@@ -42,10 +42,10 @@ Here are some common use-cases for TigerBeetle:
 We officially support the following libraries for communicating with a
 TigerBeetle cluster:
 
-* [.NET](/clients/dotnet)
-* [Go](/clients/go)
-* [Java](/clients/java)
-* [Node.js](/clients/node)
+* [.NET](clients/dotnet.md)
+* [Go](clients/go.md)
+* [Java](clients/java.md)
+* [Node.js](clients/node.md)
 
 ### Sample code
 

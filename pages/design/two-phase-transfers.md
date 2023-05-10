@@ -155,9 +155,9 @@ The following examples show the state of two accounts in three steps:
 
 Read more about how two-phase transfers work with each client.
 
-* [Node](/clients/node#two-phase-transfers)
-* [Go](/clients/go#two-phase-transfers)
-* [Java](/clients/java#two-phase-transfers)
+* [Node](../clients/node.md#two-phase-transfers)
+* [Go](../clients/go.md#two-phase-transfers)
+* [Java](../clients/java.md#two-phase-transfers)
 
 ## Client samples
 

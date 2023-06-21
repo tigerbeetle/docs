@@ -51,7 +51,14 @@ const config = {
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    ({
+    {
+      algolia: {
+        appId: 'NPDIZGXHAP',
+        apiKey: 'c31d9000a1856050585f6b9a1a1a4eb8',
+        indexName: 'tigerbeetle',
+        contextualSearch: true,
+        searchPagePath: 'search',
+      },
       navbar: {
         title: 'TigerBeetle Docs',
         logo: {
@@ -97,7 +104,7 @@ const config = {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
       },
-    }),
+    },
   scripts: [
       {src: 'https://plausible.io/js/script.js', defer: true, 'data-domain': 'docs.tigerbeetle.com'},
   ],

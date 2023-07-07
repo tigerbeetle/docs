@@ -155,14 +155,16 @@ The following examples show the state of two accounts in three steps:
 
 Read more about how two-phase transfers work with each client.
 
-* [Node](../clients/node.md#two-phase-transfers)
+* [.NET](../clients/dotnet.md#two-phase-transfers)
 * [Go](../clients/go.md#two-phase-transfers)
 * [Java](../clients/java.md#two-phase-transfers)
+* [Node](../clients/node.md#two-phase-transfers)
 
 ## Client samples
 
 Or take a look at how it works with real code.
 
-* [Node](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/node/samples/two-phase/main.js)
-* [Go](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/go/samples/two-phase/main.go)
-* [Java](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/java/samples/two-phase/src/main/java/Main.java)
+* [Node](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/dotnet/samples/two-phase/README.md)
+* [Go](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/go/samples/two-phase/README.md)
+* [Java](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/java/samples/two-phase/README.md)
+* [Node](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/node/samples/two-phase/README.md)

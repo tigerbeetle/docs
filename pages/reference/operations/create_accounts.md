@@ -121,9 +121,10 @@ To correctly recover from application crashes
 
 For language-specific docs see:
 
-* [Creating accounts using the Java library](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/java#creating-accounts)
-* [Creating accounts using the Go library](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/go#creating-accounts)
-* [Creating accounts using the Node.js library](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/node#creating-accounts)
+* [Creating accounts using the .NET library](../../clients/dotnet.md#creating-accounts)
+* [Creating accounts using the Java library](../../clients/java.md#creating-accounts)
+* [Creating accounts using the Go library](../../clients/go.md#creating-accounts)
+* [Creating accounts using the Node.js library](../../clients/node.md#creating-accounts)
 
 ## Internals
 

@@ -15,9 +15,10 @@ An [`id`](../transfers.md#id) belonging to a [`Transfer`](../transfers.md).
 
 For language-specific docs see:
 
-* [Looking up transfers using the Java library](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/java#transfer-lookup)
-* [Looking up transfers using the Go library](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/go#transfer-lookup)
-* [Looking up transfers using the Node.js library](https://github.com/tigerbeetledb/tigerbeetle/blob/main/src/clients/node#transfer-lookup)
+* [Looking up transfers using the .NET library](../../clients/dotnet.md#transfer-lookup)
+* [Looking up transfers using the Java library](../../clients/java.md#transfer-lookup)
+* [Looking up transfers using the Go library](../../clients/go.md#transfer-lookup)
+* [Looking up transfers using the Node.js library](../../clients/node.md#transfer-lookup)
 
 ## Internals
 

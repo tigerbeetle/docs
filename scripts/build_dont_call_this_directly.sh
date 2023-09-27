@@ -33,24 +33,22 @@ rm -rf pages
 mv tb_tmp/docs pages
 
 # Rewrite links to clients
-if [[ -f tb_tmp/src/clients/integration.zig ]]; then # Skip until the updated clients docs PR is merged
-    mkdir pages/clients
-    clients="go java dotnet node"
-    for client in $clients; do
-	# READMEs are rewritten to a local path since they will be on the docs site.
-	for page in $(find pages -type f); do
-	    # Need a relative path for the link checker to work.
-	    readme="$root/pages/clients/$client.md"
-	    relpath="$(realpath --relative-to="$(dirname $root/$page)" "$readme")"
-	    sed -i "s@/src/clients/$client/README.md@$relpath@g" "$page"
-	done
+mkdir pages/clients
+clients="go java dotnet node"
+for client in $clients; do
+# READMEs are rewritten to a local path since they will be on the docs site.
+for page in $(find pages -type f); do
+    # Need a relative path for the link checker to work.
+    readme="$root/pages/clients/$client.md"
+    relpath="$(realpath --relative-to="$(dirname $root/$page)" "$readme")"
+    sed -i "s@/src/clients/$client/README.md@$relpath@g" "$page"
+done
 
-	cp tb_tmp/src/clients/$client/README.md pages/clients/$client.md
-    done
-    echo '{ "label": "Client Libraries", "position": 6 }' >> pages/clients/_category_.json
-    # Everything else will be rewritten as a link into GitHub.
-    find pages -type f | xargs -I {} sed -i "s@/src/clients/@$repo/blob/$branch/src/clients/@g" {}
-fi
+cp tb_tmp/src/clients/$client/README.md pages/clients/$client.md
+done
+echo '{ "label": "Client Libraries", "position": 6 }' >> pages/clients/_category_.json
+# Everything else will be rewritten as a link into GitHub.
+find pages -type f | xargs -I {} sed -i "s@/src/clients/@$repo/blob/$branch/src/clients/@g" {}
 
 for page in $(ls pages/*.md); do
     if ! [[ "$page" == "pages/intro.md" ]] && ! [[ "$page" == "pages/FAQ.md" ]]; then

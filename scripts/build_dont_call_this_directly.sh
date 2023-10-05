@@ -11,7 +11,7 @@ branch="main"
 if [[ -n "$1" ]]; then
     branch="$1"
 fi
-repo="https://github.com/tigerbeetledb/tigerbeetle"
+repo="https://github.com/tigerbeetle/tigerbeetle"
 if [[ -n "$2" ]]; then
     repo="$2"
 fi
@@ -20,7 +20,7 @@ echo "Building branch: $branch from $repo"
 
 set -eux
 
-# Grab the latest docs from tigerbeetledb/tigerbeetle
+# Grab the latest docs from tigerbeetle/tigerbeetle
 rm -rf tb_tmp
 git clone "$repo" tb_tmp
 

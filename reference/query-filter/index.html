@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-rYM+LWnbl1eC51wC99mmG1/1vbIKG5Iu3PIVsq1rAxg='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-rYM+LWnbl1eC51wC99mmG1/1vbIKG5Iu3PIVsq1rAxg='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -20,6 +20,7 @@
     <link rel="icon" href="/img/favicon.png">
     <link rel="stylesheet" type="text/css" href="/style/style.css">
     <link rel="stylesheet" type="text/css" href="/style/highlight.css">
+    <script defer data-domain="docs.tigerbeetle.com" src="https://plausible.io/js/script.js"></script>
   </head>
   <body>
     <a class="expand-button" title="Show menu">
@@ -76,7 +77,6 @@
           </div>
           <p class="search-stats"></p>
         </div>
-        <div class="glass-edge"></div>
       </div>
       <div class="search-results"></div>
       <div class="search-notfound">
@@ -97,12 +97,6 @@
     <div class="resizer"></div>
     <main>
       <article>
-        <a id="github-link" href="https://github.com/tigerbeetle/tigerbeetle">
-          GitHub
-          <svg width="16" height="16">
-            <path d="M5.75 4.75H11.25M11.25 4.75V10.25M11.25 4.75L4.75 11.25" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
-          </svg>
-        </a>
         <div class="content">
           <h1 id="queryfilter"><a href="#queryfilter"
 class="anchor"><code>QueryFilter</code></a></h1>
@@ -114,9 +108,9 @@ transfers</a>.</p>
 <h3 id="user_data_128"><a href="#user_data_128"
 class="anchor"><code>user_data_128</code></a></h3>
 <p>Filter the results by the field <a
-href="account#user_data_128"><code>Account.user_data_128</code></a> or
-<a
-href="transfer#user_data_128"><code>Transfer.user_data_128</code></a>.
+href="../account#user_data_128"><code>Account.user_data_128</code></a>
+or <a
+href="../transfer#user_data_128"><code>Transfer.user_data_128</code></a>.
 Optional; set to zero to disable the filter.</p>
 <p>Constraints:</p>
 <ul>
@@ -125,8 +119,9 @@ Optional; set to zero to disable the filter.</p>
 <h3 id="user_data_64"><a href="#user_data_64"
 class="anchor"><code>user_data_64</code></a></h3>
 <p>Filter the results by the field <a
-href="account#user_data_64"><code>Account.user_data_64</code></a> or <a
-href="transfer#user_data_64"><code>Transfer.user_data_64</code></a>.
+href="../account#user_data_64"><code>Account.user_data_64</code></a> or
+<a
+href="../transfer#user_data_64"><code>Transfer.user_data_64</code></a>.
 Optional; set to zero to disable the filter.</p>
 <p>Constraints:</p>
 <ul>
@@ -135,8 +130,9 @@ Optional; set to zero to disable the filter.</p>
 <h3 id="user_data_32"><a href="#user_data_32"
 class="anchor"><code>user_data_32</code></a></h3>
 <p>Filter the results by the field <a
-href="account#user_data_32"><code>Account.user_data_32</code></a> or <a
-href="transfer#user_data_32"><code>Transfer.user_data_32</code></a>.
+href="../account#user_data_32"><code>Account.user_data_32</code></a> or
+<a
+href="../transfer#user_data_32"><code>Transfer.user_data_32</code></a>.
 Optional; set to zero to disable the filter.</p>
 <p>Constraints:</p>
 <ul>
@@ -145,17 +141,17 @@ Optional; set to zero to disable the filter.</p>
 <h3 id="ledger"><a href="#ledger"
 class="anchor"><code>ledger</code></a></h3>
 <p>Filter the results by the field <a
-href="account#ledger"><code>Account.ledger</code></a> or <a
-href="transfer#ledger"><code>Transfer.ledger</code></a>. Optional; set
-to zero to disable the filter.</p>
+href="../account#ledger"><code>Account.ledger</code></a> or <a
+href="../transfer#ledger"><code>Transfer.ledger</code></a>. Optional;
+set to zero to disable the filter.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 32-bit unsigned integer (4 bytes)</li>
 </ul>
 <h3 id="code"><a href="#code" class="anchor"><code>code</code></a></h3>
 <p>Filter the results by the field <a
-href="account#code"><code>Account.code</code></a> or <a
-href="transfer#code"><code>Transfer.code</code></a>. Optional; set to
+href="../account#code"><code>Account.code</code></a> or <a
+href="../transfer#code"><code>Transfer.code</code></a>. Optional; set to
 zero to disable the filter.</p>
 <p>Constraints:</p>
 <ul>
@@ -164,10 +160,10 @@ zero to disable the filter.</p>
 <h3 id="timestamp_min"><a href="#timestamp_min"
 class="anchor"><code>timestamp_min</code></a></h3>
 <p>The minimum <a
-href="account#timestamp"><code>Account.timestamp</code></a> or <a
-href="transfer#timestamp"><code>Transfer.timestamp</code></a> from which
-results will be returned, inclusive range. Optional; set to zero to
-disable the lower-bound filter.</p>
+href="../account#timestamp"><code>Account.timestamp</code></a> or <a
+href="../transfer#timestamp"><code>Transfer.timestamp</code></a> from
+which results will be returned, inclusive range. Optional; set to zero
+to disable the lower-bound filter.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 64-bit unsigned integer (8 bytes)</li>
@@ -176,10 +172,10 @@ disable the lower-bound filter.</p>
 <h3 id="timestamp_max"><a href="#timestamp_max"
 class="anchor"><code>timestamp_max</code></a></h3>
 <p>The maximum <a
-href="account#timestamp"><code>Account.timestamp</code></a> or <a
-href="transfer#timestamp"><code>Transfer.timestamp</code></a> from which
-results will be returned, inclusive range. Optional; set to zero to
-disable the upper-bound filter.</p>
+href="../account#timestamp"><code>Account.timestamp</code></a> or <a
+href="../transfer#timestamp"><code>Transfer.timestamp</code></a> from
+which results will be returned, inclusive range. Optional; set to zero
+to disable the upper-bound filter.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 64-bit unsigned integer (8 bytes)</li>
@@ -218,6 +214,12 @@ class="anchor"><code>reserved</code></a></h3>
 <li>Must be zero</li>
 </ul>
 
+          <a id="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/reference/query-filter.md">
+            <svg width="16" height="16" fill="none">
+              <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+            </svg>
+            Edit this page
+          </a>
         </div>
       </article>
     </main>

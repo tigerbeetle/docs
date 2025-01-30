@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-rYM+LWnbl1eC51wC99mmG1/1vbIKG5Iu3PIVsq1rAxg='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-rYM+LWnbl1eC51wC99mmG1/1vbIKG5Iu3PIVsq1rAxg='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -20,6 +20,7 @@
     <link rel="icon" href="/img/favicon.png">
     <link rel="stylesheet" type="text/css" href="/style/style.css">
     <link rel="stylesheet" type="text/css" href="/style/highlight.css">
+    <script defer data-domain="docs.tigerbeetle.com" src="https://plausible.io/js/script.js"></script>
   </head>
   <body>
     <a class="expand-button" title="Show menu">
@@ -76,7 +77,6 @@
           </div>
           <p class="search-stats"></p>
         </div>
-        <div class="glass-edge"></div>
       </div>
       <div class="search-results"></div>
       <div class="search-notfound">
@@ -97,12 +97,6 @@
     <div class="resizer"></div>
     <main>
       <article>
-        <a id="github-link" href="https://github.com/tigerbeetle/tigerbeetle">
-          GitHub
-          <svg width="16" height="16">
-            <path d="M5.75 4.75H11.25M11.25 4.75V10.25M11.25 4.75L4.75 11.25" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
-          </svg>
-        </a>
         <div class="content">
           <h1 id="query_accounts"><a href="#query_accounts"
 class="anchor"><code>query_accounts</code></a></h1>
@@ -138,17 +132,19 @@ href="../../query-filter#timestamp_max"><code>timestamp_max</code></a>.</li>
 class="anchor">Client libraries</a></h2>
 <p>For language-specific docs see:</p>
 <ul>
-<li><a href="../../../clients/dotnet/#query-accounts">.NET
-library</a></li>
-<li><a href="../../../clients/java/#query-accounts">Java
-library</a></li>
-<li><a href="../../../clients/go/#query-accounts">Go library</a></li>
-<li><a href="../../../clients/node/#query-accounts">Node.js
-library</a></li>
-<li><a href="../../../clients/python/#query-accounts">Python
-library</a></li>
+<li><a href="/clients/dotnet/#query-accounts">.NET library</a></li>
+<li><a href="/clients/java/#query-accounts">Java library</a></li>
+<li><a href="/clients/go/#query-accounts">Go library</a></li>
+<li><a href="/clients/node/#query-accounts">Node.js library</a></li>
+<li><a href="/clients/python/#query-accounts">Python library</a></li>
 </ul>
 
+          <a id="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/reference/requests/query_accounts.md">
+            <svg width="16" height="16" fill="none">
+              <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+            </svg>
+            Edit this page
+          </a>
         </div>
       </article>
     </main>

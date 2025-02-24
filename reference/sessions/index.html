@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-FBIbgrc+JMV/r1eq9+0f7S96+x2pHS1pRBNqAR0BQbw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6/zeDzxCHLfs55xEz15dIE3ymg2mmzbhvu2y6e7sKmY='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -61,7 +61,7 @@
               </svg>
             </a>
           </header>
-          <div class="search-box" style="display: none;">
+          <div class="search-box">
             <input type="search" placeholder="Search" />
             <svg class="search-icon" width="16" height="16" fill="none">
               <circle cx="6.5" cy="6.5" r="4.5" stroke-width="1.5" stroke="currentColor"/>
@@ -70,7 +70,7 @@
             <svg class="hotkey" width="16" height="16" fill="none">
               <rect x="0.5" y="0.5" width="15" height="15" rx="2.5" stroke="var(--gray-7)"/>
               <path d="M9.55584 3.38636L7.21209 12.0938H6.44505L8.7888 3.38636H9.55584Z" fill="var(--gray-11)"/>
-            </svg>    
+            </svg>
             <svg class="clear-button" width="16" height="16">
               <path d="m16 8a8 8 0 0 0-16 0 8 8 0 0 0 16 0m-9 0-2.5-2.5 1-1 2.5 2.5 2.5-2.5 1 1-2.5 2.5 2.5 2.5-1 1-2.5-2.5-2.5 2.5-1-1" fill="currentColor" />
             </svg>
@@ -91,7 +91,96 @@
         </p>
       </div>
       <nav class="side">
-        <ol><li class="item"><a href="/quick-start/">Quick Start</a></li><li><details><summary class="item"><a href="/coding/">Coding</a></summary><ol><li class="item"><a href="/coding/system-architecture/">TigerBeetle in Your System Architecture</a></li><li class="item"><a href="/coding/data-modeling/">Data Modeling</a></li><li class="item"><a href="/coding/financial-accounting/">Financial Accounting</a></li><li class="item"><a href="/coding/two-phase-transfers/">Two-Phase Transfers</a></li><li class="item"><a href="/coding/reliable-transaction-submission/">Reliable Transaction Submission</a></li><li class="item"><a href="/coding/time/">Time</a></li><li><details><summary class="item">Recipes</summary><ol><li class="item"><a href="/coding/recipes/currency-exchange/">Currency Exchange</a></li><li class="item"><a href="/coding/recipes/multi-debit-credit-transfers/">Multi-Debit, Multi-Credit Transfers</a></li><li class="item"><a href="/coding/recipes/close-account/">Close Account</a></li><li class="item"><a href="/coding/recipes/balance-conditional-transfers/">Balance-Conditional Transfers</a></li><li class="item"><a href="/coding/recipes/balance-bounds/">Balance Bounds</a></li><li class="item"><a href="/coding/recipes/correcting-transfers/">Correcting Transfers</a></li><li class="item"><a href="/coding/recipes/rate-limiting/">Rate Limiting</a></li><li class="item"><a href="/coding/recipes/balance-invariant-transfers/">Balance-invariant Transfers</a></li></ol></details></li></ol></details></li><li><details><summary class="item">Operating</summary><ol><li class="item"><a href="/operating/deploy/">Deploying for Production</a></li><li class="item"><a href="/operating/hardware/">Hardware</a></li><li class="item"><a href="/operating/linux/">Deploying on Linux</a></li><li class="item"><a href="/operating/docker/">Docker</a></li><li class="item"><a href="/operating/managed-service/">Managed Service</a></li><li class="item"><a href="/operating/upgrading/">Upgrading</a></li></ol></details></li><li><details><summary class="item">Client Libraries</summary><ol><li class="item"><a href="/clients/go/">Go</a></li><li class="item"><a href="/clients/java/">Java</a></li><li class="item"><a href="/clients/dotnet/">.NET</a></li><li class="item"><a href="/clients/node/">Node.js</a></li><li class="item"><a href="/clients/python/">Python</a></li></ol></details></li><li><details open><summary class="item">Reference</summary><ol><li class="item"><a href="/reference/account/">Account</a></li><li class="item"><a href="/reference/transfer/">Transfer</a></li><li class="item"><a href="/reference/account-balance/">AccountBalance</a></li><li class="item"><a href="/reference/account-filter/">AccountFilter</a></li><li class="item"><a href="/reference/query-filter/">QueryFilter</a></li><li><details><summary class="item"><a href="/reference/requests/">Requests</a></summary><ol><li class="item"><a href="/reference/requests/create_accounts/">create_accounts</a></li><li class="item"><a href="/reference/requests/create_transfers/">create_transfers</a></li><li class="item"><a href="/reference/requests/get_account_balances/">get_account_balances</a></li><li class="item"><a href="/reference/requests/get_account_transfers/">get_account_transfers</a></li><li class="item"><a href="/reference/requests/lookup_accounts/">lookup_accounts</a></li><li class="item"><a href="/reference/requests/lookup_transfers/">lookup_transfers</a></li><li class="item"><a href="/reference/requests/query_accounts/">query_accounts</a></li><li class="item"><a href="/reference/requests/query_transfers/">query_transfers</a></li></ol></details></li><li class="item"><a href="/reference/sessions/" class="target">Client Sessions</a></li></ol></details></li><li><details><summary class="item"><a href="/about/">About</a></summary><ol><li class="item"><a href="/about/oltp/">Built for OLTP</a></li><li class="item"><a href="/about/performance/">Performance</a></li><li class="item"><a href="/about/safety/">Safety</a></li><li class="item"><a href="/about/vopr/">Deterministic Simulation Testing</a></li><li class="item"><a href="/about/architecture/">Architecture</a></li><li class="item"><a href="/about/production-ready/">Production Ready</a></li><li class="item"><a href="/about/zig/">Zig</a></li></ol></details></li></ol>
+        <ol>
+<li class="item"><a href="/start/">Start</a></li>
+<li>
+<details><summary class="item"><a href="/concepts/">Concepts</a></summary>
+<ol>
+<li class="item"><a href="/concepts/oltp/">OLTP</a></li>
+<li class="item"><a href="/concepts/debit-credit/">Debit-Credit</a></li>
+<li class="item"><a href="/concepts/performance/">Performance</a></li>
+<li class="item"><a href="/concepts/safety/">Safety</a></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/coding/">Coding</a></summary>
+<ol>
+<li class="item"><a href="/coding/system-architecture/">System Architecture</a></li>
+<li class="item"><a href="/coding/data-modeling/">Data Modeling</a></li>
+<li class="item"><a href="/coding/financial-accounting/">Financial Accounting</a></li>
+<li class="item"><a href="/coding/requests/">Requests</a></li>
+<li class="item"><a href="/coding/reliable-transaction-submission/">Reliable Transaction Submission</a></li>
+<li class="item"><a href="/coding/two-phase-transfers/">Two-Phase Transfers</a></li>
+<li class="item"><a href="/coding/linked-events/">Linked Events</a></li>
+<li class="item"><a href="/coding/time/">Time</a></li>
+<li>
+<details><summary class="item"><a href="/coding/recipes/">Recipes</a></summary>
+<ol>
+<li class="item"><a href="/coding/recipes/currency-exchange/">Currency Exchange</a></li>
+<li class="item"><a href="/coding/recipes/multi-debit-credit-transfers/">Multi-Debit, Multi-Credit Transfers</a></li>
+<li class="item"><a href="/coding/recipes/close-account/">Closing Accounts</a></li>
+<li class="item"><a href="/coding/recipes/balance-conditional-transfers/">Balance-Conditional Transfers</a></li>
+<li class="item"><a href="/coding/recipes/balance-invariant-transfers/">Balance-Invariant Transfers</a></li>
+<li class="item"><a href="/coding/recipes/balance-bounds/">Balance Bounds</a></li>
+<li class="item"><a href="/coding/recipes/correcting-transfers/">Correcting Transfers</a></li>
+<li class="item"><a href="/coding/recipes/rate-limiting/">Rate Limiting</a></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/coding/clients/">Clients</a></summary>
+<ol>
+<li class="item"><a href="/coding/clients/dotnet/">.Net</a></li>
+<li class="item"><a href="/coding/clients/go/">Go</a></li>
+<li class="item"><a href="/coding/clients/java/">Java</a></li>
+<li class="item"><a href="/coding/clients/node/">Node</a></li>
+<li class="item"><a href="/coding/clients/python/">Python</a></li>
+</ol>
+</details></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/operating/">Operating</a></summary>
+<ol>
+<li class="item"><a href="/operating/installing/">Installing</a></li>
+<li class="item"><a href="/operating/hardware/">Hardware</a></li>
+<li class="item"><a href="/operating/cluster/">Cluster</a></li>
+<li>
+<details><summary class="item"><a href="/operating/deploying/">Deploying</a></summary>
+<ol>
+<li class="item"><a href="/operating/deploying/systemd/">systemd</a></li>
+<li class="item"><a href="/operating/deploying/docker/">Docker</a></li>
+<li class="item"><a href="/operating/deploying/managed-service/">Managed</a></li>
+</ol>
+</details></li>
+<li class="item"><a href="/operating/upgrading/">Upgrading</a></li>
+</ol>
+</details></li>
+<li>
+<details open><summary class="item"><a href="/reference/">Reference</a></summary>
+<ol>
+<li class="item"><a href="/reference/sessions/" class="target">Client Sessions</a></li>
+<li class="item"><a href="/reference/account/">Account</a></li>
+<li class="item"><a href="/reference/transfer/">Transfer</a></li>
+<li class="item"><a href="/reference/account-balance/">AccountBalance</a></li>
+<li class="item"><a href="/reference/account-filter/">AccountFilter</a></li>
+<li class="item"><a href="/reference/query-filter/">QueryFilter</a></li>
+<li>
+<details><summary class="item"><a href="/reference/requests/">Requests</a></summary>
+<ol>
+<li class="item"><a href="/reference/requests/create_accounts/">create_accounts</a></li>
+<li class="item"><a href="/reference/requests/create_transfers/">create_transfers</a></li>
+<li class="item"><a href="/reference/requests/lookup_accounts/">lookup_accounts</a></li>
+<li class="item"><a href="/reference/requests/lookup_transfers/">lookup_transfers</a></li>
+<li class="item"><a href="/reference/requests/get_account_transfers/">get_account_transfers</a></li>
+<li class="item"><a href="/reference/requests/get_account_balances/">get_account_balances</a></li>
+<li class="item"><a href="/reference/requests/query_accounts/">query_accounts</a></li>
+<li class="item"><a href="/reference/requests/query_transfers/">query_transfers</a></li>
+</ol>
+</details></li>
+</ol>
+</details></li>
+</ol>
+
       </nav>
     </nav>
     <div class="resizer"></div>
@@ -107,8 +196,8 @@
           <h1 id="client-sessions"><a href="#client-sessions"
 class="anchor">Client Sessions</a></h1>
 <p>A <em>client session</em> is a sequence of <a
-href="../requests/">requests</a> and replies sent between a client and a
-cluster.</p>
+href="../../coding/requests/">requests</a> and replies sent between a
+client and a cluster.</p>
 <p>A client session may have <strong>at most one in-flight
 request</strong> — i.e. at most one unique request on the network for
 which a reply has not been received. This simplifies consistency and
@@ -120,8 +209,8 @@ receives a reply.</p>
 href="#eviction">hard limit</a> on the number of concurrent client
 sessions. To maximize throughput, users are encouraged to minimize the
 number of concurrent clients and <a
-href="../requests/#batching-events">batch</a> as many events as possible
-per request.</p>
+href="../../coding/requests#batching-events">batch</a> as many events as
+possible per request.</p>
 <h2 id="lifecycle"><a href="#lifecycle"
 class="anchor">Lifecycle</a></h2>
 <p>A client session begins when a client registers itself with the
@@ -166,8 +255,8 @@ self-terminate, bubbling up to the application as an
 <p>If active clients are terminating with <code>session evicted</code>
 errors, it most likely indicates that the application is trying to run
 too many concurrent clients. For performance reasons, it is recommended
-to <a href="../requests/#batching-events">batch</a> as many events as
-possible into each request sent by each client.</p>
+to <a href="../../coding/requests/#batching-events">batch</a> as many
+events as possible into each request sent by each client.</p>
 <h2 id="retries"><a href="#retries" class="anchor">Retries</a></h2>
 <p>A client session will automatically retry a request until either:</p>
 <ul>
@@ -193,7 +282,7 @@ timeout.</li>
 class="anchor">Guarantees</a></h2>
 <ul>
 <li>A client session may have at most one in-flight <a
-href="../requests/">request</a>.</li>
+href="../../coding/requests/">request</a>.</li>
 <li>A client session <a
 href="https://jepsen.io/consistency/models/read-your-writes">reads its
 own writes</a>, meaning that read operations that happen after a given
@@ -251,10 +340,14 @@ href="../../coding/reliable-transaction-submission">using
         </g>
       </svg>
     </div>
-    <script>window.urlPrefix = "";
+    <script>function assert(condition) {
+  if (!condition) {
+    alert("Assertion failed");
+    throw "Assertion failed";
+  }
+}
 
-// Enable search if JavaScript is enabled.
-document.querySelector(".search-box").style.removeProperty("display");
+window.urlPrefix = "";
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register(urlPrefix + "/service-worker.js");
@@ -291,38 +384,16 @@ collapseButton.addEventListener("click", () => document.body.classList.add("side
 const expandButton = document.querySelector(".expand-button");
 expandButton.addEventListener("click", () => document.body.classList.remove("sidenav-collapsed"));
 
-const navSide = document.querySelector("nav.side");
-const details = [...navSide.querySelectorAll("details")];
-
 const menuButton = document.querySelector(".menu-button");
 menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
 
-// Restore and save the state of the side navigation
-const navSideState = JSON.parse(localStorage.getItem("navSideState"));
-if (navSideState) {
-  leftPane.style.width = navSideState.width;
-  if (navSideState.collapsed) document.body.classList.add("sidenav-collapsed");
-  navSideState.expanded.forEach((expanded, i) => {
-    if (i < details.length) details[i].open = expanded
-  });
-  leftPane.scrollTop = navSideState.scrollTop;
-}
-window.addEventListener("beforeunload", () => {
-  const navSideState = {
-    width: leftPane.style.width,
-    collapsed: document.body.classList.contains("sidenav-collapsed"),
-    expanded: details.map(detail => detail.open),
-    scrollTop: leftPane.scrollTop,
-  };
-  localStorage.setItem("navSideState", JSON.stringify(navSideState));
-});
-
 function syncSideNavWithLocation() {
   const target = document.querySelector("nav.side .target");
   if (target) target.classList.remove("target");
+  document.querySelectorAll("nav.side details").forEach(details => details.open = false);
 
   const path = location.pathname;
   if (path.length > 1) {

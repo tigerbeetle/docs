@@ -9,6 +9,7 @@ const searchHotkey = document.querySelector(".search-box>.hotkey");
 const searchClearButton = document.querySelector(".search-box>.clear-button");
 
 let sidenavWasCollapsed = false;
+let searchPreviewUsed = false;
 document.addEventListener("keydown", event => {
   if (event.ctrlKey || event.altKey || event.metaKey) return;
   if (event.key === "/" && searchInput !== document.activeElement) {
@@ -21,6 +22,10 @@ document.addEventListener("keydown", event => {
   } else if (event.key === "Escape") {
     if (searchInput === document.activeElement || searchInput.value !== "") {
       closeSearch();
+      if (searchPreviewUsed) {
+        history.back();
+        searchPreviewUsed = false;
+      }
       event.preventDefault();
     }
   } else if (searchInput.value !== "") {
@@ -38,6 +43,7 @@ document.addEventListener("keydown", event => {
           details.open = !details.open;
         } else {
           closeSearch();
+          searchPreviewUsed = false;
         }
         event.preventDefault();
       }
@@ -57,6 +63,7 @@ searchClearButton.addEventListener("click", () => {
   onSearchInput();
   if (searchInput !== document.activeElement) searchHotkey.style.display = "block";
   removeTextHighlight(content);
+  searchPreviewUsed = false;
 });
 
 initSearch();
@@ -93,16 +100,7 @@ async function initSearch() {
 }
 
 function onSearchInput() {
-  const results = search(searchInput.value);
-  const groups = [];
-  let currentGroup;
-  for (const result of results) {
-    if (!currentGroup || currentGroup.pageIndex !== result.section.pageIndex) {
-      currentGroup = { pageIndex: result.section.pageIndex, results: [] };
-      groups.push(currentGroup);
-    }
-    currentGroup.results.push(result);
-  }
+  const groups = search(searchInput.value);
   let menus = [];
   for (const group of groups) {
     const details = document.createElement("details");
@@ -111,13 +109,15 @@ function onSearchInput() {
     const summary = document.createElement("summary");
     details.appendChild(summary);
     summary.pageIndex = group.pageIndex;
-    summary.href = urlPrefix + "/" + group.results[0].section.path + "/";
+    summary.href = urlPrefix + "/"
+    if (group.hits[0].section.path) summary.href += group.hits[0].section.path + "/";
+    assert(URL.canParse(summary.href, location.href));
     const p = document.createElement("p");
     summary.appendChild(p);
     p.innerText = pages[group.pageIndex].title;
     const menu = document.createElement("ol");
     details.appendChild(menu);
-    for (const result of group.results) {
+    for (const result of group.hits) {
       const li = document.createElement("li");
       menu.appendChild(li);
       li.className = "item";
@@ -127,7 +127,10 @@ function onSearchInput() {
         e.preventDefault();
         selectResult(a);
       });
-      a.href = urlPrefix + "/" + result.section.path + "/" + result.section.hash;
+      a.href = urlPrefix + "/";
+      if (result.section.path) a.href += result.section.path + "/";
+      a.href += result.section.hash;
+      assert(URL.canParse(a.href, location.href));
       a.pageIndex = result.section.pageIndex;
       const h3 = document.createElement("h3");
       a.appendChild(h3);
@@ -139,9 +142,10 @@ function onSearchInput() {
   }
   searchResults.replaceChildren(...menus);
 
-  const resultText = results.length === 1 ? "result" : "results";
+  const hitCount = groups.reduce((sum, group) => sum + group.hits.length, 0);
+  const resultText = hitCount === 1 ? "result" : "results";
   const pageText = groups.length === 1 ? "page" : "pages";
-  searchStats.innerText = `${results.length} ${resultText} on ${groups.length} ${pageText}`
+  searchStats.innerText = `${hitCount} ${resultText} on ${groups.length} ${pageText}`
 
   highlightText(searchInput.value, searchResults);
 
@@ -151,25 +155,37 @@ function onSearchInput() {
   } else {
     leftPane.classList.remove("search-active");
   }
-  searchNotFound.style.display = searchActive && results.length === 0 ? "flex" : "none";
+  searchNotFound.style.display = searchActive && hitCount === 0 ? "flex" : "none";
 }
 
 function search(term, limit = 100) {
   if (term.length === 0) return [];
   const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const regex = new RegExp(escapedTerm, 'gi');
-  let hits = [];
+  let hitCount = 0;
+  let groups = [];
+  let currentGroup = null;
   for (const section of sections) {
     const match = regex.exec(section.text);
     if (match) {
       const firstIndex = match.index;
       const count = section.text.match(regex).length;
-      hits.push({ firstIndex, count, section });
-      if (hits.length == limit) break;
+      const hit = { firstIndex, count, section };
+      hit.context = makeContext(hit.section.text, hit.firstIndex, term.length);
+      if (!currentGroup || currentGroup.pageIndex !== section.pageIndex) {
+        currentGroup = { pageIndex: section.pageIndex, hits: [] };
+        currentGroup.order = section.pageIndex;
+        const titleMatch = regex.exec(pages[section.pageIndex].title);
+        if (titleMatch) currentGroup.order -= 1000;
+        groups.push(currentGroup);
+      }
+      currentGroup.hits.push(hit);
+      if (++hitCount == limit) break;
     }
   }
-  hits.forEach(hit => hit.context = makeContext(hit.section.text, hit.firstIndex, term.length));
-  return hits;
+  groups.sort((a, b) => a.order - b.order);
+
+  return groups;
 }
 
 function makeContext(text, i, length) {
@@ -208,10 +224,11 @@ function selectResult(node) {
   content.innerHTML = page.html;
   addContentEventHandlers();
   const state = { pageIndex: node.pageIndex };
-  if (history.state) {
+  if (searchPreviewUsed) {
     history.replaceState(state, page.title, node.href);
   } else {
     history.pushState(state, page.title, node.href);
+    searchPreviewUsed = true;
   }
   statePathname = location.pathname;
   if (page.title === "TigerBeetle Docs") {

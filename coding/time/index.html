@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-FBIbgrc+JMV/r1eq9+0f7S96+x2pHS1pRBNqAR0BQbw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6/zeDzxCHLfs55xEz15dIE3ymg2mmzbhvu2y6e7sKmY='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -61,7 +61,7 @@
               </svg>
             </a>
           </header>
-          <div class="search-box" style="display: none;">
+          <div class="search-box">
             <input type="search" placeholder="Search" />
             <svg class="search-icon" width="16" height="16" fill="none">
               <circle cx="6.5" cy="6.5" r="4.5" stroke-width="1.5" stroke="currentColor"/>
@@ -70,7 +70,7 @@
             <svg class="hotkey" width="16" height="16" fill="none">
               <rect x="0.5" y="0.5" width="15" height="15" rx="2.5" stroke="var(--gray-7)"/>
               <path d="M9.55584 3.38636L7.21209 12.0938H6.44505L8.7888 3.38636H9.55584Z" fill="var(--gray-11)"/>
-            </svg>    
+            </svg>
             <svg class="clear-button" width="16" height="16">
               <path d="m16 8a8 8 0 0 0-16 0 8 8 0 0 0 16 0m-9 0-2.5-2.5 1-1 2.5 2.5 2.5-2.5 1 1-2.5 2.5 2.5 2.5-1 1-2.5-2.5-2.5 2.5-1-1" fill="currentColor" />
             </svg>
@@ -91,7 +91,96 @@
         </p>
       </div>
       <nav class="side">
-        <ol><li class="item"><a href="/quick-start/">Quick Start</a></li><li><details open><summary class="item"><a href="/coding/">Coding</a></summary><ol><li class="item"><a href="/coding/system-architecture/">TigerBeetle in Your System Architecture</a></li><li class="item"><a href="/coding/data-modeling/">Data Modeling</a></li><li class="item"><a href="/coding/financial-accounting/">Financial Accounting</a></li><li class="item"><a href="/coding/two-phase-transfers/">Two-Phase Transfers</a></li><li class="item"><a href="/coding/reliable-transaction-submission/">Reliable Transaction Submission</a></li><li class="item"><a href="/coding/time/" class="target">Time</a></li><li><details><summary class="item">Recipes</summary><ol><li class="item"><a href="/coding/recipes/currency-exchange/">Currency Exchange</a></li><li class="item"><a href="/coding/recipes/multi-debit-credit-transfers/">Multi-Debit, Multi-Credit Transfers</a></li><li class="item"><a href="/coding/recipes/close-account/">Close Account</a></li><li class="item"><a href="/coding/recipes/balance-conditional-transfers/">Balance-Conditional Transfers</a></li><li class="item"><a href="/coding/recipes/balance-bounds/">Balance Bounds</a></li><li class="item"><a href="/coding/recipes/correcting-transfers/">Correcting Transfers</a></li><li class="item"><a href="/coding/recipes/rate-limiting/">Rate Limiting</a></li><li class="item"><a href="/coding/recipes/balance-invariant-transfers/">Balance-invariant Transfers</a></li></ol></details></li></ol></details></li><li><details><summary class="item">Operating</summary><ol><li class="item"><a href="/operating/deploy/">Deploying for Production</a></li><li class="item"><a href="/operating/hardware/">Hardware</a></li><li class="item"><a href="/operating/linux/">Deploying on Linux</a></li><li class="item"><a href="/operating/docker/">Docker</a></li><li class="item"><a href="/operating/managed-service/">Managed Service</a></li><li class="item"><a href="/operating/upgrading/">Upgrading</a></li></ol></details></li><li><details><summary class="item">Client Libraries</summary><ol><li class="item"><a href="/clients/go/">Go</a></li><li class="item"><a href="/clients/java/">Java</a></li><li class="item"><a href="/clients/dotnet/">.NET</a></li><li class="item"><a href="/clients/node/">Node.js</a></li><li class="item"><a href="/clients/python/">Python</a></li></ol></details></li><li><details><summary class="item">Reference</summary><ol><li class="item"><a href="/reference/account/">Account</a></li><li class="item"><a href="/reference/transfer/">Transfer</a></li><li class="item"><a href="/reference/account-balance/">AccountBalance</a></li><li class="item"><a href="/reference/account-filter/">AccountFilter</a></li><li class="item"><a href="/reference/query-filter/">QueryFilter</a></li><li><details><summary class="item"><a href="/reference/requests/">Requests</a></summary><ol><li class="item"><a href="/reference/requests/create_accounts/">create_accounts</a></li><li class="item"><a href="/reference/requests/create_transfers/">create_transfers</a></li><li class="item"><a href="/reference/requests/get_account_balances/">get_account_balances</a></li><li class="item"><a href="/reference/requests/get_account_transfers/">get_account_transfers</a></li><li class="item"><a href="/reference/requests/lookup_accounts/">lookup_accounts</a></li><li class="item"><a href="/reference/requests/lookup_transfers/">lookup_transfers</a></li><li class="item"><a href="/reference/requests/query_accounts/">query_accounts</a></li><li class="item"><a href="/reference/requests/query_transfers/">query_transfers</a></li></ol></details></li><li class="item"><a href="/reference/sessions/">Client Sessions</a></li></ol></details></li><li><details><summary class="item"><a href="/about/">About</a></summary><ol><li class="item"><a href="/about/oltp/">Built for OLTP</a></li><li class="item"><a href="/about/performance/">Performance</a></li><li class="item"><a href="/about/safety/">Safety</a></li><li class="item"><a href="/about/vopr/">Deterministic Simulation Testing</a></li><li class="item"><a href="/about/architecture/">Architecture</a></li><li class="item"><a href="/about/production-ready/">Production Ready</a></li><li class="item"><a href="/about/zig/">Zig</a></li></ol></details></li></ol>
+        <ol>
+<li class="item"><a href="/start/">Start</a></li>
+<li>
+<details><summary class="item"><a href="/concepts/">Concepts</a></summary>
+<ol>
+<li class="item"><a href="/concepts/oltp/">OLTP</a></li>
+<li class="item"><a href="/concepts/debit-credit/">Debit-Credit</a></li>
+<li class="item"><a href="/concepts/performance/">Performance</a></li>
+<li class="item"><a href="/concepts/safety/">Safety</a></li>
+</ol>
+</details></li>
+<li>
+<details open><summary class="item"><a href="/coding/">Coding</a></summary>
+<ol>
+<li class="item"><a href="/coding/system-architecture/">System Architecture</a></li>
+<li class="item"><a href="/coding/data-modeling/">Data Modeling</a></li>
+<li class="item"><a href="/coding/financial-accounting/">Financial Accounting</a></li>
+<li class="item"><a href="/coding/requests/">Requests</a></li>
+<li class="item"><a href="/coding/reliable-transaction-submission/">Reliable Transaction Submission</a></li>
+<li class="item"><a href="/coding/two-phase-transfers/">Two-Phase Transfers</a></li>
+<li class="item"><a href="/coding/linked-events/">Linked Events</a></li>
+<li class="item"><a href="/coding/time/" class="target">Time</a></li>
+<li>
+<details><summary class="item"><a href="/coding/recipes/">Recipes</a></summary>
+<ol>
+<li class="item"><a href="/coding/recipes/currency-exchange/">Currency Exchange</a></li>
+<li class="item"><a href="/coding/recipes/multi-debit-credit-transfers/">Multi-Debit, Multi-Credit Transfers</a></li>
+<li class="item"><a href="/coding/recipes/close-account/">Closing Accounts</a></li>
+<li class="item"><a href="/coding/recipes/balance-conditional-transfers/">Balance-Conditional Transfers</a></li>
+<li class="item"><a href="/coding/recipes/balance-invariant-transfers/">Balance-Invariant Transfers</a></li>
+<li class="item"><a href="/coding/recipes/balance-bounds/">Balance Bounds</a></li>
+<li class="item"><a href="/coding/recipes/correcting-transfers/">Correcting Transfers</a></li>
+<li class="item"><a href="/coding/recipes/rate-limiting/">Rate Limiting</a></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/coding/clients/">Clients</a></summary>
+<ol>
+<li class="item"><a href="/coding/clients/dotnet/">.Net</a></li>
+<li class="item"><a href="/coding/clients/go/">Go</a></li>
+<li class="item"><a href="/coding/clients/java/">Java</a></li>
+<li class="item"><a href="/coding/clients/node/">Node</a></li>
+<li class="item"><a href="/coding/clients/python/">Python</a></li>
+</ol>
+</details></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/operating/">Operating</a></summary>
+<ol>
+<li class="item"><a href="/operating/installing/">Installing</a></li>
+<li class="item"><a href="/operating/hardware/">Hardware</a></li>
+<li class="item"><a href="/operating/cluster/">Cluster</a></li>
+<li>
+<details><summary class="item"><a href="/operating/deploying/">Deploying</a></summary>
+<ol>
+<li class="item"><a href="/operating/deploying/systemd/">systemd</a></li>
+<li class="item"><a href="/operating/deploying/docker/">Docker</a></li>
+<li class="item"><a href="/operating/deploying/managed-service/">Managed</a></li>
+</ol>
+</details></li>
+<li class="item"><a href="/operating/upgrading/">Upgrading</a></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/reference/">Reference</a></summary>
+<ol>
+<li class="item"><a href="/reference/sessions/">Client Sessions</a></li>
+<li class="item"><a href="/reference/account/">Account</a></li>
+<li class="item"><a href="/reference/transfer/">Transfer</a></li>
+<li class="item"><a href="/reference/account-balance/">AccountBalance</a></li>
+<li class="item"><a href="/reference/account-filter/">AccountFilter</a></li>
+<li class="item"><a href="/reference/query-filter/">QueryFilter</a></li>
+<li>
+<details><summary class="item"><a href="/reference/requests/">Requests</a></summary>
+<ol>
+<li class="item"><a href="/reference/requests/create_accounts/">create_accounts</a></li>
+<li class="item"><a href="/reference/requests/create_transfers/">create_transfers</a></li>
+<li class="item"><a href="/reference/requests/lookup_accounts/">lookup_accounts</a></li>
+<li class="item"><a href="/reference/requests/lookup_transfers/">lookup_transfers</a></li>
+<li class="item"><a href="/reference/requests/get_account_transfers/">get_account_transfers</a></li>
+<li class="item"><a href="/reference/requests/get_account_balances/">get_account_balances</a></li>
+<li class="item"><a href="/reference/requests/query_accounts/">query_accounts</a></li>
+<li class="item"><a href="/reference/requests/query_transfers/">query_transfers</a></li>
+</ol>
+</details></li>
+</ol>
+</details></li>
+</ol>
+
       </nav>
     </nav>
     <div class="resizer"></div>
@@ -107,14 +196,27 @@
           <h1 id="time"><a href="#time" class="anchor">Time</a></h1>
 <p>Time is a critical component of all distributed systems and
 databases. Within TigerBeetle, we keep track of two types of time:
-logical time and physical time.</p>
+logical time and physical time. Logical time is about ordering events
+relative to each other, and physical time is the everyday time, a
+numeric timestamp.</p>
 <h2 id="logical-time"><a href="#logical-time" class="anchor">Logical
 Time</a></h2>
-<p>TigerBeetle uses <a
+<p>TigerBeetle uses a consensus protocol (<a
 href="https://pmg.csail.mit.edu/papers/vr-revisited.pdf">Viewstamped
-replication</a> for its consensus protocol. This ensures <a
+Replication</a>) to guarantee <a
 href="http://www.bailis.org/blog/linearizability-versus-serializability/">strict
 serializability</a> for all operations.</p>
+<p>In other words, to an external observer, TigerBeetle cluster behaves
+as if it is just a single machine which processes the incoming requests
+in order. If an application submits a batch of transfers with transfer
+<code>T1</code>, receives a reply, and then submits a batch with another
+transfer <code>T2</code>, it is guaranteed that <code>T2</code> will
+observe the effects of <code>T1</code>. Note, however, that there could
+be concurrent requests from multiple applications, so, unless
+<code>T1</code> and <code>T2</code> are in the same batch of transfers,
+some other transfer could happen in between them. See the <a
+href="../../reference/sessions">reference</a> for precise
+guarantees.</p>
 <h2 id="physical-time"><a href="#physical-time" class="anchor">Physical
 Time</a></h2>
 <p>TigerBeetle uses physical time in addition to the logical time
@@ -130,44 +232,33 @@ funds are not held in limbo indefinitely.</li>
 security purposes, it is useful to have a specific idea of when (in
 terms of wall clock time) transfers took place.</li>
 </ul>
-<h3 id="physical-time-is-propagated-through-consensus"><a
-href="#physical-time-is-propagated-through-consensus"
-class="anchor">Physical Time is Propagated Through Consensus</a></h3>
-<p>TigerBeetle clusters are distributed systems, so we cannot rely on
-all replicas in a cluster keeping their system clocks perfectly in sync.
-Because of this, we “trust but verify”.</p>
-<p>In the TigerBeetle consensus protocol messages, replicas exchange
-timestamp information and monitor the skew of their clock with respect
-to the other replicas. The system ensures that the clock skew is within
-an acceptable window and may choose to stop processing transactions if
-the clocks are far out of sync.</p>
-<p>Importantly, the goal is not to reimplement or replace clock
-synchronization protocols, but to verify that the cluster is operating
-within acceptable error bounds.</p>
+<p>TigerBeetle uses two-layered approach to physical time. On the basic
+layer, each replica asks the underling operating system about the
+current time. Then, timing information from several replicas is
+aggregated to make sure that the replicas roughly agree on the time, to
+prevent a replica with a bad clock from issuing incorrect timestamps.
+Additionally, this “cluster time” is made strictly monotonic, for end
+user’s convenience.</p>
 <h2 id="why-tigerbeetle-manages-timestamps"><a
 href="#why-tigerbeetle-manages-timestamps" class="anchor">Why
 TigerBeetle Manages Timestamps</a></h2>
-<p>Timestamps on <a
+<p>An important invariant is that the TigerBeetle cluster assigns all
+timestamps. In particular, timestamps on <a
 href="../../reference/transfer#timestamp"><code>Transfer</code>s</a> and
 <a href="../../reference/account#timestamp"><code>Account</code>s</a>
-are <strong>set by the primary node</strong> in the TigerBeetle cluster
-when it receives the operation.</p>
-<p>The primary then propagates the operations to all replicas, including
-the timestamps it determined. All replicas process the state machine
-transitions deterministically, based on the primary’s timestamp –
-<em>not</em> based on their own system time.</p>
-<p>Primary nodes monitor their clock skew with respect to the other
-replicas and may abdicate their role as primary if they appear to be far
-off the rest of the cluster.</p>
-<p>This is why the <code>timestamp</code> field must be set to
-<code>0</code> when operations are submitted, and it is then set by the
-primary.</p>
+are set by the cluster when the corresponding event arrives at the
+primary. This is why the <code>timestamp</code> field must be set to
+<code>0</code> when operations are submitted by the client.</p>
 <p>Similarly, the <a
 href="../../reference/transfer#timeout"><code>Transfer.timeout</code></a>
 is given as an interval in seconds, rather than as an absolute
 timestamp, because it is also managed by the primary. The
 <code>timeout</code> is calculated relative to the
 <code>timestamp</code> when the operation arrives at the primary.</p>
+<p>This restriction is needed to make sure that any two timestamps
+always refer to the same underlying clock (cluster’s physical time) and
+are directly comparable. This in turn provides a set of powerful
+guarantees.</p>
 <h3 id="timestamps-are-totally-ordered"><a
 href="#timestamps-are-totally-ordered" class="anchor">Timestamps are
 Totally Ordered</a></h3>
@@ -180,14 +271,16 @@ created in the same request).</p>
 “ingestion” timestamp, “record” timestamp, or “system” timestamp.</p>
 <h2 id="further-reading"><a href="#further-reading"
 class="anchor">Further Reading</a></h2>
-<p>Watch this talk on <a
-href="https://youtu.be/7R-Iz6sJG6Q?si=9sD2TpfD29AxUjOY">Detecting Clock
-Sync Failure in Highly Available Systems</a> on YouTube for more
-details.</p>
-<p>You can also read the blog post <a
-href="https://tigerbeetle.com/blog/2021-08-30-three-clocks-are-better-than-one">Three
-Clocks are Better than One</a> for more on how nodes determine their own
-time and clock skew.</p>
+<p>If you are curious how exactly it is that TigerBeetle achieves
+strictly monotonic physical time, we have a talk and a blog post with
+details:</p>
+<ul>
+<li><a href="https://youtu.be/7R-Iz6sJG6Q?si=9sD2TpfD29AxUjOY">Detecting
+Clock Sync Failure in Highly Available Systems (YouTube)</a></li>
+<li><a
+href="https://tigerbeetle.com/blog/three-clocks-are-better-than-one/">Three
+Clocks are Better than One (TigerBeetle Blog)</a></li>
+</ul>
 <a id="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/coding/time.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
@@ -212,10 +305,14 @@ time and clock skew.</p>
         </g>
       </svg>
     </div>
-    <script>window.urlPrefix = "";
+    <script>function assert(condition) {
+  if (!condition) {
+    alert("Assertion failed");
+    throw "Assertion failed";
+  }
+}
 
-// Enable search if JavaScript is enabled.
-document.querySelector(".search-box").style.removeProperty("display");
+window.urlPrefix = "";
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register(urlPrefix + "/service-worker.js");
@@ -252,38 +349,16 @@ collapseButton.addEventListener("click", () => document.body.classList.add("side
 const expandButton = document.querySelector(".expand-button");
 expandButton.addEventListener("click", () => document.body.classList.remove("sidenav-collapsed"));
 
-const navSide = document.querySelector("nav.side");
-const details = [...navSide.querySelectorAll("details")];
-
 const menuButton = document.querySelector(".menu-button");
 menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
 
-// Restore and save the state of the side navigation
-const navSideState = JSON.parse(localStorage.getItem("navSideState"));
-if (navSideState) {
-  leftPane.style.width = navSideState.width;
-  if (navSideState.collapsed) document.body.classList.add("sidenav-collapsed");
-  navSideState.expanded.forEach((expanded, i) => {
-    if (i < details.length) details[i].open = expanded
-  });
-  leftPane.scrollTop = navSideState.scrollTop;
-}
-window.addEventListener("beforeunload", () => {
-  const navSideState = {
-    width: leftPane.style.width,
-    collapsed: document.body.classList.contains("sidenav-collapsed"),
-    expanded: details.map(detail => detail.open),
-    scrollTop: leftPane.scrollTop,
-  };
-  localStorage.setItem("navSideState", JSON.stringify(navSideState));
-});
-
 function syncSideNavWithLocation() {
   const target = document.querySelector("nav.side .target");
   if (target) target.classList.remove("target");
+  document.querySelectorAll("nav.side details").forEach(details => details.open = false);
 
   const path = location.pathname;
   if (path.length > 1) {

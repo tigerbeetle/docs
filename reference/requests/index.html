@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-FBIbgrc+JMV/r1eq9+0f7S96+x2pHS1pRBNqAR0BQbw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6/zeDzxCHLfs55xEz15dIE3ymg2mmzbhvu2y6e7sKmY='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -61,7 +61,7 @@
               </svg>
             </a>
           </header>
-          <div class="search-box" style="display: none;">
+          <div class="search-box">
             <input type="search" placeholder="Search" />
             <svg class="search-icon" width="16" height="16" fill="none">
               <circle cx="6.5" cy="6.5" r="4.5" stroke-width="1.5" stroke="currentColor"/>
@@ -70,7 +70,7 @@
             <svg class="hotkey" width="16" height="16" fill="none">
               <rect x="0.5" y="0.5" width="15" height="15" rx="2.5" stroke="var(--gray-7)"/>
               <path d="M9.55584 3.38636L7.21209 12.0938H6.44505L8.7888 3.38636H9.55584Z" fill="var(--gray-11)"/>
-            </svg>    
+            </svg>
             <svg class="clear-button" width="16" height="16">
               <path d="m16 8a8 8 0 0 0-16 0 8 8 0 0 0 16 0m-9 0-2.5-2.5 1-1 2.5 2.5 2.5-2.5 1 1-2.5 2.5 2.5 2.5-1 1-2.5-2.5-2.5 2.5-1-1" fill="currentColor" />
             </svg>
@@ -91,7 +91,96 @@
         </p>
       </div>
       <nav class="side">
-        <ol><li class="item"><a href="/quick-start/">Quick Start</a></li><li><details><summary class="item"><a href="/coding/">Coding</a></summary><ol><li class="item"><a href="/coding/system-architecture/">TigerBeetle in Your System Architecture</a></li><li class="item"><a href="/coding/data-modeling/">Data Modeling</a></li><li class="item"><a href="/coding/financial-accounting/">Financial Accounting</a></li><li class="item"><a href="/coding/two-phase-transfers/">Two-Phase Transfers</a></li><li class="item"><a href="/coding/reliable-transaction-submission/">Reliable Transaction Submission</a></li><li class="item"><a href="/coding/time/">Time</a></li><li><details><summary class="item">Recipes</summary><ol><li class="item"><a href="/coding/recipes/currency-exchange/">Currency Exchange</a></li><li class="item"><a href="/coding/recipes/multi-debit-credit-transfers/">Multi-Debit, Multi-Credit Transfers</a></li><li class="item"><a href="/coding/recipes/close-account/">Close Account</a></li><li class="item"><a href="/coding/recipes/balance-conditional-transfers/">Balance-Conditional Transfers</a></li><li class="item"><a href="/coding/recipes/balance-bounds/">Balance Bounds</a></li><li class="item"><a href="/coding/recipes/correcting-transfers/">Correcting Transfers</a></li><li class="item"><a href="/coding/recipes/rate-limiting/">Rate Limiting</a></li><li class="item"><a href="/coding/recipes/balance-invariant-transfers/">Balance-invariant Transfers</a></li></ol></details></li></ol></details></li><li><details><summary class="item">Operating</summary><ol><li class="item"><a href="/operating/deploy/">Deploying for Production</a></li><li class="item"><a href="/operating/hardware/">Hardware</a></li><li class="item"><a href="/operating/linux/">Deploying on Linux</a></li><li class="item"><a href="/operating/docker/">Docker</a></li><li class="item"><a href="/operating/managed-service/">Managed Service</a></li><li class="item"><a href="/operating/upgrading/">Upgrading</a></li></ol></details></li><li><details><summary class="item">Client Libraries</summary><ol><li class="item"><a href="/clients/go/">Go</a></li><li class="item"><a href="/clients/java/">Java</a></li><li class="item"><a href="/clients/dotnet/">.NET</a></li><li class="item"><a href="/clients/node/">Node.js</a></li><li class="item"><a href="/clients/python/">Python</a></li></ol></details></li><li><details><summary class="item">Reference</summary><ol><li class="item"><a href="/reference/account/">Account</a></li><li class="item"><a href="/reference/transfer/">Transfer</a></li><li class="item"><a href="/reference/account-balance/">AccountBalance</a></li><li class="item"><a href="/reference/account-filter/">AccountFilter</a></li><li class="item"><a href="/reference/query-filter/">QueryFilter</a></li><li><details><summary class="item"><a href="/reference/requests/">Requests</a></summary><ol><li class="item"><a href="/reference/requests/create_accounts/">create_accounts</a></li><li class="item"><a href="/reference/requests/create_transfers/">create_transfers</a></li><li class="item"><a href="/reference/requests/get_account_balances/">get_account_balances</a></li><li class="item"><a href="/reference/requests/get_account_transfers/">get_account_transfers</a></li><li class="item"><a href="/reference/requests/lookup_accounts/">lookup_accounts</a></li><li class="item"><a href="/reference/requests/lookup_transfers/">lookup_transfers</a></li><li class="item"><a href="/reference/requests/query_accounts/">query_accounts</a></li><li class="item"><a href="/reference/requests/query_transfers/">query_transfers</a></li></ol></details></li><li class="item"><a href="/reference/sessions/">Client Sessions</a></li></ol></details></li><li><details><summary class="item"><a href="/about/">About</a></summary><ol><li class="item"><a href="/about/oltp/">Built for OLTP</a></li><li class="item"><a href="/about/performance/">Performance</a></li><li class="item"><a href="/about/safety/">Safety</a></li><li class="item"><a href="/about/vopr/">Deterministic Simulation Testing</a></li><li class="item"><a href="/about/architecture/">Architecture</a></li><li class="item"><a href="/about/production-ready/">Production Ready</a></li><li class="item"><a href="/about/zig/">Zig</a></li></ol></details></li></ol>
+        <ol>
+<li class="item"><a href="/start/">Start</a></li>
+<li>
+<details><summary class="item"><a href="/concepts/">Concepts</a></summary>
+<ol>
+<li class="item"><a href="/concepts/oltp/">OLTP</a></li>
+<li class="item"><a href="/concepts/debit-credit/">Debit-Credit</a></li>
+<li class="item"><a href="/concepts/performance/">Performance</a></li>
+<li class="item"><a href="/concepts/safety/">Safety</a></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/coding/">Coding</a></summary>
+<ol>
+<li class="item"><a href="/coding/system-architecture/">System Architecture</a></li>
+<li class="item"><a href="/coding/data-modeling/">Data Modeling</a></li>
+<li class="item"><a href="/coding/financial-accounting/">Financial Accounting</a></li>
+<li class="item"><a href="/coding/requests/">Requests</a></li>
+<li class="item"><a href="/coding/reliable-transaction-submission/">Reliable Transaction Submission</a></li>
+<li class="item"><a href="/coding/two-phase-transfers/">Two-Phase Transfers</a></li>
+<li class="item"><a href="/coding/linked-events/">Linked Events</a></li>
+<li class="item"><a href="/coding/time/">Time</a></li>
+<li>
+<details><summary class="item"><a href="/coding/recipes/">Recipes</a></summary>
+<ol>
+<li class="item"><a href="/coding/recipes/currency-exchange/">Currency Exchange</a></li>
+<li class="item"><a href="/coding/recipes/multi-debit-credit-transfers/">Multi-Debit, Multi-Credit Transfers</a></li>
+<li class="item"><a href="/coding/recipes/close-account/">Closing Accounts</a></li>
+<li class="item"><a href="/coding/recipes/balance-conditional-transfers/">Balance-Conditional Transfers</a></li>
+<li class="item"><a href="/coding/recipes/balance-invariant-transfers/">Balance-Invariant Transfers</a></li>
+<li class="item"><a href="/coding/recipes/balance-bounds/">Balance Bounds</a></li>
+<li class="item"><a href="/coding/recipes/correcting-transfers/">Correcting Transfers</a></li>
+<li class="item"><a href="/coding/recipes/rate-limiting/">Rate Limiting</a></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/coding/clients/">Clients</a></summary>
+<ol>
+<li class="item"><a href="/coding/clients/dotnet/">.Net</a></li>
+<li class="item"><a href="/coding/clients/go/">Go</a></li>
+<li class="item"><a href="/coding/clients/java/">Java</a></li>
+<li class="item"><a href="/coding/clients/node/">Node</a></li>
+<li class="item"><a href="/coding/clients/python/">Python</a></li>
+</ol>
+</details></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/operating/">Operating</a></summary>
+<ol>
+<li class="item"><a href="/operating/installing/">Installing</a></li>
+<li class="item"><a href="/operating/hardware/">Hardware</a></li>
+<li class="item"><a href="/operating/cluster/">Cluster</a></li>
+<li>
+<details><summary class="item"><a href="/operating/deploying/">Deploying</a></summary>
+<ol>
+<li class="item"><a href="/operating/deploying/systemd/">systemd</a></li>
+<li class="item"><a href="/operating/deploying/docker/">Docker</a></li>
+<li class="item"><a href="/operating/deploying/managed-service/">Managed</a></li>
+</ol>
+</details></li>
+<li class="item"><a href="/operating/upgrading/">Upgrading</a></li>
+</ol>
+</details></li>
+<li>
+<details open><summary class="item"><a href="/reference/">Reference</a></summary>
+<ol>
+<li class="item"><a href="/reference/sessions/">Client Sessions</a></li>
+<li class="item"><a href="/reference/account/">Account</a></li>
+<li class="item"><a href="/reference/transfer/">Transfer</a></li>
+<li class="item"><a href="/reference/account-balance/">AccountBalance</a></li>
+<li class="item"><a href="/reference/account-filter/">AccountFilter</a></li>
+<li class="item"><a href="/reference/query-filter/">QueryFilter</a></li>
+<li>
+<details open><summary class="item"><a href="/reference/requests/">Requests</a></summary>
+<ol>
+<li class="item"><a href="/reference/requests/create_accounts/">create_accounts</a></li>
+<li class="item"><a href="/reference/requests/create_transfers/">create_transfers</a></li>
+<li class="item"><a href="/reference/requests/lookup_accounts/">lookup_accounts</a></li>
+<li class="item"><a href="/reference/requests/lookup_transfers/">lookup_transfers</a></li>
+<li class="item"><a href="/reference/requests/get_account_transfers/">get_account_transfers</a></li>
+<li class="item"><a href="/reference/requests/get_account_balances/">get_account_balances</a></li>
+<li class="item"><a href="/reference/requests/query_accounts/">query_accounts</a></li>
+<li class="item"><a href="/reference/requests/query_transfers/">query_transfers</a></li>
+</ol>
+</details></li>
+</ol>
+</details></li>
+</ol>
+
       </nav>
     </nav>
     <div class="resizer"></div>
@@ -105,21 +194,7 @@
         </a>
         <div class="content">
           <h1 id="requests"><a href="#requests" class="anchor">Requests</a></h1>
-<p>A <em>request</em> queries or updates the database state.</p>
-<p>A request consists of one or more <em>events</em> of the same type
-sent to the cluster in a single message. For example, a single request
-can create multiple transfers but it cannot create both accounts and
-transfers.</p>
-<p>The cluster commits an entire request at once. Events are applied in
-series, such that successive events observe the effects of previous ones
-and event timestamps are <a
-href="../../coding/time#timestamps-are-totally-ordered">totally
-ordered</a>.</p>
-<p>Each request receives one <em>reply</em> message from the cluster.
-The reply contains one <em>result</em> for each event in the
-request.</p>
-<h2 id="request-types"><a href="#request-types" class="anchor">Request
-Types</a></h2>
+<p>TigerBeetle supports the following request types:</p>
 <ul>
 <li><a href="./create_accounts"><code>create_accounts</code></a>: create
 <a href="../account"><code>Account</code>s</a></li>
@@ -144,261 +219,6 @@ fetch the historical account balance by the <code>Account</code>’s
 </ul>
 <p><em>More request types, including more powerful queries, are coming
 soon!</em></p>
-<h2 id="events-and-results"><a href="#events-and-results"
-class="anchor">Events and Results</a></h2>
-<p>Each request has a corresponding <em>event</em> and <em>result</em>
-type:</p>
-<div class="table">
-<table>
-<thead>
-<tr>
-<th>Request Type</th>
-<th>Event</th>
-<th>Result</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>create_accounts</code></td>
-<td><a href="./create_accounts#event"><code>Account</code></a></td>
-<td><a
-href="./create_accounts#result"><code>CreateAccountResult</code></a></td>
-</tr>
-<tr>
-<td><code>create_transfers</code></td>
-<td><a href="./create_transfers#event"><code>Transfer</code></a></td>
-<td><a
-href="./create_transfers#result"><code>CreateTransferResult</code></a></td>
-</tr>
-<tr>
-<td><code>lookup_accounts</code></td>
-<td><a href="./lookup_accounts#event"><code>Account.id</code></a></td>
-<td><a href="./lookup_accounts#result"><code>Account</code></a> or
-nothing</td>
-</tr>
-<tr>
-<td><code>lookup_transfers</code></td>
-<td><a href="./lookup_transfers#event"><code>Transfer.id</code></a></td>
-<td><a href="./lookup_transfers#result"><code>Transfer</code></a> or
-nothing</td>
-</tr>
-<tr>
-<td><code>get_account_transfers</code></td>
-<td><a href="../account-filter"><code>AccountFilter</code></a></td>
-<td><a href="./get_account_transfers#result"><code>Transfer</code></a>
-or nothing</td>
-</tr>
-<tr>
-<td><code>get_account_balances</code></td>
-<td><a href="../account-filter"><code>AccountFilter</code></a></td>
-<td><a
-href="./get_account_balances#result"><code>AccountBalance</code></a> or
-nothing</td>
-</tr>
-<tr>
-<td><code>query_accounts</code></td>
-<td><a href="../query-filter"><code>QueryFilter</code></a></td>
-<td><a href="./lookup_accounts#result"><code>Account</code></a> or
-nothing</td>
-</tr>
-<tr>
-<td><code>query_transfers</code></td>
-<td><a href="../query-filter"><code>QueryFilter</code></a></td>
-<td><a href="./lookup_transfers#result"><code>Transfer</code></a> or
-nothing</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="idempotency"><a href="#idempotency"
-class="anchor">Idempotency</a></h3>
-<p>Events that create objects are idempotent. The first event to create
-an object with a given <code>id</code> will receive the <code>ok</code>
-result. Subsequent events that attempt to create the same object will
-receive the <code>exists</code> result.</p>
-<h2 id="batching-events"><a href="#batching-events"
-class="anchor">Batching Events</a></h2>
-<p>To achieve high throughput, TigerBeetle amortizes the overhead of
-consensus and I/O by batching many events in each request.</p>
-<p>In the default configuration, the maximum batch sizes for each
-request type are:</p>
-<div class="table">
-<table>
-<thead>
-<tr>
-<th>Request Type</th>
-<th style="text-align: right;">Request Batch Size (Events)</th>
-<th style="text-align: right;">Reply Batch Size (Results)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>lookup_accounts</code></td>
-<td style="text-align: right;">8190</td>
-<td style="text-align: right;">8190</td>
-</tr>
-<tr>
-<td><code>lookup_transfers</code></td>
-<td style="text-align: right;">8190</td>
-<td style="text-align: right;">8190</td>
-</tr>
-<tr>
-<td><code>create_accounts</code></td>
-<td style="text-align: right;">8190</td>
-<td style="text-align: right;">8190</td>
-</tr>
-<tr>
-<td><code>create_transfers</code></td>
-<td style="text-align: right;">8190</td>
-<td style="text-align: right;">8190</td>
-</tr>
-<tr>
-<td><code>get_account_transfers</code></td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">8190</td>
-</tr>
-<tr>
-<td><code>get_account_balances</code></td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">8190</td>
-</tr>
-<tr>
-<td><code>query_accounts</code></td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">8190</td>
-</tr>
-<tr>
-<td><code>query_transfers</code></td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">8190</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>TigerBeetle clients automatically batch events. Therefore, it is
-recommended to share the client instances between multiple threads or
-tasks to have events batched transparently.</p>
-<ul>
-<li><a href="/clients/node/#batching">Node</a></li>
-<li><a href="/clients/go/#batching">Go</a></li>
-<li><a href="/clients/java/#batching">Java</a></li>
-<li><a href="/clients/dotnet/#batching">.NET</a></li>
-</ul>
-<h2 id="linked-events"><a href="#linked-events" class="anchor">Linked
-Events</a></h2>
-<p>Events within a request <a href="./create_transfers#result">succeed
-or fail</a> independently unless they are explicitly linked using the
-<code>flags.linked</code> (<a
-href="../account#flagslinked"><code>Account.flags.linked</code></a> or
-<a
-href="../transfer#flagslinked"><code>Transfer.flags.linked</code></a>).</p>
-<p>When the <code>linked</code> flag is specified, it links the outcome
-of a Transfer or Account creation with the outcome of the next one in
-the request. These chains of events will all succeed or fail
-together.</p>
-<p><strong>The last event in a chain is denoted by the first Transfer or
-Account without this flag.</strong></p>
-<p>The last Transfer or Account in a request may never have the
-<code>flags.linked</code> set, as it would leave a chain open-ended.
-Attempting to do so will result in the <a
-href="./create_transfers#linked_event_chain_open"><code>linked_event_chain_open</code></a>
-error.</p>
-<p>Multiple chains of events may coexist within a request to succeed or
-fail independently.</p>
-<p>Events within a chain are executed in order, or are rolled back on
-error, so that the effect of each event in the chain is visible to the
-next. Each chain is either visible or invisible as a unit to subsequent
-transfers after the chain. The event that was the first to fail within a
-chain will have a unique error result. Other events in the chain will
-have their error result set to <a
-href="./create_transfers#linked_event_failed"><code>linked_event_failed</code></a>.</p>
-<h3 id="linked-transfers-example"><a href="#linked-transfers-example"
-class="anchor">Linked Transfers Example</a></h3>
-<p>Consider this set of Transfers as part of a request:</p>
-<div class="table">
-<table>
-<thead>
-<tr>
-<th>Transfer</th>
-<th>Index in Request</th>
-<th>flags.linked</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>A</code></td>
-<td><code>0</code></td>
-<td><code>false</code></td>
-</tr>
-<tr>
-<td><code>B</code></td>
-<td><code>1</code></td>
-<td><code>true</code></td>
-</tr>
-<tr>
-<td><code>C</code></td>
-<td><code>2</code></td>
-<td><code>true</code></td>
-</tr>
-<tr>
-<td><code>D</code></td>
-<td><code>3</code></td>
-<td><code>false</code></td>
-</tr>
-<tr>
-<td><code>E</code></td>
-<td><code>4</code></td>
-<td><code>false</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>If any of transfers <code>B</code>, <code>C</code>, or <code>D</code>
-fail (for example, due to <a
-href="./create_transfers#exceeds_credits"><code>exceeds_credits</code></a>),
-then <code>B</code>, <code>C</code>, and <code>D</code> will all fail.
-They are linked.</p>
-<p>Transfers <code>A</code> and <code>E</code> fail or succeed
-independently of <code>B</code>, <code>C</code>, <code>D</code>, and
-each other.</p>
-<p>After the chain of linked events has executed, the fact that they
-were linked will not be saved. To save the association between Transfers
-or Accounts, it must be <a href="../../coding/data-modeling">encoded
-into the data model</a>, for example by adding an ID to one of the <a
-href="../../coding/data-modeling#user_data">user data</a> fields.</p>
-<h2 id="guarantees"><a href="#guarantees"
-class="anchor">Guarantees</a></h2>
-<ul>
-<li>A request executes within the cluster at most once.</li>
-<li>Requests do not <a href="../sessions#retries">time out</a>. Clients
-will continuously retry requests until they receive a reply from the
-cluster. This is because in the case of a network partition, a lack of
-response from the cluster could either indicate that the request was
-dropped before it was processed or that the reply was dropped after the
-request was processed. Note that individual <a
-href="../../coding/two-phase-transfers">pending transfers</a> within a
-request may have <a href="../transfer#timeout">timeouts</a>.</li>
-<li>Requests retried by their original client session receive identical
-replies.</li>
-<li>Requests retried by a different client (same request body, different
-session) may receive different replies.</li>
-<li>Events within a request are executed in sequence. The effects of a
-given event are observable when the next event within that request is
-applied.</li>
-<li>Events within a request do not interleave with events from other
-requests.</li>
-<li>All events within a request batch are committed, or none are. Note
-that this does not mean that all of the events in a batch will succeed,
-or that all will fail. Events succeed or fail independently unless they
-are explicitly <a href="#linked-events">linked</a></li>
-<li>Once committed, an event will always be committed — the cluster’s
-state never backtracks.</li>
-<li>Within a cluster, object <a
-href="../../coding/time#timestamps-are-totally-ordered">timestamps are
-unique and strictly increasing</a>. No two objects within the same
-cluster will have the same timestamp. Furthermore, the order of the
-timestamps indicates the order in which the objects were committed.</li>
-</ul>
 <a id="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/reference/requests/README.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
@@ -423,10 +243,14 @@ timestamps indicates the order in which the objects were committed.</li>
         </g>
       </svg>
     </div>
-    <script>window.urlPrefix = "";
+    <script>function assert(condition) {
+  if (!condition) {
+    alert("Assertion failed");
+    throw "Assertion failed";
+  }
+}
 
-// Enable search if JavaScript is enabled.
-document.querySelector(".search-box").style.removeProperty("display");
+window.urlPrefix = "";
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register(urlPrefix + "/service-worker.js");
@@ -463,38 +287,16 @@ collapseButton.addEventListener("click", () => document.body.classList.add("side
 const expandButton = document.querySelector(".expand-button");
 expandButton.addEventListener("click", () => document.body.classList.remove("sidenav-collapsed"));
 
-const navSide = document.querySelector("nav.side");
-const details = [...navSide.querySelectorAll("details")];
-
 const menuButton = document.querySelector(".menu-button");
 menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
 
-// Restore and save the state of the side navigation
-const navSideState = JSON.parse(localStorage.getItem("navSideState"));
-if (navSideState) {
-  leftPane.style.width = navSideState.width;
-  if (navSideState.collapsed) document.body.classList.add("sidenav-collapsed");
-  navSideState.expanded.forEach((expanded, i) => {
-    if (i < details.length) details[i].open = expanded
-  });
-  leftPane.scrollTop = navSideState.scrollTop;
-}
-window.addEventListener("beforeunload", () => {
-  const navSideState = {
-    width: leftPane.style.width,
-    collapsed: document.body.classList.contains("sidenav-collapsed"),
-    expanded: details.map(detail => detail.open),
-    scrollTop: leftPane.scrollTop,
-  };
-  localStorage.setItem("navSideState", JSON.stringify(navSideState));
-});
-
 function syncSideNavWithLocation() {
   const target = document.querySelector("nav.side .target");
   if (target) target.classList.remove("target");
+  document.querySelectorAll("nav.side details").forEach(details => details.open = false);
 
   const path = location.pathname;
   if (path.length > 1) {

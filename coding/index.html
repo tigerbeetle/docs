@@ -2,21 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-FBIbgrc+JMV/r1eq9+0f7S96+x2pHS1pRBNqAR0BQbw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6/zeDzxCHLfs55xEz15dIE3ymg2mmzbhvu2y6e7sKmY='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
     <meta name="twitter:author" content="@TigerBeetleDB">
     <meta name="twitter:description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
-    <meta name="twitter:title" content="Developing Applications on TigerBeetle | TigerBeetle Docs">
+    <meta name="twitter:title" content="Coding | TigerBeetle Docs">
     <meta name="twitter:image" content="https://docs.tigerbeetle.com/img/preview.webp">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Developing Applications on TigerBeetle | TigerBeetle Docs">
+    <meta property="og:title" content="Coding | TigerBeetle Docs">
     <meta property="og:image" content="https://docs.tigerbeetle.com/img/preview.webp">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="TigerBeetle Team">
-    <title id="title">Developing Applications on TigerBeetle | TigerBeetle Docs</title>
+    <title id="title">Coding | TigerBeetle Docs</title>
     <link rel="icon" href="/img/favicon.png">
     <link rel="stylesheet" type="text/css" href="/style/style.css">
     <link rel="stylesheet" type="text/css" href="/style/highlight.css">
@@ -61,7 +61,7 @@
               </svg>
             </a>
           </header>
-          <div class="search-box" style="display: none;">
+          <div class="search-box">
             <input type="search" placeholder="Search" />
             <svg class="search-icon" width="16" height="16" fill="none">
               <circle cx="6.5" cy="6.5" r="4.5" stroke-width="1.5" stroke="currentColor"/>
@@ -70,7 +70,7 @@
             <svg class="hotkey" width="16" height="16" fill="none">
               <rect x="0.5" y="0.5" width="15" height="15" rx="2.5" stroke="var(--gray-7)"/>
               <path d="M9.55584 3.38636L7.21209 12.0938H6.44505L8.7888 3.38636H9.55584Z" fill="var(--gray-11)"/>
-            </svg>    
+            </svg>
             <svg class="clear-button" width="16" height="16">
               <path d="m16 8a8 8 0 0 0-16 0 8 8 0 0 0 16 0m-9 0-2.5-2.5 1-1 2.5 2.5 2.5-2.5 1 1-2.5 2.5 2.5 2.5-1 1-2.5-2.5-2.5 2.5-1-1" fill="currentColor" />
             </svg>
@@ -91,7 +91,96 @@
         </p>
       </div>
       <nav class="side">
-        <ol><li class="item"><a href="/quick-start/">Quick Start</a></li><li><details><summary class="item"><a href="/coding/">Coding</a></summary><ol><li class="item"><a href="/coding/system-architecture/">TigerBeetle in Your System Architecture</a></li><li class="item"><a href="/coding/data-modeling/">Data Modeling</a></li><li class="item"><a href="/coding/financial-accounting/">Financial Accounting</a></li><li class="item"><a href="/coding/two-phase-transfers/">Two-Phase Transfers</a></li><li class="item"><a href="/coding/reliable-transaction-submission/">Reliable Transaction Submission</a></li><li class="item"><a href="/coding/time/">Time</a></li><li><details><summary class="item">Recipes</summary><ol><li class="item"><a href="/coding/recipes/currency-exchange/">Currency Exchange</a></li><li class="item"><a href="/coding/recipes/multi-debit-credit-transfers/">Multi-Debit, Multi-Credit Transfers</a></li><li class="item"><a href="/coding/recipes/close-account/">Close Account</a></li><li class="item"><a href="/coding/recipes/balance-conditional-transfers/">Balance-Conditional Transfers</a></li><li class="item"><a href="/coding/recipes/balance-bounds/">Balance Bounds</a></li><li class="item"><a href="/coding/recipes/correcting-transfers/">Correcting Transfers</a></li><li class="item"><a href="/coding/recipes/rate-limiting/">Rate Limiting</a></li><li class="item"><a href="/coding/recipes/balance-invariant-transfers/">Balance-invariant Transfers</a></li></ol></details></li></ol></details></li><li><details><summary class="item">Operating</summary><ol><li class="item"><a href="/operating/deploy/">Deploying for Production</a></li><li class="item"><a href="/operating/hardware/">Hardware</a></li><li class="item"><a href="/operating/linux/">Deploying on Linux</a></li><li class="item"><a href="/operating/docker/">Docker</a></li><li class="item"><a href="/operating/managed-service/">Managed Service</a></li><li class="item"><a href="/operating/upgrading/">Upgrading</a></li></ol></details></li><li><details><summary class="item">Client Libraries</summary><ol><li class="item"><a href="/clients/go/">Go</a></li><li class="item"><a href="/clients/java/">Java</a></li><li class="item"><a href="/clients/dotnet/">.NET</a></li><li class="item"><a href="/clients/node/">Node.js</a></li><li class="item"><a href="/clients/python/">Python</a></li></ol></details></li><li><details><summary class="item">Reference</summary><ol><li class="item"><a href="/reference/account/">Account</a></li><li class="item"><a href="/reference/transfer/">Transfer</a></li><li class="item"><a href="/reference/account-balance/">AccountBalance</a></li><li class="item"><a href="/reference/account-filter/">AccountFilter</a></li><li class="item"><a href="/reference/query-filter/">QueryFilter</a></li><li><details><summary class="item"><a href="/reference/requests/">Requests</a></summary><ol><li class="item"><a href="/reference/requests/create_accounts/">create_accounts</a></li><li class="item"><a href="/reference/requests/create_transfers/">create_transfers</a></li><li class="item"><a href="/reference/requests/get_account_balances/">get_account_balances</a></li><li class="item"><a href="/reference/requests/get_account_transfers/">get_account_transfers</a></li><li class="item"><a href="/reference/requests/lookup_accounts/">lookup_accounts</a></li><li class="item"><a href="/reference/requests/lookup_transfers/">lookup_transfers</a></li><li class="item"><a href="/reference/requests/query_accounts/">query_accounts</a></li><li class="item"><a href="/reference/requests/query_transfers/">query_transfers</a></li></ol></details></li><li class="item"><a href="/reference/sessions/">Client Sessions</a></li></ol></details></li><li><details><summary class="item"><a href="/about/">About</a></summary><ol><li class="item"><a href="/about/oltp/">Built for OLTP</a></li><li class="item"><a href="/about/performance/">Performance</a></li><li class="item"><a href="/about/safety/">Safety</a></li><li class="item"><a href="/about/vopr/">Deterministic Simulation Testing</a></li><li class="item"><a href="/about/architecture/">Architecture</a></li><li class="item"><a href="/about/production-ready/">Production Ready</a></li><li class="item"><a href="/about/zig/">Zig</a></li></ol></details></li></ol>
+        <ol>
+<li class="item"><a href="/start/">Start</a></li>
+<li>
+<details><summary class="item"><a href="/concepts/">Concepts</a></summary>
+<ol>
+<li class="item"><a href="/concepts/oltp/">OLTP</a></li>
+<li class="item"><a href="/concepts/debit-credit/">Debit-Credit</a></li>
+<li class="item"><a href="/concepts/performance/">Performance</a></li>
+<li class="item"><a href="/concepts/safety/">Safety</a></li>
+</ol>
+</details></li>
+<li>
+<details open><summary class="item"><a href="/coding/">Coding</a></summary>
+<ol>
+<li class="item"><a href="/coding/system-architecture/">System Architecture</a></li>
+<li class="item"><a href="/coding/data-modeling/">Data Modeling</a></li>
+<li class="item"><a href="/coding/financial-accounting/">Financial Accounting</a></li>
+<li class="item"><a href="/coding/requests/">Requests</a></li>
+<li class="item"><a href="/coding/reliable-transaction-submission/">Reliable Transaction Submission</a></li>
+<li class="item"><a href="/coding/two-phase-transfers/">Two-Phase Transfers</a></li>
+<li class="item"><a href="/coding/linked-events/">Linked Events</a></li>
+<li class="item"><a href="/coding/time/">Time</a></li>
+<li>
+<details><summary class="item"><a href="/coding/recipes/">Recipes</a></summary>
+<ol>
+<li class="item"><a href="/coding/recipes/currency-exchange/">Currency Exchange</a></li>
+<li class="item"><a href="/coding/recipes/multi-debit-credit-transfers/">Multi-Debit, Multi-Credit Transfers</a></li>
+<li class="item"><a href="/coding/recipes/close-account/">Closing Accounts</a></li>
+<li class="item"><a href="/coding/recipes/balance-conditional-transfers/">Balance-Conditional Transfers</a></li>
+<li class="item"><a href="/coding/recipes/balance-invariant-transfers/">Balance-Invariant Transfers</a></li>
+<li class="item"><a href="/coding/recipes/balance-bounds/">Balance Bounds</a></li>
+<li class="item"><a href="/coding/recipes/correcting-transfers/">Correcting Transfers</a></li>
+<li class="item"><a href="/coding/recipes/rate-limiting/">Rate Limiting</a></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/coding/clients/">Clients</a></summary>
+<ol>
+<li class="item"><a href="/coding/clients/dotnet/">.Net</a></li>
+<li class="item"><a href="/coding/clients/go/">Go</a></li>
+<li class="item"><a href="/coding/clients/java/">Java</a></li>
+<li class="item"><a href="/coding/clients/node/">Node</a></li>
+<li class="item"><a href="/coding/clients/python/">Python</a></li>
+</ol>
+</details></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/operating/">Operating</a></summary>
+<ol>
+<li class="item"><a href="/operating/installing/">Installing</a></li>
+<li class="item"><a href="/operating/hardware/">Hardware</a></li>
+<li class="item"><a href="/operating/cluster/">Cluster</a></li>
+<li>
+<details><summary class="item"><a href="/operating/deploying/">Deploying</a></summary>
+<ol>
+<li class="item"><a href="/operating/deploying/systemd/">systemd</a></li>
+<li class="item"><a href="/operating/deploying/docker/">Docker</a></li>
+<li class="item"><a href="/operating/deploying/managed-service/">Managed</a></li>
+</ol>
+</details></li>
+<li class="item"><a href="/operating/upgrading/">Upgrading</a></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/reference/">Reference</a></summary>
+<ol>
+<li class="item"><a href="/reference/sessions/">Client Sessions</a></li>
+<li class="item"><a href="/reference/account/">Account</a></li>
+<li class="item"><a href="/reference/transfer/">Transfer</a></li>
+<li class="item"><a href="/reference/account-balance/">AccountBalance</a></li>
+<li class="item"><a href="/reference/account-filter/">AccountFilter</a></li>
+<li class="item"><a href="/reference/query-filter/">QueryFilter</a></li>
+<li>
+<details><summary class="item"><a href="/reference/requests/">Requests</a></summary>
+<ol>
+<li class="item"><a href="/reference/requests/create_accounts/">create_accounts</a></li>
+<li class="item"><a href="/reference/requests/create_transfers/">create_transfers</a></li>
+<li class="item"><a href="/reference/requests/lookup_accounts/">lookup_accounts</a></li>
+<li class="item"><a href="/reference/requests/lookup_transfers/">lookup_transfers</a></li>
+<li class="item"><a href="/reference/requests/get_account_transfers/">get_account_transfers</a></li>
+<li class="item"><a href="/reference/requests/get_account_balances/">get_account_balances</a></li>
+<li class="item"><a href="/reference/requests/query_accounts/">query_accounts</a></li>
+<li class="item"><a href="/reference/requests/query_transfers/">query_transfers</a></li>
+</ol>
+</details></li>
+</ol>
+</details></li>
+</ol>
+
       </nav>
     </nav>
     <div class="resizer"></div>
@@ -104,93 +193,39 @@
           </svg>
         </a>
         <div class="content">
-          <h1 id="developing-applications-on-tigerbeetle"><a
-href="#developing-applications-on-tigerbeetle" class="anchor">Developing
-Applications on TigerBeetle</a></h1>
-<p>TigerBeetle is a domain-specific, <a href="../about/oltp">Online
-Transaction Processing (OLTP)</a> database. It has a fixed schema
-consisting of <a href="../reference/account"><code>Account</code>s</a>
-and <a href="../reference/transfer"><code>Transfer</code>s</a>. In
-return for this prescriptive design, it provides excellent performance,
-integrated business logic, and powerful invariants.</p>
-<p>Subscribe to <a
-href="https://github.com/tigerbeetle/tigerbeetle/issues/2231">this
-tracking issue</a> to be notified when there are breaking API/behavior
-changes that are visible to the client.</p>
-<p>To help you get started building on TigerBeetle, here is a quick
-overview of the most important concepts:</p>
-<h2 id="data-model-overview"><a href="#data-model-overview"
-class="anchor">Data Model Overview</a></h2>
+          <h1 id="coding"><a href="#coding" class="anchor">Coding</a></h1>
+<p>This section is aimed at programmers building applications on top of
+TigerBeetle. It is organized as a series of loosely connected guides
+which can be read in any order.</p>
 <ul>
-<li><a href="../reference/account"><code>Account</code>s</a> track
-balances for users or other entities.</li>
-<li><a href="../reference/transfer"><code>Transfer</code>s</a> move
-funds between <code>Account</code>s.</li>
-<li>Account balances and transfer amounts are represented as debits and
-credits. Double-entry bookkeeping ensures your accounting maintains
-consistency.</li>
-<li>Accounts are partitioned into <a
-href="./data-modeling#ledgers">Ledgers</a>, which may represent
-different currencies, assets, liabilities, etc. or they may be used to
-support multitenancy. Only accounts on the same ledger can transact
-directly, but you can use atomically <a
-href="../reference/requests/#linked-events">linked transfers</a> to
-implement <a href="./recipes/currency-exchange">cross-currency
-transactions</a>.</li>
-<li>TigerBeetle has first-class support for <a
-href="./two-phase-transfers">two-phase transfers</a>, which can hold
-funds in a pending state and can be used to synchronize transfers with
-external systems.</li>
+<li><a href="./system-architecture">System Architecture</a> paints the
+big picture.</li>
+<li><a href="./data-modeling">Data Modeling</a> shows how to map
+business-level entities to the primitives provided by TigerBeetle.</li>
+<li><a href="./financial-accounting">Financial Accounting</a>, a deep
+dive into double-entry bookkeeping.</li>
+<li><a href="./requests">Requests</a> outlines the database
+interface.</li>
+<li><a href="./reliable-transaction-submission">Reliable Transaction
+Submission</a> explains the end-to-end principle and how it helps to
+avoid double spending.</li>
+<li><a href="./two-phase-transfers">Two-Phase Transfers</a> introduces
+pending transfers, one of the most powerful primitives built into
+TigerBeetle.</li>
+<li><a href="./linked-events">Linked Events</a> shows how several
+transfers can be chained together into a larger transaction, which
+success or fails atomically.</li>
+<li><a href="./time">Time</a> lists the guarantees provided by the
+TigerBeetle cluster clock.</li>
+<li><a href="./recipes/">Recipes</a> is a library of ready-made
+solutions for common business requirements such as a currency
+exchange.</li>
+<li><a href="./clients/">Clients</a> shows how to use TigerBeetle from
+the comfort of .Net, Go, Java, Node.js, or Python.</li>
 </ul>
-<h2 id="tigerbeetle-in-your-system-architecture"><a
-href="#tigerbeetle-in-your-system-architecture"
-class="anchor">TigerBeetle in Your System Architecture</a></h2>
-<p>TigerBeetle is an Online Transaction Processing (OLTP) database built
-for safety and performance.</p>
-<p>It is not a general purpose database like PostgreSQL or MySQL.
-Instead, TigerBeetle works alongside your general purpose database and
-should be used to handle the hot path of transaction processing.</p>
-<p>For more information relevant to integrating TigerBeetle into your
-system, take a look at the following pages:</p>
-<ul>
-<li><a href="./system-architecture">TigerBeetle in Your System
-Architecture</a></li>
-<li><a href="./time">Time</a></li>
-</ul>
-<h2 id="advanced-recipes"><a href="#advanced-recipes"
-class="anchor">Advanced Recipes</a></h2>
-<p>Depending on your use case, you may find these additional design
-patterns helpful:</p>
-<ul>
-<li><a href="./recipes/currency-exchange">Currency Exchange</a></li>
-<li><a href="./recipes/multi-debit-credit-transfers">Multi-Debit,
-Multi-Credit Transfers</a></li>
-<li><a href="./recipes/close-account">Closing Accounts</a></li>
-<li><a
-href="./recipes/balance-conditional-transfers">Balance-Conditional
-Transfers</a></li>
-<li><a href="./recipes/balance-bounds">Balance Bounds</a></li>
-<li><a href="./recipes/correcting-transfers">Correcting
-Transfers</a></li>
-<li><a href="./recipes/rate-limiting">Rate Limiting</a></li>
-</ul>
-<h2 id="want-help-developing-on-tigerbeetle"><a
-href="#want-help-developing-on-tigerbeetle" class="anchor">Want Help
-Developing on TigerBeetle?</a></h2>
-<h3 id="ask-the-community"><a href="#ask-the-community"
-class="anchor">Ask the Community</a></h3>
-<p>Have questions about TigerBeetle’s data model, how to design your
-application on top of it, or anything else?</p>
-<p>Come join our <a
-href="https://join.slack.com/t/tigerbeetle/shared_invite/zt-2zja1sjtx-hUwPqHCo7_nqy6jItyYZKg">Community
-Slack</a> and ask any and all questions you might have!</p>
-<h3 id="dedicated-consultation"><a href="#dedicated-consultation"
-class="anchor">Dedicated Consultation</a></h3>
-<p>Would you like the TigerBeetle team to help you design your chart of
-accounts and leverage the power of TigerBeetle in your architecture?</p>
-<p>Let us help you get it right. Contact our CEO, Joran Dirk Greef, at
-<a href="mailto:joran@tigerbeetle.com">joran@tigerbeetle.com</a> to set
-up a call.</p>
+<p>Subscribe to the <a
+href="https://github.com/tigerbeetle/tigerbeetle/issues/2231">tracking
+issue #2231</a> to receive notifications about breaking changes!</p>
 <a id="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/coding/README.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
@@ -215,10 +250,14 @@ up a call.</p>
         </g>
       </svg>
     </div>
-    <script>window.urlPrefix = "";
+    <script>function assert(condition) {
+  if (!condition) {
+    alert("Assertion failed");
+    throw "Assertion failed";
+  }
+}
 
-// Enable search if JavaScript is enabled.
-document.querySelector(".search-box").style.removeProperty("display");
+window.urlPrefix = "";
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register(urlPrefix + "/service-worker.js");
@@ -255,38 +294,16 @@ collapseButton.addEventListener("click", () => document.body.classList.add("side
 const expandButton = document.querySelector(".expand-button");
 expandButton.addEventListener("click", () => document.body.classList.remove("sidenav-collapsed"));
 
-const navSide = document.querySelector("nav.side");
-const details = [...navSide.querySelectorAll("details")];
-
 const menuButton = document.querySelector(".menu-button");
 menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
 
-// Restore and save the state of the side navigation
-const navSideState = JSON.parse(localStorage.getItem("navSideState"));
-if (navSideState) {
-  leftPane.style.width = navSideState.width;
-  if (navSideState.collapsed) document.body.classList.add("sidenav-collapsed");
-  navSideState.expanded.forEach((expanded, i) => {
-    if (i < details.length) details[i].open = expanded
-  });
-  leftPane.scrollTop = navSideState.scrollTop;
-}
-window.addEventListener("beforeunload", () => {
-  const navSideState = {
-    width: leftPane.style.width,
-    collapsed: document.body.classList.contains("sidenav-collapsed"),
-    expanded: details.map(detail => detail.open),
-    scrollTop: leftPane.scrollTop,
-  };
-  localStorage.setItem("navSideState", JSON.stringify(navSideState));
-});
-
 function syncSideNavWithLocation() {
   const target = document.querySelector("nav.side .target");
   if (target) target.classList.remove("target");
+  document.querySelectorAll("nav.side details").forEach(details => details.open = false);
 
   const path = location.pathname;
   if (path.length > 1) {

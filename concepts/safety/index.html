@@ -8,15 +8,15 @@
     <meta name="twitter:site" content="@TigerBeetleDB">
     <meta name="twitter:author" content="@TigerBeetleDB">
     <meta name="twitter:description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
-    <meta name="twitter:title" content="Safety | TigerBeetle Docs">
+    <meta name="twitter:title" content="Safety">
     <meta name="twitter:image" content="https://docs.tigerbeetle.com/img/preview.webp">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Safety | TigerBeetle Docs">
+    <meta property="og:title" content="Safety">
     <meta property="og:image" content="https://docs.tigerbeetle.com/img/preview.webp">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="TigerBeetle Team">
-    <title id="title">Safety | TigerBeetle Docs</title>
+    <title id="title">Safety</title>
     <link rel="icon" href="/img/favicon.png">
     <link rel="stylesheet" type="text/css" href="/style/style.css">
     <link rel="stylesheet" type="text/css" href="/style/highlight.css">
@@ -186,6 +186,7 @@
     <div class="resizer"></div>
     <main>
       <article>
+        <aside id="note-nested-css">Note: this site uses nested CSS selectors. Please upgrade your browser or use the reader mode.</aside>
         <a id="github-link" href="https://github.com/tigerbeetle/tigerbeetle">
           GitHub
           <svg width="16" height="16">
@@ -270,7 +271,8 @@ hard</a>.</p>
 and takes advantage of replication to proactively repair replica’s local
 disks.</p>
 <ul>
-<li>All data in TigerBeetle is immutable, checksummed, and hash-chained,
+<li>All data in TigerBeetle is immutable, checksummed, and <a
+href="https://csrc.nist.gov/glossary/term/hash_chain">hash-chained</a>,
 providing a strong guarantee that no corruption or tampering happened.
 In case of a latent sector error, the error is detected and repaired
 without any operator involvement.</li>

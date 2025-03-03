@@ -8,15 +8,15 @@
     <meta name="twitter:site" content="@TigerBeetleDB">
     <meta name="twitter:author" content="@TigerBeetleDB">
     <meta name="twitter:description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
-    <meta name="twitter:title" content="Performance | TigerBeetle Docs">
+    <meta name="twitter:title" content="Performance">
     <meta name="twitter:image" content="https://docs.tigerbeetle.com/img/preview.webp">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Performance | TigerBeetle Docs">
+    <meta property="og:title" content="Performance">
     <meta property="og:image" content="https://docs.tigerbeetle.com/img/preview.webp">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="TigerBeetle Team">
-    <title id="title">Performance | TigerBeetle Docs</title>
+    <title id="title">Performance</title>
     <link rel="icon" href="/img/favicon.png">
     <link rel="stylesheet" type="text/css" href="/style/style.css">
     <link rel="stylesheet" type="text/css" href="/style/highlight.css">
@@ -186,6 +186,7 @@
     <div class="resizer"></div>
     <main>
       <article>
+        <aside id="note-nested-css">Note: this site uses nested CSS selectors. Please upgrade your browser or use the reader mode.</aside>
         <a id="github-link" href="https://github.com/tigerbeetle/tigerbeetle">
           GitHub
           <svg width="16" height="16">
@@ -217,8 +218,9 @@ href="#batching-batching-batching" class="anchor">Batching, Batching,
 Batching</a></h2>
 <p>On a busy day in a busy city, taking subway is faster than using a
 car. On empty streets, a personal sports car gives you the best latency,
-but, when the load and contention increases, due to <strong>Little’s
-law</strong>, both latency and throughput become abysmal.</p>
+but, when the load and contention increases, due to <a
+href="https://en.wikipedia.org/wiki/Little%27s_law"><strong>Little’s
+law</strong></a>, both latency and throughput become abysmal.</p>
 <p>TigerBeetle works like a high-speed train — its interface always
 deals with <em>batches</em> of transactions, 8k apiece. Although
 TigerBeetle is a replicated database using a consensus algorithm, the

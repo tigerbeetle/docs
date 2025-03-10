@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6/zeDzxCHLfs55xEz15dIE3ymg2mmzbhvu2y6e7sKmY='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-W1GNp3+VWjJioYCdm8AYiKdLkMCj2IaEzYszX8JFTh4='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -18,12 +18,13 @@
     <meta name="author" content="TigerBeetle Team">
     <title id="title">create_accounts</title>
     <link rel="icon" href="/img/favicon.png">
+    <link rel="canonical" href="/reference/requests/create_accounts/">
     <link rel="stylesheet" type="text/css" href="/style/style.css">
     <link rel="stylesheet" type="text/css" href="/style/highlight.css">
     <script defer data-domain="docs.tigerbeetle.com" src="https://plausible.io/js/script.js"></script>
   </head>
   <body>
-    <a class="expand-button" title="Show menu">
+    <a class="expand-button" title="Show menu (press M to toggle)">
       <div>
         <svg width="28" height="24" viewBox="0 0 28 24" aria-label="TigerBeetle logo">
           <use href="#svg-tigerbeetle-logo"></use>
@@ -55,30 +56,32 @@
                 <path d="M6 6 18 18M6 18 18 6" stroke-width="1.5" stroke-linecap="round" stroke="currentColor" />
               </svg>
             </a>
-            <a class="collapse-button" title="Hide menu">
+            <a class="collapse-button" title="Hide menu (press M to toggle)">
               <svg width="16" height="16" fill="none">
                 <path d="M7 5L4 8L7 11M12 5L9 8L12 11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
               </svg>
             </a>
           </header>
-          <div class="search-box">
+                    <div class="search-box">
             <input type="search" placeholder="Search" />
             <svg class="search-icon" width="16" height="16" fill="none">
               <circle cx="6.5" cy="6.5" r="4.5" stroke-width="1.5" stroke="currentColor"/>
               <path d="M10 10l4 4" stroke-width="1.5" stroke-linecap="round" stroke="currentColor"/>
             </svg>
-            <svg class="hotkey" width="16" height="16" fill="none">
-              <rect x="0.5" y="0.5" width="15" height="15" rx="2.5" stroke="var(--gray-7)"/>
-              <path d="M9.55584 3.38636L7.21209 12.0938H6.44505L8.7888 3.38636H9.55584Z" fill="var(--gray-11)"/>
-            </svg>
+            <a class="hotkey" title="Press / to activate search">
+              <svg width="14" height="14" fill="none">
+                <path d="m8.56 2.39-2.34 8.71h-0.77l2.34-8.71h0.77z" fill="var(--gray-11)"/>
+              </svg>
+            </a>
             <svg class="clear-button" width="16" height="16">
               <path d="m16 8a8 8 0 0 0-16 0 8 8 0 0 0 16 0m-9 0-2.5-2.5 1-1 2.5 2.5 2.5-2.5 1 1-2.5 2.5 2.5 2.5-1 1-2.5-2.5-2.5 2.5-1-1" fill="currentColor" />
             </svg>
           </div>
           <p class="search-stats"></p>
+
         </div>
       </div>
-      <div class="search-results"></div>
+            <div class="search-results"></div>
       <div class="search-notfound">
         <picture>
           <source width="158" height="119" srcset="/img/notfound-light.webp" media="(prefers-color-scheme: light)"/>
@@ -87,9 +90,10 @@
         </picture>
         <p>
           Still haven't found what you're looking for?<br>
-          <a href="https://join.slack.com/t/tigerbeetle/shared_invite/zt-2zja1sjtx-hUwPqHCo7_nqy6jItyYZKg">Ask the TigerBeetle Slack Community.</a>
+          <a href="https://slack.tigerbeetle.com/join">Ask the TigerBeetle Slack Community.</a>
         </p>
       </div>
+
       <nav class="side">
         <ol>
 <li class="item"><a href="/start/">Start</a></li>
@@ -180,6 +184,12 @@
 </ol>
 </details></li>
 </ol>
+        <a id="single-page-link" href="/single-page/">
+          <svg width="16" height="24" fill="none" viewBox="0 0 16 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="m14.031 8.5938v11.031c0 .5523-.4477 1-1 1h-10.063c-.55228 0-1-.4477-1-1v-14.969c0-.55228.44772-1 1-1h6.0625m5 4.9375-5-4.9375m5 4.9375h-4c-.55228 0-1-.44772-1-1v-3.9375M6.8125 13l1.375-1.375v4.8125" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          Single Page
+        </a>
 
       </nav>
     </nav>
@@ -424,7 +434,7 @@ code for creating an account in <a
 href="https://github.com/tigerbeetle/tigerbeetle/blob/main/src/state_machine.zig">src/state_machine.zig</a>.
 Search for <code>fn create_account(</code> and
 <code>fn execute(</code>.</p>
-<a id="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/reference/requests/create_accounts.md">
+<a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/reference/requests/create_accounts.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
   </svg>
@@ -461,6 +471,7 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register(urlPrefix + "/service-worker.js");
 }
 
+document.querySelector("article").focus();
 const content = document.querySelector("article>.content");
 const leftPane = document.querySelector(".left-pane");
 const resizer = document.querySelector(".resizer");
@@ -491,6 +502,11 @@ const collapseButton = document.querySelector(".collapse-button");
 collapseButton.addEventListener("click", () => document.body.classList.add("sidenav-collapsed"));
 const expandButton = document.querySelector(".expand-button");
 expandButton.addEventListener("click", () => document.body.classList.remove("sidenav-collapsed"));
+document.addEventListener("keydown", event => {
+  if (event.ctrlKey || event.altKey || event.metaKey) return;
+  if (document.activeElement.tagName === "INPUT") return;
+  if (event.key === "m") document.body.classList.toggle("sidenav-collapsed");
+});
 
 const menuButton = document.querySelector(".menu-button");
 menuButton.addEventListener("click", () => {
@@ -498,12 +514,29 @@ menuButton.addEventListener("click", () => {
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
 
+// Restore and save the state of the side navigation.
+const navState = JSON.parse(localStorage.getItem("navState"));
+if (navState) {
+  leftPane.style.width = navState.width;
+  if (navState.collapsed) document.body.classList.add("sidenav-collapsed");
+  leftPane.scrollTop = navState.scrollTop;
+}
+window.addEventListener("beforeunload", () => {
+  const navState = {
+    width: leftPane.style.width,
+    collapsed: document.body.classList.contains("sidenav-collapsed"),
+    scrollTop: leftPane.scrollTop,
+  };
+  localStorage.setItem("navState", JSON.stringify(navState));
+});
+
 function syncSideNavWithLocation() {
   const target = document.querySelector("nav.side .target");
   if (target) target.classList.remove("target");
   document.querySelectorAll("nav.side details").forEach(details => details.open = false);
 
-  const path = location.pathname;
+  let path = location.pathname;
+  if (path.includes("single-page")) path = location.hash;
   if (path.length > 1) {
     document.querySelectorAll("nav.side a").forEach(a => {
       if (a.href.endsWith(path)) {
@@ -517,6 +550,7 @@ function syncSideNavWithLocation() {
 }
 
 syncSideNavWithLocation();
+addEventListener("hashchange", syncSideNavWithLocation);
 
 function addContentEventHandlers() {
   function copyCode(button) {

@@ -275,49 +275,50 @@ belongs to.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<pre class="docker-compose"><code>version: &quot;3.7&quot;
-
-##
-# Note: this example might only work with linux + using `network_mode:host` because of 2 reasons:
-#
-# 1. When specifying an internal docker network, other containers are only available using dns based routing:
-#    e.g. from tigerbeetle_0, the other replicas are available at `tigerbeetle_1:3002` and
-#    `tigerbeetle_2:3003` respectively.
-#
-# 2. Tigerbeetle performs some validation of the ip address provided in the `--addresses` parameter
-#    and won&#39;t let us specify a custom domain name.
-#
-# The workaround for now is to use `network_mode:host` in the containers instead of specifying our
-# own internal docker network
-##
-
-services:
-  tigerbeetle_0:
-    image: ghcr.io/tigerbeetle/tigerbeetle
-    command: &quot;start --addresses=0.0.0.0:3001,0.0.0.0:3002,0.0.0.0:3003 /data/0_0.tigerbeetle&quot;
-    network_mode: host
-    volumes:
-      - ./data:/data
-    security_opt:
-      - &quot;seccomp=unconfined&quot;
-
-  tigerbeetle_1:
-    image: ghcr.io/tigerbeetle/tigerbeetle
-    command: &quot;start --addresses=0.0.0.0:3001,0.0.0.0:3002,0.0.0.0:3003 /data/0_1.tigerbeetle&quot;
-    network_mode: host
-    volumes:
-      - ./data:/data
-    security_opt:
-      - &quot;seccomp=unconfined&quot;
-
-  tigerbeetle_2:
-    image: ghcr.io/tigerbeetle/tigerbeetle
-    command: &quot;start --addresses=0.0.0.0:3001,0.0.0.0:3002,0.0.0.0:3003 /data/0_2.tigerbeetle&quot;
-    network_mode: host
-    volumes:
-      - ./data:/data
-    security_opt:
-      - &quot;seccomp=unconfined&quot;</code></pre>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">version</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;3.7&quot;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">##</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: this example might only work with linux + using `network_mode:host` because of 2 reasons:</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. When specifying an internal docker network, other containers are only available using dns based routing:</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#    e.g. from tigerbeetle_0, the other replicas are available at `tigerbeetle_1:3002` and</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#    `tigerbeetle_2:3003` respectively.</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Tigerbeetle performs some validation of the ip address provided in the `--addresses` parameter</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#    and won&#39;t let us specify a custom domain name.</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># The workaround for now is to use `network_mode:host` in the containers instead of specifying our</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># own internal docker network</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">##</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">services</span><span class="kw">:</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">tigerbeetle_0</span><span class="kw">:</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">image</span><span class="kw">:</span><span class="at"> ghcr.io/tigerbeetle/tigerbeetle</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">command</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;start --addresses=0.0.0.0:3001,0.0.0.0:3002,0.0.0.0:3003 /data/0_0.tigerbeetle&quot;</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">network_mode</span><span class="kw">:</span><span class="at"> host</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">volumes</span><span class="kw">:</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> ./data:/data</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">security_opt</span><span class="kw">:</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;seccomp=unconfined&quot;</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">tigerbeetle_1</span><span class="kw">:</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">image</span><span class="kw">:</span><span class="at"> ghcr.io/tigerbeetle/tigerbeetle</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">command</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;start --addresses=0.0.0.0:3001,0.0.0.0:3002,0.0.0.0:3003 /data/0_1.tigerbeetle&quot;</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">network_mode</span><span class="kw">:</span><span class="at"> host</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">volumes</span><span class="kw">:</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> ./data:/data</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">security_opt</span><span class="kw">:</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;seccomp=unconfined&quot;</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">tigerbeetle_2</span><span class="kw">:</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">image</span><span class="kw">:</span><span class="at"> ghcr.io/tigerbeetle/tigerbeetle</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">command</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;start --addresses=0.0.0.0:3001,0.0.0.0:3002,0.0.0.0:3003 /data/0_2.tigerbeetle&quot;</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">network_mode</span><span class="kw">:</span><span class="at"> host</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">volumes</span><span class="kw">:</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> ./data:/data</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">security_opt</span><span class="kw">:</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;seccomp=unconfined&quot;</span></span></code></pre></div>
 </div>
 <p>And run it:</p>
 <div class="code-wrapper">

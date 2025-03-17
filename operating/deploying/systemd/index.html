@@ -217,47 +217,48 @@ class="anchor"><strong>tigerbeetle.service</strong></a></h3>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<pre><code>[Unit]
-Description=TigerBeetle Replica
-Documentation=https://docs.tigerbeetle.com/
-After=network-online.target
-Wants=network-online.target systemd-networkd-wait-online.service
-
-[Service]
-AmbientCapabilities=CAP_IPC_LOCK
-
-Environment=TIGERBEETLE_CACHE_GRID_SIZE=1GiB
-Environment=TIGERBEETLE_ADDRESSES=3001
-Environment=TIGERBEETLE_REPLICA_COUNT=1
-Environment=TIGERBEETLE_REPLICA_INDEX=0
-Environment=TIGERBEETLE_CLUSTER_ID=0
-Environment=TIGERBEETLE_DATA_FILE=%S/tigerbeetle/0_0.tigerbeetle
-
-DevicePolicy=closed
-DynamicUser=true
-LockPersonality=true
-ProtectClock=true
-ProtectControlGroups=true
-ProtectHome=true
-ProtectHostname=true
-ProtectKernelLogs=true
-ProtectKernelModules=true
-ProtectKernelTunables=true
-ProtectProc=noaccess
-ProtectSystem=strict
-RestrictAddressFamilies=AF_INET AF_INET6
-RestrictNamespaces=true
-RestrictRealtime=true
-RestrictSUIDSGID=true
-
-StateDirectory=tigerbeetle
-StateDirectoryMode=700
-
-Type=exec
-ExecStart=/usr/local/bin/tigerbeetle start --cache-grid=${TIGERBEETLE_CACHE_GRID_SIZE} --addresses=${TIGERBEETLE_ADDRESSES} ${TIGERBEETLE_DATA_FILE}
-
-[Install]
-WantedBy=multi-user.target</code></pre>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode toml"><code class="sourceCode toml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[Unit]</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">Description</span><span class="op">=</span><span class="dt">TigerBeetle</span> <span class="dt">Replica</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">Documentation</span><span class="op">=</span><span class="dt">https</span><span class="er">://</span><span class="dt">docs.tigerbeetle.com</span><span class="er">/</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">After</span><span class="op">=</span><span class="dt">network-online.target</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dt">Wants</span><span class="op">=</span><span class="dt">network-online.target</span> <span class="dt">systemd-networkd-wait-online.service</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">[Service]</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="dt">AmbientCapabilities</span><span class="op">=</span><span class="dt">CAP_IPC_LOCK</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="dt">Environment</span><span class="op">=</span><span class="dt">TIGERBEETLE_CACHE_GRID_SIZE</span><span class="op">=</span><span class="dv">1</span><span class="dt">GiB</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="dt">Environment</span><span class="op">=</span><span class="dt">TIGERBEETLE_ADDRESSES</span><span class="op">=</span><span class="dv">3001</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="dt">Environment</span><span class="op">=</span><span class="dt">TIGERBEETLE_REPLICA_COUNT</span><span class="op">=</span><span class="dv">1</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="dt">Environment</span><span class="op">=</span><span class="dt">TIGERBEETLE_REPLICA_INDEX</span><span class="op">=</span><span class="dv">0</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="dt">Environment</span><span class="op">=</span><span class="dt">TIGERBEETLE_CLUSTER_ID</span><span class="op">=</span><span class="dv">0</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="dt">Environment</span><span class="op">=</span><span class="dt">TIGERBEETLE_DATA_FILE</span><span class="op">=</span><span class="er">%</span><span class="dt">S</span><span class="er">/</span><span class="dt">tigerbeetle</span><span class="er">/</span><span class="dt">0_0.tigerbeetle</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="dt">DevicePolicy</span><span class="op">=</span><span class="dt">closed</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="dt">DynamicUser</span><span class="op">=</span><span class="cn">true</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="dt">LockPersonality</span><span class="op">=</span><span class="cn">true</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="dt">ProtectClock</span><span class="op">=</span><span class="cn">true</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="dt">ProtectControlGroups</span><span class="op">=</span><span class="cn">true</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="dt">ProtectHome</span><span class="op">=</span><span class="cn">true</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="dt">ProtectHostname</span><span class="op">=</span><span class="cn">true</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="dt">ProtectKernelLogs</span><span class="op">=</span><span class="cn">true</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="dt">ProtectKernelModules</span><span class="op">=</span><span class="cn">true</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="dt">ProtectKernelTunables</span><span class="op">=</span><span class="cn">true</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="dt">ProtectProc</span><span class="op">=</span><span class="dt">noaccess</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="dt">ProtectSystem</span><span class="op">=</span><span class="dt">strict</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="dt">RestrictAddressFamilies</span><span class="op">=</span><span class="dt">AF_INET</span> <span class="dt">AF_INET6</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="dt">RestrictNamespaces</span><span class="op">=</span><span class="cn">true</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="dt">RestrictRealtime</span><span class="op">=</span><span class="cn">true</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="dt">RestrictSUIDSGID</span><span class="op">=</span><span class="cn">true</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="dt">StateDirectory</span><span class="op">=</span><span class="dt">tigerbeetle</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="dt">StateDirectoryMode</span><span class="op">=</span><span class="dv">700</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="dt">Type</span><span class="op">=</span><span class="dt">exec</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="dt">ExecStart</span><span class="op">=</span><span class="er">/</span><span class="dt">usr</span><span class="er">/</span><span class="dt">local</span><span class="er">/</span><span class="dt">bin</span><span class="er">/</span><span class="dt">tigerbeetle</span> <span class="dt">start</span> <span class="dt">--cache-grid</span><span class="op">=</span><span class="er">${</span><span class="dt">TIGERBEETLE_CACHE_GRID_SIZE</span><span class="er">}</span> <span class="dt">--addresses</span><span class="op">=</span><span class="er">${</span><span class="dt">TIGERBEETLE_ADDRESSES</span><span class="er">}</span> <span class="er">${</span><span class="dt">TIGERBEETLE_DATA_FILE</span><span class="er">}</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="kw">[Install]</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="dt">WantedBy</span><span class="op">=</span><span class="dt">multi-user.target</span></span></code></pre></div>
 </div>
 <h2 id="adjusting"><a href="#adjusting"
 class="anchor">Adjusting</a></h2>
@@ -278,9 +279,10 @@ an editor with instructions.</li>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<pre><code>[Service]
-Environment=TIGERBEETLE_CACHE_GRID_SIZE=4GiB
-Environment=TIGERBEETLE_ADDRESSES=0.0.0.0:3001</code></pre>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode toml"><code class="sourceCode toml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[Service]</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">Environment</span><span class="op">=</span><span class="dt">TIGERBEETLE_CACHE_GRID_SIZE</span><span class="op">=</span><span class="dv">4</span><span class="dt">GiB</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dt">Environment</span><span class="op">=</span><span class="dt">TIGERBEETLE_ADDRESSES</span><span class="op">=</span><span class="fl">0.0</span><span class="dt">.0.0</span><span class="er">:</span><span class="dt">3001</span></span></code></pre></div>
 </div></li>
 </ol>
 <h3 id="pre-start-script"><a href="#pre-start-script"

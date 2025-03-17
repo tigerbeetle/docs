@@ -606,7 +606,7 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a h
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">=</span> <span class="dv">8190</span> <span class="co">#FIXME</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(batch), BATCH_SIZE):</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    transfer_errors <span class="op">=</span> client.create_transfers(</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        batch[i:<span class="bu">min</span>(<span class="bu">len</span>(batch), BATCH_SIZE)],</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        batch[i:<span class="bu">min</span>(<span class="bu">len</span>(batch), i <span class="op">+</span> BATCH_SIZE)],</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Error handling omitted.</span></span></code></pre></div>
 </div>

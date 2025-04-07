@@ -248,7 +248,7 @@ href="../../coding/financial-accounting">Financial Accounting</a>.)</p>
 <h2 id="sql-vs-debit--credit"><a href="#sql-vs-debit--credit"
 class="anchor">SQL vs Debit / Credit</a></h2>
 <p>While SQL is a great query language for getting data out of a
-database, OLTP is primarily about getting data in to the database and
+database, OLTP is primarily about getting data into the database and
 this is where SQL falls short.</p>
 <p><strong>Often, a single business transaction requires multiple SQL
 queries (on the order of 10 SQL queries per transaction)</strong> and
@@ -261,7 +261,7 @@ massively increasing performance.</p>
 href="#tigerbeetle-enforces-debit--credit-in-the-database"
 class="anchor">TigerBeetle Enforces Debit / Credit in the
 Database</a></h2>
-<p>The schema of OLTP is built in to TigerBeetle’s data model, and is
+<p>The schema of OLTP is built into TigerBeetle’s data model, and is
 ready for you to use:</p>
 <ul>
 <li><strong>Who</strong>: the <a
@@ -368,10 +368,10 @@ event can be recorded as debits and credits – indeed, accountants have
 been doing precisely this for centuries!</p>
 <p>Instead of modeling business transactions as a set of ad-hoc tables
 and relationships, debits and credits provide a simple and standardized
-schema that can be used across all product lines, now and into the
-future. This avoids the need to add columns, tables, and complex
-relations between them as new features are added – and avoids complex
-schema migrations.</p>
+schema that can be used across all product lines, now and in the future.
+This avoids the need to add columns, tables, and complex relations
+between them as new features are added – and avoids complex schema
+migrations.</p>
 <p>Debit / credit has been the foundation of business for hundreds of
 years, and now you can leverage TigerBeetle’s high-performance
 implementation of it built for OLTP in the 21st century.</p>

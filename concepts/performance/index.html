@@ -226,17 +226,17 @@ translate the language of business to SQL.</p>
 <h2 id="batching-batching-batching"><a
 href="#batching-batching-batching" class="anchor">Batching, Batching,
 Batching</a></h2>
-<p>On a busy day in a busy city, taking subway is faster than using a
-car. On empty streets, a personal sports car gives you the best latency,
-but, when the load and contention increases, due to <a
+<p>On a busy day in a busy city, taking the subway is faster than using
+a car. On empty streets, a personal sports car gives you the best
+latency, but, when the load and contention increase, due to <a
 href="https://en.wikipedia.org/wiki/Little%27s_law"><strong>Little’s
 law</strong></a>, both latency and throughput become abysmal.</p>
 <p>TigerBeetle works like a high-speed train — its interface always
 deals with <em>batches</em> of transactions, 8k apiece. Although
 TigerBeetle is a replicated database using a consensus algorithm, the
 cost of replications is paid only once per batch, which means that
-TigerBeetle runs not much slower than an in-memory hash map, all the
-while providing extreme durability and availability.</p>
+TigerBeetle runs almost as fast as an in-memory hash map, all the while
+providing extreme durability and availability.</p>
 <p>What’s more, under light load the batches automatically become
 smaller, trading unnecessary throughput for better latency.</p>
 <h2 id="extreme-engineering"><a href="#extreme-engineering"
@@ -283,10 +283,10 @@ name of performance? It of course depends on a particular use-case, but
 it’s worth keeping in mind that higher performance can unlock new
 use-cases. An OLGP database might be enough to do nightly settlement,
 but with OLTP real-time settlement is a no-brainer. If a transaction
-system just hits its throughput target, that means that every unexpected
-delay or an ops accident lead to missed transactions. If a system
-operates at one tenth of capacity, this gives a lot of headroom for
-operators to deal with the unexpected.</p>
+system just hits its throughput target, every unexpected delay or an ops
+accident lead to missed transactions. If a system operates at one tenth
+of capacity, this gives a lot of headroom for operators to deal with the
+unexpected.</p>
 <p>Finally, it is always helpful to think about the future. The future
 is hard to predict (even the <em>present</em> is hard to wrap your head
 around!), but the <em>option</em> to handle significantly more load on a

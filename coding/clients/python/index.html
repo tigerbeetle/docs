@@ -578,9 +578,13 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a h
 <code>client.create_transfers</code> with enum values in the
 <code>CreateTransferResult</code> object.</p>
 <h2 id="batching"><a href="#batching" class="anchor">Batching</a></h2>
-<p>TigerBeetle performance is maximized when you batch API requests. The
-client does not do this automatically for you. So, for example, you
-<em>can</em> insert 1 million transfers one at a time like so:</p>
+<p>TigerBeetle performance is maximized when you batch API requests. A
+client instance shared across multiple threads/tasks can automatically
+batch concurrent requests, but the application must still send as many
+events as possible in a single call. For example, if you insert 1
+million transfers sequentially, one at a time, the insert rate will be a
+<em>fraction</em> of the potential, because the client will wait for a
+reply between each one.</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
@@ -592,10 +596,9 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a h
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    transfer_errors <span class="op">=</span> client.create_transfers([transfer])</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Error handling omitted.</span></span></code></pre></div>
 </div>
-<p>But the insert rate will be a <em>fraction</em> of potential.
-Instead, <strong>always batch what you can</strong>.</p>
-<p>The maximum batch size is set in the TigerBeetle server. The default
-is 8190.</p>
+<p>Instead, <strong>always batch as much as you can</strong>. The
+maximum batch size is set in the TigerBeetle server. The default is
+8189.</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
@@ -603,7 +606,7 @@ is 8190.</p>
     
 <div class="sourceCode" id="cb12"><pre
 class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>batch <span class="op">=</span> [] <span class="co"># Array of transfer to create.</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">=</span> <span class="dv">8190</span> <span class="co">#FIXME</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">=</span> <span class="dv">8189</span> <span class="co">#FIXME</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(batch), BATCH_SIZE):</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    transfer_errors <span class="op">=</span> client.create_transfers(</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        batch[i:<span class="bu">min</span>(<span class="bu">len</span>(batch), i <span class="op">+</span> BATCH_SIZE)],</span>

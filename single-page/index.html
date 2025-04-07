@@ -486,7 +486,7 @@ caps.)</li>
 <p>OLGP databases already struggle to keep up.</p>
 <p><strong>But TigerBeetle is built to handle the scale of OLTP
 workloads today and for the decades to come.</strong> It works well
-alongside OLGP databases, which holds infrequently updated data.
+alongside OLGP databases, which hold infrequently updated data.
 TigerBeetle can race ahead, giving your system unparalleled latency and
 throughput.</p>
 <h2 id="concepts-oltp-write-heavy-workloads"><a href="#concepts-oltp-write-heavy-workloads"
@@ -547,8 +547,8 @@ database.</p>
 href="#concepts-oltp-next-up-debit--credit-is-the-schema-for-oltp" class="anchor">Next
 Up: Debit / Credit is the Schema for OLTP</a></h2>
 <p>The world is becoming more transactional. OLTP workloads are
-increasing and we need a database designed from the ground up. What is
-the perfect schema and language for this database? <a
+increasing and we need a database designed from the ground up to handle
+them. What is the perfect schema and language for this database? <a
 href="#concepts-debit-credit">Debit / Credit</a>.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/concepts/oltp.md">
   <svg width="16" height="16" fill="none">
@@ -601,7 +601,7 @@ href="#coding-financial-accounting">Financial Accounting</a>.)</p>
 <h2 id="concepts-debit-credit-sql-vs-debit--credit"><a href="#concepts-debit-credit-sql-vs-debit--credit"
 class="anchor">SQL vs Debit / Credit</a></h2>
 <p>While SQL is a great query language for getting data out of a
-database, OLTP is primarily about getting data in to the database and
+database, OLTP is primarily about getting data into the database and
 this is where SQL falls short.</p>
 <p><strong>Often, a single business transaction requires multiple SQL
 queries (on the order of 10 SQL queries per transaction)</strong> and
@@ -614,7 +614,7 @@ massively increasing performance.</p>
 href="#concepts-debit-credit-tigerbeetle-enforces-debit--credit-in-the-database"
 class="anchor">TigerBeetle Enforces Debit / Credit in the
 Database</a></h2>
-<p>The schema of OLTP is built in to TigerBeetle’s data model, and is
+<p>The schema of OLTP is built into TigerBeetle’s data model, and is
 ready for you to use:</p>
 <ul>
 <li><strong>Who</strong>: the <a
@@ -721,10 +721,10 @@ event can be recorded as debits and credits – indeed, accountants have
 been doing precisely this for centuries!</p>
 <p>Instead of modeling business transactions as a set of ad-hoc tables
 and relationships, debits and credits provide a simple and standardized
-schema that can be used across all product lines, now and into the
-future. This avoids the need to add columns, tables, and complex
-relations between them as new features are added – and avoids complex
-schema migrations.</p>
+schema that can be used across all product lines, now and in the future.
+This avoids the need to add columns, tables, and complex relations
+between them as new features are added – and avoids complex schema
+migrations.</p>
 <p>Debit / credit has been the foundation of business for hundreds of
 years, and now you can leverage TigerBeetle’s high-performance
 implementation of it built for OLTP in the 21st century.</p>
@@ -763,17 +763,17 @@ translate the language of business to SQL.</p>
 <h2 id="concepts-performance-batching-batching-batching"><a
 href="#concepts-performance-batching-batching-batching" class="anchor">Batching, Batching,
 Batching</a></h2>
-<p>On a busy day in a busy city, taking subway is faster than using a
-car. On empty streets, a personal sports car gives you the best latency,
-but, when the load and contention increases, due to <a
+<p>On a busy day in a busy city, taking the subway is faster than using
+a car. On empty streets, a personal sports car gives you the best
+latency, but, when the load and contention increase, due to <a
 href="https://en.wikipedia.org/wiki/Little%27s_law"><strong>Little’s
 law</strong></a>, both latency and throughput become abysmal.</p>
 <p>TigerBeetle works like a high-speed train — its interface always
 deals with <em>batches</em> of transactions, 8k apiece. Although
 TigerBeetle is a replicated database using a consensus algorithm, the
 cost of replications is paid only once per batch, which means that
-TigerBeetle runs not much slower than an in-memory hash map, all the
-while providing extreme durability and availability.</p>
+TigerBeetle runs almost as fast as an in-memory hash map, all the while
+providing extreme durability and availability.</p>
 <p>What’s more, under light load the batches automatically become
 smaller, trading unnecessary throughput for better latency.</p>
 <h2 id="concepts-performance-extreme-engineering"><a href="#concepts-performance-extreme-engineering"
@@ -820,10 +820,10 @@ name of performance? It of course depends on a particular use-case, but
 it’s worth keeping in mind that higher performance can unlock new
 use-cases. An OLGP database might be enough to do nightly settlement,
 but with OLTP real-time settlement is a no-brainer. If a transaction
-system just hits its throughput target, that means that every unexpected
-delay or an ops accident lead to missed transactions. If a system
-operates at one tenth of capacity, this gives a lot of headroom for
-operators to deal with the unexpected.</p>
+system just hits its throughput target, every unexpected delay or an ops
+accident lead to missed transactions. If a system operates at one tenth
+of capacity, this gives a lot of headroom for operators to deal with the
+unexpected.</p>
 <p>Finally, it is always helpful to think about the future. The future
 is hard to predict (even the <em>present</em> is hard to wrap your head
 around!), but the <em>option</em> to handle significantly more load on a
@@ -853,7 +853,7 @@ business transaction, associated with real-world value transfers, it is
 paramount that the data stored in TigerBeetle is safe.</p>
 <h2 id="concepts-safety-strict-serializability"><a href="#concepts-safety-strict-serializability"
 class="anchor">Strict Serializability</a></h2>
-<p>The easiest way to lose data is by using the database incorrectly, by
+<p>The easiest way to lose data is by incorrectly using the database, by
 misconfiguring (or just misunderstanding) its isolation level. For this
 reason, TigerBeetle intentionally supports only the strictest possible
 isolation level — <strong>strict serializability</strong>. All transfers
@@ -888,9 +888,9 @@ TigerBeetle combines all the clocks in the cluster to create a
 fault-tolerant clock that we call <a
 href="https://tigerbeetle.com/blog/three-clocks-are-better-than-one/">“cluster
 time”</a>.</p>
-<p>For highest availability, TigerBeetle should be deployed as a cluster
-of six replicas across three different cloud providers (two replicas per
-provider). Because TigerBeetle uses <a
+<p>For the highest availability, TigerBeetle should be deployed as a
+cluster of six replicas across three different cloud providers (two
+replicas per provider). Because TigerBeetle uses <a
 href="https://arxiv.org/pdf/1608.06696v1">Heidi Howard’s flexible
 quorums</a>, this deployment is guaranteed to tolerate a complete outage
 of any cloud provider and will likely survive even if one extra replica
@@ -926,16 +926,16 @@ providing a strong guarantee that no corruption or tampering happened.
 In case of a latent sector error, the error is detected and repaired
 without any operator involvement.</li>
 <li>Most consensus implementations lose data or become unavailable if
-the write ahead log gets corrupted. TigerBeetle uses <a
+the write-ahead log gets corrupted. TigerBeetle uses <a
 href="https://www.youtube.com/watch?v=fDY6Wi0GcPs">Protocol Aware
 Recovery</a> to remain available unless the data gets corrupted on every
 single replica.</li>
-<li>To minimize impact of software bugs, TigerBeetle puts as little
+<li>To minimize the impact of software bugs, TigerBeetle puts as little
 software as possible between itself and the disk — TigerBeetle manages
 its own page cache, writes data to disk with O_DIRECT and can work with
 a block device directly, no file system is necessary.</li>
 <li>TigerBeetle also tolerates gray failure — if a disk on a replica
-becomes very slow, the cluster fall backs on other replicas for
+becomes very slow, the cluster falls back on other replicas for
 durability.</li>
 </ul>
 <h2 id="concepts-safety-software-reliability"><a href="#concepts-safety-software-reliability"
@@ -1937,43 +1937,43 @@ request type are:</p>
 <tbody>
 <tr>
 <td><code>lookup_accounts</code></td>
-<td style="text-align: right;">8190</td>
-<td style="text-align: right;">8190</td>
+<td style="text-align: right;">8189</td>
+<td style="text-align: right;">8189</td>
 </tr>
 <tr>
 <td><code>lookup_transfers</code></td>
-<td style="text-align: right;">8190</td>
-<td style="text-align: right;">8190</td>
+<td style="text-align: right;">8189</td>
+<td style="text-align: right;">8189</td>
 </tr>
 <tr>
 <td><code>create_accounts</code></td>
-<td style="text-align: right;">8190</td>
-<td style="text-align: right;">8190</td>
+<td style="text-align: right;">8189</td>
+<td style="text-align: right;">8189</td>
 </tr>
 <tr>
 <td><code>create_transfers</code></td>
-<td style="text-align: right;">8190</td>
-<td style="text-align: right;">8190</td>
+<td style="text-align: right;">8189</td>
+<td style="text-align: right;">8189</td>
 </tr>
 <tr>
 <td><code>get_account_transfers</code></td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">8190</td>
+<td style="text-align: right;">8189</td>
 </tr>
 <tr>
 <td><code>get_account_balances</code></td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">8190</td>
+<td style="text-align: right;">8189</td>
 </tr>
 <tr>
 <td><code>query_accounts</code></td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">8190</td>
+<td style="text-align: right;">8189</td>
 </tr>
 <tr>
 <td><code>query_transfers</code></td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">8190</td>
+<td style="text-align: right;">8189</td>
 </tr>
 </tbody>
 </table>
@@ -4785,9 +4785,13 @@ class="sourceCode cs"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb
 <span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <h2 id="coding-clients-dotnet-batching"><a href="#coding-clients-dotnet-batching" class="anchor">Batching</a></h2>
-<p>TigerBeetle performance is maximized when you batch API requests. The
-client does not do this automatically for you. So, for example, you
-<em>can</em> insert 1 million transfers one at a time like so:</p>
+<p>TigerBeetle performance is maximized when you batch API requests. A
+client instance shared across multiple threads/tasks can automatically
+batch concurrent requests, but the application must still send as many
+events as possible in a single call. For example, if you insert 1
+million transfers sequentially, one at a time, the insert rate will be a
+<em>fraction</em> of the potential, because the client will wait for a
+reply between each one.</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
@@ -4801,10 +4805,9 @@ class="sourceCode cs"><code class="sourceCode cs"><span id="cb12-1"><a href="#cb
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Error handling omitted.</span></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
-<p>But the insert rate will be a <em>fraction</em> of potential.
-Instead, <strong>always batch what you can</strong>.</p>
-<p>The maximum batch size is set in the TigerBeetle server. The default
-is 8190.</p>
+<p>Instead, <strong>always batch as much as you can</strong>. The
+maximum batch size is set in the TigerBeetle server. The default is
+8189.</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
@@ -4812,7 +4815,7 @@ is 8190.</p>
     
 <div class="sourceCode" id="cb13"><pre
 class="sourceCode cs"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> batch <span class="op">=</span> <span class="kw">new</span> Transfer<span class="op">[]</span> <span class="op">{</span> <span class="op">};</span> <span class="co">// Array of transfer to create.</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> BATCH_SIZE <span class="op">=</span> <span class="dv">8190</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> BATCH_SIZE <span class="op">=</span> <span class="dv">8189</span><span class="op">;</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="op">(</span><span class="dt">int</span> firstIndex <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> firstIndex <span class="op">&lt;</span> batch<span class="op">.</span><span class="fu">Length</span><span class="op">;</span> firstIndex <span class="op">+=</span> BATCH_SIZE<span class="op">)</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">var</span> lastIndex <span class="op">=</span> firstIndex <span class="op">+</span> BATCH_SIZE<span class="op">;</span></span>
@@ -5586,9 +5589,13 @@ class="sourceCode go"><code class="sourceCode go"><span id="cb10-1"><a href="#cb
 <span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <h2 id="coding-clients-go-batching"><a href="#coding-clients-go-batching" class="anchor">Batching</a></h2>
-<p>TigerBeetle performance is maximized when you batch API requests. The
-client does not do this automatically for you. So, for example, you
-<em>can</em> insert 1 million transfers one at a time like so:</p>
+<p>TigerBeetle performance is maximized when you batch API requests. A
+client instance shared across multiple threads/tasks can automatically
+batch concurrent requests, but the application must still send as many
+events as possible in a single call. For example, if you insert 1
+million transfers sequentially, one at a time, the insert rate will be a
+<em>fraction</em> of the potential, because the client will wait for a
+reply between each one.</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
@@ -5601,10 +5608,9 @@ class="sourceCode go"><code class="sourceCode go"><span id="cb11-1"><a href="#cb
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    _<span class="op">,</span> _ <span class="op">=</span> transferErrors<span class="op">,</span> err <span class="co">// Error handling omitted.</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
-<p>But the insert rate will be a <em>fraction</em> of potential.
-Instead, <strong>always batch what you can</strong>.</p>
-<p>The maximum batch size is set in the TigerBeetle server. The default
-is 8190.</p>
+<p>Instead, <strong>always batch as much as you can</strong>. The
+maximum batch size is set in the TigerBeetle server. The default is
+8189.</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
@@ -5612,7 +5618,7 @@ is 8190.</p>
     
 <div class="sourceCode" id="cb12"><pre
 class="sourceCode go"><code class="sourceCode go"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>batch <span class="op">:=</span> <span class="op">[]</span>Transfer<span class="op">{}</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">:=</span> <span class="dv">8190</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">:=</span> <span class="dv">8189</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="op">:=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="bu">len</span><span class="op">(</span>batch<span class="op">);</span> i <span class="op">+=</span> BATCH_SIZE <span class="op">{</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    size <span class="op">:=</span> BATCH_SIZE</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i<span class="op">+</span>BATCH_SIZE <span class="op">&gt;</span> <span class="bu">len</span><span class="op">(</span>batch<span class="op">)</span> <span class="op">{</span></span>
@@ -6430,9 +6436,13 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb11-1"><a href=
 <span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <h2 id="coding-clients-java-batching"><a href="#coding-clients-java-batching" class="anchor">Batching</a></h2>
-<p>TigerBeetle performance is maximized when you batch API requests. The
-client does not do this automatically for you. So, for example, you
-<em>can</em> insert 1 million transfers one at a time like so:</p>
+<p>TigerBeetle performance is maximized when you batch API requests. A
+client instance shared across multiple threads/tasks can automatically
+batch concurrent requests, but the application must still send as many
+events as possible in a single call. For example, if you insert 1
+million transfers sequentially, one at a time, the insert rate will be a
+<em>fraction</em> of the potential, because the client will wait for a
+reply between each one.</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
@@ -6455,10 +6465,9 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb12-1"><a href=
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Error handling omitted.</span></span>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
-<p>But the insert rate will be a <em>fraction</em> of potential.
-Instead, <strong>always batch what you can</strong>.</p>
-<p>The maximum batch size is set in the TigerBeetle server. The default
-is 8190.</p>
+<p>Instead, <strong>always batch as much as you can</strong>. The
+maximum batch size is set in the TigerBeetle server. The default is
+8189.</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
@@ -6467,7 +6476,7 @@ is 8190.</p>
 <div class="sourceCode" id="cb13"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">ResultSet</span> dataSource <span class="op">=</span> <span class="kw">null</span><span class="op">;</span> <span class="co">/* Loaded from an external source. */</span><span class="op">;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> BATCH_SIZE <span class="op">=</span> <span class="dv">8190</span><span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> BATCH_SIZE <span class="op">=</span> <span class="dv">8189</span><span class="op">;</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>TransferBatch batch <span class="op">=</span> <span class="kw">new</span> <span class="fu">TransferBatch</span><span class="op">(</span>BATCH_SIZE<span class="op">);</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span><span class="op">(</span>dataSource<span class="op">.</span><span class="fu">next</span><span class="op">())</span> <span class="op">{</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    batch<span class="op">.</span><span class="fu">add</span><span class="op">();</span></span>
@@ -6872,7 +6881,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb23-1"><a href=
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="bu">ResultSet</span> historicalAccounts <span class="op">=</span> <span class="kw">null</span><span class="op">;</span> <span class="co">// Loaded from an external source;</span></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="bu">ResultSet</span> historicalTransfers <span class="op">=</span> <span class="kw">null</span> <span class="op">;</span> <span class="co">// Loaded from an external source.</span></span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> BATCH_SIZE <span class="op">=</span> <span class="dv">8190</span><span class="op">;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> BATCH_SIZE <span class="op">=</span> <span class="dv">8189</span><span class="op">;</span></span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">// First, load and import all accounts with their timestamps from the historical source.</span></span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>AccountBatch accounts <span class="op">=</span> <span class="kw">new</span> <span class="fu">AccountBatch</span><span class="op">(</span>BATCH_SIZE<span class="op">);</span></span>
@@ -7361,9 +7370,13 @@ from <code>client.createTransfers</code> with enum values in the
 code in the <code>CreateTransferError</code> object for a human-readable
 string.</p>
 <h2 id="coding-clients-node-batching"><a href="#coding-clients-node-batching" class="anchor">Batching</a></h2>
-<p>TigerBeetle performance is maximized when you batch API requests. The
-client does not do this automatically for you. So, for example, you
-<em>can</em> insert 1 million transfers one at a time like so:</p>
+<p>TigerBeetle performance is maximized when you batch API requests. A
+client instance shared across multiple threads/tasks can automatically
+batch concurrent requests, but the application must still send as many
+events as possible in a single call. For example, if you insert 1
+million transfers sequentially, one at a time, the insert rate will be a
+<em>fraction</em> of the potential, because the client will wait for a
+reply between each one.</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
@@ -7376,10 +7389,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Error handling omitted.</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<p>But the insert rate will be a <em>fraction</em> of potential.
-Instead, <strong>always batch what you can</strong>.</p>
-<p>The maximum batch size is set in the TigerBeetle server. The default
-is 8190.</p>
+<p>Instead, <strong>always batch as much as you can</strong>. The
+maximum batch size is set in the TigerBeetle server. The default is
+8189.</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
@@ -7387,7 +7399,7 @@ is 8190.</p>
     
 <div class="sourceCode" id="cb12"><pre
 class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> batch <span class="op">=</span> []<span class="op">;</span> <span class="co">// Array of transfer to create.</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> BATCH_SIZE <span class="op">=</span> <span class="dv">8190</span><span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> BATCH_SIZE <span class="op">=</span> <span class="dv">8189</span><span class="op">;</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> batch<span class="op">.</span><span class="at">length</span><span class="op">;</span> i <span class="op">+=</span> BATCH_SIZE) {</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> transfer_errors <span class="op">=</span> <span class="cf">await</span> client<span class="op">.</span><span class="fu">createTransfers</span>(</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    batch<span class="op">.</span><span class="fu">slice</span>(i<span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(batch<span class="op">.</span><span class="at">length</span><span class="op">,</span> BATCH_SIZE))<span class="op">,</span></span>
@@ -8211,9 +8223,13 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a h
 <code>client.create_transfers</code> with enum values in the
 <code>CreateTransferResult</code> object.</p>
 <h2 id="coding-clients-python-batching"><a href="#coding-clients-python-batching" class="anchor">Batching</a></h2>
-<p>TigerBeetle performance is maximized when you batch API requests. The
-client does not do this automatically for you. So, for example, you
-<em>can</em> insert 1 million transfers one at a time like so:</p>
+<p>TigerBeetle performance is maximized when you batch API requests. A
+client instance shared across multiple threads/tasks can automatically
+batch concurrent requests, but the application must still send as many
+events as possible in a single call. For example, if you insert 1
+million transfers sequentially, one at a time, the insert rate will be a
+<em>fraction</em> of the potential, because the client will wait for a
+reply between each one.</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
@@ -8225,10 +8241,9 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a h
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    transfer_errors <span class="op">=</span> client.create_transfers([transfer])</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Error handling omitted.</span></span></code></pre></div>
 </div>
-<p>But the insert rate will be a <em>fraction</em> of potential.
-Instead, <strong>always batch what you can</strong>.</p>
-<p>The maximum batch size is set in the TigerBeetle server. The default
-is 8190.</p>
+<p>Instead, <strong>always batch as much as you can</strong>. The
+maximum batch size is set in the TigerBeetle server. The default is
+8189.</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
@@ -8236,7 +8251,7 @@ is 8190.</p>
     
 <div class="sourceCode" id="cb12"><pre
 class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>batch <span class="op">=</span> [] <span class="co"># Array of transfer to create.</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">=</span> <span class="dv">8190</span> <span class="co">#FIXME</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">=</span> <span class="dv">8189</span> <span class="co">#FIXME</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(batch), BATCH_SIZE):</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    transfer_errors <span class="op">=</span> client.create_transfers(</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        batch[i:<span class="bu">min</span>(<span class="bu">len</span>(batch), i <span class="op">+</span> BATCH_SIZE)],</span>
@@ -9487,8 +9502,8 @@ between clients and replicas is not required.</p>
 restart. This is on the order of 5 seconds, and will show up as a
 latency spike on requests. The TigerBeetle clients will internally retry
 any requests during the period.</p>
-<p>Even though this period is short, scheduling a maintenance windows
-for upgrades is still recommended, for an extra layer of safety.</p>
+<p>Even though this period is short, scheduling a maintenance window for
+upgrades is still recommended, for an extra layer of safety.</p>
 <p>Any special instructions, like that when upgrading from 0.15.3 to
 0.15.4, will be explicitly mentioned in the <a
 href="https://github.com/tigerbeetle/tigerbeetle/blob/main/CHANGELOG.md">changelog</a>
@@ -12319,7 +12334,7 @@ conditional transfers can be expressed using <a
 href="#coding-recipes-balance-conditional-transfers">balance-conditional
 transfers</a>.</p>
 <p>⚠️ It is not possible currently to look up more than a full batch
-(8190) of accounts atomically. When issuing multiple
+(8189) of accounts atomically. When issuing multiple
 <code>lookup_accounts</code> calls, it can happen that other operations
 will interleave between the calls leading to read skew. Consider using
 the <a href="#reference-account-flagshistory"><code>history</code></a> flag
@@ -12504,7 +12519,7 @@ class="anchor"><code>query_accounts</code></a></h1>
 <p>Query <a href="#reference-account"><code>Account</code></a>s by the
 intersection of some fields and by timestamp range.</p>
 <p>⚠️ It is not possible currently to query more than a full batch
-(8190) of accounts atomically. When issuing multiple
+(8189) of accounts atomically. When issuing multiple
 <code>query_accounts</code> calls, it can happen that other operations
 will interleave between the calls leading to read skew. Consider using
 the <a href="#reference-account-flagshistory"><code>history</code></a> flag

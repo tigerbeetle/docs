@@ -8,17 +8,17 @@
     <meta name="twitter:site" content="@TigerBeetleDB">
     <meta name="twitter:author" content="@TigerBeetleDB">
     <meta name="twitter:description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
-    <meta name="twitter:title" content="Two-Phase Transfers">
+    <meta name="twitter:title" content="Recovering">
     <meta name="twitter:image" content="https://docs.tigerbeetle.com/img/preview.webp">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Two-Phase Transfers">
+    <meta property="og:title" content="Recovering">
     <meta property="og:image" content="https://docs.tigerbeetle.com/img/preview.webp">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="TigerBeetle Team">
-    <title id="title">Two-Phase Transfers</title>
+    <title id="title">Recovering</title>
     <link rel="icon" href="/img/favicon.png">
-    <link rel="canonical" href="/coding/two-phase-transfers/">
+    <link rel="canonical" href="/operating/recovering/">
     <link rel="stylesheet" type="text/css" href="/style/style.css">
     <link rel="stylesheet" type="text/css" href="/style/highlight.css">
     <script defer data-domain="docs.tigerbeetle.com" src="https://plausible.io/js/script.js"></script>
@@ -107,14 +107,14 @@
 </ol>
 </details></li>
 <li>
-<details open><summary class="item"><a href="/coding/">Coding</a></summary>
+<details><summary class="item"><a href="/coding/">Coding</a></summary>
 <ol>
 <li class="item"><a href="/coding/system-architecture/">System Architecture</a></li>
 <li class="item"><a href="/coding/data-modeling/">Data Modeling</a></li>
 <li class="item"><a href="/coding/financial-accounting/">Financial Accounting</a></li>
 <li class="item"><a href="/coding/requests/">Requests</a></li>
 <li class="item"><a href="/coding/reliable-transaction-submission/">Reliable Transaction Submission</a></li>
-<li class="item"><a href="/coding/two-phase-transfers/" class="target">Two-Phase Transfers</a></li>
+<li class="item"><a href="/coding/two-phase-transfers/">Two-Phase Transfers</a></li>
 <li class="item"><a href="/coding/linked-events/">Linked Events</a></li>
 <li class="item"><a href="/coding/time/">Time</a></li>
 <li>
@@ -143,7 +143,7 @@
 </ol>
 </details></li>
 <li>
-<details><summary class="item"><a href="/operating/">Operating</a></summary>
+<details open><summary class="item"><a href="/operating/">Operating</a></summary>
 <ol>
 <li class="item"><a href="/operating/installing/">Installing</a></li>
 <li class="item"><a href="/operating/hardware/">Hardware</a></li>
@@ -157,7 +157,7 @@
 </ol>
 </details></li>
 <li class="item"><a href="/operating/upgrading/">Upgrading</a></li>
-<li class="item"><a href="/operating/recovering/">Recovering</a></li>
+<li class="item"><a href="/operating/recovering/" class="target">Recovering</a></li>
 <li class="item"><a href="/operating/cdc/">Change Data Capture</a></li>
 </ol>
 </details></li>
@@ -206,401 +206,41 @@
           </svg>
         </a>
         <div class="content">
-          <h1 id="two-phase-transfers"><a href="#two-phase-transfers"
-class="anchor">Two-Phase Transfers</a></h1>
-<p>A two-phase transfer moves funds in stages:</p>
-<ol type="1">
-<li>Reserve funds (<a
-href="#reserve-funds-pending-transfer">pending</a>)</li>
-<li>Resolve funds (<a href="#post-pending-transfer">post</a>, <a
-href="#void-pending-transfer">void</a>, or <a
-href="#expire-pending-transfer">expire</a>)</li>
-</ol>
-<p>The name “two-phase transfer” is a reference to the <a
-href="https://en.wikipedia.org/wiki/Two-phase_commit_protocol">two-phase
-commit protocol for distributed transactions</a>.</p>
-<h2 id="reserve-funds-pending-transfer"><a
-href="#reserve-funds-pending-transfer" class="anchor">Reserve Funds
-(Pending Transfer)</a></h2>
-<p>A pending transfer, denoted by <a
-href="../../reference/transfer#flagspending"><code>flags.pending</code></a>,
-reserves its <code>amount</code> in the debit/credit accounts’ <a
-href="../../reference/account#debits_pending"><code>debits_pending</code></a>/<a
-href="../../reference/account#credits_pending"><code>credits_pending</code></a>
-fields, respectively. Pending transfers leave the
-<code>debits_posted</code>/<code>credits_posted</code> unmodified.</p>
-<h2 id="resolve-funds"><a href="#resolve-funds" class="anchor">Resolve
-Funds</a></h2>
-<p>Pending transfers can be posted, voided, or they may time out.</p>
-<h3 id="post-pending-transfer"><a href="#post-pending-transfer"
-class="anchor">Post-Pending Transfer</a></h3>
-<p>A post-pending transfer, denoted by <a
-href="../../reference/transfer#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>,
-causes a pending transfer to “post”, transferring some or all of the
-pending transfer’s reserved amount to its destination.</p>
-<ul>
-<li>If the posted <a
-href="../../reference/transfer#amount"><code>amount</code></a> is less
-than the pending transfer’s amount, then only this amount is posted, and
-the remainder is restored to its original accounts.</li>
-<li>If the posted <a
-href="../../reference/transfer#amount"><code>amount</code></a> is equal
-to the pending transfer’s amount or equal to <code>AMOUNT_MAX</code>
-(<code>2^128 - 1</code>), the full pending transfer’s amount is
-posted.</li>
-<li>If the posted <a
-href="../../reference/transfer#amount"><code>amount</code></a> is
-greater than the pending transfer’s amount (but less than
-<code>AMOUNT_MAX</code>), <a
-href="../../reference/requests/create_transfers#exceeds_pending_transfer_amount"><code>exceeds_pending_transfer_amount</code></a>
-is returned.</li>
-</ul>
-<details>
-<summary>Client &lt; 0.16.0</summary>
-
-<ul>
-<li>If the posted <a
-href="../../reference/transfer#amount"><code>amount</code></a> is 0, the
-full pending transfer’s amount is posted.</li>
-<li>If the posted <a
-href="../../reference/transfer#amount"><code>amount</code></a> is
-nonzero, then only this amount is posted, and the remainder is restored
-to its original accounts. It must be less than or equal to the pending
-transfer’s amount.</li>
-</ul>
-</details>
-
-<p>Additionally, when <code>flags.post_pending_transfer</code> is
-set:</p>
-<ul>
-<li><a
-href="../../reference/transfer#pending_id"><code>pending_id</code></a>
-must reference a <a href="#reserve-funds-pending-transfer">pending
-transfer</a>.</li>
-<li><a
-href="../../reference/transfer#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a>
-must not be set.</li>
-</ul>
-<p>The following fields may either be zero or they must match the value
-of the pending transfer’s field:</p>
-<ul>
-<li><a
-href="../../reference/transfer#debit_account_id"><code>debit_account_id</code></a></li>
-<li><a
-href="../../reference/transfer#credit_account_id"><code>credit_account_id</code></a></li>
-<li><a
-href="../../reference/transfer#ledger"><code>ledger</code></a></li>
-<li><a href="../../reference/transfer#code"><code>code</code></a></li>
-</ul>
-<h3 id="void-pending-transfer"><a href="#void-pending-transfer"
-class="anchor">Void-Pending Transfer</a></h3>
-<p>A void-pending transfer, denoted by <a
-href="../../reference/transfer#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a>,
-restores the pending amount its original accounts. Additionally, when
-this field is set:</p>
-<ul>
-<li><a
-href="../../reference/transfer#pending_id"><code>pending_id</code></a>
-must reference a <a href="#reserve-funds-pending-transfer">pending
-transfer</a>.</li>
-<li><a
-href="../../reference/transfer#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>
-must not be set.</li>
-</ul>
-<p>The following fields may either be zero or they must match the value
-of the pending transfer’s field:</p>
-<ul>
-<li><a
-href="../../reference/transfer#debit_account_id"><code>debit_account_id</code></a></li>
-<li><a
-href="../../reference/transfer#credit_account_id"><code>credit_account_id</code></a></li>
-<li><a
-href="../../reference/transfer#ledger"><code>ledger</code></a></li>
-<li><a href="../../reference/transfer#code"><code>code</code></a></li>
-</ul>
-<h3 id="expire-pending-transfer"><a href="#expire-pending-transfer"
-class="anchor">Expire Pending Transfer</a></h3>
-<p>A pending transfer may optionally be created with a <a
-href="../../reference/transfer#timeout">timeout</a>. If the timeout
-interval passes before the transfer is either posted or voided, the
-transfer expires and the full amount is returned to the original
-account.</p>
-<p>Note that <code>timeout</code>s are given as intervals, specified in
-seconds, rather than as absolute timestamps. For more details on why,
-read the page about <a href="../time">Time in TigerBeetle</a>.</p>
-<h3 id="errors"><a href="#errors" class="anchor">Errors</a></h3>
-<p>A pending transfer can only be posted or voided once. It cannot be
-posted twice or voided then posted, etc.</p>
-<p>Attempting to resolve a pending transfer more than once will return
-the applicable error result:</p>
-<ul>
-<li><a
-href="../../reference/requests/create_transfers#pending_transfer_already_posted"><code>pending_transfer_already_posted</code></a></li>
-<li><a
-href="../../reference/requests/create_transfers#pending_transfer_already_voided"><code>pending_transfer_already_voided</code></a></li>
-<li><a
-href="../../reference/requests/create_transfers#pending_transfer_expired"><code>pending_transfer_expired</code></a></li>
-</ul>
-<h2 id="interaction-with-account-invariants"><a
-href="#interaction-with-account-invariants" class="anchor">Interaction
-with Account Invariants</a></h2>
-<p>The pending transfer’s amount is reserved in a way that the second
-step in a two-phase transfer will never cause the accounts’ configured
-balance invariants (<a
-href="../../reference/account#flagscredits_must_not_exceed_debits"><code>credits_must_not_exceed_debits</code></a>
-or <a
-href="../../reference/account#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a>)
-to be broken, whether the second step is a post or void.</p>
-<h3 id="pessimistic-pending-transfers"><a
-href="#pessimistic-pending-transfers" class="anchor">Pessimistic Pending
-Transfers</a></h3>
-<p>If an account with <a
-href="../../reference/account#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a>
-has <code>credits_posted = 100</code> and
-<code>debits_posted = 70</code> and a pending transfer is started
-causing the account to have <code>debits_pending = 50</code>, the
-<em>pending</em> transfer will fail. It will not wait to get to
-<em>posted</em> status to fail.</p>
-<h2 id="all-transfers-are-immutable"><a
-href="#all-transfers-are-immutable" class="anchor">All Transfers Are
-Immutable</a></h2>
-<p>To reiterate, completing a two-phase transfer (by either marking it
-void or posted) does not involve modifying the pending transfer. Instead
-you create a new transfer.</p>
-<p>The first transfer that is marked pending will always have its
-pending flag set.</p>
-<p>The second transfer will have a <a
-href="../../reference/transfer#flagspost_pending_transfer"><code>post_pending_transfer</code></a>
-or <a
-href="../../reference/transfer#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a>
-flag set and a <a
-href="../../reference/transfer#pending_id"><code>pending_id</code></a>
-field set to the <a
-href="../../reference/transfer#id"><code>id</code></a> of the first
-transfer. The <a href="../../reference/transfer#id"><code>id</code></a>
-of the second transfer will be unique, not the same <a
-href="../../reference/transfer#id"><code>id</code></a> as the initial
-pending transfer.</p>
-<h2 id="examples"><a href="#examples" class="anchor">Examples</a></h2>
-<p>The following examples show the state of two accounts in three
-steps:</p>
-<ol type="1">
-<li>Initially, before any transfers</li>
-<li>After a pending transfer</li>
-<li>And after the pending transfer is posted or voided</li>
-</ol>
-<h3 id="post-full-pending-amount"><a href="#post-full-pending-amount"
-class="anchor">Post Full Pending Amount</a></h3>
-<div class="table">
-<table>
-<thead>
-<tr>
-<th style="text-align: right;">Account <code>A</code></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;">Account <code>B</code></th>
-<th style="text-align: right;"></th>
-<th style="text-align: left;">Transfers</th>
-<th style="text-align: left;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: left;"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: right;"><strong>debits</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"><strong>credits</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr>
-<td style="text-align: right;"><strong>pending</strong></td>
-<td style="text-align: right;"><strong>posted</strong></td>
-<td style="text-align: right;"><strong>pending</strong></td>
-<td style="text-align: right;"><strong>posted</strong></td>
-<td style="text-align: left;"><strong>debit_account_id</strong></td>
-<td style="text-align: left;"><strong>credit_account_id</strong></td>
-<td style="text-align: right;"><strong>amount</strong></td>
-<td style="text-align: left;"><strong>flags</strong></td>
-</tr>
-<tr>
-<td style="text-align: right;"><code>w</code></td>
-<td style="text-align: right;"><code>x</code></td>
-<td style="text-align: right;"><code>y</code></td>
-<td style="text-align: right;"><code>z</code></td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: right;">-</td>
-<td style="text-align: left;">-</td>
-</tr>
-<tr>
-<td style="text-align: right;">123 + <code>w</code></td>
-<td style="text-align: right;"><code>x</code></td>
-<td style="text-align: right;">123 + <code>y</code></td>
-<td style="text-align: right;"><code>z</code></td>
-<td style="text-align: left;"><code>A</code></td>
-<td style="text-align: left;"><code>B</code></td>
-<td style="text-align: right;">123</td>
-<td style="text-align: left;"><code>pending</code></td>
-</tr>
-<tr>
-<td style="text-align: right;"><code>w</code></td>
-<td style="text-align: right;">123 + <code>x</code></td>
-<td style="text-align: right;"><code>y</code></td>
-<td style="text-align: right;">123 + <code>z</code></td>
-<td style="text-align: left;"><code>A</code></td>
-<td style="text-align: left;"><code>B</code></td>
-<td style="text-align: right;">123</td>
-<td style="text-align: left;"><code>post_pending_transfer</code></td>
-</tr>
-</tbody>
-</table>
+          <h1 id="recovering"><a href="#recovering"
+class="anchor">Recovering</a></h1>
+<p>If a replica’s data file is permanently lost (for example, if the SSD
+fails) then a new data file must be reformatted to restore the
+cluster.</p>
+<p>The <code>tigerbeetle format</code> command must <strong>not</strong>
+be used for this purpose. The issue is that
+<code>tigerbeetle format</code> would create a replica that believes
+that any operation that it hasn’t seen can be safely nack’d – unaware of
+the promises it made which were lost with the old data file This could
+cause the cluster to lose committed data.</p>
+<p>Instead of <code>tigerbeetle format</code>, use the
+<code>tigerbeetle recover</code> command (see below).</p>
+<p>Note that <code>tigerbeetle recover</code> requires the cluster to be
+healthy and capable of view-changing.</p>
+<p>Once <code>tigerbeetle recover</code> succeeds, run
+<code>tigerbeetle start</code> as normal. At this point, the new replica
+will rejoin the cluster and state sync to repair itself.</p>
+<h2 id="example"><a href="#example" class="anchor">Example</a></h2>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<pre class="console"><code>./tigerbeetle recover \
+  --cluster=0 \
+  --addresses=127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002 \
+  --replica=2 \
+  --replica-count=3 \
+  ./0_2.tigerbeetle</code></pre>
 </div>
-<h3 id="post-partial-pending-amount"><a
-href="#post-partial-pending-amount" class="anchor">Post Partial Pending
-Amount</a></h3>
-<div class="table">
-<table>
-<thead>
-<tr>
-<th style="text-align: right;">Account <code>A</code></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;">Account <code>B</code></th>
-<th style="text-align: right;"></th>
-<th style="text-align: left;">Transfers</th>
-<th style="text-align: left;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: left;"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: right;"><strong>debits</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"><strong>credits</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr>
-<td style="text-align: right;"><strong>pending</strong></td>
-<td style="text-align: right;"><strong>posted</strong></td>
-<td style="text-align: right;"><strong>pending</strong></td>
-<td style="text-align: right;"><strong>posted</strong></td>
-<td style="text-align: left;"><strong>debit_account_id</strong></td>
-<td style="text-align: left;"><strong>credit_account_id</strong></td>
-<td style="text-align: right;"><strong>amount</strong></td>
-<td style="text-align: left;"><strong>flags</strong></td>
-</tr>
-<tr>
-<td style="text-align: right;"><code>w</code></td>
-<td style="text-align: right;"><code>x</code></td>
-<td style="text-align: right;"><code>y</code></td>
-<td style="text-align: right;"><code>z</code></td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: right;">-</td>
-<td style="text-align: left;">-</td>
-</tr>
-<tr>
-<td style="text-align: right;">123 + <code>w</code></td>
-<td style="text-align: right;"><code>x</code></td>
-<td style="text-align: right;">123 + <code>y</code></td>
-<td style="text-align: right;"><code>z</code></td>
-<td style="text-align: left;"><code>A</code></td>
-<td style="text-align: left;"><code>B</code></td>
-<td style="text-align: right;">123</td>
-<td style="text-align: left;"><code>pending</code></td>
-</tr>
-<tr>
-<td style="text-align: right;"><code>w</code></td>
-<td style="text-align: right;">100 + <code>x</code></td>
-<td style="text-align: right;"><code>y</code></td>
-<td style="text-align: right;">100 + <code>z</code></td>
-<td style="text-align: left;"><code>A</code></td>
-<td style="text-align: left;"><code>B</code></td>
-<td style="text-align: right;">100</td>
-<td style="text-align: left;"><code>post_pending_transfer</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="void-pending-transfer-1"><a href="#void-pending-transfer-1"
-class="anchor">Void Pending Transfer</a></h3>
-<div class="table">
-<table>
-<thead>
-<tr>
-<th style="text-align: right;">Account <code>A</code></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;">Account <code>B</code></th>
-<th style="text-align: right;"></th>
-<th style="text-align: left;">Transfers</th>
-<th style="text-align: left;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: left;"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: right;"><strong>debits</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"><strong>credits</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr>
-<td style="text-align: right;"><strong>pending</strong></td>
-<td style="text-align: right;"><strong>posted</strong></td>
-<td style="text-align: right;"><strong>pending</strong></td>
-<td style="text-align: right;"><strong>posted</strong></td>
-<td style="text-align: left;"><strong>debit_account_id</strong></td>
-<td style="text-align: left;"><strong>credit_account_id</strong></td>
-<td style="text-align: right;"><strong>amount</strong></td>
-<td style="text-align: left;"><strong>flags</strong></td>
-</tr>
-<tr>
-<td style="text-align: right;"><code>w</code></td>
-<td style="text-align: right;"><code>x</code></td>
-<td style="text-align: right;"><code>y</code></td>
-<td style="text-align: right;"><code>z</code></td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: right;">-</td>
-<td style="text-align: left;">-</td>
-</tr>
-<tr>
-<td style="text-align: right;">123 + <code>w</code></td>
-<td style="text-align: right;"><code>x</code></td>
-<td style="text-align: right;">123 + <code>y</code></td>
-<td style="text-align: right;"><code>z</code></td>
-<td style="text-align: left;"><code>A</code></td>
-<td style="text-align: left;"><code>B</code></td>
-<td style="text-align: right;">123</td>
-<td style="text-align: left;"><code>pending</code></td>
-</tr>
-<tr>
-<td style="text-align: right;"><code>w</code></td>
-<td style="text-align: right;"><code>x</code></td>
-<td style="text-align: right;"><code>y</code></td>
-<td style="text-align: right;"><code>z</code></td>
-<td style="text-align: left;"><code>A</code></td>
-<td style="text-align: left;"><code>B</code></td>
-<td style="text-align: right;">123</td>
-<td style="text-align: left;"><code>void_pending_transfer</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/coding/two-phase-transfers.md">
+<p>(<code>--addresses</code> should include an address for the
+recovering replica, but it can be any address as it is just a
+placeholder.)</p>
+<a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/recovering.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
   </svg>

@@ -129,6 +129,8 @@
 </ol>
 </details></li>
 <li class="item"><a href="#operating-upgrading">Upgrading</a></li>
+<li class="item"><a href="#operating-recovering">Recovering</a></li>
+<li class="item"><a href="#operating-cdc">Change Data Capture</a></li>
 </ol>
 </details></li>
 <li>
@@ -8723,6 +8725,10 @@ requirements and recommendations.</li>
 and its variations.</li>
 <li><a href="#operating-upgrading">Upgrading</a> explains how to move to a newer
 TigerBeetle version without downtime.</li>
+<li><a href="#operating-recovering">Recovering</a> explains how to repair the
+cluster when a replica is permanently lost.</li>
+<li><a href="#operating-cdc">Change Data Capture</a> explains how to stream data
+out of TigerBeetle.</li>
 </ul>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/README.md">
   <svg width="16" height="16" fill="none">
@@ -9661,6 +9667,270 @@ version in use, then upgrade the clients to that version. Repeat this
 until you’re on the latest release.</li>
 </ul>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/upgrading.md">
+  <svg width="16" height="16" fill="none">
+    <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+  </svg>
+  Edit this page
+</a>
+
+<h1 id="operating-recovering"><a href="#operating-recovering"
+class="anchor">Recovering</a></h1>
+<p>If a replica’s data file is permanently lost (for example, if the SSD
+fails) then a new data file must be reformatted to restore the
+cluster.</p>
+<p>The <code>tigerbeetle format</code> command must <strong>not</strong>
+be used for this purpose. The issue is that
+<code>tigerbeetle format</code> would create a replica that believes
+that any operation that it hasn’t seen can be safely nack’d – unaware of
+the promises it made which were lost with the old data file This could
+cause the cluster to lose committed data.</p>
+<p>Instead of <code>tigerbeetle format</code>, use the
+<code>tigerbeetle recover</code> command (see below).</p>
+<p>Note that <code>tigerbeetle recover</code> requires the cluster to be
+healthy and capable of view-changing.</p>
+<p>Once <code>tigerbeetle recover</code> succeeds, run
+<code>tigerbeetle start</code> as normal. At this point, the new replica
+will rejoin the cluster and state sync to repair itself.</p>
+<h2 id="operating-recovering-example"><a href="#operating-recovering-example" class="anchor">Example</a></h2>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<pre class="console"><code>./tigerbeetle recover \
+  --cluster=0 \
+  --addresses=127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002 \
+  --replica=2 \
+  --replica-count=3 \
+  ./0_2.tigerbeetle</code></pre>
+</div>
+<p>(<code>--addresses</code> should include an address for the
+recovering replica, but it can be any address as it is just a
+placeholder.)</p>
+<a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/recovering.md">
+  <svg width="16" height="16" fill="none">
+    <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+  </svg>
+  Edit this page
+</a>
+
+<h1 id="operating-cdc"><a href="#operating-cdc"
+class="anchor">Change Data Capture</a></h1>
+<p>TigerBeetle can stream changes (transfers and balance updates) to
+message queues using the AMQP 0.9.1 protocol, which is compatible with
+RabbitMQ and various other message brokers.</p>
+<p>See <a href="#operating-installing">Installing</a> for instructions on how to
+deploy the TigerBeetle binary.</p>
+<p>Here’s how to start the CDC job:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<pre class="console"><code>./tigerbeetle amqp --addresses=127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002 --cluster=0 \
+    --host=127.0.0.1 \
+    --vhost=/ \
+    --user=guest --password=guest \
+    --publish-exchange=tigerbeetle</code></pre>
+</div>
+<p>Here what the arguments mean:</p>
+<ul>
+<li><p><code>--addresses</code> specify IP addresses of all the replicas
+in the cluster. <strong>The order of addresses must correspond to the
+order of replicas</strong>.</p></li>
+<li><p><code>--cluster</code> specifies a globally unique 128 bit
+cluster ID.</p></li>
+<li><p><code>--host</code> the AMQP host address in the format
+<code>ip:port</code>.<br> Both IPv4 and IPv6 addresses are supported. If
+<code>port</code> is omitted, the AMQP default <code>5672</code> is
+used.<br> Multiple addresses (for clustered environments) and DNS names
+are <strong>not supported</strong>.<br> The operator must resolve the IP
+address of the preferred/reachable server.<br> The CDC job will exit
+with a non-zero code in case of any connectivity or configuration issue
+with the AMQP server.</p></li>
+<li><p><code>--vhost</code> the AMQP virtual host name.</p></li>
+<li><p><code>--user</code> the AMQP username.</p></li>
+<li><p><code>--password</code> the AMQP password.<br> Only PLAIN
+authentication is supported.</p></li>
+<li><p><code>--publish-exchange</code> the exchange name.<br> Must be a
+pre-existing exchange provided by the operator.<br> Optional. May be
+omitted if <code>--publish-routing-key</code> is present.</p></li>
+<li><p><code>--publish-routing-key</code> the routing key used in
+combination with the exchange.<br> Optional. May be omitted if
+<code>publish-exchange</code> is present.</p></li>
+<li><p><code>--event-count-max</code> the maximum number of events
+fetched from TigerBeetle and published to the AMQP server per batch.<br>
+Optional. Defaults to <code>2730</code> if omitted.</p></li>
+<li><p><code>--idle-interval-ms</code> the time interval in milliseconds
+to wait before querying again when the last query returned no
+events.<br> Optional. Defaults to <code>1000</code> ms if
+omitted.</p></li>
+<li><p><code>--timestamp-last</code> overrides the last published
+timestamp, resuming from this point.<br> This is a TigerBeetle timestamp
+with nanosecond precision.<br> Optional. If omitted, the last
+acknowledged timestamp is used.</p></li>
+</ul>
+<h2 id="operating-cdc-message-content"><a href="#operating-cdc-message-content"
+class="anchor">Message content:</a></h2>
+<p>Messages are published with custom headers, allowing users to
+implement routing and filtering rules.</p>
+<p>Message headers:</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>AMQP data type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>event_type</code></td>
+<td><code>string</code></td>
+<td>The event type.</td>
+</tr>
+<tr>
+<td><code>ledger</code></td>
+<td><code>long_uint</code></td>
+<td>The ledger of the transfer and accounts.</td>
+</tr>
+<tr>
+<td><code>transfer_code</code></td>
+<td><code>short_uint</code></td>
+<td>The transfer code.</td>
+</tr>
+<tr>
+<td><code>debit_account_code</code></td>
+<td><code>short_uint</code></td>
+<td>The debit account code.</td>
+</tr>
+<tr>
+<td><code>credit_account_code</code></td>
+<td><code>short_uint</code></td>
+<td>The credit account code.</td>
+</tr>
+<tr>
+<td><code>app_id</code></td>
+<td><code>string</code></td>
+<td>Constant <code>tigerbeetle</code>.</td>
+</tr>
+<tr>
+<td><code>content_type</code></td>
+<td><code>string</code></td>
+<td>Constant <code>application/json</code></td>
+</tr>
+<tr>
+<td><code>delivery_mode</code></td>
+<td><code>short_short_uint</code></td>
+<td>Constant <code>2</code> which means <em>persistent</em>.</td>
+</tr>
+<tr>
+<td><code>timestamp</code></td>
+<td><code>timestamp</code></td>
+<td>The event timestamp.¹</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>¹ <em>AMQP timestamps are represented in seconds, so TigerBeetle
+timestamps are truncated.<br> Use the <code>timestamp</code> field in
+the message body for full nanosecond precision.</em></p>
+</blockquote>
+<p>Message body:</p>
+<p>Each <em>event</em> published contains information about the <a
+href="#reference-transfer">transfer</a> and the <a
+href="#reference-account">account</a>s involved.</p>
+<ul>
+<li><p><code>type</code>: The type of event.<br> One of
+<code>single_phase</code>, <code>two_phase_pending</code>,
+<code>two_phase_posted</code>, <code>two_phase_voided</code> or
+<code>two_phase_expired</code>.<br> See the <a
+href="#coding-two-phase-transfers">Two-Phase Transfers</a> for more
+details.</p></li>
+<li><p><code>timestamp</code>: The event timestamp.<br> Usually, it’s
+the same as the transfer’s timestamp, except when
+<code>event_type == 'two_phase_expired'</code> when it’s the expiry
+timestamp.</p></li>
+<li><p><code>ledger</code>: The <a
+href="#coding-data-modeling-ledgers">ledger</a> code.</p></li>
+<li><p><code>transfer</code>: Full details of the <a
+href="#reference-transfer">transfer</a>.<br> For
+<code>two_phase_expired</code> events, it’s the pending transfer that
+was reverted.</p></li>
+<li><p><code>debit_account</code>: Full details of the <a
+href="#reference-transfer-debit_account_id">debit account</a>, with
+the balance <em>as of</em> the time of the event.</p></li>
+<li><p><code>credit_account</code>: Full details of the <a
+href="#reference-transfer-credit_account_id">credit account</a>,
+with the balance <em>as of</em> the time of the event.</p></li>
+</ul>
+<p>The message body is encoded as a UTF-8 JSON without line breaks or
+spaces. Long integers such as <code>u128</code> and <code>u64</code> are
+encoded as JSON strings to improve interoperability.</p>
+<p>Here is a formatted example (with indentation and line breaks) for
+readability.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;1745328372758695656&quot;</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;single_phase&quot;</span><span class="fu">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;ledger&quot;</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;transfer&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">9082709</span><span class="fu">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">3794</span><span class="fu">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;pending_id&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_128&quot;</span><span class="fu">:</span> <span class="st">&quot;79248595801719937611592367840129079151&quot;</span><span class="fu">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_64&quot;</span><span class="fu">:</span> <span class="st">&quot;13615171707598273871&quot;</span><span class="fu">,</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_32&quot;</span><span class="fu">:</span> <span class="dv">3229992513</span><span class="fu">,</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;timeout&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;code&quot;</span><span class="fu">:</span> <span class="dv">20295</span><span class="fu">,</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;flags&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;1745328372758695656&quot;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;debit_account&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">3750</span><span class="fu">,</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;debits_pending&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;debits_posted&quot;</span><span class="fu">:</span> <span class="dv">8463768</span><span class="fu">,</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;credits_pending&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;credits_posted&quot;</span><span class="fu">:</span> <span class="dv">8861179</span><span class="fu">,</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_128&quot;</span><span class="fu">:</span> <span class="st">&quot;118966247877720884212341541320399553321&quot;</span><span class="fu">,</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_64&quot;</span><span class="fu">:</span> <span class="st">&quot;526432537153007844&quot;</span><span class="fu">,</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_32&quot;</span><span class="fu">:</span> <span class="dv">4157247332</span><span class="fu">,</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;code&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;flags&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;1745328270103398016&quot;</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;credit_account&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">6765</span><span class="fu">,</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;debits_pending&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;debits_posted&quot;</span><span class="fu">:</span> <span class="dv">8669204</span><span class="fu">,</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;credits_pending&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;credits_posted&quot;</span><span class="fu">:</span> <span class="dv">8637251</span><span class="fu">,</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_128&quot;</span><span class="fu">:</span> <span class="st">&quot;43670023860556310170878798978091998141&quot;</span><span class="fu">,</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_64&quot;</span><span class="fu">:</span> <span class="st">&quot;12485093662256535374&quot;</span><span class="fu">,</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_32&quot;</span><span class="fu">:</span> <span class="dv">1924162092</span><span class="fu">,</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;code&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;flags&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;1745328270103401031&quot;</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+</div>
+<h2 id="operating-cdc-guarantees"><a href="#operating-cdc-guarantees"
+class="anchor">Guarantees</a></h2>
+<p>TigerBeetle guarantees <em>at-least-once</em> semantics when
+publishing to message brokers, and makes a best effort to prevent
+duplicate messages. However, during crash recovery, the CDC job may
+replay unacknowledged messages that could have been already delivered to
+consumers.</p>
+<p>It is the consumer’s responsibility to perform <strong>idempotency
+checks</strong> when processing messages.</p>
+<a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/cdc.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
   </svg>

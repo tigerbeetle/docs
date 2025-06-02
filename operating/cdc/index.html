@@ -8,17 +8,17 @@
     <meta name="twitter:site" content="@TigerBeetleDB">
     <meta name="twitter:author" content="@TigerBeetleDB">
     <meta name="twitter:description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
-    <meta name="twitter:title" content="Two-Phase Transfers">
+    <meta name="twitter:title" content="Change Data Capture">
     <meta name="twitter:image" content="https://docs.tigerbeetle.com/img/preview.webp">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Two-Phase Transfers">
+    <meta property="og:title" content="Change Data Capture">
     <meta property="og:image" content="https://docs.tigerbeetle.com/img/preview.webp">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="TigerBeetle Team">
-    <title id="title">Two-Phase Transfers</title>
+    <title id="title">Change Data Capture</title>
     <link rel="icon" href="/img/favicon.png">
-    <link rel="canonical" href="/coding/two-phase-transfers/">
+    <link rel="canonical" href="/operating/cdc/">
     <link rel="stylesheet" type="text/css" href="/style/style.css">
     <link rel="stylesheet" type="text/css" href="/style/highlight.css">
     <script defer data-domain="docs.tigerbeetle.com" src="https://plausible.io/js/script.js"></script>
@@ -107,14 +107,14 @@
 </ol>
 </details></li>
 <li>
-<details open><summary class="item"><a href="/coding/">Coding</a></summary>
+<details><summary class="item"><a href="/coding/">Coding</a></summary>
 <ol>
 <li class="item"><a href="/coding/system-architecture/">System Architecture</a></li>
 <li class="item"><a href="/coding/data-modeling/">Data Modeling</a></li>
 <li class="item"><a href="/coding/financial-accounting/">Financial Accounting</a></li>
 <li class="item"><a href="/coding/requests/">Requests</a></li>
 <li class="item"><a href="/coding/reliable-transaction-submission/">Reliable Transaction Submission</a></li>
-<li class="item"><a href="/coding/two-phase-transfers/" class="target">Two-Phase Transfers</a></li>
+<li class="item"><a href="/coding/two-phase-transfers/">Two-Phase Transfers</a></li>
 <li class="item"><a href="/coding/linked-events/">Linked Events</a></li>
 <li class="item"><a href="/coding/time/">Time</a></li>
 <li>
@@ -143,7 +143,7 @@
 </ol>
 </details></li>
 <li>
-<details><summary class="item"><a href="/operating/">Operating</a></summary>
+<details open><summary class="item"><a href="/operating/">Operating</a></summary>
 <ol>
 <li class="item"><a href="/operating/installing/">Installing</a></li>
 <li class="item"><a href="/operating/hardware/">Hardware</a></li>
@@ -158,7 +158,7 @@
 </details></li>
 <li class="item"><a href="/operating/upgrading/">Upgrading</a></li>
 <li class="item"><a href="/operating/recovering/">Recovering</a></li>
-<li class="item"><a href="/operating/cdc/">Change Data Capture</a></li>
+<li class="item"><a href="/operating/cdc/" class="target">Change Data Capture</a></li>
 </ol>
 </details></li>
 <li>
@@ -206,401 +206,223 @@
           </svg>
         </a>
         <div class="content">
-          <h1 id="two-phase-transfers"><a href="#two-phase-transfers"
-class="anchor">Two-Phase Transfers</a></h1>
-<p>A two-phase transfer moves funds in stages:</p>
-<ol type="1">
-<li>Reserve funds (<a
-href="#reserve-funds-pending-transfer">pending</a>)</li>
-<li>Resolve funds (<a href="#post-pending-transfer">post</a>, <a
-href="#void-pending-transfer">void</a>, or <a
-href="#expire-pending-transfer">expire</a>)</li>
-</ol>
-<p>The name “two-phase transfer” is a reference to the <a
-href="https://en.wikipedia.org/wiki/Two-phase_commit_protocol">two-phase
-commit protocol for distributed transactions</a>.</p>
-<h2 id="reserve-funds-pending-transfer"><a
-href="#reserve-funds-pending-transfer" class="anchor">Reserve Funds
-(Pending Transfer)</a></h2>
-<p>A pending transfer, denoted by <a
-href="../../reference/transfer#flagspending"><code>flags.pending</code></a>,
-reserves its <code>amount</code> in the debit/credit accounts’ <a
-href="../../reference/account#debits_pending"><code>debits_pending</code></a>/<a
-href="../../reference/account#credits_pending"><code>credits_pending</code></a>
-fields, respectively. Pending transfers leave the
-<code>debits_posted</code>/<code>credits_posted</code> unmodified.</p>
-<h2 id="resolve-funds"><a href="#resolve-funds" class="anchor">Resolve
-Funds</a></h2>
-<p>Pending transfers can be posted, voided, or they may time out.</p>
-<h3 id="post-pending-transfer"><a href="#post-pending-transfer"
-class="anchor">Post-Pending Transfer</a></h3>
-<p>A post-pending transfer, denoted by <a
-href="../../reference/transfer#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>,
-causes a pending transfer to “post”, transferring some or all of the
-pending transfer’s reserved amount to its destination.</p>
+          <h1 id="change-data-capture"><a href="#change-data-capture"
+class="anchor">Change Data Capture</a></h1>
+<p>TigerBeetle can stream changes (transfers and balance updates) to
+message queues using the AMQP 0.9.1 protocol, which is compatible with
+RabbitMQ and various other message brokers.</p>
+<p>See <a href="../installing">Installing</a> for instructions on how to
+deploy the TigerBeetle binary.</p>
+<p>Here’s how to start the CDC job:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<pre class="console"><code>./tigerbeetle amqp --addresses=127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002 --cluster=0 \
+    --host=127.0.0.1 \
+    --vhost=/ \
+    --user=guest --password=guest \
+    --publish-exchange=tigerbeetle</code></pre>
+</div>
+<p>Here what the arguments mean:</p>
 <ul>
-<li>If the posted <a
-href="../../reference/transfer#amount"><code>amount</code></a> is less
-than the pending transfer’s amount, then only this amount is posted, and
-the remainder is restored to its original accounts.</li>
-<li>If the posted <a
-href="../../reference/transfer#amount"><code>amount</code></a> is equal
-to the pending transfer’s amount or equal to <code>AMOUNT_MAX</code>
-(<code>2^128 - 1</code>), the full pending transfer’s amount is
-posted.</li>
-<li>If the posted <a
-href="../../reference/transfer#amount"><code>amount</code></a> is
-greater than the pending transfer’s amount (but less than
-<code>AMOUNT_MAX</code>), <a
-href="../../reference/requests/create_transfers#exceeds_pending_transfer_amount"><code>exceeds_pending_transfer_amount</code></a>
-is returned.</li>
+<li><p><code>--addresses</code> specify IP addresses of all the replicas
+in the cluster. <strong>The order of addresses must correspond to the
+order of replicas</strong>.</p></li>
+<li><p><code>--cluster</code> specifies a globally unique 128 bit
+cluster ID.</p></li>
+<li><p><code>--host</code> the AMQP host address in the format
+<code>ip:port</code>.<br> Both IPv4 and IPv6 addresses are supported. If
+<code>port</code> is omitted, the AMQP default <code>5672</code> is
+used.<br> Multiple addresses (for clustered environments) and DNS names
+are <strong>not supported</strong>.<br> The operator must resolve the IP
+address of the preferred/reachable server.<br> The CDC job will exit
+with a non-zero code in case of any connectivity or configuration issue
+with the AMQP server.</p></li>
+<li><p><code>--vhost</code> the AMQP virtual host name.</p></li>
+<li><p><code>--user</code> the AMQP username.</p></li>
+<li><p><code>--password</code> the AMQP password.<br> Only PLAIN
+authentication is supported.</p></li>
+<li><p><code>--publish-exchange</code> the exchange name.<br> Must be a
+pre-existing exchange provided by the operator.<br> Optional. May be
+omitted if <code>--publish-routing-key</code> is present.</p></li>
+<li><p><code>--publish-routing-key</code> the routing key used in
+combination with the exchange.<br> Optional. May be omitted if
+<code>publish-exchange</code> is present.</p></li>
+<li><p><code>--event-count-max</code> the maximum number of events
+fetched from TigerBeetle and published to the AMQP server per batch.<br>
+Optional. Defaults to <code>2730</code> if omitted.</p></li>
+<li><p><code>--idle-interval-ms</code> the time interval in milliseconds
+to wait before querying again when the last query returned no
+events.<br> Optional. Defaults to <code>1000</code> ms if
+omitted.</p></li>
+<li><p><code>--timestamp-last</code> overrides the last published
+timestamp, resuming from this point.<br> This is a TigerBeetle timestamp
+with nanosecond precision.<br> Optional. If omitted, the last
+acknowledged timestamp is used.</p></li>
 </ul>
-<details>
-<summary>Client &lt; 0.16.0</summary>
-
-<ul>
-<li>If the posted <a
-href="../../reference/transfer#amount"><code>amount</code></a> is 0, the
-full pending transfer’s amount is posted.</li>
-<li>If the posted <a
-href="../../reference/transfer#amount"><code>amount</code></a> is
-nonzero, then only this amount is posted, and the remainder is restored
-to its original accounts. It must be less than or equal to the pending
-transfer’s amount.</li>
-</ul>
-</details>
-
-<p>Additionally, when <code>flags.post_pending_transfer</code> is
-set:</p>
-<ul>
-<li><a
-href="../../reference/transfer#pending_id"><code>pending_id</code></a>
-must reference a <a href="#reserve-funds-pending-transfer">pending
-transfer</a>.</li>
-<li><a
-href="../../reference/transfer#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a>
-must not be set.</li>
-</ul>
-<p>The following fields may either be zero or they must match the value
-of the pending transfer’s field:</p>
-<ul>
-<li><a
-href="../../reference/transfer#debit_account_id"><code>debit_account_id</code></a></li>
-<li><a
-href="../../reference/transfer#credit_account_id"><code>credit_account_id</code></a></li>
-<li><a
-href="../../reference/transfer#ledger"><code>ledger</code></a></li>
-<li><a href="../../reference/transfer#code"><code>code</code></a></li>
-</ul>
-<h3 id="void-pending-transfer"><a href="#void-pending-transfer"
-class="anchor">Void-Pending Transfer</a></h3>
-<p>A void-pending transfer, denoted by <a
-href="../../reference/transfer#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a>,
-restores the pending amount its original accounts. Additionally, when
-this field is set:</p>
-<ul>
-<li><a
-href="../../reference/transfer#pending_id"><code>pending_id</code></a>
-must reference a <a href="#reserve-funds-pending-transfer">pending
-transfer</a>.</li>
-<li><a
-href="../../reference/transfer#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>
-must not be set.</li>
-</ul>
-<p>The following fields may either be zero or they must match the value
-of the pending transfer’s field:</p>
-<ul>
-<li><a
-href="../../reference/transfer#debit_account_id"><code>debit_account_id</code></a></li>
-<li><a
-href="../../reference/transfer#credit_account_id"><code>credit_account_id</code></a></li>
-<li><a
-href="../../reference/transfer#ledger"><code>ledger</code></a></li>
-<li><a href="../../reference/transfer#code"><code>code</code></a></li>
-</ul>
-<h3 id="expire-pending-transfer"><a href="#expire-pending-transfer"
-class="anchor">Expire Pending Transfer</a></h3>
-<p>A pending transfer may optionally be created with a <a
-href="../../reference/transfer#timeout">timeout</a>. If the timeout
-interval passes before the transfer is either posted or voided, the
-transfer expires and the full amount is returned to the original
-account.</p>
-<p>Note that <code>timeout</code>s are given as intervals, specified in
-seconds, rather than as absolute timestamps. For more details on why,
-read the page about <a href="../time">Time in TigerBeetle</a>.</p>
-<h3 id="errors"><a href="#errors" class="anchor">Errors</a></h3>
-<p>A pending transfer can only be posted or voided once. It cannot be
-posted twice or voided then posted, etc.</p>
-<p>Attempting to resolve a pending transfer more than once will return
-the applicable error result:</p>
-<ul>
-<li><a
-href="../../reference/requests/create_transfers#pending_transfer_already_posted"><code>pending_transfer_already_posted</code></a></li>
-<li><a
-href="../../reference/requests/create_transfers#pending_transfer_already_voided"><code>pending_transfer_already_voided</code></a></li>
-<li><a
-href="../../reference/requests/create_transfers#pending_transfer_expired"><code>pending_transfer_expired</code></a></li>
-</ul>
-<h2 id="interaction-with-account-invariants"><a
-href="#interaction-with-account-invariants" class="anchor">Interaction
-with Account Invariants</a></h2>
-<p>The pending transfer’s amount is reserved in a way that the second
-step in a two-phase transfer will never cause the accounts’ configured
-balance invariants (<a
-href="../../reference/account#flagscredits_must_not_exceed_debits"><code>credits_must_not_exceed_debits</code></a>
-or <a
-href="../../reference/account#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a>)
-to be broken, whether the second step is a post or void.</p>
-<h3 id="pessimistic-pending-transfers"><a
-href="#pessimistic-pending-transfers" class="anchor">Pessimistic Pending
-Transfers</a></h3>
-<p>If an account with <a
-href="../../reference/account#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a>
-has <code>credits_posted = 100</code> and
-<code>debits_posted = 70</code> and a pending transfer is started
-causing the account to have <code>debits_pending = 50</code>, the
-<em>pending</em> transfer will fail. It will not wait to get to
-<em>posted</em> status to fail.</p>
-<h2 id="all-transfers-are-immutable"><a
-href="#all-transfers-are-immutable" class="anchor">All Transfers Are
-Immutable</a></h2>
-<p>To reiterate, completing a two-phase transfer (by either marking it
-void or posted) does not involve modifying the pending transfer. Instead
-you create a new transfer.</p>
-<p>The first transfer that is marked pending will always have its
-pending flag set.</p>
-<p>The second transfer will have a <a
-href="../../reference/transfer#flagspost_pending_transfer"><code>post_pending_transfer</code></a>
-or <a
-href="../../reference/transfer#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a>
-flag set and a <a
-href="../../reference/transfer#pending_id"><code>pending_id</code></a>
-field set to the <a
-href="../../reference/transfer#id"><code>id</code></a> of the first
-transfer. The <a href="../../reference/transfer#id"><code>id</code></a>
-of the second transfer will be unique, not the same <a
-href="../../reference/transfer#id"><code>id</code></a> as the initial
-pending transfer.</p>
-<h2 id="examples"><a href="#examples" class="anchor">Examples</a></h2>
-<p>The following examples show the state of two accounts in three
-steps:</p>
-<ol type="1">
-<li>Initially, before any transfers</li>
-<li>After a pending transfer</li>
-<li>And after the pending transfer is posted or voided</li>
-</ol>
-<h3 id="post-full-pending-amount"><a href="#post-full-pending-amount"
-class="anchor">Post Full Pending Amount</a></h3>
+<h2 id="message-content"><a href="#message-content"
+class="anchor">Message content:</a></h2>
+<p>Messages are published with custom headers, allowing users to
+implement routing and filtering rules.</p>
+<p>Message headers:</p>
 <div class="table">
 <table>
 <thead>
 <tr>
-<th style="text-align: right;">Account <code>A</code></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;">Account <code>B</code></th>
-<th style="text-align: right;"></th>
-<th style="text-align: left;">Transfers</th>
-<th style="text-align: left;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: left;"></th>
+<th>Key</th>
+<th>AMQP data type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: right;"><strong>debits</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"><strong>credits</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
+<td><code>event_type</code></td>
+<td><code>string</code></td>
+<td>The event type.</td>
 </tr>
 <tr>
-<td style="text-align: right;"><strong>pending</strong></td>
-<td style="text-align: right;"><strong>posted</strong></td>
-<td style="text-align: right;"><strong>pending</strong></td>
-<td style="text-align: right;"><strong>posted</strong></td>
-<td style="text-align: left;"><strong>debit_account_id</strong></td>
-<td style="text-align: left;"><strong>credit_account_id</strong></td>
-<td style="text-align: right;"><strong>amount</strong></td>
-<td style="text-align: left;"><strong>flags</strong></td>
+<td><code>ledger</code></td>
+<td><code>long_uint</code></td>
+<td>The ledger of the transfer and accounts.</td>
 </tr>
 <tr>
-<td style="text-align: right;"><code>w</code></td>
-<td style="text-align: right;"><code>x</code></td>
-<td style="text-align: right;"><code>y</code></td>
-<td style="text-align: right;"><code>z</code></td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: right;">-</td>
-<td style="text-align: left;">-</td>
+<td><code>transfer_code</code></td>
+<td><code>short_uint</code></td>
+<td>The transfer code.</td>
 </tr>
 <tr>
-<td style="text-align: right;">123 + <code>w</code></td>
-<td style="text-align: right;"><code>x</code></td>
-<td style="text-align: right;">123 + <code>y</code></td>
-<td style="text-align: right;"><code>z</code></td>
-<td style="text-align: left;"><code>A</code></td>
-<td style="text-align: left;"><code>B</code></td>
-<td style="text-align: right;">123</td>
-<td style="text-align: left;"><code>pending</code></td>
+<td><code>debit_account_code</code></td>
+<td><code>short_uint</code></td>
+<td>The debit account code.</td>
 </tr>
 <tr>
-<td style="text-align: right;"><code>w</code></td>
-<td style="text-align: right;">123 + <code>x</code></td>
-<td style="text-align: right;"><code>y</code></td>
-<td style="text-align: right;">123 + <code>z</code></td>
-<td style="text-align: left;"><code>A</code></td>
-<td style="text-align: left;"><code>B</code></td>
-<td style="text-align: right;">123</td>
-<td style="text-align: left;"><code>post_pending_transfer</code></td>
+<td><code>credit_account_code</code></td>
+<td><code>short_uint</code></td>
+<td>The credit account code.</td>
+</tr>
+<tr>
+<td><code>app_id</code></td>
+<td><code>string</code></td>
+<td>Constant <code>tigerbeetle</code>.</td>
+</tr>
+<tr>
+<td><code>content_type</code></td>
+<td><code>string</code></td>
+<td>Constant <code>application/json</code></td>
+</tr>
+<tr>
+<td><code>delivery_mode</code></td>
+<td><code>short_short_uint</code></td>
+<td>Constant <code>2</code> which means <em>persistent</em>.</td>
+</tr>
+<tr>
+<td><code>timestamp</code></td>
+<td><code>timestamp</code></td>
+<td>The event timestamp.¹</td>
 </tr>
 </tbody>
 </table>
 </div>
-<h3 id="post-partial-pending-amount"><a
-href="#post-partial-pending-amount" class="anchor">Post Partial Pending
-Amount</a></h3>
-<div class="table">
-<table>
-<thead>
-<tr>
-<th style="text-align: right;">Account <code>A</code></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;">Account <code>B</code></th>
-<th style="text-align: right;"></th>
-<th style="text-align: left;">Transfers</th>
-<th style="text-align: left;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: left;"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: right;"><strong>debits</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"><strong>credits</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr>
-<td style="text-align: right;"><strong>pending</strong></td>
-<td style="text-align: right;"><strong>posted</strong></td>
-<td style="text-align: right;"><strong>pending</strong></td>
-<td style="text-align: right;"><strong>posted</strong></td>
-<td style="text-align: left;"><strong>debit_account_id</strong></td>
-<td style="text-align: left;"><strong>credit_account_id</strong></td>
-<td style="text-align: right;"><strong>amount</strong></td>
-<td style="text-align: left;"><strong>flags</strong></td>
-</tr>
-<tr>
-<td style="text-align: right;"><code>w</code></td>
-<td style="text-align: right;"><code>x</code></td>
-<td style="text-align: right;"><code>y</code></td>
-<td style="text-align: right;"><code>z</code></td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: right;">-</td>
-<td style="text-align: left;">-</td>
-</tr>
-<tr>
-<td style="text-align: right;">123 + <code>w</code></td>
-<td style="text-align: right;"><code>x</code></td>
-<td style="text-align: right;">123 + <code>y</code></td>
-<td style="text-align: right;"><code>z</code></td>
-<td style="text-align: left;"><code>A</code></td>
-<td style="text-align: left;"><code>B</code></td>
-<td style="text-align: right;">123</td>
-<td style="text-align: left;"><code>pending</code></td>
-</tr>
-<tr>
-<td style="text-align: right;"><code>w</code></td>
-<td style="text-align: right;">100 + <code>x</code></td>
-<td style="text-align: right;"><code>y</code></td>
-<td style="text-align: right;">100 + <code>z</code></td>
-<td style="text-align: left;"><code>A</code></td>
-<td style="text-align: left;"><code>B</code></td>
-<td style="text-align: right;">100</td>
-<td style="text-align: left;"><code>post_pending_transfer</code></td>
-</tr>
-</tbody>
-</table>
+<blockquote>
+<p>¹ <em>AMQP timestamps are represented in seconds, so TigerBeetle
+timestamps are truncated.<br> Use the <code>timestamp</code> field in
+the message body for full nanosecond precision.</em></p>
+</blockquote>
+<p>Message body:</p>
+<p>Each <em>event</em> published contains information about the <a
+href="../../reference/transfer">transfer</a> and the <a
+href="../../reference/account">account</a>s involved.</p>
+<ul>
+<li><p><code>type</code>: The type of event.<br> One of
+<code>single_phase</code>, <code>two_phase_pending</code>,
+<code>two_phase_posted</code>, <code>two_phase_voided</code> or
+<code>two_phase_expired</code>.<br> See the <a
+href="../../coding/two-phase-transfers">Two-Phase Transfers</a> for more
+details.</p></li>
+<li><p><code>timestamp</code>: The event timestamp.<br> Usually, it’s
+the same as the transfer’s timestamp, except when
+<code>event_type == 'two_phase_expired'</code> when it’s the expiry
+timestamp.</p></li>
+<li><p><code>ledger</code>: The <a
+href="../../coding/data-modeling#ledgers">ledger</a> code.</p></li>
+<li><p><code>transfer</code>: Full details of the <a
+href="../../reference/transfer">transfer</a>.<br> For
+<code>two_phase_expired</code> events, it’s the pending transfer that
+was reverted.</p></li>
+<li><p><code>debit_account</code>: Full details of the <a
+href="../../reference/transfer#debit_account_id">debit account</a>, with
+the balance <em>as of</em> the time of the event.</p></li>
+<li><p><code>credit_account</code>: Full details of the <a
+href="../../reference/transfer#credit_account_id">credit account</a>,
+with the balance <em>as of</em> the time of the event.</p></li>
+</ul>
+<p>The message body is encoded as a UTF-8 JSON without line breaks or
+spaces. Long integers such as <code>u128</code> and <code>u64</code> are
+encoded as JSON strings to improve interoperability.</p>
+<p>Here is a formatted example (with indentation and line breaks) for
+readability.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;1745328372758695656&quot;</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;single_phase&quot;</span><span class="fu">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;ledger&quot;</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;transfer&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">9082709</span><span class="fu">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;amount&quot;</span><span class="fu">:</span> <span class="dv">3794</span><span class="fu">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;pending_id&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_128&quot;</span><span class="fu">:</span> <span class="st">&quot;79248595801719937611592367840129079151&quot;</span><span class="fu">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_64&quot;</span><span class="fu">:</span> <span class="st">&quot;13615171707598273871&quot;</span><span class="fu">,</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_32&quot;</span><span class="fu">:</span> <span class="dv">3229992513</span><span class="fu">,</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;timeout&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;code&quot;</span><span class="fu">:</span> <span class="dv">20295</span><span class="fu">,</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;flags&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;1745328372758695656&quot;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;debit_account&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">3750</span><span class="fu">,</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;debits_pending&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;debits_posted&quot;</span><span class="fu">:</span> <span class="dv">8463768</span><span class="fu">,</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;credits_pending&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;credits_posted&quot;</span><span class="fu">:</span> <span class="dv">8861179</span><span class="fu">,</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_128&quot;</span><span class="fu">:</span> <span class="st">&quot;118966247877720884212341541320399553321&quot;</span><span class="fu">,</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_64&quot;</span><span class="fu">:</span> <span class="st">&quot;526432537153007844&quot;</span><span class="fu">,</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_32&quot;</span><span class="fu">:</span> <span class="dv">4157247332</span><span class="fu">,</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;code&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;flags&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;1745328270103398016&quot;</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;credit_account&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">6765</span><span class="fu">,</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;debits_pending&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;debits_posted&quot;</span><span class="fu">:</span> <span class="dv">8669204</span><span class="fu">,</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;credits_pending&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;credits_posted&quot;</span><span class="fu">:</span> <span class="dv">8637251</span><span class="fu">,</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_128&quot;</span><span class="fu">:</span> <span class="st">&quot;43670023860556310170878798978091998141&quot;</span><span class="fu">,</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_64&quot;</span><span class="fu">:</span> <span class="st">&quot;12485093662256535374&quot;</span><span class="fu">,</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user_data_32&quot;</span><span class="fu">:</span> <span class="dv">1924162092</span><span class="fu">,</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;code&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;flags&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;1745328270103401031&quot;</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 </div>
-<h3 id="void-pending-transfer-1"><a href="#void-pending-transfer-1"
-class="anchor">Void Pending Transfer</a></h3>
-<div class="table">
-<table>
-<thead>
-<tr>
-<th style="text-align: right;">Account <code>A</code></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;">Account <code>B</code></th>
-<th style="text-align: right;"></th>
-<th style="text-align: left;">Transfers</th>
-<th style="text-align: left;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: left;"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: right;"><strong>debits</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"><strong>credits</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr>
-<td style="text-align: right;"><strong>pending</strong></td>
-<td style="text-align: right;"><strong>posted</strong></td>
-<td style="text-align: right;"><strong>pending</strong></td>
-<td style="text-align: right;"><strong>posted</strong></td>
-<td style="text-align: left;"><strong>debit_account_id</strong></td>
-<td style="text-align: left;"><strong>credit_account_id</strong></td>
-<td style="text-align: right;"><strong>amount</strong></td>
-<td style="text-align: left;"><strong>flags</strong></td>
-</tr>
-<tr>
-<td style="text-align: right;"><code>w</code></td>
-<td style="text-align: right;"><code>x</code></td>
-<td style="text-align: right;"><code>y</code></td>
-<td style="text-align: right;"><code>z</code></td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: right;">-</td>
-<td style="text-align: left;">-</td>
-</tr>
-<tr>
-<td style="text-align: right;">123 + <code>w</code></td>
-<td style="text-align: right;"><code>x</code></td>
-<td style="text-align: right;">123 + <code>y</code></td>
-<td style="text-align: right;"><code>z</code></td>
-<td style="text-align: left;"><code>A</code></td>
-<td style="text-align: left;"><code>B</code></td>
-<td style="text-align: right;">123</td>
-<td style="text-align: left;"><code>pending</code></td>
-</tr>
-<tr>
-<td style="text-align: right;"><code>w</code></td>
-<td style="text-align: right;"><code>x</code></td>
-<td style="text-align: right;"><code>y</code></td>
-<td style="text-align: right;"><code>z</code></td>
-<td style="text-align: left;"><code>A</code></td>
-<td style="text-align: left;"><code>B</code></td>
-<td style="text-align: right;">123</td>
-<td style="text-align: left;"><code>void_pending_transfer</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/coding/two-phase-transfers.md">
+<h2 id="guarantees"><a href="#guarantees"
+class="anchor">Guarantees</a></h2>
+<p>TigerBeetle guarantees <em>at-least-once</em> semantics when
+publishing to message brokers, and makes a best effort to prevent
+duplicate messages. However, during crash recovery, the CDC job may
+replay unacknowledged messages that could have been already delivered to
+consumers.</p>
+<p>It is the consumer’s responsibility to perform <strong>idempotency
+checks</strong> when processing messages.</p>
+<a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/cdc.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
   </svg>

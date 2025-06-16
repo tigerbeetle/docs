@@ -8,17 +8,17 @@
     <meta name="twitter:site" content="@TigerBeetleDB">
     <meta name="twitter:author" content="@TigerBeetleDB">
     <meta name="twitter:description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
-    <meta name="twitter:title" content="Performance">
+    <meta name="twitter:title" content="Monitoring">
     <meta name="twitter:image" content="https://docs.tigerbeetle.com/img/preview.webp">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Performance">
+    <meta property="og:title" content="Monitoring">
     <meta property="og:image" content="https://docs.tigerbeetle.com/img/preview.webp">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="TigerBeetle Team">
-    <title id="title">Performance</title>
+    <title id="title">Monitoring</title>
     <link rel="icon" href="/img/favicon.png">
-    <link rel="canonical" href="/concepts/performance/">
+    <link rel="canonical" href="/operating/monitoring/">
     <link rel="stylesheet" type="text/css" href="/style/style.css">
     <link rel="stylesheet" type="text/css" href="/style/highlight.css">
     <script defer data-domain="docs.tigerbeetle.com" src="https://plausible.io/js/script.js"></script>
@@ -98,11 +98,11 @@
         <ol>
 <li class="item"><a href="/start/">Start</a></li>
 <li>
-<details open><summary class="item"><a href="/concepts/">Concepts</a></summary>
+<details><summary class="item"><a href="/concepts/">Concepts</a></summary>
 <ol>
 <li class="item"><a href="/concepts/oltp/">OLTP</a></li>
 <li class="item"><a href="/concepts/debit-credit/">Debit-Credit</a></li>
-<li class="item"><a href="/concepts/performance/" class="target">Performance</a></li>
+<li class="item"><a href="/concepts/performance/">Performance</a></li>
 <li class="item"><a href="/concepts/safety/">Safety</a></li>
 </ol>
 </details></li>
@@ -143,7 +143,7 @@
 </ol>
 </details></li>
 <li>
-<details><summary class="item"><a href="/operating/">Operating</a></summary>
+<details open><summary class="item"><a href="/operating/">Operating</a></summary>
 <ol>
 <li class="item"><a href="/operating/installing/">Installing</a></li>
 <li class="item"><a href="/operating/hardware/">Hardware</a></li>
@@ -156,7 +156,7 @@
 <li class="item"><a href="/operating/deploying/managed-service/">Managed</a></li>
 </ol>
 </details></li>
-<li class="item"><a href="/operating/monitoring/">Monitoring</a></li>
+<li class="item"><a href="/operating/monitoring/" class="target">Monitoring</a></li>
 <li class="item"><a href="/operating/upgrading/">Upgrading</a></li>
 <li class="item"><a href="/operating/recovering/">Recovering</a></li>
 <li class="item"><a href="/operating/cdc/">Change Data Capture</a></li>
@@ -207,102 +207,119 @@
           </svg>
         </a>
         <div class="content">
-          <h1 id="performance"><a href="#performance"
-class="anchor">Performance</a></h1>
-<p>How, exactly, is TigerBeetle so fast?</p>
-<h2 id="its-all-about-the-interface"><a
-href="#its-all-about-the-interface" class="anchor">It’s All About The
-Interface</a></h2>
-<p>The key is that TigerBeetle designed specifically for <a
-href="../oltp">OLTP</a> workloads, as opposed to OLGP. The prevailing
-paradigm for OLGP is interactive transactions, where business-logic
-lives in the application, and the job of the database is to send the
-data to the application, holding the locks while the data is being
-processed. This works for mixed read-write workload with low contention,
-but fails for highly-contended OLTP workloads — locks over the network
-are very expensive!</p>
-<p>With TigerBeetle, <strong>all the logic lives inside the
-database</strong>, obviating the need for locking. Not only is this very
-fast, it is also more convenient — the application can speak <a
-href="../debit-credit">Debit/Credit</a> directly, it doesn’t need to
-translate the language of business to SQL.</p>
-<h2 id="batching-batching-batching"><a
-href="#batching-batching-batching" class="anchor">Batching, Batching,
-Batching</a></h2>
-<p>On a busy day in a busy city, taking the subway is faster than using
-a car. On empty streets, a personal sports car gives you the best
-latency, but, when the load and contention increase, due to <a
-href="https://en.wikipedia.org/wiki/Little%27s_law"><strong>Little’s
-law</strong></a>, both latency and throughput become abysmal.</p>
-<p>TigerBeetle works like a high-speed train — its interface always
-deals with <em>batches</em> of transactions, 8k apiece. Although
-TigerBeetle is a replicated database using a consensus algorithm, the
-cost of replications is paid only once per batch, which means that
-TigerBeetle runs almost as fast as an in-memory hash map, all the while
-providing extreme durability and availability.</p>
-<p>What’s more, under light load the batches automatically become
-smaller, trading unnecessary throughput for better latency.</p>
-<h2 id="extreme-engineering"><a href="#extreme-engineering"
-class="anchor">Extreme Engineering</a></h2>
-<p>Debit/Credit fixes inefficiency in the interface, pervasive batching
-amortizes costs, but, to really hit performance targets, solid
-engineering is required at every level of the stack.</p>
-<p>TigerBeetle is built fully from scratch, without using any
-dependencies, to make sure that all the layers are co-designed for the
-purposes of OLTP.</p>
-<p>TigerBeetle is written in Zig — a systems programming language which
-doesn’t use garbage collection and is designed for writing fast
-code.</p>
-<p>Every data structure is hand-crafted with the CPU in mind: a transfer
-object is 128 bytes in size, cache-line aligned. Executing a batch of
-transfers is just one tight CPU loop!</p>
-<p>TigerBeetle allocates all the memory statically: it never runs out of
-memory, it never stalls due to a GC pause or mutex contention, and it
-never fragments the memory.</p>
-<p>TigerBeetle is designed for io_uring — a new Linux kernel interface
-for zero syscall networking and storage I/O.</p>
-<p>These and other performance rules are captured in <a
-href="https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md">TIGER_STYLE.md</a>
-— the secret recipe that keeps TigerBeetle fast and safe.</p>
-<h2 id="single-threaded-by-design"><a href="#single-threaded-by-design"
-class="anchor">Single Threaded By Design</a></h2>
-<p>TigerBeetle uses a single core by design and uses a single leader
-node to process events. Adding more nodes can therefore increase
-reliability but not throughput.</p>
-<p>For a high-performance database, this may seem like an unusual
-choice. However, sharding in financial databases is notoriously
-difficult and contention issues often negate the would-be benefits.
-Specifically, a small number of hot accounts are often involved in a
-large proportion of the transactions so the shards responsible for those
-accounts become bottlenecks.</p>
-<p>For more details on when single-threaded implementations of
-algorithms outperform multi-threaded implementations, see <a
-href="https://www.usenix.org/system/files/conference/hotos15/hotos15-paper-mcsherry.pdf">“Scalability!
-But at what COST?</a>.</p>
-<h2 id="performance--flexibility"><a href="#performance--flexibility"
-class="anchor">Performance = Flexibility</a></h2>
-<p>Is it <em>really</em> necessary to go to such great lengths in the
-name of performance? It of course depends on a particular use-case, but
-it’s worth keeping in mind that higher performance can unlock new
-use-cases. An OLGP database might be enough to do nightly settlement,
-but with OLTP real-time settlement is a no-brainer. If a transaction
-system just hits its throughput target, every unexpected delay or an ops
-accident lead to missed transactions. If a system operates at one tenth
-of capacity, this gives a lot of headroom for operators to deal with the
-unexpected.</p>
-<p>Finally, it is always helpful to think about the future. The future
-is hard to predict (even the <em>present</em> is hard to wrap your head
-around!), but the <em>option</em> to handle significantly more load on a
-short notice greatly expands your options.</p>
-<h2 id="next-safety"><a href="#next-safety" class="anchor">Next:
-Safety</a></h2>
-<p>Performance can get you very far very fast, but it is useless if the
-result is wrong. Business transaction processing also requires
-<strong>strong safety guarantees</strong>, to ensure that data cannot be
-lost, and <strong>high availability</strong> to ensure that money is not
-lost due to database downtime. Let’s look at how TigerBeetle ensures <a
-href="../safety">safety</a>.</p>
-<a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/concepts/performance.md">
+          <h1 id="monitoring"><a href="#monitoring"
+class="anchor">Monitoring</a></h1>
+<p>TigerBeetle supports emitting metrics via StatsD, and uses the <a
+href="https://docs.datadoghq.com/developers/dogstatsd/datagram_shell?tab=metrics">DogStatsD
+format for tags.</a></p>
+<p>This requires a StatsD compatible agent running locally. The Datadog
+Agent works out of the box with its default configuration, as does
+Telegraf’s <a
+href="https://github.com/influxdata/telegraf/blob/master/plugins/inputs/statsd/README.md">statsd
+plugin</a>, with <code>datadog_extensions</code> enabled.</p>
+<p>You can enable emitting metrics by adding the following CLI flags to
+each replica, depending on your <a href="../deploying/">deployment
+method</a>:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<pre><code>--experimental --statsd=127.0.0.1:8125</code></pre>
+</div>
+<p>The <code>--statsd</code> argument must be specified as an
+<code>IP:Port</code> address (IPv4 or IPv6). DNS names are not currently
+supported.</p>
+<p>All TigerBeetle metrics are namespaced under <code>tb.</code> and are
+tagged with <code>cluster</code> (the cluster ID specified at format
+time) and <code>replica</code> (the replica index). Specific metrics
+might have additional tags - you can see a full list of metrics and
+cardinality by running <code>tigerbeetle inspect metrics</code>.</p>
+<h2 id="specific-metrics"><a href="#specific-metrics"
+class="anchor">Specific Metrics</a></h2>
+<h3 id="overall-status"><a href="#overall-status" class="anchor">Overall
+status</a></h3>
+<p>The <code>replica_status</code> metric corresponds to the overall
+status of the replica. If it’s anything other than 0, it should be
+alerted on as it indicates a non-normal status. The full values are:</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Status</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>normal</td>
+<td>The replica is functioning normally.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>view_change</td>
+<td>The replica is doing a view change.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>recovering</td>
+<td>The replica is recovering. Usually, this will be present on startup
+before immediately transitioning to normal.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>recovering_head</td>
+<td>The replica’s persistent state is corrupted, and it can’t
+participate in consensus. It will try and recover from the remainder of
+the cluster.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="state-sync-status"><a href="#state-sync-status"
+class="anchor">State sync status</a></h3>
+<p>The <code>replica_sync_stage</code> metric corresponds to the state
+sync stage. If this is anything other than <code>0</code>, the replica
+is undergoing state sync and should be alerted on.</p>
+<h3 id="operations-timing"><a href="#operations-timing"
+class="anchor">Operations timing</a></h3>
+<p>The <code>replica_request</code> timing metric can help inform how
+long requests are taking. This is tagged with the operation type (e.g.,
+<code>create_accounts</code>) and is the closest measure of how long a
+request takes end to end, from the replica’s point of view.</p>
+<p>It’s recommended to additionally add metrics around your TigerBeetle
+client code, to measure the full request latency, including things like
+network delay which aren’t captured here.</p>
+<h3 id="cache-monitoring-and-sizing"><a
+href="#cache-monitoring-and-sizing" class="anchor">Cache monitoring and
+sizing</a></h3>
+<p>The <code>grid_cache_hits</code> and <code>grid_cache_misses</code>
+metrics can help inform if your grid cache (<code>--cache-grid</code>)
+is sized too small for your workload.</p>
+<h2 id="system-monitoring"><a href="#system-monitoring"
+class="anchor">System Monitoring</a></h2>
+<p>In addition to TigerBeetle’s own metrics, it’s recommended to monitor
+and alert on a few additional system level metrics. These are:</p>
+<ul>
+<li>Disk space used, on the path that has the TigerBeetle data
+file.</li>
+<li>NTP clock sync status.</li>
+<li>Memory utilization: once started, TigerBeetle will use a fixed
+amount of memory and not change. A change in memory utilization can
+indicate a problem with other processes on the server.</li>
+<li>CPU utilization: TigerBeetle will use at most a single core at
+present. CPU utilization exceeding a single core can indicate a problem
+with other processes on the server.</li>
+</ul>
+<p>While a specific alerting threshold is hard to define for the
+following, they are useful to monitor to help diagnose problems:</p>
+<ul>
+<li>Network bandwidth utilization.</li>
+<li>Disk bandwidth utilization.</li>
+</ul>
+<a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/monitoring.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
   </svg>

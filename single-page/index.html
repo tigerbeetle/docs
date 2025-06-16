@@ -128,6 +128,7 @@
 <li class="item"><a href="#operating-deploying-managed-service">Managed</a></li>
 </ol>
 </details></li>
+<li class="item"><a href="#operating-monitoring">Monitoring</a></li>
 <li class="item"><a href="#operating-upgrading">Upgrading</a></li>
 <li class="item"><a href="#operating-recovering">Recovering</a></li>
 <li class="item"><a href="#operating-cdc">Change Data Capture</a></li>
@@ -8723,6 +8724,8 @@ requirements.</li>
 requirements and recommendations.</li>
 <li><a href="#operating-deploying">Deploying</a> spells out deployment process
 and its variations.</li>
+<li><a href="#operating-monitoring">Monitoring</a> details how to monitor a
+TigerBeetle cluster.</li>
 <li><a href="#operating-upgrading">Upgrading</a> explains how to move to a newer
 TigerBeetle version without downtime.</li>
 <li><a href="#operating-recovering">Recovering</a> explains how to repair the
@@ -9485,6 +9488,125 @@ a call.</p>
   Edit this page
 </a>
 
+<h1 id="operating-monitoring"><a href="#operating-monitoring"
+class="anchor">Monitoring</a></h1>
+<p>TigerBeetle supports emitting metrics via StatsD, and uses the <a
+href="https://docs.datadoghq.com/developers/dogstatsd/datagram_shell?tab=metrics">DogStatsD
+format for tags.</a></p>
+<p>This requires a StatsD compatible agent running locally. The Datadog
+Agent works out of the box with its default configuration, as does
+Telegraf’s <a
+href="https://github.com/influxdata/telegraf/blob/master/plugins/inputs/statsd/README.md">statsd
+plugin</a>, with <code>datadog_extensions</code> enabled.</p>
+<p>You can enable emitting metrics by adding the following CLI flags to
+each replica, depending on your <a href="#operating-deploying">deployment
+method</a>:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<pre><code>--experimental --statsd=127.0.0.1:8125</code></pre>
+</div>
+<p>The <code>--statsd</code> argument must be specified as an
+<code>IP:Port</code> address (IPv4 or IPv6). DNS names are not currently
+supported.</p>
+<p>All TigerBeetle metrics are namespaced under <code>tb.</code> and are
+tagged with <code>cluster</code> (the cluster ID specified at format
+time) and <code>replica</code> (the replica index). Specific metrics
+might have additional tags - you can see a full list of metrics and
+cardinality by running <code>tigerbeetle inspect metrics</code>.</p>
+<h2 id="operating-monitoring-specific-metrics"><a href="#operating-monitoring-specific-metrics"
+class="anchor">Specific Metrics</a></h2>
+<h3 id="operating-monitoring-overall-status"><a href="#operating-monitoring-overall-status" class="anchor">Overall
+status</a></h3>
+<p>The <code>replica_status</code> metric corresponds to the overall
+status of the replica. If it’s anything other than 0, it should be
+alerted on as it indicates a non-normal status. The full values are:</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Status</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>normal</td>
+<td>The replica is functioning normally.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>view_change</td>
+<td>The replica is doing a view change.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>recovering</td>
+<td>The replica is recovering. Usually, this will be present on startup
+before immediately transitioning to normal.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>recovering_head</td>
+<td>The replica’s persistent state is corrupted, and it can’t
+participate in consensus. It will try and recover from the remainder of
+the cluster.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="operating-monitoring-state-sync-status"><a href="#operating-monitoring-state-sync-status"
+class="anchor">State sync status</a></h3>
+<p>The <code>replica_sync_stage</code> metric corresponds to the state
+sync stage. If this is anything other than <code>0</code>, the replica
+is undergoing state sync and should be alerted on.</p>
+<h3 id="operating-monitoring-operations-timing"><a href="#operating-monitoring-operations-timing"
+class="anchor">Operations timing</a></h3>
+<p>The <code>replica_request</code> timing metric can help inform how
+long requests are taking. This is tagged with the operation type (e.g.,
+<code>create_accounts</code>) and is the closest measure of how long a
+request takes end to end, from the replica’s point of view.</p>
+<p>It’s recommended to additionally add metrics around your TigerBeetle
+client code, to measure the full request latency, including things like
+network delay which aren’t captured here.</p>
+<h3 id="operating-monitoring-cache-monitoring-and-sizing"><a
+href="#operating-monitoring-cache-monitoring-and-sizing" class="anchor">Cache monitoring and
+sizing</a></h3>
+<p>The <code>grid_cache_hits</code> and <code>grid_cache_misses</code>
+metrics can help inform if your grid cache (<code>--cache-grid</code>)
+is sized too small for your workload.</p>
+<h2 id="operating-monitoring-system-monitoring"><a href="#operating-monitoring-system-monitoring"
+class="anchor">System Monitoring</a></h2>
+<p>In addition to TigerBeetle’s own metrics, it’s recommended to monitor
+and alert on a few additional system level metrics. These are:</p>
+<ul>
+<li>Disk space used, on the path that has the TigerBeetle data
+file.</li>
+<li>NTP clock sync status.</li>
+<li>Memory utilization: once started, TigerBeetle will use a fixed
+amount of memory and not change. A change in memory utilization can
+indicate a problem with other processes on the server.</li>
+<li>CPU utilization: TigerBeetle will use at most a single core at
+present. CPU utilization exceeding a single core can indicate a problem
+with other processes on the server.</li>
+</ul>
+<p>While a specific alerting threshold is hard to define for the
+following, they are useful to monitor to help diagnose problems:</p>
+<ul>
+<li>Network bandwidth utilization.</li>
+<li>Disk bandwidth utilization.</li>
+</ul>
+<a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/monitoring.md">
+  <svg width="16" height="16" fill="none">
+    <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+  </svg>
+  Edit this page
+</a>
+
 <h1 id="operating-upgrading"><a href="#operating-upgrading"
 class="anchor">Upgrading</a></h1>
 <p>TigerBeetle guarantees storage stability and provides forward
@@ -9792,22 +9914,22 @@ implement routing and filtering rules.</p>
 </tr>
 <tr>
 <td><code>ledger</code></td>
-<td><code>long_uint</code></td>
+<td><code>long_long_int</code></td>
 <td>The ledger of the transfer and accounts.</td>
 </tr>
 <tr>
 <td><code>transfer_code</code></td>
-<td><code>short_uint</code></td>
+<td><code>long_int</code></td>
 <td>The transfer code.</td>
 </tr>
 <tr>
 <td><code>debit_account_code</code></td>
-<td><code>short_uint</code></td>
+<td><code>long_int</code></td>
 <td>The debit account code.</td>
 </tr>
 <tr>
 <td><code>credit_account_code</code></td>
-<td><code>short_uint</code></td>
+<td><code>long_int</code></td>
 <td>The credit account code.</td>
 </tr>
 <tr>

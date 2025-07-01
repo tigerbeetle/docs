@@ -1534,9 +1534,8 @@ system.</p>
 href="#coding-financial-accounting-building-intuition-with-two-simple-examples"
 class="anchor">Building Intuition with Two Simple Examples</a></h2>
 <p>If you have an outstanding loan and owe a bank $100, is your balance
-<span class="math inline">100<em>o</em><em>r</em>−</span>100?
-Conversely, if you have $200 in your bank account, is the balance <span
-class="math inline">200<em>o</em><em>r</em>−</span>200?</p>
+$100 or -$100? Conversely, if you have $200 in your bank account, is the
+balance $200 or -$200?</p>
 <p>Thinking about these two examples, we can start to build an intuition
 that the <strong>positive or negative sign of the balance depends on
 whose perspective we’re looking from</strong>. That $100 you owe the
@@ -1548,11 +1547,9 @@ accounts</strong>. We probably want to think about a debt as having the
 opposite “sign” as the funds in your bank account. At the same time, the
 types of these accounts look different depending on whether you are
 considering them from the perspective of you or the bank.</p>
-<p>Now, back to our original questions: is the loan balance <span
-class="math inline">100<em>o</em><em>r</em>−</span>100 and is the bank
-account balance <span
-class="math inline">200<em>o</em><em>r</em>−</span>200? On some level,
-this feels a bit arbitrary.</p>
+<p>Now, back to our original questions: is the loan balance $100 or
+-$100 and is the bank account balance $200 or -$200? On some level, this
+feels a bit arbitrary.</p>
 <p>Wouldn’t it be nice if there were some <strong>commonly agreed-upon
 standards</strong> so we wouldn’t have to make such an arbitrary
 decision? Yes! This is exactly what debits and credits and the financial
@@ -10052,6 +10049,27 @@ replay unacknowledged messages that could have been already delivered to
 consumers.</p>
 <p>It is the consumer’s responsibility to perform <strong>idempotency
 checks</strong> when processing messages.</p>
+<h2 id="operating-cdc-upgrading"><a href="#operating-cdc-upgrading"
+class="anchor">Upgrading</a></h2>
+<p>The CDC job requires TigerBeetle cluster version <code>0.16.43</code>
+or greater.</p>
+<p>The same <a href="#operating-upgrading-planning-for-upgrades">upgrade
+planning</a> recommended for clients applies to the CDC job. The CDC job
+version must not be newer than the cluster version, as it will fail with
+an error message if so.</p>
+<p>Any transactions <em>originally</em> created by TigerBeetle versions
+before <code>0.16.29</code> have the following limitations for CDC
+processing:</p>
+<ul>
+<li>Events of type <code>two_phase_expired</code> are
+<strong>not</strong> supported.</li>
+<li>Only transfers where both the debit and credit accounts have the <a
+href="#reference-account-flagshistory"><code>flags.history</code></a>
+enabled are visible to CDC.</li>
+</ul>
+<p>Transactions committed after version <code>0.16.29</code> are fully
+compatible with CDC and do not require the <code>history</code>
+flag.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/cdc.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>

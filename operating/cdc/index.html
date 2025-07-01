@@ -423,6 +423,27 @@ replay unacknowledged messages that could have been already delivered to
 consumers.</p>
 <p>It is the consumer’s responsibility to perform <strong>idempotency
 checks</strong> when processing messages.</p>
+<h2 id="upgrading"><a href="#upgrading"
+class="anchor">Upgrading</a></h2>
+<p>The CDC job requires TigerBeetle cluster version <code>0.16.43</code>
+or greater.</p>
+<p>The same <a href="../upgrading#planning-for-upgrades">upgrade
+planning</a> recommended for clients applies to the CDC job. The CDC job
+version must not be newer than the cluster version, as it will fail with
+an error message if so.</p>
+<p>Any transactions <em>originally</em> created by TigerBeetle versions
+before <code>0.16.29</code> have the following limitations for CDC
+processing:</p>
+<ul>
+<li>Events of type <code>two_phase_expired</code> are
+<strong>not</strong> supported.</li>
+<li>Only transfers where both the debit and credit accounts have the <a
+href="../../reference/account#flagshistory"><code>flags.history</code></a>
+enabled are visible to CDC.</li>
+</ul>
+<p>Transactions committed after version <code>0.16.29</code> are fully
+compatible with CDC and do not require the <code>history</code>
+flag.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/cdc.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>

@@ -887,7 +887,7 @@ at risk as any single server might fail catastrophically (e.g. due to a
 fire in the data center). Primary/backup systems with ad-hoc failover
 can lose data due to split-brain.</p>
 <p>To avoid these pitfalls, TigerBeetle implements pioneering <a
-href="https://pmg.csail.mit.edu/papers/vr-revisited.pdf">Viewstamped
+href="http://pmg.csail.mit.edu/papers/vr-revisited.pdf">Viewstamped
 Replication</a> and consensus algorithm, that guarantees correct,
 automatic failover. It’s worth emphasizing that consensus proper needs
 only be engaged during actual failover. During the normal operation, the
@@ -4970,14 +4970,13 @@ class="sourceCode cs"><code class="sourceCode cs"><span id="cb16-1"><a href="#cb
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> transfer1 <span class="op">=</span> <span class="kw">new</span> Transfer</span>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    Id <span class="op">=</span> <span class="dv">9</span><span class="op">,</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Post the entire pending amount.</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    Amount <span class="op">=</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    PendingId <span class="op">=</span> <span class="dv">8</span><span class="op">,</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    Flags <span class="op">=</span> TransferFlags<span class="op">.</span><span class="fu">VoidPendingTransfer</span><span class="op">,</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>transferErrors <span class="op">=</span> client<span class="op">.</span><span class="fu">CreateTransfers</span><span class="op">(</span><span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> transfer1 <span class="op">});</span></span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co">// Error handling omitted.</span></span></code></pre></div>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    Amount <span class="op">=</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    PendingId <span class="op">=</span> <span class="dv">8</span><span class="op">,</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    Flags <span class="op">=</span> TransferFlags<span class="op">.</span><span class="fu">VoidPendingTransfer</span><span class="op">,</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>transferErrors <span class="op">=</span> client<span class="op">.</span><span class="fu">CreateTransfers</span><span class="op">(</span><span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> transfer1 <span class="op">});</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co">// Error handling omitted.</span></span></code></pre></div>
 </div>
 <h2 id="coding-clients-dotnet-transfer-lookup"><a href="#coding-clients-dotnet-transfer-lookup"
 class="anchor">Transfer Lookup</a></h2>
@@ -5765,15 +5764,14 @@ class="sourceCode go"><code class="sourceCode go"><span id="cb15-1"><a href="#cb
 <span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">// Error handling omitted.</span></span>
 <span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>transfer1 <span class="op">:=</span> Transfer<span class="op">{</span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    ID<span class="op">:</span> ToUint128<span class="op">(</span><span class="dv">9</span><span class="op">),</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Post the entire pending amount.</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    Amount<span class="op">:</span>    ToUint128<span class="op">(</span><span class="dv">0</span><span class="op">),</span></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    PendingID<span class="op">:</span> ToUint128<span class="op">(</span><span class="dv">8</span><span class="op">),</span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    Flags<span class="op">:</span>     TransferFlags<span class="op">{</span>VoidPendingTransfer<span class="op">:</span> <span class="ot">true</span><span class="op">}.</span>ToUint16<span class="op">(),</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>transferErrors<span class="op">,</span> err <span class="op">=</span> client<span class="op">.</span>CreateTransfers<span class="op">([]</span>Transfer<span class="op">{</span>transfer1<span class="op">})</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co">// Error handling omitted.</span></span></code></pre></div>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    ID<span class="op">:</span>        ToUint128<span class="op">(</span><span class="dv">9</span><span class="op">),</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    Amount<span class="op">:</span>    ToUint128<span class="op">(</span><span class="dv">0</span><span class="op">),</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    PendingID<span class="op">:</span> ToUint128<span class="op">(</span><span class="dv">8</span><span class="op">),</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    Flags<span class="op">:</span>     TransferFlags<span class="op">{</span>VoidPendingTransfer<span class="op">:</span> <span class="ot">true</span><span class="op">}.</span>ToUint16<span class="op">(),</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>transferErrors<span class="op">,</span> err <span class="op">=</span> client<span class="op">.</span>CreateTransfers<span class="op">([]</span>Transfer<span class="op">{</span>transfer1<span class="op">})</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co">// Error handling omitted.</span></span></code></pre></div>
 </div>
 <h2 id="coding-clients-go-transfer-lookup"><a href="#coding-clients-go-transfer-lookup"
 class="anchor">Transfer Lookup</a></h2>
@@ -7580,7 +7578,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15
 <span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  <span class="dt">id</span><span class="op">:</span> <span class="dv">9</span>n<span class="op">,</span></span>
 <span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">debit_account_id</span><span class="op">:</span> <span class="dv">102</span>n<span class="op">,</span></span>
 <span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  <span class="dt">credit_account_id</span><span class="op">:</span> <span class="dv">103</span>n<span class="op">,</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  <span class="dt">amount</span><span class="op">:</span> <span class="dv">10</span>n<span class="op">,</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  <span class="dt">amount</span><span class="op">:</span> <span class="dv">0</span>n<span class="op">,</span></span>
 <span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pending_id</span><span class="op">:</span> <span class="dv">8</span>n<span class="op">,</span></span>
 <span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  <span class="dt">user_data_128</span><span class="op">:</span> <span class="dv">0</span>n<span class="op">,</span></span>
 <span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  <span class="dt">user_data_64</span><span class="op">:</span> <span class="dv">0</span>n<span class="op">,</span></span>
@@ -8431,7 +8429,7 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a h
 <span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">id</span><span class="op">=</span><span class="dv">9</span>,</span>
 <span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    debit_account_id<span class="op">=</span><span class="dv">102</span>,</span>
 <span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    credit_account_id<span class="op">=</span><span class="dv">103</span>,</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">=</span><span class="dv">0</span>,</span>
 <span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    pending_id<span class="op">=</span><span class="dv">8</span>,</span>
 <span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    user_data_128<span class="op">=</span><span class="dv">0</span>,</span>
 <span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    user_data_64<span class="op">=</span><span class="dv">0</span>,</span>

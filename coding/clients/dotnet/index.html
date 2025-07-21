@@ -732,14 +732,13 @@ class="sourceCode cs"><code class="sourceCode cs"><span id="cb16-1"><a href="#cb
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> transfer1 <span class="op">=</span> <span class="kw">new</span> Transfer</span>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    Id <span class="op">=</span> <span class="dv">9</span><span class="op">,</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Post the entire pending amount.</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    Amount <span class="op">=</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    PendingId <span class="op">=</span> <span class="dv">8</span><span class="op">,</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    Flags <span class="op">=</span> TransferFlags<span class="op">.</span><span class="fu">VoidPendingTransfer</span><span class="op">,</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>transferErrors <span class="op">=</span> client<span class="op">.</span><span class="fu">CreateTransfers</span><span class="op">(</span><span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> transfer1 <span class="op">});</span></span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co">// Error handling omitted.</span></span></code></pre></div>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    Amount <span class="op">=</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    PendingId <span class="op">=</span> <span class="dv">8</span><span class="op">,</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    Flags <span class="op">=</span> TransferFlags<span class="op">.</span><span class="fu">VoidPendingTransfer</span><span class="op">,</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>transferErrors <span class="op">=</span> client<span class="op">.</span><span class="fu">CreateTransfers</span><span class="op">(</span><span class="kw">new</span><span class="op">[]</span> <span class="op">{</span> transfer1 <span class="op">});</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co">// Error handling omitted.</span></span></code></pre></div>
 </div>
 <h2 id="transfer-lookup"><a href="#transfer-lookup"
 class="anchor">Transfer Lookup</a></h2>

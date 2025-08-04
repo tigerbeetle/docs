@@ -344,7 +344,8 @@ class="anchor">Creating a Client</a></h2>
 replicas in the cluster. The cluster ID and replica addresses are both
 chosen by the system that starts the TigerBeetle cluster.</p>
 <p>Clients are thread-safe and a single instance should be shared
-between multiple concurrent tasks.</p>
+between multiple concurrent tasks. This allows events to be <a
+href="/coding/requests/#batching-events">automatically batched</a>.</p>
 <p>Multiple clients are useful when connecting to more than one
 TigerBeetle cluster.</p>
 <p>In this example the cluster ID is <code>0</code> and there is one

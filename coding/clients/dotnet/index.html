@@ -287,7 +287,8 @@ class="anchor">Creating a Client</a></h2>
 replicas in the cluster. The cluster ID and replica addresses are both
 chosen by the system that starts the TigerBeetle cluster.</p>
 <p>Clients are thread-safe and a single instance should be shared
-between multiple concurrent tasks.</p>
+between multiple concurrent tasks. This allows events to be <a
+href="/coding/requests/#batching-events">automatically batched</a>.</p>
 <p>Multiple clients are useful when connecting to more than one
 TigerBeetle cluster.</p>
 <p>In this example the cluster ID is <code>0</code> and there is one
@@ -306,10 +307,6 @@ environment variable and defaults to port <code>3000</code>.</p>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Use client</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
-<p>The <code>Client</code> class is thread-safe and for better
-performance, a single instance should be shared between multiple
-concurrent tasks. Multiple clients can be instantiated in case of
-connecting to more than one TigerBeetle cluster.</p>
 <p>The following are valid addresses:</p>
 <ul>
 <li><code>3000</code> (interpreted as <code>127.0.0.1:3000</code>)</li>

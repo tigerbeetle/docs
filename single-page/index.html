@@ -1345,7 +1345,8 @@ For example, representing USD in cents uses an asset scale of
 <code>2</code>.</p>
 <h4 id="coding-data-modeling-examples"><a href="#coding-data-modeling-examples" class="anchor">Examples</a></h4>
 <ul>
-<li>In USD, <code>$1</code> = <code>100</code> cents. So for example,
+<li><p>In USD, <code>$1</code> = <code>100</code> cents. Using an asset
+scale of <code>2</code>,</p>
 <ul>
 <li>The fractional amount <code>$0.45</code> is represented as the
 integer <code>45</code>.</li>
@@ -1354,14 +1355,26 @@ integer <code>12300</code>.</li>
 <li>The fractional amount <code>$123.45</code> is represented as the
 integer <code>12345</code>.</li>
 </ul></li>
+<li><p>In JPY, <code>¥1</code> = <code>1</code> yen. Using an asset
+scale of <code>0</code>,</p>
+<ul>
+<li>The fractional amount <code>¥123</code> is represented as the
+integer <code>123</code>.</li>
+</ul></li>
+<li><p>In KWD, <code>د.ك 1</code> = <code>1000</code> fils. Using an
+asset scale of <code>3</code>,</p>
+<ul>
+<li>The fractional amount <code>0.450 د.ك</code> is represented as the
+integer <code>450</code>.</li>
+<li>The fractional amount <code>123.000 د.ك</code> is represented as the
+integer <code>123000</code>.</li>
+<li>The fractional amount <code>123.450 د.ك</code> is represented as the
+integer <code>123450</code>.</li>
+</ul></li>
 </ul>
-<h3 id="coding-data-modeling-oversized-amounts"><a href="#coding-data-modeling-oversized-amounts"
-class="anchor">Oversized Amounts</a></h3>
-<p>The other direction works as well. If the smallest useful unit of a
-currency is <code>10,000,000</code> units, then it can be scaled down to
-the integer <code>1</code>.</p>
-<p>The 128-bit representation defines the precision, but not the
-scale.</p>
+<p>The other direction works as well. If the smallest useful unit of an
+asset is <code>10,000,000</code> units, then it can be scaled down to
+the integer <code>1</code> using an asset scale of <code>-7</code>.</p>
 <h3 id="coding-data-modeling-warning-asset-scales-cannot-be-easily-changed"><a
 href="#coding-data-modeling-warning-asset-scales-cannot-be-easily-changed" class="anchor">⚠️
 Asset Scales Cannot Be Easily Changed</a></h3>
@@ -1991,9 +2004,6 @@ request type are:</p>
 </tbody>
 </table>
 </div>
-<p>TigerBeetle clients automatically batch events. Therefore, it is
-recommended to share the client instances between multiple threads or
-tasks to have events batched transparently.</p>
 <ul>
 <li><a href="#coding-clients-node-batching">Node</a></li>
 <li><a href="#coding-clients-go-batching">Go</a></li>
@@ -2001,6 +2011,18 @@ tasks to have events batched transparently.</p>
 <li><a href="#coding-clients-dotnet-batching">.NET</a></li>
 <li><a href="#coding-clients-python-batching">Python</a></li>
 </ul>
+<h3 id="coding-requests-automatic-batching"><a href="#coding-requests-automatic-batching"
+class="anchor">Automatic Batching</a></h3>
+<p>TigerBeetle clients automatically batch operations. There may be
+instances where your application logic makes it hard to fill up the
+batches that you send to TigerBeetle, for example a multi-threaded web
+server where each HTTP request is handled on a different thread.</p>
+<p>The TigerBeetle client should be shared across threads (or tasks,
+depending on your paradigm), since it automatically groups together
+batches of small sizes into one request. Since TigerBeetle clients can
+have <a href="#reference-sessions"><strong>at most one in-flight
+request</strong></a>, the client accumulates smaller batches together
+while waiting for a reply to the last request.</p>
 <h2 id="coding-requests-guarantees"><a href="#coding-requests-guarantees"
 class="anchor">Guarantees</a></h2>
 <ul>
@@ -4525,7 +4547,8 @@ class="anchor">Creating a Client</a></h2>
 replicas in the cluster. The cluster ID and replica addresses are both
 chosen by the system that starts the TigerBeetle cluster.</p>
 <p>Clients are thread-safe and a single instance should be shared
-between multiple concurrent tasks.</p>
+between multiple concurrent tasks. This allows events to be <a
+href="#coding-requests-batching-events">automatically batched</a>.</p>
 <p>Multiple clients are useful when connecting to more than one
 TigerBeetle cluster.</p>
 <p>In this example the cluster ID is <code>0</code> and there is one
@@ -4544,10 +4567,6 @@ environment variable and defaults to port <code>3000</code>.</p>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Use client</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
-<p>The <code>Client</code> class is thread-safe and for better
-performance, a single instance should be shared between multiple
-concurrent tasks. Multiple clients can be instantiated in case of
-connecting to more than one TigerBeetle cluster.</p>
 <p>The following are valid addresses:</p>
 <ul>
 <li><code>3000</code> (interpreted as <code>127.0.0.1:3000</code>)</li>
@@ -5341,7 +5360,8 @@ class="anchor">Creating a Client</a></h2>
 replicas in the cluster. The cluster ID and replica addresses are both
 chosen by the system that starts the TigerBeetle cluster.</p>
 <p>Clients are thread-safe and a single instance should be shared
-between multiple concurrent tasks.</p>
+between multiple concurrent tasks. This allows events to be <a
+href="#coding-requests-batching-events">automatically batched</a>.</p>
 <p>Multiple clients are useful when connecting to more than one
 TigerBeetle cluster.</p>
 <p>In this example the cluster ID is <code>0</code> and there is one
@@ -6182,7 +6202,8 @@ class="anchor">Creating a Client</a></h2>
 replicas in the cluster. The cluster ID and replica addresses are both
 chosen by the system that starts the TigerBeetle cluster.</p>
 <p>Clients are thread-safe and a single instance should be shared
-between multiple concurrent tasks.</p>
+between multiple concurrent tasks. This allows events to be <a
+href="#coding-requests-batching-events">automatically batched</a>.</p>
 <p>Multiple clients are useful when connecting to more than one
 TigerBeetle cluster.</p>
 <p>In this example the cluster ID is <code>0</code> and there is one
@@ -7054,7 +7075,8 @@ class="anchor">Creating a Client</a></h2>
 replicas in the cluster. The cluster ID and replica addresses are both
 chosen by the system that starts the TigerBeetle cluster.</p>
 <p>Clients are thread-safe and a single instance should be shared
-between multiple concurrent tasks.</p>
+between multiple concurrent tasks. This allows events to be <a
+href="#coding-requests-batching-events">automatically batched</a>.</p>
 <p>Multiple clients are useful when connecting to more than one
 TigerBeetle cluster.</p>
 <p>In this example the cluster ID is <code>0</code> and there is one
@@ -7934,7 +7956,8 @@ class="anchor">Creating a Client</a></h2>
 replicas in the cluster. The cluster ID and replica addresses are both
 chosen by the system that starts the TigerBeetle cluster.</p>
 <p>Clients are thread-safe and a single instance should be shared
-between multiple concurrent tasks.</p>
+between multiple concurrent tasks. This allows events to be <a
+href="#coding-requests-batching-events">automatically batched</a>.</p>
 <p>Multiple clients are useful when connecting to more than one
 TigerBeetle cluster.</p>
 <p>In this example the cluster ID is <code>0</code> and there is one

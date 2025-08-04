@@ -397,9 +397,6 @@ request type are:</p>
 </tbody>
 </table>
 </div>
-<p>TigerBeetle clients automatically batch events. Therefore, it is
-recommended to share the client instances between multiple threads or
-tasks to have events batched transparently.</p>
 <ul>
 <li><a href="/coding/clients/node/#batching">Node</a></li>
 <li><a href="/coding/clients/go/#batching">Go</a></li>
@@ -407,6 +404,18 @@ tasks to have events batched transparently.</p>
 <li><a href="/coding/clients/dotnet/#batching">.NET</a></li>
 <li><a href="/coding/clients/python/#batching">Python</a></li>
 </ul>
+<h3 id="automatic-batching"><a href="#automatic-batching"
+class="anchor">Automatic Batching</a></h3>
+<p>TigerBeetle clients automatically batch operations. There may be
+instances where your application logic makes it hard to fill up the
+batches that you send to TigerBeetle, for example a multi-threaded web
+server where each HTTP request is handled on a different thread.</p>
+<p>The TigerBeetle client should be shared across threads (or tasks,
+depending on your paradigm), since it automatically groups together
+batches of small sizes into one request. Since TigerBeetle clients can
+have <a href="../../reference/sessions"><strong>at most one in-flight
+request</strong></a>, the client accumulates smaller batches together
+while waiting for a reply to the last request.</p>
 <h2 id="guarantees"><a href="#guarantees"
 class="anchor">Guarantees</a></h2>
 <ul>

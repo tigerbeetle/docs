@@ -105,10 +105,10 @@
 <li>
 <details><summary class="item"><a href="#coding-clients">Clients</a></summary>
 <ol>
-<li class="item"><a href="#coding-clients-dotnet">.Net</a></li>
+<li class="item"><a href="#coding-clients-dotnet">.NET</a></li>
 <li class="item"><a href="#coding-clients-go">Go</a></li>
 <li class="item"><a href="#coding-clients-java">Java</a></li>
-<li class="item"><a href="#coding-clients-node">Node</a></li>
+<li class="item"><a href="#coding-clients-node">Node.js</a></li>
 <li class="item"><a href="#coding-clients-python">Python</a></li>
 </ol>
 </details></li>
@@ -294,7 +294,7 @@ underlying storage functions correctly. Note that with a real cluster of
 class="anchor">Connecting to a Cluster</a></h2>
 <p>Now that the cluster is running, we can connect to it using a client.
 TigerBeetle already has clients for several popular programming
-languages, including Go, NodeJS, Java, and Python, and more are coming;
+languages, including Go, Node.js, Java, and Python, and more are coming;
 see the <a href="#coding">Coding</a> section for details. For this
 tutorial, we’ll keep it simple and connect to the cluster using the
 built-in CLI client. In a separate terminal, start a REPL with</p>
@@ -781,16 +781,16 @@ href="#concepts-performance-batching-batching-batching" class="anchor">Batching,
 Batching</a></h2>
 <p>On a busy day in a busy city, taking the subway is faster than using
 a car. On empty streets, a personal sports car gives you the best
-latency, but, when the load and contention increase, due to <a
+latency, but when the load and contention increase, due to <a
 href="https://en.wikipedia.org/wiki/Little%27s_law"><strong>Little’s
 law</strong></a>, both latency and throughput become abysmal.</p>
 <p>TigerBeetle works like a high-speed train — its interface always
 deals with <em>batches</em> of transactions, 8k apiece. Although
 TigerBeetle is a replicated database using a consensus algorithm, the
-cost of replications is paid only once per batch, which means that
+cost of replication is paid only once per batch, which means that
 TigerBeetle runs almost as fast as an in-memory hash map, all the while
 providing extreme durability and availability.</p>
-<p>What’s more, under light load the batches automatically become
+<p>What’s more, under light load, the batches automatically become
 smaller, trading unnecessary throughput for better latency.</p>
 <h2 id="concepts-performance-extreme-engineering"><a href="#concepts-performance-extreme-engineering"
 class="anchor">Extreme Engineering</a></h2>
@@ -798,8 +798,8 @@ class="anchor">Extreme Engineering</a></h2>
 amortizes costs, but, to really hit performance targets, solid
 engineering is required at every level of the stack.</p>
 <p>TigerBeetle is built fully from scratch, without using any
-dependencies, to make sure that all the layers are co-designed for the
-purposes of OLTP.</p>
+dependencies, to make sure that all the layers are co-designed for
+OLTP.</p>
 <p>TigerBeetle is written in Zig — a systems programming language which
 doesn’t use garbage collection and is designed for writing fast
 code.</p>
@@ -818,13 +818,13 @@ href="https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md">
 class="anchor">Single Threaded By Design</a></h2>
 <p>TigerBeetle uses a single core by design and uses a single leader
 node to process events. Adding more nodes can therefore increase
-reliability but not throughput.</p>
+reliability, but not throughput.</p>
 <p>For a high-performance database, this may seem like an unusual
 choice. However, sharding in financial databases is notoriously
-difficult and contention issues often negate the would-be benefits.
+difficult, and contention issues often negate the would-be benefits.
 Specifically, a small number of hot accounts are often involved in a
-large proportion of the transactions so the shards responsible for those
-accounts become bottlenecks.</p>
+large proportion of the transactions, so the shards responsible for
+those accounts become bottlenecks.</p>
 <p>For more details on when single-threaded implementations of
 algorithms outperform multi-threaded implementations, see <a
 href="https://www.usenix.org/system/files/conference/hotos15/hotos15-paper-mcsherry.pdf">“Scalability!
@@ -836,10 +836,10 @@ name of performance? It of course depends on a particular use-case, but
 it’s worth keeping in mind that higher performance can unlock new
 use-cases. An OLGP database might be enough to do nightly settlement,
 but with OLTP real-time settlement is a no-brainer. If a transaction
-system just hits its throughput target, every unexpected delay or an ops
-accident lead to missed transactions. If a system operates at one tenth
-of capacity, this gives a lot of headroom for operators to deal with the
-unexpected.</p>
+system just hits its throughput target, every unexpected delay or ops
+accident will lead to missed transactions. If a system operates at one
+tenth of capacity, this gives a lot of headroom for operators to deal
+with the unexpected.</p>
 <p>Finally, it is always helpful to think about the future. The future
 is hard to predict (even the <em>present</em> is hard to wrap your head
 around!), but the <em>option</em> to handle significantly more load on a
@@ -1117,7 +1117,7 @@ TigerBeetle cluster clock.</li>
 solutions for common business requirements such as a currency
 exchange.</li>
 <li><a href="#coding-clients">Clients</a> shows how to use TigerBeetle from
-the comfort of .Net, Go, Java, Node.js, or Python.</li>
+the comfort of .NET, Go, Java, Node.js, or Python.</li>
 </ul>
 <p>Subscribe to the <a
 href="https://github.com/tigerbeetle/tigerbeetle/issues/2231">tracking
@@ -2005,7 +2005,7 @@ request type are:</p>
 </table>
 </div>
 <ul>
-<li><a href="#coding-clients-node-batching">Node</a></li>
+<li><a href="#coding-clients-node-batching">Node.js</a></li>
 <li><a href="#coding-clients-go-batching">Go</a></li>
 <li><a href="#coding-clients-java-batching">Java</a></li>
 <li><a href="#coding-clients-dotnet-batching">.NET</a></li>
@@ -4431,7 +4431,7 @@ transfer will also fail.</p>
 languages:</p>
 <ul>
 <li><a
-href="https://github.com/tigerbeetle/tigerbeetle/blob/main/src/clients/dotnet/">.Net</a>
+href="https://github.com/tigerbeetle/tigerbeetle/blob/main/src/clients/dotnet/">.NET</a>
 (<a href="https://www.nuget.org/packages/tigerbeetle">nuget
 package</a>).</li>
 <li><a
@@ -4447,7 +4447,7 @@ central package</a>, <a
 href="https://javadoc.io/doc/com.tigerbeetle/tigerbeetle-java/">API
 docs</a>).</li>
 <li><a
-href="https://github.com/tigerbeetle/tigerbeetle/blob/main/src/clients/node/">Node</a>
+href="https://github.com/tigerbeetle/tigerbeetle/blob/main/src/clients/node/">Node.js</a>
 (<a href="https://www.npmjs.com/package/tigerbeetle-node">npm
 package</a>).</li>
 <li><a
@@ -7006,7 +7006,7 @@ class="anchor">Prerequisites</a></h2>
 <p>Linux &gt;= 5.6 is the only production environment we support. But
 for ease of development we also support macOS and Windows.</p>
 <ul>
-<li>NodeJS &gt;= <code>18</code></li>
+<li>Node.js &gt;= <code>18</code></li>
 </ul>
 <h2 id="coding-clients-node-setup"><a href="#coding-clients-node-setup" class="anchor">Setup</a></h2>
 <p>First, create a directory for your project and <code>cd</code> into
@@ -8851,8 +8851,8 @@ href="https://github.com/tigerbeetle/tigerbeetle/tree/main/docs/internals">inter
 documentation</a> for compilation instructions.</p>
 <h2 id="operating-installing-client-libraries"><a href="#operating-installing-client-libraries"
 class="anchor">Client Libraries</a></h2>
-<p>Client libraries for .Net, Go, Java, Node, and Python are published
-to the respective package repositories, see <a
+<p>Client libraries for .NET, Go, Java, Node.js, and Python are
+published to the respective package repositories, see <a
 href="#coding-clients">Clients</a>.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/installing.md">
   <svg width="16" height="16" fill="none">

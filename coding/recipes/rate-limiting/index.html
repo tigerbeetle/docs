@@ -220,17 +220,18 @@ class="anchor">Mechanism</a></h2>
 specifically for that resource. On that ledger, we have an operator
 account and an account for each user. Each user’s account will have a
 balance limit applied.</p>
-<p>To set up the rate limiting system, we will first transfer the
-resource limit amount to each of the users. For each user request, we
-will then create a <a
+<p>To set up the rate limiting system, we will first credit the resource
+limit amount to each of the users. For each user request, we will then
+create a <a
 href="../../two-phase-transfers#reserve-funds-pending-transfer">pending
 transfer</a> with a <a
 href="../../two-phase-transfers#expire-pending-transfer">timeout</a>. We
 will never post or void these transfers, but will instead let them
 expire.</p>
-<p>Since each account’s “balance” is limited, we cannot create pending
-transfers that would exceed the rate limit. However, when each pending
-transfer expires, it automatically replenishes the user’s balance.</p>
+<p>Since each account’s credit “balance” is limited, requesting a
+pending transfer that would exceed the rate limit will fail. However,
+when each pending transfer expires, the pending amounts are
+automatically restored to the available balance.</p>
 <h2 id="request-rate-limiting"><a href="#request-rate-limiting"
 class="anchor">Request Rate Limiting</a></h2>
 <p>Let’s say we want to limit each user to 10 requests per minute.</p>
@@ -299,7 +300,7 @@ for 1 unit back to the operator from the user:</p>
 </thead>
 <tbody>
 <tr>
-<td>2-N</td>
+<td>2…N</td>
 <td style="text-align: right;">Request Rate</td>
 <td style="text-align: right;">User</td>
 <td style="text-align: right;">Operator</td>
@@ -388,7 +389,7 @@ amount is equal to the request size:</p>
 </thead>
 <tbody>
 <tr>
-<td>2-N</td>
+<td>2…N</td>
 <td style="text-align: right;">Bandwidth</td>
 <td style="text-align: right;">User</td>
 <td style="text-align: right;">Operator</td>

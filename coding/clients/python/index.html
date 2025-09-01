@@ -296,7 +296,12 @@ environment variable and defaults to port <code>3000</code>.</p>
 <div class="sourceCode" id="cb4"><pre
 class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> tb.ClientSync(cluster_id<span class="op">=</span><span class="dv">0</span>, replica_addresses<span class="op">=</span>os.getenv(<span class="st">&quot;TB_ADDRESS&quot;</span>, <span class="st">&quot;3000&quot;</span>)) <span class="im">as</span> client:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use the client.</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively:</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="cf">with</span> tb.ClientAsync(cluster_id<span class="op">=</span><span class="dv">0</span>, replica_addresses<span class="op">=</span>os.getenv(<span class="st">&quot;TB_ADDRESS&quot;</span>, <span class="st">&quot;3000&quot;</span>)) <span class="im">as</span> client:</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use the client, async!</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code></pre></div>
 </div>
 <p>The following are valid addresses:</p>
 <ul>

@@ -911,6 +911,13 @@ href="https://arxiv.org/pdf/1608.06696v1">Heidi Howard’s flexible
 quorums</a>, this deployment is guaranteed to tolerate a complete outage
 of any cloud provider and will likely survive even if one extra replica
 fails.</p>
+<p>TigerBeetle detects and overcomes <a
+href="https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/paper-1.pdf">Gray
+Failure</a> automatically. If a replica’s disk becomes slow or the
+network interface starts dropping packets, TigerBeetle automatically
+adjusts replication topology to ensure that the slow replica doesn’t
+affect user-visible latencies, while still guaranteeing cluster-wide
+durability.</p>
 <h2 id="concepts-safety-storage-fault-tolerance"><a href="#concepts-safety-storage-fault-tolerance"
 class="anchor">Storage Fault Tolerance</a></h2>
 <p>Traditionally, databases assume that disks do not fail, or at least
@@ -7982,7 +7989,12 @@ environment variable and defaults to port <code>3000</code>.</p>
 <div class="sourceCode" id="cb4"><pre
 class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> tb.ClientSync(cluster_id<span class="op">=</span><span class="dv">0</span>, replica_addresses<span class="op">=</span>os.getenv(<span class="st">&quot;TB_ADDRESS&quot;</span>, <span class="st">&quot;3000&quot;</span>)) <span class="im">as</span> client:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use the client.</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively:</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="cf">with</span> tb.ClientAsync(cluster_id<span class="op">=</span><span class="dv">0</span>, replica_addresses<span class="op">=</span>os.getenv(<span class="st">&quot;TB_ADDRESS&quot;</span>, <span class="st">&quot;3000&quot;</span>)) <span class="im">as</span> client:</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use the client, async!</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code></pre></div>
 </div>
 <p>The following are valid addresses:</p>
 <ul>
@@ -10101,6 +10113,28 @@ enabled are visible to CDC.</li>
 <p>Transactions committed after version <code>0.16.29</code> are fully
 compatible with CDC and do not require the <code>history</code>
 flag.</p>
+<h2 id="operating-cdc-cdc-to-rabbitmq-amqp-091-in-production"><a
+href="#operating-cdc-cdc-to-rabbitmq-amqp-091-in-production" class="anchor">CDC to
+RabbitMQ (AMQP 0.9.1) in production</a></h2>
+<h3 id="operating-cdc-high-availability"><a href="#operating-cdc-high-availability"
+class="anchor">High Availability</a></h3>
+<p>The CDC job is single instance. Starting a second
+<code>tigerbeetle amqp</code> with the same <code>cluster_id</code> will
+exit with a non-zero exit code. For high availability, the CDC job could
+be monitored for crashes and restarted in case a failure.</p>
+<p>The CDC job itself is stateless, and will resume from the last event
+acknowledged by RabbitMQ, however it may replay events that weren’t
+acknowledged but received by the exchange.</p>
+<h3 id="operating-cdc-tls-support"><a href="#operating-cdc-tls-support" class="anchor">TLS
+Support</a></h3>
+<p>For secure <code>AMQPS</code> connections, we recommend using a TLS
+Tunnel to wrap the connection between TigerBeetle and RabbitMQ.</p>
+<h3 id="operating-cdc-event-replay"><a href="#operating-cdc-event-replay" class="anchor">Event
+Replay</a></h3>
+<p>By default, when the CDC job starts, it resumes from the timestamp of
+the last acknowledged event in RabbitMQ. This can be overridden to using
+<code>--timestamp-last</code>. For example,
+<code>--timestamp-last=0</code> will replay all events.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/cdc.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>

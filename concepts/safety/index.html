@@ -259,6 +259,13 @@ href="https://arxiv.org/pdf/1608.06696v1">Heidi Howard’s flexible
 quorums</a>, this deployment is guaranteed to tolerate a complete outage
 of any cloud provider and will likely survive even if one extra replica
 fails.</p>
+<p>TigerBeetle detects and overcomes <a
+href="https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/paper-1.pdf">Gray
+Failure</a> automatically. If a replica’s disk becomes slow or the
+network interface starts dropping packets, TigerBeetle automatically
+adjusts replication topology to ensure that the slow replica doesn’t
+affect user-visible latencies, while still guaranteeing cluster-wide
+durability.</p>
 <h2 id="storage-fault-tolerance"><a href="#storage-fault-tolerance"
 class="anchor">Storage Fault Tolerance</a></h2>
 <p>Traditionally, databases assume that disks do not fail, or at least

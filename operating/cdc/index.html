@@ -258,6 +258,9 @@ Optional. Defaults to <code>2730</code> if omitted.</p></li>
 to wait before querying again when the last query returned no
 events.<br> Optional. Defaults to <code>1000</code> ms if
 omitted.</p></li>
+<li><p><code>--requests-per-second-limit</code> throttles the maximum
+number of requests per second made to TigerBeetle.<br> Must be greater
+than zero.<br> Optional. No limit if omitted.</p></li>
 <li><p><code>--timestamp-last</code> overrides the last published
 timestamp, resuming from this point.<br> This is a TigerBeetle timestamp
 with nanosecond precision.<br> Optional. If omitted, the last

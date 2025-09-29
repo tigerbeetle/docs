@@ -3227,7 +3227,9 @@ another account.</p>
 <p>Additionally, it may be desirable to forbid further transfers on this
 account (i.e. at the end of an accounting period, upon account
 termination, or even temporarily freezing the account for audit
-purposes.</p>
+purposes). This doesn’t affect existing <a
+href="#coding-two-phase-transfers">pending transfers</a>, which can still
+time out but can’t be posted or voided.</p>
 <h3 id="coding-recipes-close-account-example"><a href="#coding-recipes-close-account-example" class="anchor">Example</a></h3>
 <p>Given a set of accounts:</p>
 <div class="table">
@@ -5124,7 +5126,7 @@ class="sourceCode cs"><code class="sourceCode cs"><span id="cb20-1"><a href="#cb
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    Ledger <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="co">// No filter by Ledger.</span></span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    TimestampMin <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="co">// No filter by Timestamp.</span></span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    TimestampMax <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="co">// No filter by Timestamp.</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    Limit <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> <span class="co">// Limit to ten balances at most.</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    Limit <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> <span class="co">// Limit to ten accounts at most.</span></span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    Flags <span class="op">=</span> QueryFilterFlags<span class="op">.</span><span class="fu">Reversed</span><span class="op">,</span> <span class="co">// Sort by timestamp in reverse-chronological order.</span></span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
@@ -5153,7 +5155,7 @@ class="sourceCode cs"><code class="sourceCode cs"><span id="cb21-1"><a href="#cb
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    Ledger <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="co">// No filter by Ledger</span></span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    TimestampMin <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="co">// No filter by Timestamp.</span></span>
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    TimestampMax <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="co">// No filter by Timestamp.</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    Limit <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> <span class="co">// Limit to ten balances at most.</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    Limit <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> <span class="co">// Limit to ten transfers at most.</span></span>
 <span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    Flags <span class="op">=</span> QueryFilterFlags<span class="op">.</span><span class="fu">Reversed</span><span class="op">,</span> <span class="co">// Sort by timestamp in reverse-chronological order.</span></span>
 <span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
@@ -5921,7 +5923,7 @@ class="sourceCode go"><code class="sourceCode go"><span id="cb19-1"><a href="#cb
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    Ledger<span class="op">:</span>       <span class="dv">0</span><span class="op">,</span>  <span class="co">// No filter by Ledger</span></span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    TimestampMin<span class="op">:</span> <span class="dv">0</span><span class="op">,</span>  <span class="co">// No filter by Timestamp.</span></span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    TimestampMax<span class="op">:</span> <span class="dv">0</span><span class="op">,</span>  <span class="co">// No filter by Timestamp.</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    Limit<span class="op">:</span>        <span class="dv">10</span><span class="op">,</span> <span class="co">// Limit to ten balances at most.</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    Limit<span class="op">:</span>        <span class="dv">10</span><span class="op">,</span> <span class="co">// Limit to ten accounts at most.</span></span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    Flags<span class="op">:</span> QueryFilterFlags<span class="op">{</span></span>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>        Reversed<span class="op">:</span> <span class="ot">true</span><span class="op">,</span> <span class="co">// Sort by timestamp in reverse-chronological order.</span></span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}.</span>ToUint32<span class="op">(),</span></span>
@@ -5951,7 +5953,7 @@ class="sourceCode go"><code class="sourceCode go"><span id="cb20-1"><a href="#cb
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    Ledger<span class="op">:</span>       <span class="dv">0</span><span class="op">,</span>  <span class="co">// No filter by Ledger.</span></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    TimestampMin<span class="op">:</span> <span class="dv">0</span><span class="op">,</span>  <span class="co">// No filter by Timestamp.</span></span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    TimestampMax<span class="op">:</span> <span class="dv">0</span><span class="op">,</span>  <span class="co">// No filter by Timestamp.</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    Limit<span class="op">:</span>        <span class="dv">10</span><span class="op">,</span> <span class="co">// Limit to ten balances at most.</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    Limit<span class="op">:</span>        <span class="dv">10</span><span class="op">,</span> <span class="co">// Limit to ten transfers at most.</span></span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    Flags<span class="op">:</span> QueryFilterFlags<span class="op">{</span></span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>        Reversed<span class="op">:</span> <span class="ot">true</span><span class="op">,</span> <span class="co">// Sort by timestamp in reverse-chronological order.</span></span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}.</span>ToUint32<span class="op">(),</span></span>
@@ -6797,7 +6799,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb20-1"><a href=
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>filter<span class="op">.</span><span class="fu">setLedger</span><span class="op">(</span><span class="dv">0</span><span class="op">);</span> <span class="co">// No filter by Ledger.</span></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>filter<span class="op">.</span><span class="fu">setTimestampMin</span><span class="op">(</span><span class="dv">0</span><span class="op">);</span> <span class="co">// No filter by Timestamp.</span></span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>filter<span class="op">.</span><span class="fu">setTimestampMax</span><span class="op">(</span><span class="dv">0</span><span class="op">);</span> <span class="co">// No filter by Timestamp.</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>filter<span class="op">.</span><span class="fu">setLimit</span><span class="op">(</span><span class="dv">10</span><span class="op">);</span> <span class="co">// Limit to ten balances at most.</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>filter<span class="op">.</span><span class="fu">setLimit</span><span class="op">(</span><span class="dv">10</span><span class="op">);</span> <span class="co">// Limit to ten accounts at most.</span></span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>filter<span class="op">.</span><span class="fu">setReversed</span><span class="op">(</span><span class="kw">true</span><span class="op">);</span> <span class="co">// Sort by timestamp in reverse-chronological order.</span></span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>AccountBatch accounts <span class="op">=</span> client<span class="op">.</span><span class="fu">queryAccounts</span><span class="op">(</span>filter<span class="op">);</span></span></code></pre></div>
@@ -6824,7 +6826,7 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb21-1"><a href=
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>filter<span class="op">.</span><span class="fu">setLedger</span><span class="op">(</span><span class="dv">0</span><span class="op">);</span> <span class="co">// No filter by Ledger.</span></span>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>filter<span class="op">.</span><span class="fu">setTimestampMin</span><span class="op">(</span><span class="dv">0</span><span class="op">);</span> <span class="co">// No filter by Timestamp.</span></span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>filter<span class="op">.</span><span class="fu">setTimestampMax</span><span class="op">(</span><span class="dv">0</span><span class="op">);</span> <span class="co">// No filter by Timestamp.</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>filter<span class="op">.</span><span class="fu">setLimit</span><span class="op">(</span><span class="dv">10</span><span class="op">);</span> <span class="co">// Limit to ten balances at most.</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>filter<span class="op">.</span><span class="fu">setLimit</span><span class="op">(</span><span class="dv">10</span><span class="op">);</span> <span class="co">// Limit to ten transfers at most.</span></span>
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>filter<span class="op">.</span><span class="fu">setReversed</span><span class="op">(</span><span class="kw">true</span><span class="op">);</span> <span class="co">// Sort by timestamp in reverse-chronological order.</span></span>
 <span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>TransferBatch transfers <span class="op">=</span> client<span class="op">.</span><span class="fu">queryTransfers</span><span class="op">(</span>filter<span class="op">);</span></span></code></pre></div>
@@ -7675,7 +7677,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">code</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="co">// No filter by Code.</span></span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">timestamp_min</span><span class="op">:</span> <span class="dv">0</span>n<span class="op">,</span> <span class="co">// No filter by Timestamp.</span></span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">timestamp_max</span><span class="op">:</span> <span class="dv">0</span>n<span class="op">,</span> <span class="co">// No filter by Timestamp.</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">limit</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span> <span class="co">// Limit to ten balances at most.</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">limit</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span> <span class="co">// Limit to ten transfers at most.</span></span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">flags</span><span class="op">:</span> AccountFilterFlags<span class="op">.</span><span class="at">debits</span> <span class="op">|</span> <span class="co">// Include transfer from the debit side.</span></span>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    AccountFilterFlags<span class="op">.</span><span class="at">credits</span> <span class="op">|</span> <span class="co">// Include transfer from the credit side.</span></span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    AccountFilterFlags<span class="op">.</span><span class="at">reversed</span><span class="op">,</span> <span class="co">// Sort by timestamp in reverse-chronological order.</span></span>
@@ -7739,7 +7741,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb19
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">ledger</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="co">// No filter by Ledger.</span></span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">timestamp_min</span><span class="op">:</span> <span class="dv">0</span>n<span class="op">,</span> <span class="co">// No filter by Timestamp.</span></span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">timestamp_max</span><span class="op">:</span> <span class="dv">0</span>n<span class="op">,</span> <span class="co">// No filter by Timestamp.</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">limit</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span> <span class="co">// Limit to ten balances at most.</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">limit</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span> <span class="co">// Limit to ten accounts at most.</span></span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">flags</span><span class="op">:</span> QueryFilterFlags<span class="op">.</span><span class="at">reversed</span><span class="op">,</span> <span class="co">// Sort by timestamp in reverse-chronological order.</span></span>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
@@ -7767,7 +7769,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">ledger</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="co">// No filter by Ledger.</span></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">timestamp_min</span><span class="op">:</span> <span class="dv">0</span>n<span class="op">,</span> <span class="co">// No filter by Timestamp.</span></span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">timestamp_max</span><span class="op">:</span> <span class="dv">0</span>n<span class="op">,</span> <span class="co">// No filter by Timestamp.</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">limit</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span> <span class="co">// Limit to ten balances at most.</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">limit</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span> <span class="co">// Limit to ten transfers at most.</span></span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">flags</span><span class="op">:</span> QueryFilterFlags<span class="op">.</span><span class="at">reversed</span><span class="op">,</span> <span class="co">// Sort by timestamp in reverse-chronological order.</span></span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
@@ -8532,7 +8534,7 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a h
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    code<span class="op">=</span><span class="dv">0</span>, <span class="co"># No filter by Code.</span></span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    timestamp_min<span class="op">=</span><span class="dv">0</span>, <span class="co"># No filter by Timestamp.</span></span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    timestamp_max<span class="op">=</span><span class="dv">0</span>, <span class="co"># No filter by Timestamp.</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    limit<span class="op">=</span><span class="dv">10</span>, <span class="co"># Limit to ten balances at most.</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    limit<span class="op">=</span><span class="dv">10</span>, <span class="co"># Limit to ten transfers at most.</span></span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">=</span>tb.AccountFilterFlags.DEBITS <span class="op">|</span> <span class="co"># Include transfer from the debit side.</span></span>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    tb.AccountFilterFlags.CREDITS <span class="op">|</span> <span class="co"># Include transfer from the credit side.</span></span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    tb.AccountFilterFlags.REVERSED, <span class="co"># Sort by timestamp in reverse-chronological order.</span></span>
@@ -8596,7 +8598,7 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a h
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">=</span><span class="dv">0</span>, <span class="co"># No filter by Ledger.</span></span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    timestamp_min<span class="op">=</span><span class="dv">0</span>, <span class="co"># No filter by Timestamp.</span></span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    timestamp_max<span class="op">=</span><span class="dv">0</span>, <span class="co"># No filter by Timestamp.</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    limit<span class="op">=</span><span class="dv">10</span>, <span class="co"># Limit to ten balances at most.</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    limit<span class="op">=</span><span class="dv">10</span>, <span class="co"># Limit to ten accounts at most.</span></span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">=</span>tb.QueryFilterFlags.REVERSED, <span class="co"># Sort by timestamp in reverse-chronological order.</span></span>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
@@ -8624,7 +8626,7 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a h
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">=</span><span class="dv">0</span>, <span class="co"># No filter by Ledger.</span></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    timestamp_min<span class="op">=</span><span class="dv">0</span>, <span class="co"># No filter by Timestamp.</span></span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    timestamp_max<span class="op">=</span><span class="dv">0</span>, <span class="co"># No filter by Timestamp.</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    limit<span class="op">=</span><span class="dv">10</span>, <span class="co"># Limit to ten balances at most.</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    limit<span class="op">=</span><span class="dv">10</span>, <span class="co"># Limit to ten transfers at most.</span></span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">=</span>tb.QueryFilterFlags.REVERSED, <span class="co"># Sort by timestamp in reverse-chronological order.</span></span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>

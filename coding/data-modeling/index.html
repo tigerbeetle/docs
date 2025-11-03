@@ -138,6 +138,7 @@
 <li class="item"><a href="/coding/clients/java/">Java</a></li>
 <li class="item"><a href="/coding/clients/node/">Node.js</a></li>
 <li class="item"><a href="/coding/clients/python/">Python</a></li>
+<li class="item"><a href="/coding/clients/rust/">Rust</a></li>
 </ol>
 </details></li>
 </ol>
@@ -444,18 +445,22 @@ advantage of LSM optimizations, which leads to higher database
 throughput.</p>
 <p>TigerBeetle clients include an <code>id()</code> function to generate
 IDs using the recommended scheme.</p>
-<p>TigerBeetle IDs consist of:</p>
+<p>TigerBeetle ID is a 128-bit number where:</p>
 <ul>
-<li>48 bits of (millisecond) timestamp (high-order bits)</li>
-<li>80 bits of randomness (low-order bits)</li>
+<li>the high 48 bits are a millisecond timestamp</li>
+<li>the low 80 bits are random</li>
 </ul>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<pre><code>id = (timestamp &lt;&lt; 80) | random</code></pre>
+</div>
 <p>When creating multiple objects during the same millisecond, we
 increment the random bytes rather than generating new random bytes.
-Furthermore, it is important that IDs are stored in little-endian with
-the random bytes as the lower-order bits and the timestamp as the
-higher-order bits. These details ensure that a sequence of objects have
-strictly increasing IDs according to the server, which improves database
-optimization.</p>
+These details ensure that a sequence of objects have strictly increasing
+IDs according to the server, which improves database optimization.</p>
 <p>Similar to ULIDs and UUIDv7s, these IDs have the following
 benefits:</p>
 <ul>

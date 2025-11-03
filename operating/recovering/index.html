@@ -138,6 +138,7 @@
 <li class="item"><a href="/coding/clients/java/">Java</a></li>
 <li class="item"><a href="/coding/clients/node/">Node.js</a></li>
 <li class="item"><a href="/coding/clients/python/">Python</a></li>
+<li class="item"><a href="/coding/clients/rust/">Rust</a></li>
 </ol>
 </details></li>
 </ol>
@@ -216,7 +217,7 @@ cluster.</p>
 be used for this purpose. The issue is that
 <code>tigerbeetle format</code> would create a replica that believes
 that any operation that it hasn’t seen can be safely nack’d – unaware of
-the promises it made which were lost with the old data file This could
+the promises it made which were lost with the old data file. This could
 cause the cluster to lose committed data.</p>
 <p>Instead of <code>tigerbeetle format</code>, use the
 <code>tigerbeetle recover</code> command (see below).</p>

@@ -255,7 +255,7 @@ transactions first!</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<pre class="console"><code>powershell -command &quot;curl.exe -Lo tigerbeetle.zip https://windows.tigerbeetle.com; Expand-Archive tigerbeetle.zip .
+<pre class="console"><code>powershell -command &quot;curl.exe -Lo tigerbeetle.zip https://windows.tigerbeetle.com; Expand-Archive tigerbeetle.zip .&quot;
 .\tigerbeetle version</code></pre>
 </div>
 </details>
@@ -291,7 +291,7 @@ experimentation. That’s what we’ll do here.</p>
 <pre class="console"><code>./tigerbeetle start --addresses=3000 --development ./0_0.tigerbeetle</code></pre>
 </div>
 <p>It will listen on port 3000 for connections from clients. There’s
-intensionally no way to gracefully shut down a replica, you can
+intentionally no way to gracefully shut down a replica. You can
 <code>^C</code> it freely, and the data will be safe as long as the
 underlying storage functions correctly. Note that with a real cluster of
 6 replicas, the data is safe even if the storage misbehaves.</p>

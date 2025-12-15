@@ -377,22 +377,22 @@ request type are:</p>
 </tr>
 <tr>
 <td><code>get_account_transfers</code></td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">1†</td>
 <td style="text-align: right;">8189</td>
 </tr>
 <tr>
 <td><code>get_account_balances</code></td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">1†</td>
 <td style="text-align: right;">8189</td>
 </tr>
 <tr>
 <td><code>query_accounts</code></td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">1†</td>
 <td style="text-align: right;">8189</td>
 </tr>
 <tr>
 <td><code>query_transfers</code></td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">1†</td>
 <td style="text-align: right;">8189</td>
 </tr>
 </tbody>
@@ -417,6 +417,10 @@ batches of small sizes into one request. Since TigerBeetle clients can
 have <a href="../../reference/sessions"><strong>at most one in-flight
 request</strong></a>, the client accumulates smaller batches together
 while waiting for a reply to the last request.</p>
+<p>†: For queries (e.g. <code>get_account_transfers</code>, etc)
+TigerBeetle clients use the query <code>limit</code> to automatically
+batch queries of the same type together into requests when it knows for
+sure that all of their results will fit in a single reply.</p>
 <h2 id="guarantees"><a href="#guarantees"
 class="anchor">Guarantees</a></h2>
 <ul>

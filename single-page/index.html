@@ -3693,12 +3693,14 @@ balance invariants for only a subset of all transfers, rather than all
 transfers.</p>
 <p>This can be achieved by having a <strong>control</strong> account
 used to test the balance invariants at the desired points in time. The
-control account will have a 0 balance and the <strong>opposite</strong>
-balance invariant set to the invariant that we want to test on the
-<strong>destination</strong> account. At the point where we want to test
-the destination account balance invariant, we can initiate a pending
-closing balance transfer to the control account in order to test the
-invariant. The following example will make this clearer.</p>
+control account will have a 0 balance and the balance invariant that we
+want to test on the <strong>destination</strong> account. At the point
+where we want to test the destination account balance invariant, we can
+initiate a pending balancing transfer for the <strong>opposite</strong>
+side to the control account. If the invariant is violated on the
+destination account, the balancing transfer has non-zero amount,
+violates the control account invariant, and fails the entire chain. The
+following example will make this clearer.</p>
 <h2 id="coding-recipes-balance-invariant-transfers-per-transfer-credits_must_not_exceed_debits"><a
 href="#coding-recipes-balance-invariant-transfers-per-transfer-credits_must_not_exceed_debits"
 class="anchor">Per-transfer
@@ -3714,7 +3716,7 @@ href="#reference-account-flagscredits_must_not_exceed_debits"><code>flags.credit
 nor <a
 href="#reference-account-flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
 set, since in this recipe we are only enforcing the invariant on a
-per-transfer basis.</li>
+per-transfer basis.)</li>
 <li>The <strong>control</strong> account, to test the balance invariant.
 The control account should have <a
 href="#reference-account-flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
@@ -3771,6 +3773,69 @@ href="#reference-transfer-flagsvoid_pending_transfer"><code>void_pending_transfe
 do not exceed its debits, the chain will succeed. When the destination
 account’s credits after transfer <code>1</code> exceed its debits,
 transfer <code>2</code> will fail with <code>exceeds_debits</code>.</p>
+<h2 id="coding-recipes-balance-invariant-transfers-per-transfer-debits_must_not_exceed_credits"><a
+href="#coding-recipes-balance-invariant-transfers-per-transfer-debits_must_not_exceed_credits"
+class="anchor">Per-transfer
+<code>debits_must_not_exceed_credits</code></a></h2>
+<p>This case is symmetric:</p>
+<ol type="1">
+<li>The <strong>source</strong> is account to credit.</li>
+<li>The <strong>destination</strong> is account to debit. Neither <a
+href="#reference-account-flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
+nor <a
+href="#reference-account-flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
+are set.</li>
+<li>The <strong>control</strong> account has <a
+href="#reference-account-flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
+set.</li>
+</ol>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Id</th>
+<th style="text-align: right;">Debit Account</th>
+<th style="text-align: right;">Credit Account</th>
+<th style="text-align: right;">Amount</th>
+<th style="text-align: right;">Pending Id</th>
+<th style="text-align: right;">Flags</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">Destination</td>
+<td style="text-align: right;">Source</td>
+<td style="text-align: right;">123</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;"><a
+href="#reference-transfer-flagslinked"><code>linked</code></a></td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">Control</td>
+<td style="text-align: right;">Destination</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;"><a
+href="#reference-transfer-flagslinked"><code>linked</code></a>,
+<a
+href="#reference-transfer-flagspending"><code>pending</code></a>,
+<a
+href="#reference-transfer-flagsbalancing_credit"><code>balancing_credit</code></a></td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;"><a
+href="#reference-transfer-flagsvoid_pending_transfer"><code>void_pending_transfer</code></a></td>
+</tr>
+</tbody>
+</table>
+</div>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/coding/recipes/balance-invariant-transfers.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
@@ -8823,7 +8888,8 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb2-1"><a href="
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">fn</span> main_async() <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span>()<span class="op">,</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="pp">std::error::</span><span class="bu">Error</span><span class="op">&gt;&gt;</span> <span class="op">{</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="pp">println!</span>(<span class="st">&quot;hello world&quot;</span>)<span class="op">;</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Ok</span>(())</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <p>Finally, build and run:</p>
 <div class="code-wrapper">
@@ -11840,7 +11906,7 @@ class="anchor"><code>user_data_128</code></a></h3>
 <p>This is an optional 128-bit secondary identifier to link this
 transfer to an external entity or event.</p>
 <p>When set to zero, no secondary identifier will be associated with the
-account, therefore only non-zero values can be used as <a
+transfer, therefore only non-zero values can be used as <a
 href="#reference-query-filter">query filter</a>.</p>
 <p>When set to zero, if <a
 href="#reference-transfer-flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>
@@ -11862,7 +11928,7 @@ class="anchor"><code>user_data_64</code></a></h3>
 <p>This is an optional 64-bit secondary identifier to link this transfer
 to an external entity or event.</p>
 <p>When set to zero, no secondary identifier will be associated with the
-account, therefore only non-zero values can be used as <a
+transfer, therefore only non-zero values can be used as <a
 href="#reference-query-filter">query filter</a>.</p>
 <p>When set to zero, if <a
 href="#reference-transfer-flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>
@@ -11883,7 +11949,7 @@ class="anchor"><code>user_data_32</code></a></h3>
 <p>This is an optional 32-bit secondary identifier to link this transfer
 to an external entity or event.</p>
 <p>When set to zero, no secondary identifier will be associated with the
-account, therefore only non-zero values can be used as <a
+transfer, therefore only non-zero values can be used as <a
 href="#reference-query-filter">query filter</a>.</p>
 <p>When set to zero, if <a
 href="#reference-transfer-flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>

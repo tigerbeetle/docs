@@ -1021,6 +1021,17 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb22-1"><a href=
 <span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a><span class="co">// Since it is a linked chain, in case of any error the entire batch is rolled back and can be retried</span></span>
 <span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a><span class="co">// with the same historical timestamps without regressing the cluster timestamp.</span></span></code></pre></div>
 </div>
+<h2 id="timeouts-and-cancellation"><a href="#timeouts-and-cancellation"
+class="anchor">Timeouts And Cancellation</a></h2>
+<p>The Client retries indefinitely and doesn’t impose any per-request
+timeout. Cancellation is provided as a mechanism, and the specific
+cancellation policy is left to the application. A Client instance can be
+closed at any time. On close, all in-flight requests are canceled and
+return an error to the caller. Even if an error is returned, a request
+might still be processed by the TigerBeetle server. <a
+href="/coding/reliable-transaction-submission/">Reliable transaction
+submission</a> explains how to make transfers retry-proof using IDs for
+end-to-end idempotency.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/src/clients/rust/README.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>

@@ -432,8 +432,9 @@ accounts/transfers.</li>
 strictly decreasing) values are amenable to optimization, leading to
 higher database throughput.</li>
 <li>Random identifiers are not recommended – they can’t take advantage
-of all of the LSM optimizations. (Random identifiers have ~10% lower
-throughput than strictly-increasing ULIDs).</li>
+of all of the LSM optimizations. (Random identifiers have
+<em>significantly</em> lower throughput than strictly-increasing
+ULIDs).</li>
 </ul>
 <h3 id="tigerbeetle-time-based-identifiers-recommended"><a
 href="#tigerbeetle-time-based-identifiers-recommended"

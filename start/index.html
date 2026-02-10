@@ -215,8 +215,8 @@ that can be expressed as double-entry bookkeeping, providing three
 orders of magnitude more performance and guaranteeing durability even in
 the face of network, machine, and storage faults. You will learn more
 about why this is an important and hard problem to solve in the <a
-href="../concepts/">Concepts</a> section, but let’s make some real
-transactions first!</p>
+href="../concepts/">Concepts</a> section, but first—let’s make some real
+transactions!</p>
 <h2 id="install"><a href="#install" class="anchor">Install</a></h2>
 <p>TigerBeetle is a single, small, statically linked binary.</p>
 <p>You can download a pre-built binary from
@@ -265,10 +265,10 @@ options.</p>
 <h2 id="run-a-cluster"><a href="#run-a-cluster" class="anchor">Run a
 Cluster</a></h2>
 <p>Typically, TigerBeetle is deployed as a cluster of 6 replicas, which
-is described in the <a href="../operating/">Operating</a> section. But
-it is also possible to run a single-replica cluster, which of course
-doesn’t provide high-availability, but is convenient for
-experimentation. That’s what we’ll do here.</p>
+is described in the <a href="../operating/">Operating</a> section. It is
+also possible to run a single-replica cluster, which of course doesn’t
+provide high-availability, but is convenient for experimentation; that’s
+what we’ll do here.</p>
 <p>First, format a data file:</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
@@ -298,11 +298,15 @@ underlying storage functions correctly. Note that with a real cluster of
 <h2 id="connecting-to-a-cluster"><a href="#connecting-to-a-cluster"
 class="anchor">Connecting to a Cluster</a></h2>
 <p>Now that the cluster is running, we can connect to it using a client.
-TigerBeetle already has clients for several popular programming
-languages, including Go, Node.js, Java, and Python, and more are coming;
-see the <a href="../coding">Coding</a> section for details. For this
-tutorial, we’ll keep it simple and connect to the cluster using the
-built-in CLI client. In a separate terminal, start a REPL with</p>
+TigerBeetle has clients for several popular programming languages,
+including <a href="/coding/clients/python/">Python</a>, <a
+href="/coding/clients/java/">Java</a>, <a
+href="/coding/clients/node/">Node.js</a>, <a
+href="/coding/clients/dotnet/">.Net</a>, and <a
+href="/coding/clients/go/">Go</a>, and more are coming; see the <a
+href="../coding">Coding</a> section for details. For this tutorial,
+we’ll keep it simple and connect to the cluster using the built-in CLI
+client. In a separate terminal, start a REPL with:</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
@@ -319,8 +323,8 @@ class="anchor">Issuing Transactions</a></h2>
 <p>TigerBeetle comes with a pre-defined database schema — double-entry
 bookkeeping. The <a href="../concepts">Concept</a> section explains why
 this particular schema, and the <a href="../reference">Reference</a>
-documents all the bells and whistles, but, for the purposes of this
-tutorial, it is enough to understand that there are accounts holding
+documents all the bells and whistles. For the purposes of this tutorial,
+it is enough to understand that there are accounts holding
 <code>credits</code> and <code>debits</code> balances, and that each
 transfer moves value between two accounts by incrementing
 <code>credits</code> on one side and <code>debits</code> on the
@@ -402,9 +406,9 @@ class="sourceCode json"><code class="sourceCode json"><span id="cb10-1"><a href=
 <span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;credits_posted&quot;</span><span class="fu">:</span> <span class="st">&quot;10&quot;</span></span>
 <span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 </div>
-<p>Note how the transfer amount is added both to the credits and to the
-debits. That the sum of debits and credits stays equal no matter what is
-a powerful invariant of the double-entry bookkeeping system.</p>
+<p>Note how the transfer amount is added to both the credits and debits.
+That the sum of debits and credits stays equal, no matter what, is a
+powerful invariant of a double-entry bookkeeping system.</p>
 <h2 id="conclusion"><a href="#conclusion"
 class="anchor">Conclusion</a></h2>
 <p>This is the end of the quick start! You now know how to format a data
@@ -412,24 +416,24 @@ file, run a single-replica TigerBeetle cluster, and run transactions
 through it. Here’s where to go from here:</p>
 <ul>
 <li><a href="../concepts/">Concepts</a> explains the “why?” of
-TigerBeetle, read this to decide if you need to use TigerBeetle.</li>
+TigerBeetle; read this to decide if TigerBeetle matches the shape of
+your problem.</li>
 <li><a href="../coding/">Coding</a> gives guidance on developing
-applications which store accounting data in a TigerBeetle cluster.</li>
+applications which store transactions in a TigerBeetle cluster.</li>
 <li><a href="../operating/">Operating</a> explains how to deploy a
 TigerBeetle cluster in a highly-available manner, with replication
 enabled.</li>
-<li><a href="../reference/">Reference</a> meticulously documents every
-single available feature and flag of the underlying data model.</li>
+<li><a href="../reference/">Reference</a> documents every available
+feature and flag of the underlying data model.</li>
 </ul>
 <h2 id="community"><a href="#community"
 class="anchor">Community</a></h2>
-<p>If you want to keep up to speed with recent TigerBeetle developments,
-here are some things to follow:</p>
+<p>If you want to keep up to speed with recent TigerBeetle
+developments:</p>
 <ul>
-<li><a
-href="https://mailchi.mp/8e9fa0f36056/subscribe-to-tigerbeetle">Monthly
-Newsletter</a> covers everything of importance that happened with
-TigerBeetle. It is a changelog director’s cut!</li>
+<li><a href="https://tigerbeetle.com/newsletter">Monthly Newsletter</a>
+covers everything of importance that happened with TigerBeetle. It is a
+changelog director’s cut!</li>
 <li><a href="https://slack.tigerbeetle.com/join">Slack</a> is the place
 to hang out with users and developers of TigerBeetle. We try to answer
 every question.</li>
@@ -440,9 +444,11 @@ href="https://www.twitch.tv/tigerbeetle">Twitch</a>, with recordings
 duplicated to YouTube.</li>
 <li><a href="https://twitter.com/TigerBeetleDB">𝕏</a> is good for
 smaller updates, and word-of-mouth historical trivia you won’t learn
-elsewhere!</li>
-<li><a href="https://github.com/tigerbeetle/tigerbeetle">GitHub</a> — if
-you want to keep closer to the source!</li>
+elsewhere! Or <a
+href="https://bsky.app/profile/tigerbeetle.com">Bluesky</a>, if that’s
+your preference.</li>
+<li><a href="https://github.com/tigerbeetle/tigerbeetle">GitHub</a> to
+stay close to the source!</li>
 </ul>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/start.md">
   <svg width="16" height="16" fill="none">

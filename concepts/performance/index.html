@@ -214,56 +214,60 @@ class="anchor">Performance</a></h1>
 <h2 id="its-all-about-the-interface"><a
 href="#its-all-about-the-interface" class="anchor">It’s All About The
 Interface</a></h2>
-<p>The key is that TigerBeetle designed specifically for <a
-href="../oltp">OLTP</a> workloads, as opposed to OLGP. The prevailing
-paradigm for OLGP is interactive transactions, where business-logic
-lives in the application, and the job of the database is to send the
-data to the application, holding the locks while the data is being
-processed. This works for mixed read-write workload with low contention,
-but fails for highly-contended OLTP workloads — locks over the network
-are very expensive!</p>
+<p>TigerBeetle is designed specifically for <a href="../oltp">OLTP</a>
+workloads.</p>
+<p>The prevailing paradigm for OLGP is interactive transactions, where
+business-logic lives in the application, and the job of the database is
+to send the data to the application, holding the locks while the data is
+being processed. This works for mixed read-write workload with low
+contention, but fails for highly-contended OLTP workloads — locks over
+the network are very expensive!</p>
 <p>With TigerBeetle, <strong>all the logic lives inside the
 database</strong>, obviating the need for locking. Not only is this very
 fast, it is also more convenient — the application can speak <a
 href="../debit-credit">Debit/Credit</a> directly, it doesn’t need to
-translate the language of business to SQL.</p>
+translate the language of business to SQL. This is the power of an
+interface for performance!</p>
 <h2 id="batching-batching-batching"><a
 href="#batching-batching-batching" class="anchor">Batching, Batching,
 Batching</a></h2>
 <p>On a busy day in a busy city, taking the subway is faster than using
 a car. On empty streets, a personal sports car gives you the best
 latency, but when the load and contention increase, due to <a
-href="https://en.wikipedia.org/wiki/Little%27s_law"><strong>Little’s
-law</strong></a>, both latency and throughput become abysmal.</p>
+href="https://en.wikipedia.org/wiki/Little%27s_law">Little’s law</a>,
+both latency and throughput become abysmal.</p>
 <p>TigerBeetle works like a high-speed train — its interface always
-deals with <em>batches</em> of transactions, 8k apiece. Although
-TigerBeetle is a replicated database using a consensus algorithm, the
-cost of replication is paid only once per batch, which means that
-TigerBeetle runs almost as fast as an in-memory hash map, all the while
-providing extreme durability and availability.</p>
+deals with <em>batches</em> of transfers, up to 8,190 transfers per
+query. Although TigerBeetle is a replicated database using a consensus
+algorithm, the cost of replication is paid only once per batch, which
+means that TigerBeetle runs almost as fast as an in-memory hash map, all
+the while providing extreme durability and availability.</p>
 <p>What’s more, under light load, the batches automatically become
 smaller, trading unnecessary throughput for better latency.</p>
 <h2 id="extreme-engineering"><a href="#extreme-engineering"
 class="anchor">Extreme Engineering</a></h2>
 <p>Debit/Credit fixes inefficiency in the interface, pervasive batching
 amortizes costs, but, to really hit performance targets, solid
-engineering is required at every level of the stack.</p>
-<p>TigerBeetle is built fully from scratch, without using any
+engineering is required at every level of the stack:</p>
+<ul>
+<li>TigerBeetle is built fully from scratch, without using any
 dependencies, to make sure that all the layers are co-designed for
-OLTP.</p>
-<p>TigerBeetle is written in Zig — a systems programming language which
-doesn’t use garbage collection and is designed for writing fast
-code.</p>
-<p>Every data structure is hand-crafted with the CPU in mind: a transfer
-object is 128 bytes in size, cache-line aligned. Executing a batch of
-transfers is just one tight CPU loop!</p>
-<p>TigerBeetle allocates all the memory statically: it never runs out of
-memory, it never stalls due to a GC pause or mutex contention, and it
-never fragments the memory.</p>
-<p>TigerBeetle is designed for io_uring — a new Linux kernel interface
-for zero syscall networking and storage I/O.</p>
+OLTP.</li>
+<li>TigerBeetle is written in <a href="https://ziglang.org/">Zig</a>, a
+systems programming language which doesn’t use garbage collection and is
+designed for writing fast code.</li>
+<li>Every data structure is hand-crafted with the CPU in mind: a
+transfer object is 128 bytes in size, cache-line aligned. Executing a
+batch of transfers is just one tight CPU loop!</li>
+<li>TigerBeetle allocates all the memory statically: it never runs out
+of memory, it never stalls due to a GC pause or mutex contention, and it
+never fragments the memory.</li>
+<li>TigerBeetle is designed for <a
+href="https://en.wikipedia.org/wiki/Io_uring">io_uring</a>, a Linux
+kernel interface for zero syscall networking and storage I/O.</li>
+</ul>
 <p>These and other performance rules are captured in <a
-href="https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md">TIGER_STYLE.md</a>
+href="https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md">TigerStyle</a>
 — the secret recipe that keeps TigerBeetle fast and safe.</p>
 <h2 id="single-threaded-by-design"><a href="#single-threaded-by-design"
 class="anchor">Single Threaded By Design</a></h2>
@@ -283,26 +287,27 @@ But at what COST?</a>.</p>
 <h2 id="performance--flexibility"><a href="#performance--flexibility"
 class="anchor">Performance = Flexibility</a></h2>
 <p>Is it <em>really</em> necessary to go to such great lengths in the
-name of performance? It of course depends on a particular use-case, but
-it’s worth keeping in mind that higher performance can unlock new
-use-cases. An OLGP database might be enough to do nightly settlement,
-but with OLTP real-time settlement is a no-brainer. If a transaction
-system just hits its throughput target, every unexpected delay or ops
-accident will lead to missed transactions. If a system operates at one
-tenth of capacity, this gives a lot of headroom for operators to deal
-with the unexpected.</p>
-<p>Finally, it is always helpful to think about the future. The future
-is hard to predict (even the <em>present</em> is hard to wrap your head
-around!), but the <em>option</em> to handle significantly more load on a
-short notice greatly expands your options.</p>
+name of performance?</p>
+<p>It depends on the use-case (worth keeping in mind is that higher
+performance can <em>unlock</em> new use-cases). An OLGP database might
+be enough for nightly settlement; for <strong>real-time
+settlement</strong>, OLTP is a no-brainer.</p>
+<p>If a transaction system just hits its throughput target, every
+unexpected delay or ops accident will lead to missed transactions. If a
+system operates at one tenth of capacity, there is headroom for the
+unexpected.</p>
+<p>Last but not least, it is prudent to think about the future. The
+future is hard to predict (even the <em>present</em> is hard to wrap
+one’s head around!); the option to handle significantly more load on
+short notice greatly expands optionality and sleep quality.</p>
 <h2 id="next-safety"><a href="#next-safety" class="anchor">Next:
 Safety</a></h2>
 <p>Performance can get you very far very fast, but it is useless if the
 result is wrong. Business transaction processing also requires
 <strong>strong safety guarantees</strong>, to ensure that data cannot be
 lost, and <strong>high availability</strong> to ensure that money is not
-lost due to database downtime. Let’s look at how TigerBeetle ensures <a
-href="../safety">safety</a>.</p>
+lost due to database downtime.</p>
+<p>Next, how TigerBeetle ensures <a href="../safety">safety</a>.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/concepts/performance.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>

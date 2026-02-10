@@ -211,8 +211,8 @@ that can be expressed as double-entry bookkeeping, providing three
 orders of magnitude more performance and guaranteeing durability even in
 the face of network, machine, and storage faults. You will learn more
 about why this is an important and hard problem to solve in the <a
-href="#concepts">Concepts</a> section, but let’s make some real
-transactions first!</p>
+href="#concepts">Concepts</a> section, but first—let’s make some real
+transactions!</p>
 <h2 id="start-install"><a href="#start-install" class="anchor">Install</a></h2>
 <p>TigerBeetle is a single, small, statically linked binary.</p>
 <p>You can download a pre-built binary from
@@ -261,10 +261,10 @@ options.</p>
 <h2 id="start-run-a-cluster"><a href="#start-run-a-cluster" class="anchor">Run a
 Cluster</a></h2>
 <p>Typically, TigerBeetle is deployed as a cluster of 6 replicas, which
-is described in the <a href="#operating">Operating</a> section. But
-it is also possible to run a single-replica cluster, which of course
-doesn’t provide high-availability, but is convenient for
-experimentation. That’s what we’ll do here.</p>
+is described in the <a href="#operating">Operating</a> section. It is
+also possible to run a single-replica cluster, which of course doesn’t
+provide high-availability, but is convenient for experimentation; that’s
+what we’ll do here.</p>
 <p>First, format a data file:</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
@@ -294,11 +294,15 @@ underlying storage functions correctly. Note that with a real cluster of
 <h2 id="start-connecting-to-a-cluster"><a href="#start-connecting-to-a-cluster"
 class="anchor">Connecting to a Cluster</a></h2>
 <p>Now that the cluster is running, we can connect to it using a client.
-TigerBeetle already has clients for several popular programming
-languages, including Go, Node.js, Java, and Python, and more are coming;
-see the <a href="#coding">Coding</a> section for details. For this
-tutorial, we’ll keep it simple and connect to the cluster using the
-built-in CLI client. In a separate terminal, start a REPL with</p>
+TigerBeetle has clients for several popular programming languages,
+including <a href="#coding-clients-python">Python</a>, <a
+href="#coding-clients-java">Java</a>, <a
+href="#coding-clients-node">Node.js</a>, <a
+href="#coding-clients-dotnet">.Net</a>, and <a
+href="#coding-clients-go">Go</a>, and more are coming; see the <a
+href="#coding">Coding</a> section for details. For this tutorial,
+we’ll keep it simple and connect to the cluster using the built-in CLI
+client. In a separate terminal, start a REPL with:</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
@@ -315,8 +319,8 @@ class="anchor">Issuing Transactions</a></h2>
 <p>TigerBeetle comes with a pre-defined database schema — double-entry
 bookkeeping. The <a href="#concepts">Concept</a> section explains why
 this particular schema, and the <a href="#reference">Reference</a>
-documents all the bells and whistles, but, for the purposes of this
-tutorial, it is enough to understand that there are accounts holding
+documents all the bells and whistles. For the purposes of this tutorial,
+it is enough to understand that there are accounts holding
 <code>credits</code> and <code>debits</code> balances, and that each
 transfer moves value between two accounts by incrementing
 <code>credits</code> on one side and <code>debits</code> on the
@@ -398,9 +402,9 @@ class="sourceCode json"><code class="sourceCode json"><span id="cb10-1"><a href=
 <span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;credits_posted&quot;</span><span class="fu">:</span> <span class="st">&quot;10&quot;</span></span>
 <span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 </div>
-<p>Note how the transfer amount is added both to the credits and to the
-debits. That the sum of debits and credits stays equal no matter what is
-a powerful invariant of the double-entry bookkeeping system.</p>
+<p>Note how the transfer amount is added to both the credits and debits.
+That the sum of debits and credits stays equal, no matter what, is a
+powerful invariant of a double-entry bookkeeping system.</p>
 <h2 id="start-conclusion"><a href="#start-conclusion"
 class="anchor">Conclusion</a></h2>
 <p>This is the end of the quick start! You now know how to format a data
@@ -408,24 +412,24 @@ file, run a single-replica TigerBeetle cluster, and run transactions
 through it. Here’s where to go from here:</p>
 <ul>
 <li><a href="#concepts">Concepts</a> explains the “why?” of
-TigerBeetle, read this to decide if you need to use TigerBeetle.</li>
+TigerBeetle; read this to decide if TigerBeetle matches the shape of
+your problem.</li>
 <li><a href="#coding">Coding</a> gives guidance on developing
-applications which store accounting data in a TigerBeetle cluster.</li>
+applications which store transactions in a TigerBeetle cluster.</li>
 <li><a href="#operating">Operating</a> explains how to deploy a
 TigerBeetle cluster in a highly-available manner, with replication
 enabled.</li>
-<li><a href="#reference">Reference</a> meticulously documents every
-single available feature and flag of the underlying data model.</li>
+<li><a href="#reference">Reference</a> documents every available
+feature and flag of the underlying data model.</li>
 </ul>
 <h2 id="start-community"><a href="#start-community"
 class="anchor">Community</a></h2>
-<p>If you want to keep up to speed with recent TigerBeetle developments,
-here are some things to follow:</p>
+<p>If you want to keep up to speed with recent TigerBeetle
+developments:</p>
 <ul>
-<li><a
-href="https://mailchi.mp/8e9fa0f36056/subscribe-to-tigerbeetle">Monthly
-Newsletter</a> covers everything of importance that happened with
-TigerBeetle. It is a changelog director’s cut!</li>
+<li><a href="https://tigerbeetle.com/newsletter">Monthly Newsletter</a>
+covers everything of importance that happened with TigerBeetle. It is a
+changelog director’s cut!</li>
 <li><a href="https://slack.tigerbeetle.com/join">Slack</a> is the place
 to hang out with users and developers of TigerBeetle. We try to answer
 every question.</li>
@@ -436,9 +440,11 @@ href="https://www.twitch.tv/tigerbeetle">Twitch</a>, with recordings
 duplicated to YouTube.</li>
 <li><a href="https://twitter.com/TigerBeetleDB">𝕏</a> is good for
 smaller updates, and word-of-mouth historical trivia you won’t learn
-elsewhere!</li>
-<li><a href="https://github.com/tigerbeetle/tigerbeetle">GitHub</a> — if
-you want to keep closer to the source!</li>
+elsewhere! Or <a
+href="https://bsky.app/profile/tigerbeetle.com">Bluesky</a>, if that’s
+your preference.</li>
+<li><a href="https://github.com/tigerbeetle/tigerbeetle">GitHub</a> to
+stay close to the source!</li>
 </ul>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/start.md">
   <svg width="16" height="16" fill="none">
@@ -575,14 +581,14 @@ href="#concepts-debit-credit">Debit / Credit</a>.</p>
 </a>
 
 <h1 id="concepts-debit-credit"><a
-href="#concepts-debit-credit" class="anchor">Debit / Credit:
-The Schema for OLTP</a></h1>
+href="#concepts-debit-credit" class="anchor">Debit/Credit: The
+Schema for OLTP</a></h1>
 <p>As discussed in the previous section, OLTP is all about processing
 business transactions. We saw that the nuances of OLTP workloads make
 them tricky to handle at scale.</p>
 <p>Now, we’ll turn to the data model and see how the specifics of
 business transactions actually lend themselves to an incredibly simple
-schema – and one that’s been in use for centuries!</p>
+schema that’s been in use for centuries.</p>
 <h2 id="concepts-debit-credit-the-who-what-when-where-why-and-how-much-of-oltp"><a
 href="#concepts-debit-credit-the-who-what-when-where-why-and-how-much-of-oltp"
 class="anchor">The “Who, What, When, Where, Why, and How Much” of
@@ -604,19 +610,24 @@ moved?</li>
 <h2 id="concepts-debit-credit-the-language-of-business-for-centuries"><a
 href="#concepts-debit-credit-the-language-of-business-for-centuries" class="anchor">The
 Language of Business for Centuries</a></h2>
-<p>Debit / credit, or double-entry bookkeeping, has been the lingua
-franca of business and accounting since at least the 13th century.</p>
-<p>The key insight underpinning debit / credit systems is that every
+<p>Debit/Credit, or double-entry bookkeeping, has been the lingua franca
+of business and accounting <a
+href="https://en.wikipedia.org/wiki/History_of_accounting">since at
+least the 13th century</a>.</p>
+<p>The key insight underpinning Debit/Credit systems is that every
 transfer records a movement of value from one or more accounts to one or
 more accounts. Money never appears from nowhere or disappears. This
 simple principle helps ensure that all of a business’s money is
 accounted for.</p>
-<p>Debit / credit perfectly captures the who, what, when, where, why,
-and how much of OLTP while ensuring financial consistency.</p>
+<p>Debit/Credit perfectly captures the who, what, when, where, why, and
+how much of OLTP while ensuring financial consistency. It is minimal and
+complete: two entities (accounts, transfers) and one invariant (every
+debit has an equal and opposite credit) model any exchange of value, in
+any domain.</p>
 <p>(For a deeper dive on debits and credits, see our primer on <a
 href="#coding-financial-accounting">Financial Accounting</a>.)</p>
-<h2 id="concepts-debit-credit-sql-vs-debit--credit"><a href="#concepts-debit-credit-sql-vs-debit--credit"
-class="anchor">SQL vs Debit / Credit</a></h2>
+<h2 id="concepts-debit-credit-sql-vs-debitcredit"><a href="#concepts-debit-credit-sql-vs-debitcredit"
+class="anchor">SQL vs Debit/Credit</a></h2>
 <p>While SQL is a great query language for getting data out of a
 database, OLTP is primarily about getting data into the database and
 this is where SQL falls short.</p>
@@ -627,9 +638,9 @@ database.</p>
 <p>By designing a database specifically for the schema and needs of
 OLTP, we can ensure our accounting logic is enforced correctly while
 massively increasing performance.</p>
-<h2 id="concepts-debit-credit-tigerbeetle-enforces-debit--credit-in-the-database"><a
-href="#concepts-debit-credit-tigerbeetle-enforces-debit--credit-in-the-database"
-class="anchor">TigerBeetle Enforces Debit / Credit in the
+<h2 id="concepts-debit-credit-tigerbeetle-enforces-debitcredit-in-the-database"><a
+href="#concepts-debit-credit-tigerbeetle-enforces-debitcredit-in-the-database"
+class="anchor">TigerBeetle Enforces Debit/Credit in the
 Database</a></h2>
 <p>The schema of OLTP is built into TigerBeetle’s data model, and is
 ready for you to use:</p>
@@ -673,23 +684,26 @@ within the database, avoiding round-trips between your database and
 application logic.</p>
 <h2 id="concepts-debit-credit-immutability-is-essential"><a href="#concepts-debit-credit-immutability-is-essential"
 class="anchor">Immutability is Essential</a></h2>
-<p>Another critical element of debit / credit systems is immutability:
+<p>Another critical element of Debit/Credit systems is immutability:
 once transfers are recorded, they cannot be erased. Reversals are
 implemented with separate transfers to provide a full and auditable log
 of business events.</p>
+<p>Even the strongest durability doesn’t prevent logical data loss.
+Where SQL allows destructive UPDATE and DELETE, TigerBeetle enforces
+append-only immutability — ensuring effortless reconciliation and audit
+success. Transfers in TigerBeetle are always immutable, out of the box.
+There is no possibility of a malformed query unintentionally deleting
+data.</p>
 <p>Accidentally dropping rows or tables is bad in any database, but it
 is unacceptable when it comes to accounting. Legal compliance and good
 business practices require that all funds be fully accounted for, and
 all history be maintained.</p>
-<p>Transfers in TigerBeetle are always immutable, providing you with
-peace of mind out of the box. There is no possibility of a malformed
-query unintentionally deleting data.</p>
 <h2 id="concepts-debit-credit-dont-roll-your-own-ledger"><a href="#concepts-debit-credit-dont-roll-your-own-ledger"
 class="anchor">Don’t Roll Your Own Ledger</a></h2>
 <p>Many companies start out building their own system for recording
-business transactions. Then, once their business scales, they realize
-they need a proper ledger and end up coming back to debits and
-credits.</p>
+business transactions. Then, once their business scales, they <a
+href="https://tigerbeetle.com/stories/super">realize they need a proper
+ledger</a> and end up coming back to debits and credits.</p>
 <p>A number of prime examples of this are:</p>
 <ul>
 <li><strong>Uber</strong>: In 2018, Uber started a 2-year, 40-engineer
@@ -732,7 +746,7 @@ href="#concepts-debit-credit-fnref3" class="footnote-back" role="doc-backlink">�
 <h2 id="concepts-debit-credit-standardized-simple-and-scalable"><a
 href="#concepts-debit-credit-standardized-simple-and-scalable" class="anchor">Standardized,
 Simple, and Scalable</a></h2>
-<p>From one perspective, debit / credit may seem like a limited data
+<p>From one perspective, Debit/Credit may seem like a limited data
 model. However, it is incredibly flexible and scalable. Any business
 event can be recorded as debits and credits – indeed, accountants have
 been doing precisely this for centuries!</p>
@@ -742,15 +756,15 @@ schema that can be used across all product lines, now and in the future.
 This avoids the need to add columns, tables, and complex relations
 between them as new features are added – and avoids complex schema
 migrations.</p>
-<p>Debit / credit has been the foundation of business for hundreds of
-years, and now you can leverage TigerBeetle’s high-performance
-implementation of it built for OLTP in the 21st century.</p>
+<p>Debit/Credit is a universal schema, the foundation of business for
+hundreds of years, and you can leverage TigerBeetle’s high-performance
+implementation of it, built for OLTP in the 21st century.</p>
 <h2 id="concepts-debit-credit-next-performance"><a href="#concepts-debit-credit-next-performance"
 class="anchor">Next: Performance</a></h2>
 <p>So far, we’ve seen why we need a new database designed for OLTP and
-how debit / credit provides the perfect data model for it. Next, we can
-look at the <a href="#concepts-performance">performance</a> of a database,
-designed for OLTP.</p>
+how Debit/Credit provides the perfect data model for it. Next, we look
+at the <a href="#concepts-performance">performance</a> of a database designed
+for OLTP.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/concepts/debit-credit.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
@@ -764,56 +778,60 @@ class="anchor">Performance</a></h1>
 <h2 id="concepts-performance-its-all-about-the-interface"><a
 href="#concepts-performance-its-all-about-the-interface" class="anchor">It’s All About The
 Interface</a></h2>
-<p>The key is that TigerBeetle designed specifically for <a
-href="#concepts-oltp">OLTP</a> workloads, as opposed to OLGP. The prevailing
-paradigm for OLGP is interactive transactions, where business-logic
-lives in the application, and the job of the database is to send the
-data to the application, holding the locks while the data is being
-processed. This works for mixed read-write workload with low contention,
-but fails for highly-contended OLTP workloads — locks over the network
-are very expensive!</p>
+<p>TigerBeetle is designed specifically for <a href="#concepts-oltp">OLTP</a>
+workloads.</p>
+<p>The prevailing paradigm for OLGP is interactive transactions, where
+business-logic lives in the application, and the job of the database is
+to send the data to the application, holding the locks while the data is
+being processed. This works for mixed read-write workload with low
+contention, but fails for highly-contended OLTP workloads — locks over
+the network are very expensive!</p>
 <p>With TigerBeetle, <strong>all the logic lives inside the
 database</strong>, obviating the need for locking. Not only is this very
 fast, it is also more convenient — the application can speak <a
 href="#concepts-debit-credit">Debit/Credit</a> directly, it doesn’t need to
-translate the language of business to SQL.</p>
+translate the language of business to SQL. This is the power of an
+interface for performance!</p>
 <h2 id="concepts-performance-batching-batching-batching"><a
 href="#concepts-performance-batching-batching-batching" class="anchor">Batching, Batching,
 Batching</a></h2>
 <p>On a busy day in a busy city, taking the subway is faster than using
 a car. On empty streets, a personal sports car gives you the best
 latency, but when the load and contention increase, due to <a
-href="https://en.wikipedia.org/wiki/Little%27s_law"><strong>Little’s
-law</strong></a>, both latency and throughput become abysmal.</p>
+href="https://en.wikipedia.org/wiki/Little%27s_law">Little’s law</a>,
+both latency and throughput become abysmal.</p>
 <p>TigerBeetle works like a high-speed train — its interface always
-deals with <em>batches</em> of transactions, 8k apiece. Although
-TigerBeetle is a replicated database using a consensus algorithm, the
-cost of replication is paid only once per batch, which means that
-TigerBeetle runs almost as fast as an in-memory hash map, all the while
-providing extreme durability and availability.</p>
+deals with <em>batches</em> of transfers, up to 8,190 transfers per
+query. Although TigerBeetle is a replicated database using a consensus
+algorithm, the cost of replication is paid only once per batch, which
+means that TigerBeetle runs almost as fast as an in-memory hash map, all
+the while providing extreme durability and availability.</p>
 <p>What’s more, under light load, the batches automatically become
 smaller, trading unnecessary throughput for better latency.</p>
 <h2 id="concepts-performance-extreme-engineering"><a href="#concepts-performance-extreme-engineering"
 class="anchor">Extreme Engineering</a></h2>
 <p>Debit/Credit fixes inefficiency in the interface, pervasive batching
 amortizes costs, but, to really hit performance targets, solid
-engineering is required at every level of the stack.</p>
-<p>TigerBeetle is built fully from scratch, without using any
+engineering is required at every level of the stack:</p>
+<ul>
+<li>TigerBeetle is built fully from scratch, without using any
 dependencies, to make sure that all the layers are co-designed for
-OLTP.</p>
-<p>TigerBeetle is written in Zig — a systems programming language which
-doesn’t use garbage collection and is designed for writing fast
-code.</p>
-<p>Every data structure is hand-crafted with the CPU in mind: a transfer
-object is 128 bytes in size, cache-line aligned. Executing a batch of
-transfers is just one tight CPU loop!</p>
-<p>TigerBeetle allocates all the memory statically: it never runs out of
-memory, it never stalls due to a GC pause or mutex contention, and it
-never fragments the memory.</p>
-<p>TigerBeetle is designed for io_uring — a new Linux kernel interface
-for zero syscall networking and storage I/O.</p>
+OLTP.</li>
+<li>TigerBeetle is written in <a href="https://ziglang.org/">Zig</a>, a
+systems programming language which doesn’t use garbage collection and is
+designed for writing fast code.</li>
+<li>Every data structure is hand-crafted with the CPU in mind: a
+transfer object is 128 bytes in size, cache-line aligned. Executing a
+batch of transfers is just one tight CPU loop!</li>
+<li>TigerBeetle allocates all the memory statically: it never runs out
+of memory, it never stalls due to a GC pause or mutex contention, and it
+never fragments the memory.</li>
+<li>TigerBeetle is designed for <a
+href="https://en.wikipedia.org/wiki/Io_uring">io_uring</a>, a Linux
+kernel interface for zero syscall networking and storage I/O.</li>
+</ul>
 <p>These and other performance rules are captured in <a
-href="https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md">TIGER_STYLE.md</a>
+href="https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md">TigerStyle</a>
 — the secret recipe that keeps TigerBeetle fast and safe.</p>
 <h2 id="concepts-performance-single-threaded-by-design"><a href="#concepts-performance-single-threaded-by-design"
 class="anchor">Single Threaded By Design</a></h2>
@@ -833,26 +851,27 @@ But at what COST?</a>.</p>
 <h2 id="concepts-performance-performance--flexibility"><a href="#concepts-performance-performance--flexibility"
 class="anchor">Performance = Flexibility</a></h2>
 <p>Is it <em>really</em> necessary to go to such great lengths in the
-name of performance? It of course depends on a particular use-case, but
-it’s worth keeping in mind that higher performance can unlock new
-use-cases. An OLGP database might be enough to do nightly settlement,
-but with OLTP real-time settlement is a no-brainer. If a transaction
-system just hits its throughput target, every unexpected delay or ops
-accident will lead to missed transactions. If a system operates at one
-tenth of capacity, this gives a lot of headroom for operators to deal
-with the unexpected.</p>
-<p>Finally, it is always helpful to think about the future. The future
-is hard to predict (even the <em>present</em> is hard to wrap your head
-around!), but the <em>option</em> to handle significantly more load on a
-short notice greatly expands your options.</p>
+name of performance?</p>
+<p>It depends on the use-case (worth keeping in mind is that higher
+performance can <em>unlock</em> new use-cases). An OLGP database might
+be enough for nightly settlement; for <strong>real-time
+settlement</strong>, OLTP is a no-brainer.</p>
+<p>If a transaction system just hits its throughput target, every
+unexpected delay or ops accident will lead to missed transactions. If a
+system operates at one tenth of capacity, there is headroom for the
+unexpected.</p>
+<p>Last but not least, it is prudent to think about the future. The
+future is hard to predict (even the <em>present</em> is hard to wrap
+one’s head around!); the option to handle significantly more load on
+short notice greatly expands optionality and sleep quality.</p>
 <h2 id="concepts-performance-next-safety"><a href="#concepts-performance-next-safety" class="anchor">Next:
 Safety</a></h2>
 <p>Performance can get you very far very fast, but it is useless if the
 result is wrong. Business transaction processing also requires
 <strong>strong safety guarantees</strong>, to ensure that data cannot be
 lost, and <strong>high availability</strong> to ensure that money is not
-lost due to database downtime. Let’s look at how TigerBeetle ensures <a
-href="#concepts-safety">safety</a>.</p>
+lost due to database downtime.</p>
+<p>Next, how TigerBeetle ensures <a href="#concepts-safety">safety</a>.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/concepts/performance.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
@@ -861,32 +880,35 @@ href="#concepts-safety">safety</a>.</p>
 </a>
 
 <h1 id="concepts-safety"><a href="#concepts-safety" class="anchor">Safety</a></h1>
-<p>The purpose of a database is to store data: if the database accepted
+<p>The purpose of a database is to store data: if the database accepts
 new data, it should be able to retrieve it later. Surprisingly, many
-databases don’t provide guaranteed durability — usually the data is
+databases don’t provide guaranteed durability – usually the data is
 there, but, under certain edge case conditions, it can get lost!</p>
 <p>As the purpose of TigerBeetle is to be the system of record for
 business transaction, associated with real-world value transfers, it is
 paramount that the data stored in TigerBeetle is safe.</p>
+<p>TigerBeetle is therefore designed, engineered, and tested to deliver
+unbreakable durability – even under the most extreme failure
+scenarios.</p>
 <h2 id="concepts-safety-strict-serializability"><a href="#concepts-safety-strict-serializability"
 class="anchor">Strict Serializability</a></h2>
 <p>The easiest way to lose data is by incorrectly using the database, by
 misconfiguring (or just misunderstanding) its isolation level. For this
 reason, TigerBeetle intentionally supports only the strictest possible
-isolation level — <strong>strict serializability</strong>. All transfers
+isolation level – <strong>strict serializability</strong>. All transfers
 are executed one-by-one, on a single core.</p>
 <p>Furthermore, TigerBeetle’s state machine is designed according to the
-<a
-href="#coding-reliable-transaction-submission"><strong>end-to-end
-idempotency principle</strong></a> — each transfer has a unique
-client-generated <code>u128</code> id, and each transfer is processed at
-most once, even in the presence of intermediate retry loops.</p>
+<a href="#coding-reliable-transaction-submission">end-to-end
+idempotency principle</a> – each transfer has a unique client-generated
+<code>u128</code> id, and each transfer is processed at most once, even
+in the presence of intermediate retry loops.</p>
 <h2 id="concepts-safety-high-availability"><a href="#concepts-safety-high-availability"
 class="anchor">High Availability</a></h2>
 <p>Some databases rely on a single central server, which puts the data
 at risk as any single server might fail catastrophically (e.g. due to a
 fire in the data center). Primary/backup systems with ad-hoc failover
-can lose data due to split-brain.</p>
+can lose data due to <a
+href="https://en.wikipedia.org/wiki/Split-brain_(computing)">split-brain</a>.</p>
 <p>To avoid these pitfalls, TigerBeetle implements pioneering <a
 href="https://dspace.mit.edu/bitstream/handle/1721.1/71763/MIT-CSAIL-TR-2012-021.pdf">Viewstamped
 Replication</a> and consensus algorithm, that guarantees correct,
@@ -911,7 +933,9 @@ replicas per provider). Because TigerBeetle uses <a
 href="https://arxiv.org/pdf/1608.06696v1">Heidi Howard’s flexible
 quorums</a>, this deployment is guaranteed to tolerate a complete outage
 of any cloud provider and will likely survive even if one extra replica
-fails.</p>
+fails. Multi-cloud eliminates lock-in, meets regulatory requirements,
+and protects availability – even through provider slowdowns and
+disruptions.</p>
 <p>TigerBeetle detects and overcomes <a
 href="https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/paper-1.pdf">Gray
 Failure</a> automatically. If a replica’s disk becomes slow or the
@@ -942,7 +966,7 @@ href="https://www.usenix.org/system/files/atc20-rebello.pdf">particularly
 hard</a>.</p>
 <p><strong>TigerBeetle assumes that its disk <em>will</em> fail</strong>
 and takes advantage of replication to proactively repair replica’s local
-disks.</p>
+disks:</p>
 <ul>
 <li>All data in TigerBeetle is immutable, checksummed, and <a
 href="https://csrc.nist.gov/glossary/term/hash_chain">hash-chained</a>,
@@ -955,10 +979,10 @@ href="https://www.youtube.com/watch?v=fDY6Wi0GcPs">Protocol Aware
 Recovery</a> to remain available unless the data gets corrupted on every
 single replica.</li>
 <li>To minimize the impact of software bugs, TigerBeetle puts as little
-software as possible between itself and the disk — TigerBeetle manages
+software as possible between itself and the disk – TigerBeetle manages
 its own page cache, writes data to disk with O_DIRECT and can work with
 a block device directly, no file system is necessary.</li>
-<li>TigerBeetle also tolerates gray failure — if a disk on a replica
+<li>TigerBeetle also tolerates Gray Failure – if a disk on a replica
 becomes very slow, the cluster falls back on other replicas for
 durability.</li>
 </ul>
@@ -968,24 +992,24 @@ class="anchor">Software Reliability</a></h2>
 theorem is useless if the implementation is buggy. TigerBeetle uses the
 oldest and the newest software engineering practices to ensure
 correctness.</p>
-<p>TigerBeetle is written in <a href="https://ziglang.org">Zig</a> — a
+<p>TigerBeetle is written in <a href="https://ziglang.org">Zig</a> – a
 modern systems programming language that removes many instances of
 undefined behavior, provides spatial memory safety and encourages
 simple, straightforward code.</p>
 <p>TigerBeetle adheres to a strict code style, <a
-href="https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md">TIGER_STYLE</a>,
+href="https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md">TigerStyle</a>,
 inspired by <a href="https://spinroot.com/gerard/pdf/P10.pdf">NASA’s
 power of ten</a>. For example, TigerBeetle uses static memory
 allocation, which designs away memory fragmentation, out-of-memory
 errors and use-after-frees.</p>
-<p>TigerBeetle is tested in the VOPR — a simulated environment where an
-entire cluster, running real code, is subjected to all kinds of network,
-storage and process faults, at 1000x speed. This simulation can find
-both logical errors in the algorithms and coding bugs in the source.
-This simulator is running 24/7 on 1024 cores, fuzzing the latest version
-of the database.</p>
-<p>It also <strong>runs in your browser</strong>: <a
-href="https://sim.tigerbeetle.com">https://sim.tigerbeetle.com</a>!</p>
+<p>TigerBeetle is tested in the <a
+href="https://tigerbeetle.com/blog/2023-07-06-simulation-testing-for-liveness/">VOPR</a>
+– a simulated environment where an entire cluster, running real code, is
+subjected to all kinds of network, storage and process faults, at 1000x
+speed. This simulation can find both logical errors in the algorithms
+and coding bugs in the source. This simulator is running 24/7 on 1024
+cores, fuzzing the latest version of the database. You can also <a
+href="https://sim.tigerbeetle.com">play it as a game</a>.</p>
 <h2 id="concepts-safety-human-fallibility"><a href="#concepts-safety-human-fallibility"
 class="anchor">Human Fallibility</a></h2>
 <p>While, with a lot of care, software can be perfected to become
@@ -994,7 +1018,7 @@ this into account and tries to protect from operator errors:</p>
 <ul>
 <li>The surface area is intentionally minimized, with little
 configurability.</li>
-<li>In particular, there’s only one isolation level — strict
+<li>In particular, there’s only one isolation level – strict
 serializability.</li>
 <li>Upgrades are automatic and atomic, guaranteeing that each transfer
 is applied by only a single version of code.</li>
@@ -1037,6 +1061,9 @@ TigerBeetle can also provide this level of isolation optimally, without
 the cost of locks for all the individual events within a batch.</p>
 <h3 id="concepts-safety-durability"><a href="#concepts-safety-durability"
 class="anchor">Durability</a></h3>
+<p>Without Durability, the guarantees of Atomicity, Consistency, and
+Isolation collapse – the only letter in ACID whose loss undoes the
+others.</p>
 <p>Up until 2018, traditional DBMS durability has focused on the Crash
 Consistency Model, however, Fsyncgate and <a
 href="https://www.usenix.org/conference/fast18/presentation/alagappan">Protocol
@@ -1044,15 +1071,15 @@ Aware Recovery</a> have shown that this model can lead to real data loss
 for users in the wild. TigerBeetle therefore adopts an explicit storage
 fault model, which we then verify and test with incredible levels of
 corruption, something which few distributed systems historically were
-designed to handle. Our emphasis on protecting Durability is what sets
-TigerBeetle apart, not only as a ledger but as a DBMS.</p>
-<p>However, absolute durability is impossible, because all hardware can
-ultimately fail. Data we write today might not be available tomorrow.
-TigerBeetle embraces limited disk reliability and maximizes data
-durability in spite of imperfect disks. We actively work against such
-entropy by taking advantage of cluster-wide storage. A record would need
-to get corrupted on all replicas in a cluster to get lost, and even in
-that case the system would safely halt.</p>
+designed to handle. Our emphasis on protecting Durability sets
+TigerBeetle apart.</p>
+<p>While absolute durability is impossible – all hardware can ultimately
+fail; data we write today might not be available tomorrow – TigerBeetle
+embraces limited disk reliability and maximizes data durability in spite
+of imperfect disks. We actively work against such entropy by taking
+advantage of cluster-wide storage. A record would need to get corrupted
+on all replicas in a cluster to get lost, and even in that case
+<strong>the system would safely halt</strong>.</p>
 <h2 id="concepts-safety-io_uring-security"><a href="#concepts-safety-io_uring-security"
 class="anchor"><code>io_uring</code> Security</a></h2>
 <p><code>io_uring</code> is a relatively new part of the Linux kernel
@@ -1284,7 +1311,7 @@ ledgers.</p>
 class="anchor">Debits vs Credits</a></h2>
 <p>TigerBeetle tracks each account’s cumulative posted debits and
 cumulative posted credits. In double-entry accounting, an account
-balance is the difference between the two — computed as either
+balance is the difference between the two – computed as either
 <code>debits - credits</code> or <code>credits - debits</code>,
 depending on the type of account. It is up to the application to compute
 the balance from the cumulative debits/credits.</p>
@@ -1419,7 +1446,7 @@ database.</li>
 the transfer was <a
 href="#coding-time-why-tigerbeetle-manages-timestamps">timestamped by
 TigerBeetle</a>. This can be used if you need to model <a
-href="https://en.wikipedia.org/wiki/Bitemporal_modeling">bitemporality</a>.
+href="https://tigerbeetle.com/blog/2026-01-14-bitemporality/">bitemporality</a>.
 Alternatively, if you do not need this to be used for a timestamp, you
 could use this field in place of the <code>user_data_128</code> to store
 the “who”/“what”.</li>
@@ -1492,7 +1519,7 @@ IDs using the recommended scheme.</p>
 <p>TigerBeetle ID is a 128-bit number where:</p>
 <ul>
 <li>the high 48 bits are a millisecond timestamp</li>
-<li>the low 80 bits are random</li>
+<li>the low 80 bits are random.</li>
 </ul>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
@@ -1516,7 +1543,7 @@ class="anchor">Reuse Foreign Identifier</a></h3>
 <p>This technique is most appropriate when integrating TigerBeetle with
 an existing application where TigerBeetle accounts or transfers map
 one-to-one with an entity in the foreign database.</p>
-<p>Set <code>id</code> to a “foreign key” — that is, reuse an identifier
+<p>Set <code>id</code> to a “foreign key” – that is, reuse an identifier
 of a corresponding object from another database. For example, if every
 user (within the application’s database) has a single account, then the
 identifier within the foreign database can be used as the
@@ -1552,7 +1579,7 @@ class="anchor">Financial Accounting</a></h1>
 <p>For developers with non-financial backgrounds, TigerBeetle’s use of
 accounting concepts like debits and credits may be one of the trickier
 parts to understand. However, these concepts have been the language of
-business for hundreds of years, so we promise it’s worth it!</p>
+business for hundreds of years, and it will be worth it!</p>
 <p>This page goes a bit deeper into debits and credits, double-entry
 bookkeeping, and how to think about your accounts as part of a type
 system.</p>
@@ -1577,11 +1604,9 @@ considering them from the perspective of you or the bank.</p>
 <p>Now, back to our original questions: is the loan balance
 <code>100</code> or <code>-100</code> and is the bank account balance
 <code>200</code> or <code>-200</code>? On some level, this feels a bit
-arbitrary.</p>
-<p>Wouldn’t it be nice if there were some <strong>commonly agreed-upon
-standards</strong> so we wouldn’t have to make such an arbitrary
-decision? Yes! This is exactly what debits and credits and the financial
-accounting type system provide.</p>
+arbitrary, because it is. Fortunately, there are some <strong>commonly
+agreed-upon standards</strong>! This is exactly what debits and credits
+and the financial accounting type system provide.</p>
 <h2 id="coding-financial-accounting-types-of-accounts"><a href="#coding-financial-accounting-types-of-accounts"
 class="anchor">Types of Accounts</a></h2>
 <p>In financial accounting, there are 5 main types of accounts:</p>
@@ -1818,16 +1843,18 @@ class="anchor">Want More Help Understanding Debits and Credits?</a></h2>
 <h3 id="coding-financial-accounting-ask-the-community"><a href="#coding-financial-accounting-ask-the-community"
 class="anchor">Ask the Community</a></h3>
 <p>Have questions about debits and credits, TigerBeetle’s data model,
-how to design your application on top of it, or anything else?</p>
-<p>Come join our <a href="https://slack.tigerbeetle.com/join">Community
-Slack</a> and ask any and all questions you might have!</p>
-<h3 id="coding-financial-accounting-dedicated-consultation"><a href="#coding-financial-accounting-dedicated-consultation"
-class="anchor">Dedicated Consultation</a></h3>
-<p>Would you like the TigerBeetle team to help you design your chart of
-accounts and leverage the power of TigerBeetle in your architecture?</p>
-<p>Let us help you get it right. Contact us at <a
+how to design your application on top of it, or anything else? Join our
+<a href="https://slack.tigerbeetle.com/join">Community Slack</a> to ask
+any and all of the questions you might have!</p>
+<h3 id="coding-financial-accounting-solutions"><a href="#coding-financial-accounting-solutions"
+class="anchor">Solutions</a></h3>
+<p>Would you like the TigerBeetle team to support you to design your
+chart of accounts and to leverage the power of fully managed TigerBeetle
+in your architecture? Let us help you get it right. Contact us at <a
 href="mailto:sales@tigerbeetle.com">sales@tigerbeetle.com</a> to set up
-a call.</p>
+a call. There is also a <a
+href="https://tigerbeetle.com/startup">Startup Program</a> for
+early-stage businesses.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/coding/financial-accounting.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
@@ -1969,7 +1996,9 @@ receive the <code>exists</code> result.</p>
 <h2 id="coding-requests-batching-events"><a href="#coding-requests-batching-events"
 class="anchor">Batching Events</a></h2>
 <p>To achieve high throughput, TigerBeetle amortizes the overhead of
-consensus and I/O by batching many events in each request.</p>
+consensus and I/O by <a
+href="#concepts-performance-batching-batching-batching">batching</a>
+many events in each request.</p>
 <p>In the default configuration, the maximum batch sizes for each
 request type are:</p>
 <div class="table">
@@ -2072,8 +2101,8 @@ requests.</li>
 <li>All events within a request batch are committed, or none are. Note
 that this does not mean that all of the events in a batch will succeed,
 or that all will fail. Events succeed or fail independently unless they
-are explicitly <a href="#coding-linked-events">linked</a></li>
-<li>Once committed, an event will always be committed — the cluster’s
+are explicitly <a href="#coding-linked-events">linked</a>.</li>
+<li>Once committed, an event will always be committed – the cluster’s
 state never backtracks.</li>
 <li>Within a cluster, object <a
 href="#coding-time-timestamps-are-totally-ordered">timestamps are unique and
@@ -2233,7 +2262,7 @@ set:</p>
 <li><a
 href="#reference-transfer-pending_id"><code>pending_id</code></a>
 must reference a <a href="#coding-two-phase-transfers-reserve-funds-pending-transfer">pending
-transfer</a>.</li>
+transfer</a></li>
 <li><a
 href="#reference-transfer-flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a>
 must not be set.</li>
@@ -2259,7 +2288,7 @@ this field is set:</p>
 <li><a
 href="#reference-transfer-pending_id"><code>pending_id</code></a>
 must reference a <a href="#coding-two-phase-transfers-reserve-funds-pending-transfer">pending
-transfer</a>.</li>
+transfer</a></li>
 <li><a
 href="#reference-transfer-flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>
 must not be set.</li>
@@ -10487,14 +10516,22 @@ for discussion.</p>
   Edit this page
 </a>
 
-<h1 id="operating-deploying-managed-service"><a href="#operating-deploying-managed-service"
-class="anchor">Managed Service</a></h1>
-<p>Want to use TigerBeetle in production, along with automated disaster
-recovery, monitoring, and dedicated support from the TigerBeetle
-team?</p>
-<p>Let us help you get up and running faster! Contact us at <a
+<h1 id="operating-deploying-managed-service"><a href="#operating-deploying-managed-service" class="anchor">Fully
+Managed</a></h1>
+<p>For enterprises committed to excellence, TigerBeetle’s world-class
+team provides:</p>
+<ul>
+<li>fully managed cross-cloud deployments with automated disaster
+recovery;</li>
+<li>24/7 responsiveness with proactive monitoring.</li>
+</ul>
+<p>Dedicated expertise from senior engineers ensures success (and sleep
+at night) at every step – from chart of accounts design and
+proof-of-concept, through production to monster scale. Contact us at <a
 href="mailto:sales@tigerbeetle.com">sales@tigerbeetle.com</a> to set up
 a call.</p>
+<p>Are you a startup? Check out the <a
+href="https://tigerbeetle.com/startup">Startup Program</a>.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/deploying/managed-service.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>

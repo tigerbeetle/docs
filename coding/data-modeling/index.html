@@ -241,7 +241,7 @@ ledgers.</p>
 class="anchor">Debits vs Credits</a></h2>
 <p>TigerBeetle tracks each account’s cumulative posted debits and
 cumulative posted credits. In double-entry accounting, an account
-balance is the difference between the two — computed as either
+balance is the difference between the two – computed as either
 <code>debits - credits</code> or <code>credits - debits</code>,
 depending on the type of account. It is up to the application to compute
 the balance from the cumulative debits/credits.</p>
@@ -376,7 +376,7 @@ database.</li>
 the transfer was <a
 href="../time#why-tigerbeetle-manages-timestamps">timestamped by
 TigerBeetle</a>. This can be used if you need to model <a
-href="https://en.wikipedia.org/wiki/Bitemporal_modeling">bitemporality</a>.
+href="https://tigerbeetle.com/blog/2026-01-14-bitemporality/">bitemporality</a>.
 Alternatively, if you do not need this to be used for a timestamp, you
 could use this field in place of the <code>user_data_128</code> to store
 the “who”/“what”.</li>
@@ -449,7 +449,7 @@ IDs using the recommended scheme.</p>
 <p>TigerBeetle ID is a 128-bit number where:</p>
 <ul>
 <li>the high 48 bits are a millisecond timestamp</li>
-<li>the low 80 bits are random</li>
+<li>the low 80 bits are random.</li>
 </ul>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
@@ -473,7 +473,7 @@ class="anchor">Reuse Foreign Identifier</a></h3>
 <p>This technique is most appropriate when integrating TigerBeetle with
 an existing application where TigerBeetle accounts or transfers map
 one-to-one with an entity in the foreign database.</p>
-<p>Set <code>id</code> to a “foreign key” — that is, reuse an identifier
+<p>Set <code>id</code> to a “foreign key” – that is, reuse an identifier
 of a corresponding object from another database. For example, if every
 user (within the application’s database) has a single account, then the
 identifier within the foreign database can be used as the

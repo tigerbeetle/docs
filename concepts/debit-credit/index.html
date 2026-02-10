@@ -8,15 +8,15 @@
     <meta name="twitter:site" content="@TigerBeetleDB">
     <meta name="twitter:author" content="@TigerBeetleDB">
     <meta name="twitter:description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
-    <meta name="twitter:title" content="Debit / Credit: The Schema for OLTP">
+    <meta name="twitter:title" content="Debit/Credit: The Schema for OLTP">
     <meta name="twitter:image" content="https://docs.tigerbeetle.com/img/preview.webp">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Debit / Credit: The Schema for OLTP">
+    <meta property="og:title" content="Debit/Credit: The Schema for OLTP">
     <meta property="og:image" content="https://docs.tigerbeetle.com/img/preview.webp">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="TigerBeetle Team">
-    <title id="title">Debit / Credit: The Schema for OLTP</title>
+    <title id="title">Debit/Credit: The Schema for OLTP</title>
     <link rel="icon" href="/img/favicon.png">
     <link rel="canonical" href="/concepts/debit-credit/">
     <link rel="stylesheet" type="text/css" href="/style/style.css">
@@ -208,15 +208,15 @@
           </svg>
         </a>
         <div class="content">
-          <h1 id="debit--credit-the-schema-for-oltp"><a
-href="#debit--credit-the-schema-for-oltp" class="anchor">Debit / Credit:
-The Schema for OLTP</a></h1>
+          <h1 id="debitcredit-the-schema-for-oltp"><a
+href="#debitcredit-the-schema-for-oltp" class="anchor">Debit/Credit: The
+Schema for OLTP</a></h1>
 <p>As discussed in the previous section, OLTP is all about processing
 business transactions. We saw that the nuances of OLTP workloads make
 them tricky to handle at scale.</p>
 <p>Now, we’ll turn to the data model and see how the specifics of
 business transactions actually lend themselves to an incredibly simple
-schema – and one that’s been in use for centuries!</p>
+schema that’s been in use for centuries.</p>
 <h2 id="the-who-what-when-where-why-and-how-much-of-oltp"><a
 href="#the-who-what-when-where-why-and-how-much-of-oltp"
 class="anchor">The “Who, What, When, Where, Why, and How Much” of
@@ -238,19 +238,24 @@ moved?</li>
 <h2 id="the-language-of-business-for-centuries"><a
 href="#the-language-of-business-for-centuries" class="anchor">The
 Language of Business for Centuries</a></h2>
-<p>Debit / credit, or double-entry bookkeeping, has been the lingua
-franca of business and accounting since at least the 13th century.</p>
-<p>The key insight underpinning debit / credit systems is that every
+<p>Debit/Credit, or double-entry bookkeeping, has been the lingua franca
+of business and accounting <a
+href="https://en.wikipedia.org/wiki/History_of_accounting">since at
+least the 13th century</a>.</p>
+<p>The key insight underpinning Debit/Credit systems is that every
 transfer records a movement of value from one or more accounts to one or
 more accounts. Money never appears from nowhere or disappears. This
 simple principle helps ensure that all of a business’s money is
 accounted for.</p>
-<p>Debit / credit perfectly captures the who, what, when, where, why,
-and how much of OLTP while ensuring financial consistency.</p>
+<p>Debit/Credit perfectly captures the who, what, when, where, why, and
+how much of OLTP while ensuring financial consistency. It is minimal and
+complete: two entities (accounts, transfers) and one invariant (every
+debit has an equal and opposite credit) model any exchange of value, in
+any domain.</p>
 <p>(For a deeper dive on debits and credits, see our primer on <a
 href="../../coding/financial-accounting">Financial Accounting</a>.)</p>
-<h2 id="sql-vs-debit--credit"><a href="#sql-vs-debit--credit"
-class="anchor">SQL vs Debit / Credit</a></h2>
+<h2 id="sql-vs-debitcredit"><a href="#sql-vs-debitcredit"
+class="anchor">SQL vs Debit/Credit</a></h2>
 <p>While SQL is a great query language for getting data out of a
 database, OLTP is primarily about getting data into the database and
 this is where SQL falls short.</p>
@@ -261,9 +266,9 @@ database.</p>
 <p>By designing a database specifically for the schema and needs of
 OLTP, we can ensure our accounting logic is enforced correctly while
 massively increasing performance.</p>
-<h2 id="tigerbeetle-enforces-debit--credit-in-the-database"><a
-href="#tigerbeetle-enforces-debit--credit-in-the-database"
-class="anchor">TigerBeetle Enforces Debit / Credit in the
+<h2 id="tigerbeetle-enforces-debitcredit-in-the-database"><a
+href="#tigerbeetle-enforces-debitcredit-in-the-database"
+class="anchor">TigerBeetle Enforces Debit/Credit in the
 Database</a></h2>
 <p>The schema of OLTP is built into TigerBeetle’s data model, and is
 ready for you to use:</p>
@@ -307,23 +312,26 @@ within the database, avoiding round-trips between your database and
 application logic.</p>
 <h2 id="immutability-is-essential"><a href="#immutability-is-essential"
 class="anchor">Immutability is Essential</a></h2>
-<p>Another critical element of debit / credit systems is immutability:
+<p>Another critical element of Debit/Credit systems is immutability:
 once transfers are recorded, they cannot be erased. Reversals are
 implemented with separate transfers to provide a full and auditable log
 of business events.</p>
+<p>Even the strongest durability doesn’t prevent logical data loss.
+Where SQL allows destructive UPDATE and DELETE, TigerBeetle enforces
+append-only immutability — ensuring effortless reconciliation and audit
+success. Transfers in TigerBeetle are always immutable, out of the box.
+There is no possibility of a malformed query unintentionally deleting
+data.</p>
 <p>Accidentally dropping rows or tables is bad in any database, but it
 is unacceptable when it comes to accounting. Legal compliance and good
 business practices require that all funds be fully accounted for, and
 all history be maintained.</p>
-<p>Transfers in TigerBeetle are always immutable, providing you with
-peace of mind out of the box. There is no possibility of a malformed
-query unintentionally deleting data.</p>
 <h2 id="dont-roll-your-own-ledger"><a href="#dont-roll-your-own-ledger"
 class="anchor">Don’t Roll Your Own Ledger</a></h2>
 <p>Many companies start out building their own system for recording
-business transactions. Then, once their business scales, they realize
-they need a proper ledger and end up coming back to debits and
-credits.</p>
+business transactions. Then, once their business scales, they <a
+href="https://tigerbeetle.com/stories/super">realize they need a proper
+ledger</a> and end up coming back to debits and credits.</p>
 <p>A number of prime examples of this are:</p>
 <ul>
 <li><strong>Uber</strong>: In 2018, Uber started a 2-year, 40-engineer
@@ -366,7 +374,7 @@ href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <h2 id="standardized-simple-and-scalable"><a
 href="#standardized-simple-and-scalable" class="anchor">Standardized,
 Simple, and Scalable</a></h2>
-<p>From one perspective, debit / credit may seem like a limited data
+<p>From one perspective, Debit/Credit may seem like a limited data
 model. However, it is incredibly flexible and scalable. Any business
 event can be recorded as debits and credits – indeed, accountants have
 been doing precisely this for centuries!</p>
@@ -376,15 +384,15 @@ schema that can be used across all product lines, now and in the future.
 This avoids the need to add columns, tables, and complex relations
 between them as new features are added – and avoids complex schema
 migrations.</p>
-<p>Debit / credit has been the foundation of business for hundreds of
-years, and now you can leverage TigerBeetle’s high-performance
-implementation of it built for OLTP in the 21st century.</p>
+<p>Debit/Credit is a universal schema, the foundation of business for
+hundreds of years, and you can leverage TigerBeetle’s high-performance
+implementation of it, built for OLTP in the 21st century.</p>
 <h2 id="next-performance"><a href="#next-performance"
 class="anchor">Next: Performance</a></h2>
 <p>So far, we’ve seen why we need a new database designed for OLTP and
-how debit / credit provides the perfect data model for it. Next, we can
-look at the <a href="../performance">performance</a> of a database,
-designed for OLTP.</p>
+how Debit/Credit provides the perfect data model for it. Next, we look
+at the <a href="../performance">performance</a> of a database designed
+for OLTP.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/concepts/debit-credit.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>

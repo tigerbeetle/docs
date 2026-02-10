@@ -209,32 +209,35 @@
         </a>
         <div class="content">
           <h1 id="safety"><a href="#safety" class="anchor">Safety</a></h1>
-<p>The purpose of a database is to store data: if the database accepted
+<p>The purpose of a database is to store data: if the database accepts
 new data, it should be able to retrieve it later. Surprisingly, many
-databases don’t provide guaranteed durability — usually the data is
+databases don’t provide guaranteed durability – usually the data is
 there, but, under certain edge case conditions, it can get lost!</p>
 <p>As the purpose of TigerBeetle is to be the system of record for
 business transaction, associated with real-world value transfers, it is
 paramount that the data stored in TigerBeetle is safe.</p>
+<p>TigerBeetle is therefore designed, engineered, and tested to deliver
+unbreakable durability – even under the most extreme failure
+scenarios.</p>
 <h2 id="strict-serializability"><a href="#strict-serializability"
 class="anchor">Strict Serializability</a></h2>
 <p>The easiest way to lose data is by incorrectly using the database, by
 misconfiguring (or just misunderstanding) its isolation level. For this
 reason, TigerBeetle intentionally supports only the strictest possible
-isolation level — <strong>strict serializability</strong>. All transfers
+isolation level – <strong>strict serializability</strong>. All transfers
 are executed one-by-one, on a single core.</p>
 <p>Furthermore, TigerBeetle’s state machine is designed according to the
-<a
-href="../../coding/reliable-transaction-submission"><strong>end-to-end
-idempotency principle</strong></a> — each transfer has a unique
-client-generated <code>u128</code> id, and each transfer is processed at
-most once, even in the presence of intermediate retry loops.</p>
+<a href="../../coding/reliable-transaction-submission">end-to-end
+idempotency principle</a> – each transfer has a unique client-generated
+<code>u128</code> id, and each transfer is processed at most once, even
+in the presence of intermediate retry loops.</p>
 <h2 id="high-availability"><a href="#high-availability"
 class="anchor">High Availability</a></h2>
 <p>Some databases rely on a single central server, which puts the data
 at risk as any single server might fail catastrophically (e.g. due to a
 fire in the data center). Primary/backup systems with ad-hoc failover
-can lose data due to split-brain.</p>
+can lose data due to <a
+href="https://en.wikipedia.org/wiki/Split-brain_(computing)">split-brain</a>.</p>
 <p>To avoid these pitfalls, TigerBeetle implements pioneering <a
 href="https://dspace.mit.edu/bitstream/handle/1721.1/71763/MIT-CSAIL-TR-2012-021.pdf">Viewstamped
 Replication</a> and consensus algorithm, that guarantees correct,
@@ -259,7 +262,9 @@ replicas per provider). Because TigerBeetle uses <a
 href="https://arxiv.org/pdf/1608.06696v1">Heidi Howard’s flexible
 quorums</a>, this deployment is guaranteed to tolerate a complete outage
 of any cloud provider and will likely survive even if one extra replica
-fails.</p>
+fails. Multi-cloud eliminates lock-in, meets regulatory requirements,
+and protects availability – even through provider slowdowns and
+disruptions.</p>
 <p>TigerBeetle detects and overcomes <a
 href="https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/paper-1.pdf">Gray
 Failure</a> automatically. If a replica’s disk becomes slow or the
@@ -290,7 +295,7 @@ href="https://www.usenix.org/system/files/atc20-rebello.pdf">particularly
 hard</a>.</p>
 <p><strong>TigerBeetle assumes that its disk <em>will</em> fail</strong>
 and takes advantage of replication to proactively repair replica’s local
-disks.</p>
+disks:</p>
 <ul>
 <li>All data in TigerBeetle is immutable, checksummed, and <a
 href="https://csrc.nist.gov/glossary/term/hash_chain">hash-chained</a>,
@@ -303,10 +308,10 @@ href="https://www.youtube.com/watch?v=fDY6Wi0GcPs">Protocol Aware
 Recovery</a> to remain available unless the data gets corrupted on every
 single replica.</li>
 <li>To minimize the impact of software bugs, TigerBeetle puts as little
-software as possible between itself and the disk — TigerBeetle manages
+software as possible between itself and the disk – TigerBeetle manages
 its own page cache, writes data to disk with O_DIRECT and can work with
 a block device directly, no file system is necessary.</li>
-<li>TigerBeetle also tolerates gray failure — if a disk on a replica
+<li>TigerBeetle also tolerates Gray Failure – if a disk on a replica
 becomes very slow, the cluster falls back on other replicas for
 durability.</li>
 </ul>
@@ -316,24 +321,24 @@ class="anchor">Software Reliability</a></h2>
 theorem is useless if the implementation is buggy. TigerBeetle uses the
 oldest and the newest software engineering practices to ensure
 correctness.</p>
-<p>TigerBeetle is written in <a href="https://ziglang.org">Zig</a> — a
+<p>TigerBeetle is written in <a href="https://ziglang.org">Zig</a> – a
 modern systems programming language that removes many instances of
 undefined behavior, provides spatial memory safety and encourages
 simple, straightforward code.</p>
 <p>TigerBeetle adheres to a strict code style, <a
-href="https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md">TIGER_STYLE</a>,
+href="https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md">TigerStyle</a>,
 inspired by <a href="https://spinroot.com/gerard/pdf/P10.pdf">NASA’s
 power of ten</a>. For example, TigerBeetle uses static memory
 allocation, which designs away memory fragmentation, out-of-memory
 errors and use-after-frees.</p>
-<p>TigerBeetle is tested in the VOPR — a simulated environment where an
-entire cluster, running real code, is subjected to all kinds of network,
-storage and process faults, at 1000x speed. This simulation can find
-both logical errors in the algorithms and coding bugs in the source.
-This simulator is running 24/7 on 1024 cores, fuzzing the latest version
-of the database.</p>
-<p>It also <strong>runs in your browser</strong>: <a
-href="https://sim.tigerbeetle.com">https://sim.tigerbeetle.com</a>!</p>
+<p>TigerBeetle is tested in the <a
+href="https://tigerbeetle.com/blog/2023-07-06-simulation-testing-for-liveness/">VOPR</a>
+– a simulated environment where an entire cluster, running real code, is
+subjected to all kinds of network, storage and process faults, at 1000x
+speed. This simulation can find both logical errors in the algorithms
+and coding bugs in the source. This simulator is running 24/7 on 1024
+cores, fuzzing the latest version of the database. You can also <a
+href="https://sim.tigerbeetle.com">play it as a game</a>.</p>
 <h2 id="human-fallibility"><a href="#human-fallibility"
 class="anchor">Human Fallibility</a></h2>
 <p>While, with a lot of care, software can be perfected to become
@@ -342,7 +347,7 @@ this into account and tries to protect from operator errors:</p>
 <ul>
 <li>The surface area is intentionally minimized, with little
 configurability.</li>
-<li>In particular, there’s only one isolation level — strict
+<li>In particular, there’s only one isolation level – strict
 serializability.</li>
 <li>Upgrades are automatic and atomic, guaranteeing that each transfer
 is applied by only a single version of code.</li>
@@ -385,6 +390,9 @@ TigerBeetle can also provide this level of isolation optimally, without
 the cost of locks for all the individual events within a batch.</p>
 <h3 id="durability"><a href="#durability"
 class="anchor">Durability</a></h3>
+<p>Without Durability, the guarantees of Atomicity, Consistency, and
+Isolation collapse – the only letter in ACID whose loss undoes the
+others.</p>
 <p>Up until 2018, traditional DBMS durability has focused on the Crash
 Consistency Model, however, Fsyncgate and <a
 href="https://www.usenix.org/conference/fast18/presentation/alagappan">Protocol
@@ -392,15 +400,15 @@ Aware Recovery</a> have shown that this model can lead to real data loss
 for users in the wild. TigerBeetle therefore adopts an explicit storage
 fault model, which we then verify and test with incredible levels of
 corruption, something which few distributed systems historically were
-designed to handle. Our emphasis on protecting Durability is what sets
-TigerBeetle apart, not only as a ledger but as a DBMS.</p>
-<p>However, absolute durability is impossible, because all hardware can
-ultimately fail. Data we write today might not be available tomorrow.
-TigerBeetle embraces limited disk reliability and maximizes data
-durability in spite of imperfect disks. We actively work against such
-entropy by taking advantage of cluster-wide storage. A record would need
-to get corrupted on all replicas in a cluster to get lost, and even in
-that case the system would safely halt.</p>
+designed to handle. Our emphasis on protecting Durability sets
+TigerBeetle apart.</p>
+<p>While absolute durability is impossible – all hardware can ultimately
+fail; data we write today might not be available tomorrow – TigerBeetle
+embraces limited disk reliability and maximizes data durability in spite
+of imperfect disks. We actively work against such entropy by taking
+advantage of cluster-wide storage. A record would need to get corrupted
+on all replicas in a cluster to get lost, and even in that case
+<strong>the system would safely halt</strong>.</p>
 <h2 id="io_uring-security"><a href="#io_uring-security"
 class="anchor"><code>io_uring</code> Security</a></h2>
 <p><code>io_uring</code> is a relatively new part of the Linux kernel

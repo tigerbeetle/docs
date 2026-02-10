@@ -342,7 +342,9 @@ receive the <code>exists</code> result.</p>
 <h2 id="batching-events"><a href="#batching-events"
 class="anchor">Batching Events</a></h2>
 <p>To achieve high throughput, TigerBeetle amortizes the overhead of
-consensus and I/O by batching many events in each request.</p>
+consensus and I/O by <a
+href="../../concepts/performance#batching-batching-batching">batching</a>
+many events in each request.</p>
 <p>In the default configuration, the maximum batch sizes for each
 request type are:</p>
 <div class="table">
@@ -445,8 +447,8 @@ requests.</li>
 <li>All events within a request batch are committed, or none are. Note
 that this does not mean that all of the events in a batch will succeed,
 or that all will fail. Events succeed or fail independently unless they
-are explicitly <a href="../linked-events">linked</a></li>
-<li>Once committed, an event will always be committed — the cluster’s
+are explicitly <a href="../linked-events">linked</a>.</li>
+<li>Once committed, an event will always be committed – the cluster’s
 state never backtracks.</li>
 <li>Within a cluster, object <a
 href="../time#timestamps-are-totally-ordered">timestamps are unique and

@@ -262,6 +262,14 @@ omitted.</p></li>
 <li><p><code>--requests-per-second-limit</code> throttles the maximum
 number of requests per second made to TigerBeetle.<br> Must be greater
 than zero.<br> Optional. No limit if omitted.</p></li>
+<li><p><code>--amqp-timeout-seconds</code> the maximum time, in seconds,
+to wait for a reply from the AMQP server. If exceeded, the process exits
+with a non-zero code.<br> Must be greater than 0.<br> Optional. Defaults
+to <code>30</code> seconds if omitted.</p></li>
+<li><p><code>--tigerbeetle-timeout-seconds</code> the maximum time, in
+seconds, to wait for a reply from the TigerBeetle cluster. If exceeded,
+the process exits with a non-zero code.<br> Must be greater than 0.<br>
+Optional. Defaults to <code>30</code> seconds if omitted.</p></li>
 <li><p><code>--timestamp-last</code> overrides the last published
 timestamp, resuming from this point.<br> This is a TigerBeetle timestamp
 with nanosecond precision.<br> Optional. If omitted, the last
@@ -433,8 +441,8 @@ class="anchor">Upgrading</a></h2>
 or greater.</p>
 <p>The same <a href="../upgrading#planning-for-upgrades">upgrade
 planning</a> recommended for clients applies to the CDC job. The CDC job
-version must not be newer than the cluster version, as it will fail with
-an error message if so.</p>
+version must not be newer than the cluster version, and if so will fail
+with an error message.</p>
 <p>Any transactions <em>originally</em> created by TigerBeetle versions
 before <code>0.16.29</code> have the following limitations for CDC
 processing:</p>

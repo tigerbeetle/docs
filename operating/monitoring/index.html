@@ -216,7 +216,7 @@ format for tags.</a></p>
 <p>This requires a StatsD compatible agent running locally. The Datadog
 Agent works out of the box with its default configuration, as does
 Telegraf’s <a
-href="https://github.com/influxdata/telegraf/blob/master/plugins/inputs/statsd/README.md">statsd
+href="https://github.com/influxdata/telegraf/blob/master/plugins/inputs/statsd/README.md">StatsD
 plugin</a>, with <code>datadog_extensions</code> enabled.</p>
 <p>You can enable emitting metrics by adding the following CLI flags to
 each replica, depending on your <a href="../deploying/">deployment
@@ -234,15 +234,16 @@ supported.</p>
 <p>All TigerBeetle metrics are namespaced under <code>tb.</code> and are
 tagged with <code>cluster</code> (the cluster ID specified at format
 time) and <code>replica</code> (the replica index). Specific metrics
-might have additional tags - you can see a full list of metrics and
+might have additional tags. You can see a full list of metrics and
 cardinality by running <code>tigerbeetle inspect metrics</code>.</p>
 <h2 id="specific-metrics"><a href="#specific-metrics"
 class="anchor">Specific Metrics</a></h2>
 <h3 id="overall-status"><a href="#overall-status" class="anchor">Overall
 status</a></h3>
 <p>The <code>replica_status</code> metric corresponds to the overall
-status of the replica. If it’s anything other than 0, it should be
-alerted on as it indicates a non-normal status. The full values are:</p>
+status of the replica. If it’s anything other than <code>0</code>, it
+should be alerted on as it indicates a non-normal status. The full
+values are:</p>
 <div class="table">
 <table>
 <thead>

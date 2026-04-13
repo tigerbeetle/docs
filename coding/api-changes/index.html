@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-W1GNp3+VWjJioYCdm8AYiKdLkMCj2IaEzYszX8JFTh4='">
+    <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@TigerBeetleDB">
+    <meta name="twitter:author" content="@TigerBeetleDB">
+    <meta name="twitter:description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
+    <meta name="twitter:title" content="API changes">
+    <meta name="twitter:image" content="https://docs.tigerbeetle.com/img/preview.webp">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="API changes">
+    <meta property="og:image" content="https://docs.tigerbeetle.com/img/preview.webp">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="TigerBeetle Team">
+    <title id="title">API changes</title>
+    <link rel="icon" href="/img/favicon.png">
+    <link rel="canonical" href="/coding/api-changes/">
+    <link rel="stylesheet" type="text/css" href="/style/style.css">
+    <link rel="stylesheet" type="text/css" href="/style/highlight.css">
+    <script defer data-domain="docs.tigerbeetle.com" src="https://plausible.io/js/script.js"></script>
+  </head>
+  <body>
+    <a class="expand-button" title="Show menu (press M to toggle)">
+      <div>
+        <svg width="28" height="24" viewBox="0 0 28 24" aria-label="TigerBeetle logo">
+          <use href="#svg-tigerbeetle-logo"></use>
+        </svg>
+        <svg class="tick" width="16" height="16" fill="none">
+          <path d="M7 5L10 8L7 11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+        </svg>
+      </div>
+    </a>
+    <nav class="left-pane">
+      <div class="top-wrapper">
+        <div class="top">
+          <header>
+            <div class="logo">
+              <a href="https://tigerbeetle.com" aria-label="TigerBeetle website">
+                <svg width="127" height="24" viewBox="0 0 127 24" aria-label="TigerBeetle logo">
+                  <use href="#svg-tigerbeetle-logo"></use>
+                </svg>
+              </a>
+            </div>
+            <div class="line"></div>
+            <a href="/">Docs</a>
+            <div class="spacer"></div>
+            <a class="menu-button">
+              <svg class="icon-burger" width="24" height="24">
+                <path d="M2.5 5.5 21.5 5.5M2.5 12 21.5 12M2.5 18.5 21.5 18.5" stroke-width="1.5" stroke-linecap="round" stroke="currentColor" />
+              </svg>
+              <svg class="icon-x" width="24" height="24" fill="none">
+                <path d="M6 6 18 18M6 18 18 6" stroke-width="1.5" stroke-linecap="round" stroke="currentColor" />
+              </svg>
+            </a>
+            <a class="collapse-button" title="Hide menu (press M to toggle)">
+              <svg width="16" height="16" fill="none">
+                <path d="M7 5L4 8L7 11M12 5L9 8L12 11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+              </svg>
+            </a>
+          </header>
+                    <div class="search-box">
+            <input type="search" placeholder="Search">
+            <svg class="search-icon" width="16" height="16" fill="none">
+              <circle cx="6.5" cy="6.5" r="4.5" stroke-width="1.5" stroke="currentColor"/>
+              <path d="M10 10l4 4" stroke-width="1.5" stroke-linecap="round" stroke="currentColor"/>
+            </svg>
+            <a class="hotkey" title="Press / to activate search">
+              <svg width="14" height="14" fill="none">
+                <path d="m8.56 2.39-2.34 8.71h-0.77l2.34-8.71h0.77z" fill="var(--gray-11)"/>
+              </svg>
+            </a>
+            <svg class="clear-button" width="16" height="16">
+              <path d="m16 8a8 8 0 0 0-16 0 8 8 0 0 0 16 0m-9 0-2.5-2.5 1-1 2.5 2.5 2.5-2.5 1 1-2.5 2.5 2.5 2.5-1 1-2.5-2.5-2.5 2.5-1-1" fill="currentColor" />
+            </svg>
+          </div>
+          <p class="search-stats"></p>
+
+        </div>
+      </div>
+            <div class="search-results"></div>
+      <div class="search-notfound">
+        <picture>
+          <source width="158" height="119" srcset="/img/notfound-light.webp" media="(prefers-color-scheme: light)">
+          <source width="160" height="119" srcset="/img/notfound-dark.webp" media="(prefers-color-scheme: dark)">
+          <img width="158" height="119" src="/img/notfound-light.webp" alt="Result not found illustration">
+        </picture>
+      </div>
+
+      <nav class="side">
+        <ol>
+<li class="item"><a href="/start/">Start</a></li>
+<li>
+<details><summary class="item"><a href="/concepts/">Concepts</a></summary>
+<ol>
+<li class="item"><a href="/concepts/oltp/">OLTP</a></li>
+<li class="item"><a href="/concepts/debit-credit/">Debit-Credit</a></li>
+<li class="item"><a href="/concepts/performance/">Performance</a></li>
+<li class="item"><a href="/concepts/safety/">Safety</a></li>
+</ol>
+</details></li>
+<li>
+<details open><summary class="item"><a href="/coding/">Coding</a></summary>
+<ol>
+<li class="item"><a href="/coding/system-architecture/">System Architecture</a></li>
+<li class="item"><a href="/coding/data-modeling/">Data Modeling</a></li>
+<li class="item"><a href="/coding/financial-accounting/">Financial Accounting</a></li>
+<li class="item"><a href="/coding/requests/">Requests</a></li>
+<li class="item"><a href="/coding/reliable-transaction-submission/">Reliable Transaction Submission</a></li>
+<li class="item"><a href="/coding/two-phase-transfers/">Two-Phase Transfers</a></li>
+<li class="item"><a href="/coding/linked-events/">Linked Events</a></li>
+<li class="item"><a href="/coding/time/">Time</a></li>
+<li>
+<details><summary class="item"><a href="/coding/recipes/">Recipes</a></summary>
+<ol>
+<li class="item"><a href="/coding/recipes/currency-exchange/">Currency Exchange</a></li>
+<li class="item"><a href="/coding/recipes/multi-debit-credit-transfers/">Multi-Debit, Multi-Credit Transfers</a></li>
+<li class="item"><a href="/coding/recipes/close-account/">Closing Accounts</a></li>
+<li class="item"><a href="/coding/recipes/balance-conditional-transfers/">Balance-Conditional Transfers</a></li>
+<li class="item"><a href="/coding/recipes/balance-invariant-transfers/">Balance-Invariant Transfers</a></li>
+<li class="item"><a href="/coding/recipes/balance-bounds/">Balance Bounds</a></li>
+<li class="item"><a href="/coding/recipes/correcting-transfers/">Correcting Transfers</a></li>
+<li class="item"><a href="/coding/recipes/rate-limiting/">Rate Limiting</a></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/coding/clients/">Clients</a></summary>
+<ol>
+<li class="item"><a href="/coding/clients/dotnet/">.NET</a></li>
+<li class="item"><a href="/coding/clients/go/">Go</a></li>
+<li class="item"><a href="/coding/clients/java/">Java</a></li>
+<li class="item"><a href="/coding/clients/node/">Node.js</a></li>
+<li class="item"><a href="/coding/clients/python/">Python</a></li>
+<li class="item"><a href="/coding/clients/rust/">Rust</a></li>
+</ol>
+</details></li>
+<li class="item"><a href="/coding/api-changes/" class="target">API Changes</a></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/operating/">Operating</a></summary>
+<ol>
+<li class="item"><a href="/operating/installing/">Installing</a></li>
+<li class="item"><a href="/operating/hardware/">Hardware</a></li>
+<li class="item"><a href="/operating/cluster/">Cluster</a></li>
+<li>
+<details><summary class="item"><a href="/operating/deploying/">Deploying</a></summary>
+<ol>
+<li class="item"><a href="/operating/deploying/systemd/">systemd</a></li>
+<li class="item"><a href="/operating/deploying/docker/">Docker</a></li>
+<li class="item"><a href="/operating/deploying/managed-service/">Managed</a></li>
+</ol>
+</details></li>
+<li class="item"><a href="/operating/monitoring/">Monitoring</a></li>
+<li class="item"><a href="/operating/upgrading/">Upgrading</a></li>
+<li class="item"><a href="/operating/recovering/">Recovering</a></li>
+<li class="item"><a href="/operating/cdc/">Change Data Capture</a></li>
+</ol>
+</details></li>
+<li>
+<details><summary class="item"><a href="/reference/">Reference</a></summary>
+<ol>
+<li class="item"><a href="/reference/sessions/">Client Sessions</a></li>
+<li class="item"><a href="/reference/account/">Account</a></li>
+<li class="item"><a href="/reference/transfer/">Transfer</a></li>
+<li class="item"><a href="/reference/account-balance/">AccountBalance</a></li>
+<li class="item"><a href="/reference/account-filter/">AccountFilter</a></li>
+<li class="item"><a href="/reference/query-filter/">QueryFilter</a></li>
+<li>
+<details><summary class="item"><a href="/reference/requests/">Requests</a></summary>
+<ol>
+<li class="item"><a href="/reference/requests/create_accounts/">create_accounts</a></li>
+<li class="item"><a href="/reference/requests/create_transfers/">create_transfers</a></li>
+<li class="item"><a href="/reference/requests/lookup_accounts/">lookup_accounts</a></li>
+<li class="item"><a href="/reference/requests/lookup_transfers/">lookup_transfers</a></li>
+<li class="item"><a href="/reference/requests/get_account_transfers/">get_account_transfers</a></li>
+<li class="item"><a href="/reference/requests/get_account_balances/">get_account_balances</a></li>
+<li class="item"><a href="/reference/requests/query_accounts/">query_accounts</a></li>
+<li class="item"><a href="/reference/requests/query_transfers/">query_transfers</a></li>
+</ol>
+</details></li>
+</ol>
+</details></li>
+</ol>
+        <a id="single-page-link" href="/single-page/">
+          <svg width="16" height="24" fill="none" viewBox="0 0 16 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="m14.031 8.5938v11.031c0 .5523-.4477 1-1 1h-10.063c-.55228 0-1-.4477-1-1v-14.969c0-.55228.44772-1 1-1h6.0625m5 4.9375-5-4.9375m5 4.9375h-4c-.55228 0-1-.44772-1-1v-3.9375M6.8125 13l1.375-1.375v4.8125" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          Single Page
+        </a>
+
+      </nav>
+    </nav>
+    <div class="resizer"></div>
+    <main>
+      <article>
+        <aside id="note-nested-css">Note: this site uses nested CSS selectors. Please upgrade your browser or use the reader mode.</aside>
+        <a id="github-link" href="https://github.com/tigerbeetle/tigerbeetle">
+          GitHub
+          <svg width="16" height="16">
+            <path d="M5.75 4.75H11.25M11.25 4.75V10.25M11.25 4.75L4.75 11.25" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+          </svg>
+        </a>
+        <div class="content">
+          <h1 id="api-changes"><a href="#api-changes" class="anchor">API
+changes</a></h1>
+<h2 id="0170"><a href="#0170"
+class="anchor"><span>0.17.0</span></a></h2>
+<p>Applications using the TigerBeetle Client <code>0.16.x</code>
+<strong>will require changes</strong> when upgrading to
+<code>0.17.x</code>.</p>
+<p>Future releases of the TigerBeetle cluster tagged as
+<code>0.17.x</code> will continue to support old clients for an extended
+period, giving application developers time to plan a smooth upgrade to
+the new client library while independently upgrading the cluster to
+newer releases.</p>
+<h3 id="new-return-type-for-create_accounts-and-create_transfers"><a
+href="#new-return-type-for-create_accounts-and-create_transfers"
+class="anchor">New return type for <code>create_accounts</code> and
+<code>create_transfers</code>.</a></h3>
+<p>The TigerBeetle release <code>0.17.0</code> introduced a new API for
+handling results when creating <a
+href="../../reference/requests/create_accounts">Accounts</a> and <a
+href="../../reference/requests/create_transfers">Transfers</a>.</p>
+<p>The previous API for <a
+href="../../reference/requests/create_accounts"><code>create_accounts</code></a>
+and <a
+href="../../reference/requests/create_transfers"><code>create_transfers</code></a>
+reported outcomes only for failed events, returning a <em>sparse
+array</em> of results. Each result included the <code>index</code> of
+the failed element within the event batch and the corresponding error
+code. Successfully created events were not returned by the TigerBeetle
+cluster, and the application could safely assume them as
+<code>ok</code>.</p>
+<p>While this approach prioritized saving network bandwidth by omitting
+results for the common <em>happy path</em>, it didn’t provide enough
+information about the outcome.</p>
+<p>The new protocol departs from the <em>sparse array</em> style,
+returning the status of each event, including the successfully created
+ones, along with the <code>timestamp</code> when they were processed by
+the TigerBeetle cluster.</p>
+<p>Applications can now benefit from knowing the <code>timestamp</code>
+assigned to a successfully created <a
+href="../../reference/account#timestamp"><code>Account</code></a> or <a
+href="../../reference/transfer#timestamp"><code>Transfer</code></a>,
+while also handling alternative paths more efficiently by knowing
+<em>when</em> validation occurred for those that couldn’t be
+created.</p>
+<p>The enums <code>CreateAccount<b>Result</b></code> and
+<code>CreateTransfer<b>Result</b></code> were renamed to
+<code>CreateAccount<b>Status</b></code> and
+<code>CreateTransfer<b>Status</b></code>, and the status code
+<code>ok</code> was renamed to <code>created</code>.</p>
+<p>This makes it explicit whether an event became part of the database
+state (<code>created</code> and <code>exists</code>) or not. By removing
+the duality of <em>ok</em> and <em>errors</em>, applications can handle
+results more clearly according to their policies, since some outcomes
+might not be considered a failure by application logic — for example, a
+<code>Transfer</code> not being created due to balance checks or pending
+timeouts isn’t necessarily an <em>error</em>.</p>
+<p>Likewise, the <code>exists</code> status now reports the same
+<code>timestamp</code> returned by <code>created</code>, allowing the
+application to treat both cases consistently.</p>
+<p>The result types <code>CreateAccount<b>s</b>Result</code> and
+<code>CreateTransfer<b>s</b>Result</code> were renamed to the singular
+form, <code>CreateAccountResult</code> and
+<code>CreateTransferResult</code>.</p>
+<table>
+<tr><th>Before</th><th>After</th></tr>
+<tr><td>
+
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode zig"><code class="sourceCode zig"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="at">const</span> CreateAccountsResult <span class="op">=</span> <span class="at">extern</span> <span class="kw">struct</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    index<span class="op">:</span> <span class="dt">u32</span><span class="op">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    result<span class="op">:</span> CreateAccountResult<span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>};</span></code></pre></div>
+</div>
+</td><td>
+
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode zig"><code class="sourceCode zig"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="at">const</span> CreateAccountResult <span class="op">=</span> <span class="at">extern</span> <span class="kw">struct</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    timestamp<span class="op">:</span> <span class="dt">u64</span><span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    status<span class="op">:</span> CreateAccountStatus<span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    reserved<span class="op">:</span> <span class="dt">u32</span> <span class="op">=</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>};</span></code></pre></div>
+</div>
+</td></tr>
+<tr><!-- Empty row to avoid the zebra stripe style--></tr>
+<tr><td>
+
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode zig"><code class="sourceCode zig"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="at">const</span> CreateTransfersResult <span class="op">=</span> <span class="at">extern</span> <span class="kw">struct</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    index<span class="op">:</span> <span class="dt">u32</span><span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    result<span class="op">:</span> CreateTransferResult<span class="op">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>};</span></code></pre></div>
+</div>
+</td><td>
+
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode zig"><code class="sourceCode zig"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="at">const</span> CreateTransferResult <span class="op">=</span> <span class="at">extern</span> <span class="kw">struct</span> {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    timestamp<span class="op">:</span> <span class="dt">u64</span><span class="op">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    status<span class="op">:</span> CreateTransferStatus<span class="op">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    reserved<span class="op">:</span> <span class="dt">u32</span> <span class="op">=</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>};</span></code></pre></div>
+</div>
+</td></tr>
+</table>
+
+<h3 id="query-limits"><a href="#query-limits" class="anchor">Query
+limits.</a></h3>
+<p>The previous API did not validate the maximum range of the fields <a
+href="../../reference/account-filter#limit"><code>AccountFilter.limit</code></a>
+and <a
+href="../../reference/query-filter#limit"><code>QueryFilter.limit</code></a>.
+Values up to <code>2^32 - 1</code> were accepted, and the TigerBeetle
+cluster was responsible for capping the number of results to fit the
+message size.</p>
+<p>Now the TigerBeetle client enforces a valid <code>limit</code> and
+rejects requests with limits greater than the <a
+href="../../coding/requests#batching-events">maximum batch size</a>,
+returning the <code>too_much_data</code> error code.</p>
+<p>This is the same behavior as when, for example, <a
+href="../../reference/requests/create_accounts"><code>create_accounts</code></a>
+or <a
+href="../../reference/requests/create_transfers"><code>create_transfers</code></a>
+are called with more than <em>8189</em> events.</p>
+<p>The operations <a
+href="../../reference/requests/query_accounts"><code>query_accounts</code></a>,
+<a
+href="../../reference/requests/query_transfers"><code>query_transfers</code></a>,
+<a
+href="../../reference/requests/get_account_transfers"><code>get_account_transfers</code></a>,
+and <a
+href="../../reference/requests/get_account_balances"><code>get_account_balances</code></a>
+are affected.</p>
+<h3 id="client-breaking-changes"><a href="#client-breaking-changes"
+class="anchor">Client breaking changes</a></h3>
+<p>Along with the new result types, some client libraries have changed
+the API to be more idiomatic, for naming consistency, or even due to bug
+fixes in the previous API.</p>
+<p>See below is a list of API changes specific to each client
+library:</p>
+<details><summary><b>.NET</b></summary>
+
+<h3 id="net-client-breaking-changes"><a
+href="#net-client-breaking-changes" class="anchor">.NET Client breaking
+changes</a></h3>
+<p>The TigerBeetle .NET Client <code>0.17.0</code> introduced the
+following breaking changes:</p>
+<ul>
+<li><p>The enum types <code>CreateAccount<b>Result</b></code> and
+<code>CreateTransfer<b>Result</b></code>, with the status codes for the
+<a
+href="../../reference/requests/create_accounts"><code>create_accounts</code></a>
+and <a
+href="../../reference/requests/create_transfers"><code>create_transfers</code></a>
+operations respectively, were renamed to
+<code>CreateAccount<b>Status</b></code> and
+<code>CreateTransfer<b>Status</b></code>.</p>
+<p>The enum value <code>Ok</code>, present in both enum types, was
+replaced by the new status code <code>Created</code>, which indicates
+that the event was successfully created.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enum</td>
+<td><code>CreateAccountResult</code></td>
+<td><code>CreateAccountStatus</code></td>
+</tr>
+<tr>
+<td>Enum Value</td>
+<td><code>CreateAccountResult.Ok</code></td>
+<td><code>CreateAccountStatus.Created</code></td>
+</tr>
+<tr>
+<td>Enum</td>
+<td><code>CreateTransferResult</code></td>
+<td><code>CreateTransferStatus</code></td>
+</tr>
+<tr>
+<td>Enum Value</td>
+<td><code>CreateTransferResult.Ok</code></td>
+<td><code>CreateTransferStatus.Created</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+<li><p>The result types <code>CreateAccount<b>s</b>Result</code> and
+<code>CreateTransfer<b>s</b>Result</code> were renamed to the singular
+form, <code>CreateAccountResult</code> and
+<code>CreateTransferResult</code>.</p>
+<p>The property <code>Index</code> was removed, since each result value
+corresponds to an event in the batch at the same index.</p>
+<p>Additional changes include the new <code>Timestamp</code> property
+and renaming the <code>Result</code> property to <code>Status</code>,
+reflecting the change to the associated enums.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Struct</td>
+<td><code>CreateAccountsResult</code></td>
+<td><code>CreateAccountResult</code></td>
+</tr>
+<tr>
+<td>Property</td>
+<td><code>CreateAccountsResult.Index</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Property</td>
+<td><em>NA</em></td>
+<td><code>CreateAccountResult.Timestamp</code></td>
+</tr>
+<tr>
+<td>Property</td>
+<td><code>CreateAccountsResult.Result</code></td>
+<td><code>CreateAccountResult.Status</code></td>
+</tr>
+<tr>
+<td>Struct</td>
+<td><code>CreateTransfersResult</code></td>
+<td><code>CreateTransferResult</code></td>
+</tr>
+<tr>
+<td>Property</td>
+<td><code>CreateTransfersResult.Index</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Property</td>
+<td><em>NA</em></td>
+<td><code>CreateTransferResult.Timestamp</code></td>
+</tr>
+<tr>
+<td>Property</td>
+<td><code>CreateTransfersResult.Result</code></td>
+<td><code>CreateTransferResult.Status</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+<li><p>Non-batched methods of the <code>Client</code> class that
+received a single event such as <code>CreateAccount</code>,
+<code>CreateTransfer</code>, <code>LookupAccount</code>, and
+<code>LookupTransfer</code> were removed.</p>
+<p>The batched versions that take an array of events such as
+<code>CreateAccount<b>s</b></code>, <code>CreateTransfer<b>s</b></code>,
+<code>LookupAccount<b>s</b></code>, and
+<code>LookupTransfer<b>s</b></code> remain unchanged.</p></li>
+<li><p>New exceptions were introduced for conditions that can be handled
+by the application. The <code>PacketStatus</code> enum is now internal
+and the <code>RequestException</code> was made
+<code>abstract</code>.</p>
+<p>The client can be explicitly closed by calling
+<code>Client.Close()</code>, whereas previously the only way to close a
+client was through <code>Client.Dispose()</code>. Interacting with a
+closed client now throws a <code>ClientClosedException</code> instead of
+an <code>ObjectDisposedException</code>.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enum</td>
+<td><code>PacketStatus</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td><code>RequestException</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Method</td>
+<td><em>added</em></td>
+<td><code>Client.Close()</code></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td></td>
+<td><code>ClientClosedException</code></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td></td>
+<td><code>ClientEvictedException</code></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td></td>
+<td><code>ClientReleaseException</code></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td></td>
+<td><code>TooMuchDataException</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+</ul>
+<h3 id="example"><a href="#example" class="anchor">Example:</a></h3>
+<p>Before:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb5"><pre class="sourceCode c#"><code class="sourceCode cs"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>CreateTransfersResult<span class="op">[]</span> transferErrors <span class="op">=</span> client<span class="op">.</span><span class="fu">CreateTransfers</span><span class="op">(</span>transfers<span class="op">);</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>transferErrors<span class="op">.</span><span class="fu">Length</span> <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Error handling ...</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</div>
+<p>After:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb6"><pre class="sourceCode c#"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>CreateTransferResult<span class="op">[]</span> transferResults <span class="op">=</span> client<span class="op">.</span><span class="fu">CreateTransfers</span><span class="op">(</span>transfers<span class="op">);</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Assert<span class="op">.</span><span class="fu">AreEqual</span><span class="op">(</span>transferResults<span class="op">.</span><span class="fu">Length</span><span class="op">,</span> transfers<span class="op">.</span><span class="fu">Length</span><span class="op">);</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span><span class="op">(</span>CreateTransferResult result <span class="kw">in</span> transferResults<span class="op">)</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">switch</span><span class="op">(</span>result<span class="op">.</span><span class="fu">Status</span><span class="op">)</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">case</span> CreateTransferStatus<span class="op">.</span><span class="fu">Created</span><span class="op">:</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">case</span> CreateTransferStatus<span class="op">.</span><span class="fu">Exists</span><span class="op">:</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Successfully created.</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>            <span class="kw">break</span><span class="op">;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">default</span><span class="op">:</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Could not be created.</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>            <span class="kw">break</span><span class="op">;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</div>
+<p>For more details, please refer to the <a
+href="/coding/clients/dotnet">.NET client reference page</a>.</p>
+</details><br><!--.NET-->
+
+<details><summary><b>Go</b></summary>
+
+<h3 id="go-client-breaking-changes"><a
+href="#go-client-breaking-changes" class="anchor">Go Client breaking
+changes</a></h3>
+<p>The TigerBeetle Go Client <code>0.17.0</code> introduced the
+following breaking changes:</p>
+<ul>
+<li><p>The enum types <code>CreateAccount<b>Result</b></code> and
+<code>CreateTransfer<b>Result</b></code>, with the status codes for the
+<a
+href="../../reference/requests/create_accounts"><code>create_accounts</code></a>
+and <a
+href="../../reference/requests/create_transfers"><code>create_transfers</code></a>
+operations respectively, were renamed to
+<code>CreateAccount<b>Status</b></code> and
+<code>CreateTransfer<b>Status</b></code>.</p>
+<p>The enum values <code>AccountOK</code> and <code>TransferOK</code>,
+were replaced by the new status codes <code>AccountCreated</code> and
+<code>TransferCreated</code>, which indicates the event was successfully
+created by the operation.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enum</td>
+<td><code>CreateAccountResult</code></td>
+<td><code>CreateAccountStatus</code></td>
+</tr>
+<tr>
+<td>Enum Value</td>
+<td><code>AccountOK</code></td>
+<td><code>AccountCreated</code></td>
+</tr>
+<tr>
+<td>Enum</td>
+<td><code>CreateTransferResult</code></td>
+<td><code>CreateTransferStatus</code></td>
+</tr>
+<tr>
+<td>Enum Value</td>
+<td><code>TransferOK</code></td>
+<td><code>TransferCreated</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+<li><p>The result types <code>AccountEventResult</code> and
+<code>TransferEventResult</code> were renamed to
+<code>CreateAccountResult</code> and
+<code>CreateTransferResult</code>.</p>
+<p>The field <code>Index</code> was removed, since each result value
+corresponds to an event in the batch at the same index.</p>
+<p>Additional changes include the new <code>Timestamp</code> field and
+renaming the <code>Result</code> field to <code>Status</code>,
+reflecting the change to the associated enums.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Type</td>
+<td><code>AccountEventResult</code></td>
+<td><code>CreateAccountResult</code></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><code>AccountEventResult.Index</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><em>NA</em></td>
+<td><code>CreateAccountResult.Timestamp</code></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><code>AccountEventResult.Result</code></td>
+<td><code>CreateAccountResult.Status</code></td>
+</tr>
+<tr>
+<td>Type</td>
+<td><code>TransferEventResult</code></td>
+<td><code>CreateTransferResult</code></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><code>TransferEventResult.Index</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><em>NA</em></td>
+<td><code>CreateTransferResult.Timestamp</code></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><code>TransferEventResult.Result</code></td>
+<td><code>CreateTransferResult.Status</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+<li><p>The <code>types</code> and <code>errors</code> packages were
+removed, consolidating all definitions under the root
+<code>tigerbeetle_go</code> package.</p>
+<p>The <code>Err</code> types were removed in favor of simple value
+declarations for error codes, allowing the use of idiomatic
+constructions such as
+<code>errors.Is(err, ErrTooMuchData)</code>.</p></li>
+<li><p>Conversions between <code>UInt128</code> and <code>big.Int</code>
+now return and accept a pointer to a big integer <code>*big.Int</code>,
+making the API more idiomatic.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Function</td>
+<td><code>BigInt() big.Int</code></td>
+<td><code>BigInt() *big.Int</code></td>
+</tr>
+<tr>
+<td>Function</td>
+<td><code>BigIntToUint128(value big.Int) Uint128</code></td>
+<td><code>BigIntToUint128(value *big.Int) Uint128</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+</ul>
+<h3 id="example-1"><a href="#example-1" class="anchor">Example:</a></h3>
+<p>Before:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb7"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span> <span class="st">&quot;github.com/tigerbeetle/tigerbeetle-go&quot;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span> <span class="st">&quot;github.com/tigerbeetle/tigerbeetle-go/pkg/types&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> transferErrors <span class="op">[]</span>TransferEventResult</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> err <span class="dt">error</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>transferErrors<span class="op">,</span> err <span class="op">=</span> client<span class="op">.</span>CreateTransfers<span class="op">(</span>transfers<span class="op">);</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Request error ...</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span><span class="op">(</span>transferErrors<span class="op">)</span> <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">{</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Error handling ...</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</div>
+<p>After:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb8"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span> <span class="st">&quot;github.com/tigerbeetle/tigerbeetle-go&quot;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> transferResults <span class="op">[]</span>CreateTransferResult</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> err <span class="dt">error</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>transferResults<span class="op">,</span> err <span class="op">=</span> client<span class="op">.</span>CreateTransfers<span class="op">(</span>transfers<span class="op">);</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Request error ...</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _<span class="op">,</span> result <span class="op">:=</span> <span class="kw">range</span> transferResults <span class="op">{</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">switch</span> result<span class="op">.</span>Status <span class="op">{</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> TransferCreated<span class="op">,</span> TransferExists<span class="op">:</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Successfully created.</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">default</span><span class="op">:</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Could not be created.</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</div>
+<p>For more details, please refer to the <a href="/coding/clients/go">Go
+client reference page</a>.</p>
+</details><br><!--Go-->
+
+<details><summary><b>Java</b></summary>
+
+<h3 id="java-client-breaking-changes"><a
+href="#java-client-breaking-changes" class="anchor">Java Client breaking
+changes</a></h3>
+<p>The TigerBeetle Java Client <code>0.17.0</code> introduced the
+following breaking changes:</p>
+<ul>
+<li><p>The enum types <code>CreateAccount<b>Result</b></code> and
+<code>CreateTransfer<b>Result</b></code>, with the status codes for the
+<a
+href="../../reference/requests/create_accounts"><code>create_accounts</code></a>
+and <a
+href="../../reference/requests/create_transfers"><code>create_transfers</code></a>
+operations respectively, were renamed to
+<code>CreateAccount<b>Status</b></code> and
+<code>CreateTransfer<b>Status</b></code>.</p>
+<p>The enum value <code>Ok</code>, present in both enum types, was
+replaced by the new status code <code>Created</code>, which indicates
+that the event was successfully created.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enum</td>
+<td><code>CreateAccountResult</code></td>
+<td><code>CreateAccountStatus</code></td>
+</tr>
+<tr>
+<td>Enum Value</td>
+<td><code>CreateAccountResult.Ok</code></td>
+<td><code>CreateAccountStatus.Created</code></td>
+</tr>
+<tr>
+<td>Enum</td>
+<td><code>CreateTransferResult</code></td>
+<td><code>CreateTransferStatus</code></td>
+</tr>
+<tr>
+<td>Enum Value</td>
+<td><code>CreateTransferResult.Ok</code></td>
+<td><code>CreateTransferStatus.Created</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+<li><p>The result types <code>CreateAccountResultBatch</code> and
+<code>CreateTransferResultBatch</code>, had the <code>getIndex()</code>
+property removed, since each result value corresponds to one event in
+the batch at the same index.</p>
+<p>Additional changes include the new <code>getTimestamp()</code>
+property and renaming the <code>getResult()</code> property to
+<code>getStatus()</code>, reflecting the change to the associated
+enums.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Method</td>
+<td><code>CreateAccountResultBatch.getIndex()</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Method</td>
+<td><em>NA</em></td>
+<td><code>CreateAccountResultBatch.getTimestamp()</code></td>
+</tr>
+<tr>
+<td>Method</td>
+<td><code>CreateAccountResultBatch.getResult()</code></td>
+<td><code>CreateAccountResultBatch.getStatus()</code></td>
+</tr>
+<tr>
+<td>Method</td>
+<td><code>CreateTransferResultBatch.getIndex()</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Method</td>
+<td><em>NA</em></td>
+<td><code>CreateTransferResultBatch.getTimestamp()</code></td>
+</tr>
+<tr>
+<td>Method</td>
+<td><code>CreateTransferResultBatch.getResult()</code></td>
+<td><code>CreateTransferResultBatch.getStatus()</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+<li><p>All the <em>blocking</em> methods of the <a
+href="https://javadoc.io/doc/com.tigerbeetle/tigerbeetle-java/latest/com.tigerbeetle/com/tigerbeetle/Client.html"><code>Client</code></a>
+class (such as <code>createAccounts</code>,
+<code>createTransfers</code>, and others) may throw the <em>checked</em>
+exception <a
+href="https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html"><code>InterruptedException</code></a>
+to signal that the waiting thread was interrupted by the Java
+environment. The non-blocking versions of the same methods that return a
+<a
+href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html"><code>CompletableFuture&lt;T&gt;</code></a>
+remain unchanged.</p></li>
+<li><p>New exceptions were introduced for conditions that can be handled
+by the application. The <code>PacketStatus</code> enum is now internal
+and the <code>RequestException</code> was removed.</p>
+<p>All operations throw <code>ClientClosedException</code> instead of
+<code>IllegalStateException</code> if the client is closed.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enum</td>
+<td><code>PacketStatus</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td><code>RequestException</code></td>
+<td><em>abstract class</em></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td><code>ClientClosedException</code></td>
+<td><em>extends</em> <code>RequestException</code></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td></td>
+<td><code>ClientEvictedException</code></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td></td>
+<td><code>ClientReleaseException</code></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td></td>
+<td><code>TooMuchDataException</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+</ul>
+<h3 id="example-2"><a href="#example-2" class="anchor">Example:</a></h3>
+<p>Before:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>CreateTransferResultBatch transferErrors <span class="op">=</span> client<span class="op">.</span><span class="fu">createTransfers</span><span class="op">(</span>transfers<span class="op">);</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>transferErrors<span class="op">.</span><span class="fu">getLength</span><span class="op">()</span> <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Error handling ...</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</div>
+<p>After:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    CreateTransferResultBatch transferResults <span class="op">=</span> client<span class="op">.</span><span class="fu">createTransfers</span><span class="op">(</span>transfers<span class="op">);</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> transferResults<span class="op">.</span><span class="fu">getLength</span><span class="op">()</span> <span class="op">==</span> transfers<span class="op">.</span><span class="fu">getLength</span><span class="op">();</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>transferResults<span class="op">.</span><span class="fu">next</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">switch</span> <span class="op">(</span>transferResults<span class="op">.</span><span class="fu">getStatus</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> Created<span class="op">:</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> Exists<span class="op">:</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                <span class="co">// Successfully created.</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>            <span class="kw">default</span><span class="op">:</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                <span class="co">// Could not be created.</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">InterruptedException</span> exception<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// The thread was interrupted.</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</div>
+<p>For more details, please refer to the <a href="../clients/java">Java
+client reference page</a>.</p>
+</details><br><!--Java-->
+
+<details><summary><b>Node.js</b></summary>
+
+<h3 id="nodejs-client-breaking-changes"><a
+href="#nodejs-client-breaking-changes" class="anchor">Node.js Client
+breaking changes</a></h3>
+<p>The TigerBeetle Node.js Client <code>0.17.0</code> introduced the
+following breaking changes:</p>
+<ul>
+<li><p>The enum types <code>CreateAccountError</code> and
+<code>CreateTransferError</code>, with the status codes for the <a
+href="../../reference/requests/create_accounts"><code>create_accounts</code></a>
+and <a
+href="../../reference/requests/create_transfers"><code>create_transfers</code></a>
+operations respectively, were renamed to
+<code>CreateAccountStatus</code> and
+<code>CreateTransferStatus</code>.</p>
+<p>The enum value <code>ok</code>, present in both enum types, was
+replaced by the new status code <code>created</code>, which indicates
+that the event was successfully created.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enum</td>
+<td><code>CreateAccountError</code></td>
+<td><code>CreateAccountStatus</code></td>
+</tr>
+<tr>
+<td>Enum Value</td>
+<td><code>CreateAccountError.ok</code></td>
+<td><code>CreateAccountStatus.created</code></td>
+</tr>
+<tr>
+<td>Enum</td>
+<td><code>CreateTransferError</code></td>
+<td><code>CreateTransferStatus</code></td>
+</tr>
+<tr>
+<td>Enum Value</td>
+<td><code>CreateTransferError.ok</code></td>
+<td><code>CreateTransferStatus.created</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+<li><p>The result types <code>CreateAccountsError</code> and
+<code>CreateTransfersError</code> were renamed to
+<code>CreateAccountResult</code> and
+<code>CreateTransferResult</code>.</p>
+<p>The field <code>index</code> was removed, since each result value
+corresponds to an event in the batch at the same index.</p>
+<p>Additional changes include the new <code>timestamp</code> field and
+renaming the <code>result</code> field to <code>status</code>,
+reflecting the change to the associated enums.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Type</td>
+<td><code>CreateAccountsError</code></td>
+<td><code>CreateAccountResult</code></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><code>CreateAccountsError.index</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><em>NA</em></td>
+<td><code>CreateAccountResult.timestamp</code></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><code>CreateAccountsError.result</code></td>
+<td><code>CreateAccountResult.status</code></td>
+</tr>
+<tr>
+<td>Type</td>
+<td><code>CreateTransfersError</code></td>
+<td><code>CreateTransferResult</code></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><code>CreateTransfersError.index</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><em>NA</em></td>
+<td><code>CreateTransferResult.timestamp</code></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><code>CreateTransfersError.result</code></td>
+<td><code>CreateTransferResult.status</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+<li><p>New error type <code>RequestError</code> was introduced for
+conditions that can be handled by the application. Match the
+<code>RequestError.code</code> property against the constants defined in
+<code>ErrorCodes</code> to determine the specific failure.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Type</td>
+<td></td>
+<td><code>ErrorCodes</code></td>
+</tr>
+<tr>
+<td>Error</td>
+<td></td>
+<td><code>RequestError</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+</ul>
+<h3 id="example-3"><a href="#example-3" class="anchor">Example:</a></h3>
+<p>Before:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> transferErrors<span class="op">:</span> CreateTransfersError[] <span class="op">=</span> <span class="cf">await</span> client<span class="op">.</span><span class="fu">createTransfers</span>(transfers)<span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (transferErrors<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Error handling ...</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<p>After:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> transferResults<span class="op">:</span> CreateTransferResult[] <span class="op">=</span> <span class="cf">await</span> client<span class="op">.</span><span class="fu">createTransfers</span>(transfers)<span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>assert<span class="op">.</span><span class="fu">strictEqual</span>(transferResults<span class="op">.</span><span class="at">length</span><span class="op">,</span> transfers<span class="op">.</span><span class="at">length</span>)<span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> result <span class="kw">of</span> transferResults) {</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">switch</span> (result<span class="op">.</span><span class="at">status</span>) {</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> CreateTransferStatus<span class="op">.</span><span class="at">created</span><span class="op">:</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> CreateTransferStatus<span class="op">.</span><span class="at">exists</span><span class="op">:</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Successfully created.</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">default</span><span class="op">:</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Could not be created.</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<p>For more details, please refer to the <a
+href="../clients/node">Node.js client reference page</a>.</p>
+</details><br><!--Node.js-->
+
+<details><summary><b>Python</b></summary><br>
+
+<h3 id="python-client-breaking-changes"><a
+href="#python-client-breaking-changes" class="anchor">Python Client
+breaking changes</a></h3>
+<p>The TigerBeetle Python Client <code>0.17.0</code> introduced the
+following breaking changes:</p>
+<ul>
+<li><p>The enum types <code>CreateAccountResult</code> and
+<code>CreateTransferResult</code>, with the status codes for the <a
+href="../../reference/requests/create_accounts"><code>create_accounts</code></a>
+and <a
+href="../../reference/requests/create_transfers"><code>create_transfers</code></a>
+operations respectively, were renamed to
+<code>CreateAccountStatus</code> and
+<code>CreateTransferStatus</code>.</p>
+<p>The enum value <code>OK</code>, present in both enum types, was
+replaced by the new status code <code>CREATED</code>, which indicates
+that the event was successfully created.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enum</td>
+<td><code>CreateAccountResult</code></td>
+<td><code>CreateAccountStatus</code></td>
+</tr>
+<tr>
+<td>Enum Value</td>
+<td><code>CreateAccountResult.OK</code></td>
+<td><code>CreateAccountStatus.CREATED</code></td>
+</tr>
+<tr>
+<td>Enum</td>
+<td><code>CreateTransferResult</code></td>
+<td><code>CreateTransferStatus</code></td>
+</tr>
+<tr>
+<td>Enum Value</td>
+<td><code>CreateTransferResult.OK</code></td>
+<td><code>CreateTransferStatus.CREATED</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+<li><p>The result types <code>CreateAccount<b>s</b>Result</code> and
+<code>CreateTransfer<b>s</b>Result</code> were renamed to the singular
+form, <code>CreateAccountResult</code> and
+<code>CreateTransferResult</code>.</p>
+<p>The field <code>index</code> was removed, since each result value
+corresponds to an event in the batch at the same index.</p>
+<p>Additional changes include the new <code>timestamp</code> field and
+renaming the <code>result</code> field to <code>status</code>,
+reflecting the change to the associated enums.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Type</td>
+<td><code>CreateAccountsResult</code></td>
+<td><code>CreateAccountResult</code></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><code>CreateAccountsResult.index</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><em>NA</em></td>
+<td><code>CreateAccountResult.timestamp</code></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><code>CreateAccountsResult.result</code></td>
+<td><code>CreateAccountResult.status</code></td>
+</tr>
+<tr>
+<td>Type</td>
+<td><code>CreateTransfersResult</code></td>
+<td><code>CreateTransferResult</code></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><code>CreateTransfersResult.index</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><em>NA</em></td>
+<td><code>CreateTransferResult.timestamp</code></td>
+</tr>
+<tr>
+<td>Field</td>
+<td><code>CreateTransfersResult.result</code></td>
+<td><code>CreateTransferResult.status</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+<li><p>The constant <code>amount_max</code> was renamed to
+<code>AMOUNT_MAX</code>.</p></li>
+<li><p>New exceptions were introduced for conditions that can be handled
+by the application. The <code>PacketStatus</code> enum is now internal
+and the <code>PacketError</code> exception was removed.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enum</td>
+<td><code>PacketStatus</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td><code>PacketError</code></td>
+<td><em>removed</em></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td></td>
+<td><code>ClientEvictedError</code></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td></td>
+<td><code>ClientReleaseTooLowError</code></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td></td>
+<td><code>ClientReleaseTooHighError</code></td>
+</tr>
+<tr>
+<td>Exception</td>
+<td></td>
+<td><code>TooMuchDataError</code></td>
+</tr>
+</tbody>
+</table>
+</div></li>
+<li><p>Removed all default initialization values from the types
+<code>AccountFilter</code> and <code>QueryFilter</code>.</p></li>
+</ul>
+<h3 id="example-4"><a href="#example-4" class="anchor">Example:</a></h3>
+<p>Before:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>transfer_errors <span class="op">=</span> client.create_transfers(transfers)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span>(transfer_errors) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Error handling ...</span></span></code></pre></div>
+</div>
+<p>After:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>transfer_results <span class="op">=</span> client.create_transfers(transfers)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">len</span>(transfer_results) <span class="op">==</span> <span class="bu">len</span>(transfers)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> result <span class="kw">in</span> transfer_results:</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> result.status <span class="op">==</span> tb.CreateAccountResult.CREATED <span class="kw">or</span> <span class="op">\</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>       result.status <span class="op">==</span> tb.CreateAccountResult.EXISTS:</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Successfully created.</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Could not be created.</span></span></code></pre></div>
+</div>
+<p>For more details, please refer to the <a
+href="../clients/python">Python client reference page</a>.</p>
+</details><br><!--Python-->
+
+<details><summary><b>Rust</b></summary><br>
+
+<h3 id="rust-client-breaking-changes"><a
+href="#rust-client-breaking-changes" class="anchor">Rust Client breaking
+changes</a></h3>
+<p>The TigerBeetle Rust Client <code>0.17.0</code> also introduced the
+new API. However, the Rust client is not yet publicly available on
+Crates.io at the time of this release, so they are not considered
+breaking changes.</p>
+<p>For more details, please refer to the <a href="../clients/rust">Rust
+client reference page</a>.</p>
+</details><!--Rust-->
+
+<h2 id="01633"><a href="#01633"
+class="anchor"><span>0.16.33</span></a></h2>
+<h3 id="oldest-supported-client-version-is-0164"><a
+href="#oldest-supported-client-version-is-0164" class="anchor">Oldest
+supported client version is <code>0.16.4</code></a></h3>
+<p>Please make sure that all of your clients are running on at
+<code>0.16.4</code> or newer before upgrading to this release!</p>
+<h2 id="0164"><a href="#0164"
+class="anchor"><span>0.16.4</span></a></h2>
+<h3 id="transient-failures"><a href="#transient-failures"
+class="anchor">Transient Failures</a></h3>
+<p>Clients have the strong guarantee that a <code>Transfer.id</code>
+that has once failed due to a transient error code will never succeed
+again if retried.</p>
+<p>Transient failures occur when semantically valid transfers fail due
+to reasons that depend exclusively on the database status. For example,
+when an <code>account</code> does not have enough credits to fulfill the
+<code>transfer</code>.</p>
+<p>Please refer to the <a
+href="../../reference/requests/create_transfers">documentation</a> for a
+complete list of all transient failures.</p>
+<p>As of <code>0.16.4</code>:</p>
+<ul>
+<li><p>New precedence order for the <code>create_transfers</code> and
+<code>create_accounts</code> error codes. The idempotency checks (e.g.,
+all <code>exists_*</code> cases) are now validated prior to the
+semantical checks.</p>
+<p>For example, when submitting a <code>transfer</code> with the
+<code>id</code> of an existing one, clients might receive
+<code>exists_with_different_&lt;field_name&gt;</code> instead of
+<code>&lt;field_name&gt;_must_not_be_zero</code>.</p>
+<p><em>This is <strong>not</strong> a breaking API change and affects
+all supported client versions.</em></p></li>
+<li><p><code>create_transfers</code> now returns
+<code>exists_with_different_ledger</code> Reflecting the new precedence
+order change.</p>
+<p><em>This is a breaking API change which is gated in the state machine
+by the client’s release.</em> <em>Clients of previous versions will
+receive <code>transfer_must_have_the_same_ledger_as_accounts</code>
+instead.</em></p></li>
+<li><p>Added a new result code <a
+href="../../reference/requests/create_transfers#id_already_failed"><code>id_already_failed</code></a>.
+It is returned by <code>create_transfers</code> when the
+<code>Transfer.id</code> was already used in a previous attempt that
+resulted in a transient failure.</p>
+<p><em>This is a breaking API change which is gated in the state machine
+by the client’s release.</em> <em>Clients of previous versions will be
+able to successfully create transfers submitted with an <code>id</code>
+that previously failed, since it passes all validations.</em></p></li>
+</ul>
+<h2 id="0160"><a href="#0160"
+class="anchor"><span>0.16.0</span></a></h2>
+<h3 id="zero-amount-transfers"><a href="#zero-amount-transfers"
+class="anchor">Zero-amount transfers</a></h3>
+<p>Zero-amount transfers are now permitted.</p>
+<p>This is a <em>breaking API change</em> which is gated in the state
+machine by the <em>client’s</em> release.</p>
+<p>As of <code>0.16.0</code>:</p>
+<ul>
+<li><p>Clients no longer return <code>amount_must_not_be_zero</code> to
+<code>create_transfers</code>.</p></li>
+<li><p>Balancing transfers no longer use <code>amount=0</code> as a
+sentinel value to represent “transfer as much as possible”. For that
+purpose, use <code>AMOUNT_MAX</code> (exact constant name depends on
+client implementation) instead.</p></li>
+<li><p>Post-pending transfers no longer use <code>amount=0</code> as a
+sentinel value to represent “transfer full pending amount”. For that
+purpose, use <code>AMOUNT_MAX</code> instead. In <code>0.16.0</code>,
+sending a post-pending transfer with <code>amount=0</code> will
+successfully post <code>amount=0</code>, voiding the remainder (i.e.
+voiding the whole pending amount).</p></li>
+</ul>
+<a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/coding/api-changes.md">
+  <svg width="16" height="16" fill="none">
+    <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+  </svg>
+  Edit this page
+</a>
+
+        </div>
+      </article>
+    </main>
+    <div id="svg-templates" style="width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+      <svg id="svg-tigerbeetle-logo" width="127" height="24" viewBox="0 0 127 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="m20.637 6.4656h-20.637c0-3.5378 3.1347-6.4656 6.7918-6.4656h20.637c0 3.5378-3.1347 6.4656-6.7919 6.4656z" fill="currentColor"/>
+        <path d="m8.0098 22.84 1.4016-9.5939c0.59548-4.076 4.0996-7.1037 8.2215-7.1037l-1.8889 12.465c-0.6421 2.9286-4.0162 4.867-7.7342 4.2322z" fill="currentColor"/>
+        <path d="m32.351 7.7116 0.3579-2.1298h10.035l-0.358 2.1298h-3.7406l-1.6705 10.088h-2.5534l1.6705-10.088h-3.7406zm9.969 10.088 1.5273-9.1636h2.5414l-1.5272 9.1636h-2.5415zm3.0605-10.357c-0.3778 0-0.69-0.12528-0.9366-0.37585-0.2427-0.25455-0.3421-0.55682-0.2983-0.90682 0.0437-0.35796 0.2147-0.66023 0.513-0.90682 0.2983-0.25057 0.6364-0.37585 1.0142-0.37585 0.3779 0 0.6861 0.12528 0.9248 0.37585 0.2386 0.24659 0.338 0.54886 0.2983 0.90682-0.0398 0.35-0.2089 0.65227-0.5072 0.90682-0.2943 0.25057-0.6303 0.37585-1.0082 0.37585zm5.0725 13.984c-0.8272 0-1.5173-0.1134-2.0701-0.3401-0.5489-0.2227-0.9665-0.527-1.2529-0.9128-0.2824-0.3858-0.4375-0.8193-0.4653-1.3005l2.4102-0.3162c0.0437 0.1869 0.1273 0.3599 0.2506 0.519 0.1272 0.1591 0.3082 0.2864 0.5429 0.3818 0.2386 0.0955 0.5468 0.1432 0.9247 0.1432 0.5528 0 1.0341-0.1352 1.4437-0.4057 0.4097-0.2665 0.6622-0.7139 0.7577-1.3423l0.2744-1.6764h-0.1074c-0.1511 0.2545-0.3579 0.4951-0.6204 0.7218-0.2585 0.2267-0.5747 0.4117-0.9486 0.5549-0.3699 0.1431-0.7974 0.2147-1.2827 0.2147-0.692 0-1.2926-0.1591-1.8017-0.4772-0.5051-0.3222-0.871-0.8134-1.0977-1.4736-0.2227-0.6642-0.2506-1.5034-0.0835-2.5176 0.175-1.0381 0.4892-1.9051 0.9426-2.6012 0.4534-0.69599 0.9903-1.217 1.6108-1.563s1.2668-0.51904 1.9389-0.51904c0.5131 0 0.9267 0.0875 1.2409 0.2625 0.3182 0.17103 0.5628 0.3858 0.7338 0.64432 0.1711 0.25455 0.2924 0.50512 0.364 0.75175h0.1014l0.2505-1.5392h2.5236l-1.5392 9.2532c-0.1233 0.7835-0.4196 1.4358-0.8889 1.9568-0.4653 0.525-1.056 0.9187-1.7719 1.1812-0.7159 0.2665-1.5094 0.3998-2.3804 0.3998zm0.9546-5.6677c0.4057 0 0.7696-0.1014 1.0917-0.3042 0.3262-0.2068 0.5986-0.5012 0.8174-0.883 0.2187-0.3858 0.3718-0.8471 0.4593-1.3841 0.0875-0.5369 0.0855-1.0022-0.0059-1.396-0.0875-0.3977-0.2586-0.7059-0.5131-0.9247-0.2506-0.2187-0.5807-0.3281-0.9903-0.3281-0.4216 0-0.7915 0.1133-1.1097 0.34-0.3182 0.2228-0.5827 0.533-0.7935 0.9307-0.2068 0.3977-0.352 0.8571-0.4355 1.3781-0.0875 0.529-0.0915 0.9864-0.0119 1.3722 0.0835 0.3818 0.2486 0.6781 0.4952 0.8889 0.2466 0.2068 0.5787 0.3102 0.9963 0.3102zm10.273 2.2194c-0.9387 0-1.7162-0.1909-2.3327-0.5728-0.6165-0.3858-1.05-0.9306-1.3006-1.6346-0.2466-0.708-0.2883-1.5452-0.1253-2.5117 0.1591-0.9426 0.4793-1.7699 0.9606-2.4818 0.4852-0.7119 1.0937-1.2668 1.8255-1.6645 0.7318-0.39772 1.5472-0.59659 2.446-0.59659 0.6046 0 1.1515 0.09745 1.6407 0.29233 0.4932 0.19091 0.9028 0.48125 1.2289 0.87103 0.3262 0.38581 0.5489 0.86901 0.6682 1.4497 0.1233 0.5807 0.1213 1.2608-0.0059 2.0403l-0.1134 0.6981h-7.7318l0.2446-1.575h5.3454c0.0597-0.366 0.0358-0.6901-0.0715-0.9725-0.1074-0.2824-0.2864-0.5031-0.537-0.6622-0.2505-0.1631-0.5588-0.2446-0.9247-0.2446-0.3739 0-0.7239 0.0915-1.05 0.2744-0.3261 0.183-0.6006 0.4236-0.8233 0.7219-0.2187 0.2943-0.3599 0.6145-0.4236 0.9605l-0.2804 1.5631c-0.0795 0.4812-0.0636 0.8809 0.0478 1.1991 0.1153 0.3182 0.3142 0.5568 0.5966 0.7159 0.2823 0.1551 0.6403 0.2327 1.0738 0.2327 0.2824 0 0.5469-0.0398 0.7935-0.1193 0.2506-0.0796 0.4733-0.1969 0.6682-0.352 0.1949-0.1591 0.3539-0.356 0.4772-0.5906l2.3208 0.1551c-0.2148 0.5648-0.5409 1.0579-0.9784 1.4795-0.4375 0.4176-0.9645 0.7438-1.581 0.9784-0.6125 0.2307-1.2986 0.3461-2.0582 0.3461zm5.9047-0.179 1.5273-9.1636h2.4639l-0.2684 1.5988h0.0954c0.2625-0.56873 0.6145-0.99828 1.056-1.2886 0.4454-0.29432 0.9247-0.44148 1.4378-0.44148 0.1272 0 0.2605 0.00796 0.3997 0.02386 0.1432 0.01194 0.2704 0.03182 0.3818 0.05966l-0.3818 2.2611c-0.1114-0.0398-0.2705-0.0716-0.4773-0.0955-0.2028-0.0278-0.3957-0.0417-0.5787-0.0417-0.3699 0-0.7139 0.0815-1.0321 0.2446-0.3182 0.1591-0.5866 0.3818-0.8054 0.6682-0.2148 0.2863-0.356 0.6164-0.4236 0.9903l-0.8531 5.1844h-2.5415zm6.922 0 2.0284-12.218h4.892c0.8989 0 1.6267 0.13323 2.1835 0.39971 0.5608 0.26648 0.9526 0.63637 1.1753 1.1097 0.2228 0.46932 0.2824 1.0102 0.179 1.6227-0.0835 0.47727-0.2525 0.89488-0.5071 1.2528-0.2506 0.35795-0.5608 0.65225-0.9307 0.88295s-0.7716 0.3938-1.2051 0.4892l-0.0239 0.1193c0.4614 0.0199 0.877 0.1512 1.2469 0.3938 0.3699 0.2386 0.6463 0.5767 0.8293 1.0142 0.1829 0.4375 0.2247 0.9565 0.1253 1.5571-0.1074 0.6483-0.364 1.227-0.7696 1.7361-0.4057 0.5051-0.9466 0.9048-1.6228 1.1991-0.6721 0.2943-1.4656 0.4415-2.3804 0.4415h-5.2201zm2.9412-2.1119h2.1059c0.7159 0 1.2628-0.1392 1.6407-0.4177 0.3778-0.2784 0.6045-0.6463 0.6801-1.1037 0.0517-0.338 0.0179-0.6363-0.1015-0.8948-0.1153-0.2586-0.3122-0.4614-0.5906-0.6086-0.2744-0.1471-0.6224-0.2207-1.044-0.2207h-2.1597l-0.5309 3.2455zm0.8292-4.9935h1.9151c0.35 0 0.6741-0.0617 0.9724-0.185 0.3023-0.1272 0.5509-0.3062 0.7458-0.53688 0.1988-0.23466 0.3241-0.51108 0.3758-0.82927 0.0716-0.44545-0.0278-0.80142-0.2983-1.0679-0.2665-0.27046-0.6841-0.40569-1.2528-0.40569h-1.9568l-0.5012 3.0247zm11.441 7.2844c-0.9386 0-1.7161-0.1909-2.3326-0.5728-0.6165-0.3858-1.05-0.9306-1.3006-1.6346-0.2466-0.708-0.2883-1.5452-0.1253-2.5117 0.1591-0.9426 0.4793-1.7699 0.9605-2.4818 0.4853-0.7119 1.0938-1.2668 1.8256-1.6645 0.7318-0.39772 1.5472-0.59659 2.446-0.59659 0.6046 0 1.1514 0.09745 1.6406 0.29233 0.4932 0.19091 0.9029 0.48125 1.229 0.87103 0.3262 0.38581 0.5489 0.86901 0.6682 1.4497 0.1233 0.5807 0.1213 1.2608-6e-3 2.0403l-0.1133 0.6981h-7.7318l0.2446-1.575h5.3454c0.0597-0.366 0.0358-0.6901-0.0716-0.9725-0.1073-0.2824-0.2863-0.5031-0.5369-0.6622-0.2506-0.1631-0.5588-0.2446-0.9247-0.2446-0.3739 0-0.7239 0.0915-1.05 0.2744-0.3261 0.183-0.6006 0.4236-0.8233 0.7219-0.2188 0.2943-0.3599 0.6145-0.4236 0.9605l-0.2804 1.5631c-0.0795 0.4812-0.0636 0.8809 0.0477 1.1991 0.1154 0.3182 0.3142 0.5568 0.5966 0.7159 0.2824 0.1551 0.6404 0.2327 1.0739 0.2327 0.2824 0 0.5469-0.0398 0.7935-0.1193 0.2505-0.0796 0.4733-0.1969 0.6681-0.352 0.1949-0.1591 0.354-0.356 0.4773-0.5906l2.3208 0.1551c-0.2148 0.5648-0.541 1.0579-0.9785 1.4795-0.4375 0.4176-0.9644 0.7438-1.5809 0.9784-0.6125 0.2307-1.2986 0.3461-2.0583 0.3461zm10.057 0c-0.9387 0-1.7162-0.1909-2.3327-0.5728-0.6165-0.3858-1.05-0.9306-1.3006-1.6346-0.2466-0.708-0.2883-1.5452-0.1252-2.5117 0.159-0.9426 0.4792-1.7699 0.9605-2.4818 0.4852-0.7119 1.0937-1.2668 1.8255-1.6645 0.7319-0.39772 1.5472-0.59659 2.4462-0.59659 0.604 0 1.151 0.09745 1.64 0.29233 0.494 0.19091 0.903 0.48125 1.229 0.87103 0.327 0.38581 0.549 0.86901 0.669 1.4497 0.123 0.5807 0.121 1.2608-6e-3 2.0403l-0.114 0.6981h-7.7315l0.2446-1.575h5.3459c0.059-0.366 0.035-0.6901-0.072-0.9725s-0.286-0.5031-0.537-0.6622c-0.251-0.1631-0.559-0.2446-0.925-0.2446-0.374 0-0.724 0.0915-1.0497 0.2744-0.3261 0.183-0.6005 0.4236-0.8233 0.7219-0.2187 0.2943-0.3599 0.6145-0.4236 0.9605l-0.2804 1.5631c-0.0795 0.4812-0.0636 0.8809 0.0478 1.1991 0.1153 0.3182 0.3142 0.5568 0.5966 0.7159 0.2824 0.1551 0.6403 0.2327 1.0736 0.2327 0.283 0 0.547-0.0398 0.794-0.1193 0.25-0.0796 0.473-0.1969 0.668-0.352 0.195-0.1591 0.354-0.356 0.477-0.5906l2.321 0.1551c-0.215 0.5648-0.541 1.0579-0.979 1.4795-0.437 0.4176-0.964 0.7438-1.58 0.9784-0.613 0.2307-1.299 0.3461-2.0587 0.3461zm12.306-9.3426-0.316 1.909h-5.524l0.322-1.909h5.518zm-3.907-2.1954h2.541l-1.42 8.5432c-0.039 0.2346-0.033 0.4176 0.018 0.5488 0.052 0.1273 0.137 0.2168 0.257 0.2685 0.123 0.0517 0.27 0.0776 0.441 0.0776 0.12 0 0.241-0.01 0.364-0.0299 0.123-0.0238 0.217-0.0417 0.281-0.0537l0.095 1.8912c-0.143 0.0438-0.336 0.0915-0.579 0.1432-0.238 0.0517-0.521 0.0835-0.847 0.0955-0.62 0.0238-1.145-0.0577-1.575-0.2446-0.429-0.1909-0.738-0.4833-0.925-0.877-0.186-0.3938-0.226-0.8889-0.119-1.4855l1.468-8.8773zm8.802-0.85909-2.028 12.218h-2.541l2.028-12.218h2.541zm4.16 12.397c-0.938 0-1.716-0.1909-2.332-0.5728-0.617-0.3858-1.05-0.9306-1.301-1.6346-0.247-0.708-0.288-1.5452-0.125-2.5117 0.159-0.9426 0.479-1.7699 0.96-2.4818 0.485-0.7119 1.094-1.2668 1.826-1.6645 0.732-0.39772 1.547-0.59659 2.446-0.59659 0.604 0 1.151 0.09745 1.64 0.29233 0.494 0.19091 0.903 0.48125 1.229 0.87103 0.327 0.38581 0.549 0.86901 0.669 1.4497 0.123 0.5807 0.121 1.2608-6e-3 2.0403l-0.114 0.6981h-7.732l0.245-1.575h5.345c0.06-0.366 0.036-0.6901-0.071-0.9725s-0.286-0.5031-0.537-0.6622c-0.251-0.1631-0.559-0.2446-0.925-0.2446-0.374 0-0.724 0.0915-1.05 0.2744-0.326 0.183-0.6 0.4236-0.823 0.7219-0.219 0.2943-0.36 0.6145-0.424 0.9605l-0.28 1.5631c-0.08 0.4812-0.064 0.8809 0.048 1.1991 0.115 0.3182 0.314 0.5568 0.596 0.7159 0.283 0.1551 0.641 0.2327 1.074 0.2327 0.283 0 0.547-0.0398 0.794-0.1193 0.25-0.0796 0.473-0.1969 0.668-0.352 0.195-0.1591 0.354-0.356 0.477-0.5906l2.321 0.1551c-0.215 0.5648-0.541 1.0579-0.979 1.4795-0.437 0.4176-0.964 0.7438-1.581 0.9784-0.612 0.2307-1.298 0.3461-2.058 0.3461z" fill="currentColor"/>
+      </svg>
+      <svg id="svg-copy" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <clipPath id="a"><path d="m4 0v6h6v6h6v-12" /></clipPath>
+        <g stroke="currentColor" stroke-width="1.5">
+          <rect x="1.75" y="5.75" width="8.5" height="8.5" rx="2.25" />
+          <rect x="5.75" y="1.75" width="8.5" height="8.5" rx="2.25" clip-path="url(#a)" />
+        </g>
+      </svg>
+    </div>
+    <script>function assert(condition) {
+  if (!condition) {
+    alert("Assertion failed");
+    throw "Assertion failed";
+  }
+}
+
+window.urlPrefix = "";
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register(urlPrefix + "/service-worker.js");
+}
+
+document.querySelector("article").focus();
+const content = document.querySelector("article>.content");
+const leftPane = document.querySelector(".left-pane");
+const resizer = document.querySelector(".resizer");
+resizer.addEventListener("mousedown", () => {
+  resizer.classList.add("resizing");
+  document.body.style.cursor = "col-resize";
+  document.body.style.userSelect = document.body.style.webkitUserSelect = "none";
+  document.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("mouseup", onMouseUp);
+  function onMouseMove(e) {
+    leftPane.style.width = Math.max(176, e.clientX) + "px";
+    if (e.clientX < 130) {
+      document.body.classList.add("sidenav-collapsed");
+    } else if (e.clientX > 140) {
+      document.body.classList.remove("sidenav-collapsed");
+    }
+  }
+  function onMouseUp() {
+    resizer.classList.remove("resizing");
+    document.body.style.cursor = "";
+    document.body.style.userSelect = document.body.style.webkitUserSelect = "";
+    document.removeEventListener("mousemove", onMouseMove);
+  }
+});
+resizer.addEventListener("dblclick", () => leftPane.style.removeProperty("width"));
+
+const collapseButton = document.querySelector(".collapse-button");
+collapseButton.addEventListener("click", () => document.body.classList.add("sidenav-collapsed"));
+const expandButton = document.querySelector(".expand-button");
+expandButton.addEventListener("click", () => document.body.classList.remove("sidenav-collapsed"));
+document.addEventListener("keydown", event => {
+  if (event.ctrlKey || event.altKey || event.metaKey) return;
+  if (document.activeElement.tagName === "INPUT") return;
+  if (event.key === "m") document.body.classList.toggle("sidenav-collapsed");
+});
+
+const menuButton = document.querySelector(".menu-button");
+menuButton.addEventListener("click", () => {
+  document.body.classList.toggle("mobile-expanded");
+  if (leftPane.classList.contains("search-active")) closeSearch();
+});
+
+// Restore and save the state of the side navigation.
+const navState = JSON.parse(localStorage.getItem("navState"));
+if (navState) {
+  leftPane.style.width = navState.width;
+  if (navState.collapsed) document.body.classList.add("sidenav-collapsed");
+  leftPane.scrollTop = navState.scrollTop;
+}
+window.addEventListener("beforeunload", () => {
+  const navState = {
+    width: leftPane.style.width,
+    collapsed: document.body.classList.contains("sidenav-collapsed"),
+    scrollTop: leftPane.scrollTop,
+  };
+  localStorage.setItem("navState", JSON.stringify(navState));
+});
+
+function syncSideNavWithLocation() {
+  const target = document.querySelector("nav.side .target");
+  if (target) target.classList.remove("target");
+  document.querySelectorAll("nav.side details").forEach(details => details.open = false);
+
+  let path = location.pathname;
+  if (path.includes("single-page")) path = location.hash;
+  if (path.length > 1) {
+    document.querySelectorAll("nav.side a").forEach(a => {
+      if (a.href.endsWith(path)) {
+        a.classList.add("target");
+        for (let parent = a.parentElement; parent; parent = parent.parentElement) {
+          if (parent.tagName === "DETAILS") parent.open = true;
+        }
+      }
+    });
+  }
+}
+
+syncSideNavWithLocation();
+addEventListener("hashchange", syncSideNavWithLocation);
+
+function addContentEventHandlers() {
+  function copyCode(button) {
+    let codeBlock = button.nextElementSibling;
+    navigator.clipboard.writeText(codeBlock.innerText).then(() => {
+      const before = button.innerHTML;
+      button.innerText = "Copied!";
+      setTimeout(() => button.innerHTML = before, 1000);
+    });
+  }
+
+  content.querySelectorAll("button.copy").forEach(button =>
+    button.addEventListener("click", () => copyCode(button))
+  );
+}
+
+addContentEventHandlers();
+</script>
+    <script src="/js/search.js"></script>
+  </body>
+</html>

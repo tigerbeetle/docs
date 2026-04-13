@@ -88,10 +88,6 @@
           <source width="160" height="119" srcset="/img/notfound-dark.webp" media="(prefers-color-scheme: dark)">
           <img width="158" height="119" src="/img/notfound-light.webp" alt="Result not found illustration">
         </picture>
-        <p>
-          Still haven't found what you're looking for?<br>
-          <a href="https://slack.tigerbeetle.com/join">Ask the TigerBeetle Slack Community.</a>
-        </p>
       </div>
 
       <nav class="side">
@@ -141,6 +137,7 @@
 <li class="item"><a href="/coding/clients/rust/">Rust</a></li>
 </ol>
 </details></li>
+<li class="item"><a href="/coding/api-changes/">API Changes</a></li>
 </ol>
 </details></li>
 <li>
@@ -258,7 +255,7 @@ TigerBeetle will return the <a
 href="../../reference/requests/create_transfers#exists"><code>exists</code></a>
 response code. If the transfer had not already been created, it will be
 created and return the <a
-href="../../reference/requests/create_transfers#ok"><code>ok</code></a>.</p>
+href="../../reference/requests/create_transfers#created"><code>created</code></a>.</p>
 <h3 id="handling-client-software-restarts"><a
 href="#handling-client-software-restarts" class="anchor">Handling Client
 Software Restarts</a></h3>
@@ -272,7 +269,7 @@ the same <code>id</code>.</p>
 client app or browser restarts before receiving the response to the
 operation. Similar to the case of a network failure, TigerBeetle will
 respond with the <a
-href="../../reference/requests/create_transfers#ok"><code>ok</code></a>
+href="../../reference/requests/create_transfers#created"><code>created</code></a>
 if a transfer is newly created and <a
 href="../../reference/requests/create_transfers#exists"><code>exists</code></a>
 if an object with the same <code>id</code> was already created.</p>

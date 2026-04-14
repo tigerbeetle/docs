@@ -236,12 +236,12 @@ fire in the data center). Primary/backup systems with ad-hoc failover
 can lose data due to <a
 href="https://en.wikipedia.org/wiki/Split-brain_(computing)">split-brain</a>.</p>
 <p>To avoid these pitfalls, TigerBeetle implements pioneering <a
-href="https://dspace.mit.edu/bitstream/handle/1721.1/71763/MIT-CSAIL-TR-2012-021.pdf">Viewstamped
-Replication</a> and consensus algorithm, that guarantees correct,
-automatic failover. It’s worth emphasizing that consensus proper needs
-only be engaged during actual failover. During the normal operation, the
-cost of consensus is just the cost of replication, which is further
-minimized because of <a
+href="https://hdl.handle.net/1721.1/71763">Viewstamped Replication</a>
+and consensus algorithm, that guarantees correct, automatic failover.
+It’s worth emphasizing that consensus proper needs only be engaged
+during actual failover. During the normal operation, the cost of
+consensus is just the cost of replication, which is further minimized
+because of <a
 href="../performance#batching-batching-batching">batching</a>, tail
 latency tolerance, and pipelining.</p>
 <p>TigerBeetle does not depend on synchronized system clocks, does not

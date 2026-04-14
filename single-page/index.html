@@ -908,12 +908,12 @@ fire in the data center). Primary/backup systems with ad-hoc failover
 can lose data due to <a
 href="https://en.wikipedia.org/wiki/Split-brain_(computing)">split-brain</a>.</p>
 <p>To avoid these pitfalls, TigerBeetle implements pioneering <a
-href="https://dspace.mit.edu/bitstream/handle/1721.1/71763/MIT-CSAIL-TR-2012-021.pdf">Viewstamped
-Replication</a> and consensus algorithm, that guarantees correct,
-automatic failover. It’s worth emphasizing that consensus proper needs
-only be engaged during actual failover. During the normal operation, the
-cost of consensus is just the cost of replication, which is further
-minimized because of <a
+href="https://hdl.handle.net/1721.1/71763">Viewstamped Replication</a>
+and consensus algorithm, that guarantees correct, automatic failover.
+It’s worth emphasizing that consensus proper needs only be engaged
+during actual failover. During the normal operation, the cost of
+consensus is just the cost of replication, which is further minimized
+because of <a
 href="#concepts-performance-batching-batching-batching">batching</a>, tail
 latency tolerance, and pipelining.</p>
 <p>TigerBeetle does not depend on synchronized system clocks, does not
@@ -2671,8 +2671,8 @@ numeric timestamp.</p>
 <h2 id="coding-time-logical-time"><a href="#coding-time-logical-time" class="anchor">Logical
 Time</a></h2>
 <p>TigerBeetle uses a consensus protocol (<a
-href="https://dspace.mit.edu/bitstream/handle/1721.1/71763/MIT-CSAIL-TR-2012-021.pdf">Viewstamped
-Replication</a>) to guarantee <a
+href="https://hdl.handle.net/1721.1/71763">Viewstamped Replication</a>)
+to guarantee <a
 href="http://www.bailis.org/blog/linearizability-versus-serializability/">strict
 serializability</a> for all operations.</p>
 <p>In other words, to an external observer, TigerBeetle cluster behaves
@@ -9806,67 +9806,44 @@ application to treat both cases consistently.</p>
 <code>CreateTransfer<b>s</b>Result</code> were renamed to the singular
 form, <code>CreateAccountResult</code> and
 <code>CreateTransferResult</code>.</p>
-<table>
-<tr><th>Before</th><th>After</th></tr>
-<tr><td>
-
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
 <div class="sourceCode" id="cb1"><pre
-class="sourceCode zig"><code class="sourceCode zig"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="at">const</span> CreateAccountsResult <span class="op">=</span> <span class="at">extern</span> <span class="kw">struct</span> {</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    index<span class="op">:</span> <span class="dt">u32</span><span class="op">,</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    result<span class="op">:</span> CreateAccountResult<span class="op">,</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>};</span></code></pre></div>
+class="sourceCode zig"><code class="sourceCode zig"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Before:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="at">const</span> CreateAccountsResult <span class="op">=</span> <span class="at">extern</span> <span class="kw">struct</span> {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    index<span class="op">:</span> <span class="dt">u32</span><span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    result<span class="op">:</span> CreateAccountResult<span class="op">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>};</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">// After:</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="at">const</span> CreateAccountResult <span class="op">=</span> <span class="at">extern</span> <span class="kw">struct</span> {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    timestamp<span class="op">:</span> <span class="dt">u64</span><span class="op">,</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    status<span class="op">:</span> CreateAccountStatus<span class="op">,</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    reserved<span class="op">:</span> <span class="dt">u32</span> <span class="op">=</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>};</span></code></pre></div>
 </div>
-</td><td>
-
 <div class="code-wrapper">
 <button class="copy" title="Copy">
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
 <div class="sourceCode" id="cb2"><pre
-class="sourceCode zig"><code class="sourceCode zig"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="at">const</span> CreateAccountResult <span class="op">=</span> <span class="at">extern</span> <span class="kw">struct</span> {</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    timestamp<span class="op">:</span> <span class="dt">u64</span><span class="op">,</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    status<span class="op">:</span> CreateAccountStatus<span class="op">,</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    reserved<span class="op">:</span> <span class="dt">u32</span> <span class="op">=</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>};</span></code></pre></div>
+class="sourceCode zig"><code class="sourceCode zig"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Before:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="at">const</span> CreateTransfersResult <span class="op">=</span> <span class="at">extern</span> <span class="kw">struct</span> {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    index<span class="op">:</span> <span class="dt">u32</span><span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    result<span class="op">:</span> CreateTransferResult<span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>};</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">// After:</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="at">const</span> CreateTransferResult <span class="op">=</span> <span class="at">extern</span> <span class="kw">struct</span> {</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    timestamp<span class="op">:</span> <span class="dt">u64</span><span class="op">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    status<span class="op">:</span> CreateTransferStatus<span class="op">,</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    reserved<span class="op">:</span> <span class="dt">u32</span> <span class="op">=</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>};</span></code></pre></div>
 </div>
-</td></tr>
-<tr><!-- Empty row to avoid the zebra stripe style--></tr>
-<tr><td>
-
-<div class="code-wrapper">
-<button class="copy" title="Copy">
-    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
-</button>
-    
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode zig"><code class="sourceCode zig"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="at">const</span> CreateTransfersResult <span class="op">=</span> <span class="at">extern</span> <span class="kw">struct</span> {</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    index<span class="op">:</span> <span class="dt">u32</span><span class="op">,</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    result<span class="op">:</span> CreateTransferResult<span class="op">,</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>};</span></code></pre></div>
-</div>
-</td><td>
-
-<div class="code-wrapper">
-<button class="copy" title="Copy">
-    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
-</button>
-    
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode zig"><code class="sourceCode zig"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">pub</span> <span class="at">const</span> CreateTransferResult <span class="op">=</span> <span class="at">extern</span> <span class="kw">struct</span> {</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    timestamp<span class="op">:</span> <span class="dt">u64</span><span class="op">,</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    status<span class="op">:</span> CreateTransferStatus<span class="op">,</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    reserved<span class="op">:</span> <span class="dt">u32</span> <span class="op">=</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>};</span></code></pre></div>
-</div>
-</td></tr>
-</table>
-
 <h3 id="coding-api-changes-query-limits"><a href="#coding-api-changes-query-limits" class="anchor">Query
 limits.</a></h3>
 <p>The previous API did not validate the maximum range of the fields <a
@@ -10089,10 +10066,10 @@ an <code>ObjectDisposedException</code>.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb5"><pre class="sourceCode c#"><code class="sourceCode cs"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>CreateTransfersResult<span class="op">[]</span> transferErrors <span class="op">=</span> client<span class="op">.</span><span class="fu">CreateTransfers</span><span class="op">(</span>transfers<span class="op">);</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>transferErrors<span class="op">.</span><span class="fu">Length</span> <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Error handling ...</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c#"><code class="sourceCode cs"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>CreateTransfersResult<span class="op">[]</span> transferErrors <span class="op">=</span> client<span class="op">.</span><span class="fu">CreateTransfers</span><span class="op">(</span>transfers<span class="op">);</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>transferErrors<span class="op">.</span><span class="fu">Length</span> <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Error handling ...</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <p>After:</p>
 <div class="code-wrapper">
@@ -10100,21 +10077,21 @@ an <code>ObjectDisposedException</code>.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb6"><pre class="sourceCode c#"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>CreateTransferResult<span class="op">[]</span> transferResults <span class="op">=</span> client<span class="op">.</span><span class="fu">CreateTransfers</span><span class="op">(</span>transfers<span class="op">);</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Assert<span class="op">.</span><span class="fu">AreEqual</span><span class="op">(</span>transferResults<span class="op">.</span><span class="fu">Length</span><span class="op">,</span> transfers<span class="op">.</span><span class="fu">Length</span><span class="op">);</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span><span class="op">(</span>CreateTransferResult result <span class="kw">in</span> transferResults<span class="op">)</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">switch</span><span class="op">(</span>result<span class="op">.</span><span class="fu">Status</span><span class="op">)</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">case</span> CreateTransferStatus<span class="op">.</span><span class="fu">Created</span><span class="op">:</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">case</span> CreateTransferStatus<span class="op">.</span><span class="fu">Exists</span><span class="op">:</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Successfully created.</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>            <span class="kw">break</span><span class="op">;</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">default</span><span class="op">:</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Could not be created.</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>            <span class="kw">break</span><span class="op">;</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c#"><code class="sourceCode cs"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>CreateTransferResult<span class="op">[]</span> transferResults <span class="op">=</span> client<span class="op">.</span><span class="fu">CreateTransfers</span><span class="op">(</span>transfers<span class="op">);</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Assert<span class="op">.</span><span class="fu">AreEqual</span><span class="op">(</span>transferResults<span class="op">.</span><span class="fu">Length</span><span class="op">,</span> transfers<span class="op">.</span><span class="fu">Length</span><span class="op">);</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span><span class="op">(</span>CreateTransferResult result <span class="kw">in</span> transferResults<span class="op">)</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">switch</span><span class="op">(</span>result<span class="op">.</span><span class="fu">Status</span><span class="op">)</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">case</span> CreateTransferStatus<span class="op">.</span><span class="fu">Created</span><span class="op">:</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">case</span> CreateTransferStatus<span class="op">.</span><span class="fu">Exists</span><span class="op">:</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Successfully created.</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>            <span class="kw">break</span><span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">default</span><span class="op">:</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Could not be created.</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>            <span class="kw">break</span><span class="op">;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <p>For more details, please refer to the <a
 href="#coding-clients-dotnet">.NET client reference page</a>.</p>
@@ -10277,21 +10254,21 @@ making the API more idiomatic.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb7"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span> <span class="st">&quot;github.com/tigerbeetle/tigerbeetle-go&quot;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span> <span class="st">&quot;github.com/tigerbeetle/tigerbeetle-go/pkg/types&quot;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> transferErrors <span class="op">[]</span>TransferEventResult</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> err <span class="dt">error</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>transferErrors<span class="op">,</span> err <span class="op">=</span> client<span class="op">.</span>CreateTransfers<span class="op">(</span>transfers<span class="op">);</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Request error ...</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span><span class="op">(</span>transferErrors<span class="op">)</span> <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">{</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Error handling ...</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span> <span class="st">&quot;github.com/tigerbeetle/tigerbeetle-go&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span> <span class="st">&quot;github.com/tigerbeetle/tigerbeetle-go/pkg/types&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> transferErrors <span class="op">[]</span>TransferEventResult</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> err <span class="dt">error</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>transferErrors<span class="op">,</span> err <span class="op">=</span> client<span class="op">.</span>CreateTransfers<span class="op">(</span>transfers<span class="op">);</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Request error ...</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span><span class="op">(</span>transferErrors<span class="op">)</span> <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">{</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Error handling ...</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <p>After:</p>
 <div class="code-wrapper">
@@ -10299,25 +10276,25 @@ making the API more idiomatic.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb8"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span> <span class="st">&quot;github.com/tigerbeetle/tigerbeetle-go&quot;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> transferResults <span class="op">[]</span>CreateTransferResult</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> err <span class="dt">error</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>transferResults<span class="op">,</span> err <span class="op">=</span> client<span class="op">.</span>CreateTransfers<span class="op">(</span>transfers<span class="op">);</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Request error ...</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _<span class="op">,</span> result <span class="op">:=</span> <span class="kw">range</span> transferResults <span class="op">{</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">switch</span> result<span class="op">.</span>Status <span class="op">{</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> TransferCreated<span class="op">,</span> TransferExists<span class="op">:</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Successfully created.</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">default</span><span class="op">:</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Could not be created.</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="op">(</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span> <span class="st">&quot;github.com/tigerbeetle/tigerbeetle-go&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> transferResults <span class="op">[]</span>CreateTransferResult</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> err <span class="dt">error</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>transferResults<span class="op">,</span> err <span class="op">=</span> client<span class="op">.</span>CreateTransfers<span class="op">(</span>transfers<span class="op">);</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> err <span class="op">!=</span> <span class="ot">nil</span> <span class="op">{</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Request error ...</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _<span class="op">,</span> result <span class="op">:=</span> <span class="kw">range</span> transferResults <span class="op">{</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">switch</span> result<span class="op">.</span>Status <span class="op">{</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> TransferCreated<span class="op">,</span> TransferExists<span class="op">:</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Successfully created.</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">default</span><span class="op">:</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Could not be created.</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <p>For more details, please refer to the <a href="#coding-clients-go">Go
 client reference page</a>.</p>
@@ -10494,11 +10471,11 @@ and the <code>RequestException</code> was removed.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode java"><code class="sourceCode java"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>CreateTransferResultBatch transferErrors <span class="op">=</span> client<span class="op">.</span><span class="fu">createTransfers</span><span class="op">(</span>transfers<span class="op">);</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>transferErrors<span class="op">.</span><span class="fu">getLength</span><span class="op">()</span> <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Error handling ...</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>CreateTransferResultBatch transferErrors <span class="op">=</span> client<span class="op">.</span><span class="fu">createTransfers</span><span class="op">(</span>transfers<span class="op">);</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>transferErrors<span class="op">.</span><span class="fu">getLength</span><span class="op">()</span> <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Error handling ...</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <p>After:</p>
 <div class="code-wrapper">
@@ -10506,24 +10483,24 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb9-1"><a href="
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb10"><pre
-class="sourceCode java"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    CreateTransferResultBatch transferResults <span class="op">=</span> client<span class="op">.</span><span class="fu">createTransfers</span><span class="op">(</span>transfers<span class="op">);</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> transferResults<span class="op">.</span><span class="fu">getLength</span><span class="op">()</span> <span class="op">==</span> transfers<span class="op">.</span><span class="fu">getLength</span><span class="op">();</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>transferResults<span class="op">.</span><span class="fu">next</span><span class="op">())</span> <span class="op">{</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">switch</span> <span class="op">(</span>transferResults<span class="op">.</span><span class="fu">getStatus</span><span class="op">())</span> <span class="op">{</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> Created<span class="op">:</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> Exists<span class="op">:</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                <span class="co">// Successfully created.</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>            <span class="kw">default</span><span class="op">:</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                <span class="co">// Could not be created.</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">InterruptedException</span> exception<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// The thread was interrupted.</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    CreateTransferResultBatch transferResults <span class="op">=</span> client<span class="op">.</span><span class="fu">createTransfers</span><span class="op">(</span>transfers<span class="op">);</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> transferResults<span class="op">.</span><span class="fu">getLength</span><span class="op">()</span> <span class="op">==</span> transfers<span class="op">.</span><span class="fu">getLength</span><span class="op">();</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>transferResults<span class="op">.</span><span class="fu">next</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">switch</span> <span class="op">(</span>transferResults<span class="op">.</span><span class="fu">getStatus</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> Created<span class="op">:</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> Exists<span class="op">:</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                <span class="co">// Successfully created.</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>            <span class="kw">default</span><span class="op">:</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                <span class="co">// Could not be created.</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">InterruptedException</span> exception<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// The thread was interrupted.</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <p>For more details, please refer to the <a href="#coding-clients-java">Java
 client reference page</a>.</p>
@@ -10678,11 +10655,11 @@ conditions that can be handled by the application. Match the
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb11"><pre
-class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> transferErrors<span class="op">:</span> CreateTransfersError[] <span class="op">=</span> <span class="cf">await</span> client<span class="op">.</span><span class="fu">createTransfers</span>(transfers)<span class="op">;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (transferErrors<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Error handling ...</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> transferErrors<span class="op">:</span> CreateTransfersError[] <span class="op">=</span> <span class="cf">await</span> client<span class="op">.</span><span class="fu">createTransfers</span>(transfers)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (transferErrors<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Error handling ...</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <p>After:</p>
 <div class="code-wrapper">
@@ -10690,20 +10667,20 @@ class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb11
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb12"><pre
-class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> transferResults<span class="op">:</span> CreateTransferResult[] <span class="op">=</span> <span class="cf">await</span> client<span class="op">.</span><span class="fu">createTransfers</span>(transfers)<span class="op">;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>assert<span class="op">.</span><span class="fu">strictEqual</span>(transferResults<span class="op">.</span><span class="at">length</span><span class="op">,</span> transfers<span class="op">.</span><span class="at">length</span>)<span class="op">;</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> result <span class="kw">of</span> transferResults) {</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">switch</span> (result<span class="op">.</span><span class="at">status</span>) {</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> CreateTransferStatus<span class="op">.</span><span class="at">created</span><span class="op">:</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> CreateTransferStatus<span class="op">.</span><span class="at">exists</span><span class="op">:</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Successfully created.</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">default</span><span class="op">:</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Could not be created.</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> transferResults<span class="op">:</span> CreateTransferResult[] <span class="op">=</span> <span class="cf">await</span> client<span class="op">.</span><span class="fu">createTransfers</span>(transfers)<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>assert<span class="op">.</span><span class="fu">strictEqual</span>(transferResults<span class="op">.</span><span class="at">length</span><span class="op">,</span> transfers<span class="op">.</span><span class="at">length</span>)<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> result <span class="kw">of</span> transferResults) {</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">switch</span> (result<span class="op">.</span><span class="at">status</span>) {</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> CreateTransferStatus<span class="op">.</span><span class="at">created</span><span class="op">:</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> CreateTransferStatus<span class="op">.</span><span class="at">exists</span><span class="op">:</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Successfully created.</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">default</span><span class="op">:</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Could not be created.</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <p>For more details, please refer to the <a
 href="#coding-clients-node">Node.js client reference page</a>.</p>
@@ -10881,10 +10858,10 @@ and the <code>PacketError</code> exception was removed.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb13"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>transfer_errors <span class="op">=</span> client.create_transfers(transfers)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span>(transfer_errors) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Error handling ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>transfer_errors <span class="op">=</span> client.create_transfers(transfers)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span>(transfer_errors) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Error handling ...</span></span></code></pre></div>
 </div>
 <p>After:</p>
 <div class="code-wrapper">
@@ -10892,15 +10869,15 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a h
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb14"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>transfer_results <span class="op">=</span> client.create_transfers(transfers)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">len</span>(transfer_results) <span class="op">==</span> <span class="bu">len</span>(transfers)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> result <span class="kw">in</span> transfer_results:</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> result.status <span class="op">==</span> tb.CreateAccountResult.CREATED <span class="kw">or</span> <span class="op">\</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>       result.status <span class="op">==</span> tb.CreateAccountResult.EXISTS:</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Successfully created.</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Could not be created.</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>transfer_results <span class="op">=</span> client.create_transfers(transfers)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">len</span>(transfer_results) <span class="op">==</span> <span class="bu">len</span>(transfers)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> result <span class="kw">in</span> transfer_results:</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> result.status <span class="op">==</span> tb.CreateAccountResult.CREATED <span class="kw">or</span> <span class="op">\</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>       result.status <span class="op">==</span> tb.CreateAccountResult.EXISTS:</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Successfully created.</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Could not be created.</span></span></code></pre></div>
 </div>
 <p>For more details, please refer to the <a
 href="#coding-clients-python">Python client reference page</a>.</p>

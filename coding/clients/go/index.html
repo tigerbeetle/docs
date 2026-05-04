@@ -672,7 +672,7 @@ class="sourceCode go"><code class="sourceCode go"><span id="cb13-1"><a href="#cb
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    Amount<span class="op">:</span>          ToUint128<span class="op">(</span><span class="dv">10</span><span class="op">),</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    Ledger<span class="op">:</span>          <span class="dv">1</span><span class="op">,</span></span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    Code<span class="op">:</span>            <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    Flags<span class="op">:</span>           <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    Flags<span class="op">:</span>           TransferFlags<span class="op">{</span>Pending<span class="op">:</span> <span class="ot">true</span><span class="op">}.</span>ToUint16<span class="op">(),</span></span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>transferResults<span class="op">,</span> err <span class="op">:=</span> client<span class="op">.</span>CreateTransfers<span class="op">([]</span>Transfer<span class="op">{</span>transfer0<span class="op">})</span></span>
@@ -711,7 +711,7 @@ class="sourceCode go"><code class="sourceCode go"><span id="cb14-1"><a href="#cb
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    Timeout<span class="op">:</span>         <span class="dv">0</span><span class="op">,</span></span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    Ledger<span class="op">:</span>          <span class="dv">1</span><span class="op">,</span></span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    Code<span class="op">:</span>            <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    Flags<span class="op">:</span>           <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    Flags<span class="op">:</span>           TransferFlags<span class="op">{</span>Pending<span class="op">:</span> <span class="ot">true</span><span class="op">}.</span>ToUint16<span class="op">(),</span></span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>transferResults<span class="op">,</span> err <span class="op">:=</span> client<span class="op">.</span>CreateTransfers<span class="op">([]</span>Transfer<span class="op">{</span>transfer0<span class="op">})</span></span>

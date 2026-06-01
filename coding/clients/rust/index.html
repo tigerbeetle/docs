@@ -335,7 +335,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb5-1"><a href="
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        code<span class="op">:</span> <span class="dv">718</span><span class="op">,</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>])</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>])<span class="op">?</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
 </div>
@@ -380,7 +380,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb6-1"><a href="
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_results <span class="op">=</span> client<span class="op">.</span>create_accounts(<span class="op">&amp;</span>[account0<span class="op">,</span> account1])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_results <span class="op">=</span> client<span class="op">.</span>create_accounts(<span class="op">&amp;</span>[account0<span class="op">,</span> account1])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
 </div>
 <h3 id="response-and-errors"><a href="#response-and-errors"
@@ -425,7 +425,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb7-1"><a href="
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_results <span class="op">=</span> client</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>create_accounts(<span class="op">&amp;</span>[account0<span class="op">,</span> account1<span class="op">,</span> account2])</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>create_accounts(<span class="op">&amp;</span>[account0<span class="op">,</span> account1<span class="op">,</span> account2])<span class="op">?</span></span>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
 <span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="pp">assert!</span>(account_results<span class="op">.</span>len() <span class="op">==</span> <span class="dv">3</span>)<span class="op">;</span></span>
@@ -466,7 +466,7 @@ response to distinguish accounts.</p>
 </button>
     
 <div class="sourceCode" id="cb8"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> accounts <span class="op">=</span> client<span class="op">.</span>lookup_accounts(<span class="op">&amp;</span>[<span class="dv">100</span><span class="op">,</span> <span class="dv">101</span>])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> accounts <span class="op">=</span> client<span class="op">.</span>lookup_accounts(<span class="op">&amp;</span>[<span class="dv">100</span><span class="op">,</span> <span class="dv">101</span>])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
 </div>
 <h2 id="create-transfers"><a href="#create-transfers"
 class="anchor">Create Transfers</a></h2>
@@ -489,7 +489,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb9-1"><a href="
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>]<span class="op">;</span></span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>transfers)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>transfers)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
 </div>
 <p>See details for the recommended ID scheme in <a
@@ -547,7 +547,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb10-1"><a href=
 <span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
 <span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span>
 <span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>transfers)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>transfers)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
 <span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="pp">assert!</span>(transfer_results<span class="op">.</span>len() <span class="op">==</span> transfers<span class="op">.</span>len())<span class="op">;</span></span>
 <span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (index<span class="op">,</span> result) <span class="kw">in</span> transfer_results<span class="op">.</span>into_iter()<span class="op">.</span>enumerate() <span class="op">{</span></span>
 <span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">match</span> result<span class="op">.</span>status <span class="op">{</span></span>
@@ -592,7 +592,7 @@ is 8189.</p>
 class="sourceCode rust"><code class="sourceCode rust"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers<span class="op">:</span> <span class="dt">Vec</span><span class="op">&lt;</span><span class="pp">tb::</span>Transfer<span class="op">&gt;</span> <span class="op">=</span> <span class="pp">vec!</span>[]<span class="op">;</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> BATCH_SIZE<span class="op">:</span> <span class="dt">usize</span> <span class="op">=</span> <span class="dv">8189</span><span class="op">;</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> batch <span class="kw">in</span> transfers<span class="op">.</span>chunks(BATCH_SIZE) <span class="op">{</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(batch)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(batch)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Result handling omitted.</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
@@ -645,7 +645,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb12-1"><a href=
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer0<span class="op">,</span> transfer1])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer0<span class="op">,</span> transfer1])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
 </div>
 <h3 id="two-phase-transfers"><a href="#two-phase-transfers"
@@ -679,7 +679,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb13-1"><a href=
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer0])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer0])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer1 <span class="op">=</span> <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
@@ -690,7 +690,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb13-1"><a href=
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
 <span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer1])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer1])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
 <span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
 </div>
 <h4 id="void-a-pending-transfer"><a href="#void-a-pending-transfer"
@@ -717,7 +717,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb14-1"><a href=
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer0])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer0])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span>
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer1 <span class="op">=</span> <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
@@ -728,7 +728,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb14-1"><a href=
 <span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
 <span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer1])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer1])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
 </div>
 <h2 id="transfer-lookup"><a href="#transfer-lookup"
@@ -749,7 +749,7 @@ distinguish transfers.</p>
 </button>
     
 <div class="sourceCode" id="cb15"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> client<span class="op">.</span>lookup_transfers(<span class="op">&amp;</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span>])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> client<span class="op">.</span>lookup_transfers(<span class="op">&amp;</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span>])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
 </div>
 <h2 id="get-account-transfers"><a href="#get-account-transfers"
 class="anchor">Get Account Transfers</a></h2>
@@ -780,7 +780,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb16-1"><a href=
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> <span class="pp">tb::AccountFilterFlags::</span>Reversed<span class="op">,</span></span>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> client<span class="op">.</span>get_account_transfers(filter)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> client<span class="op">.</span>get_account_transfers(filter)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
 </div>
 <h2 id="get-account-balances"><a href="#get-account-balances"
 class="anchor">Get Account Balances</a></h2>
@@ -815,7 +815,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb17-1"><a href=
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> <span class="pp">tb::AccountFilterFlags::</span>Reversed<span class="op">,</span></span>
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_balances <span class="op">=</span> client<span class="op">.</span>get_account_balances(filter)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_balances <span class="op">=</span> client<span class="op">.</span>get_account_balances(filter)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
 </div>
 <h2 id="query-accounts"><a href="#query-accounts" class="anchor">Query
 Accounts</a></h2>
@@ -844,7 +844,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb18-1"><a href=
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::QueryFilterFlags::</span>Reversed<span class="op">,</span></span>
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> accounts <span class="op">=</span> client<span class="op">.</span>query_accounts(filter)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> accounts <span class="op">=</span> client<span class="op">.</span>query_accounts(filter)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
 </div>
 <h2 id="query-transfers"><a href="#query-transfers" class="anchor">Query
 Transfers</a></h2>
@@ -873,7 +873,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb19-1"><a href=
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::QueryFilterFlags::</span>Reversed<span class="op">,</span></span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> client<span class="op">.</span>query_transfers(filter)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> client<span class="op">.</span>query_transfers(filter)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
 </div>
 <h2 id="linked-events"><a href="#linked-events" class="anchor">Linked
 Events</a></h2>
@@ -957,7 +957,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb20-1"><a href=
 <span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
 <span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
 <span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-60"><a href="#cb20-60" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>batch)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb20-60"><a href="#cb20-60" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>batch)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
 <span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
 </div>
 <h2 id="imported-events"><a href="#imported-events"
@@ -999,7 +999,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb21-1"><a href=
 <span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    accounts_batch<span class="op">.</span>push(account)<span class="op">;</span></span>
 <span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_results <span class="op">=</span> client<span class="op">.</span>create_accounts(<span class="op">&amp;</span>accounts_batch)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_results <span class="op">=</span> client<span class="op">.</span>create_accounts(<span class="op">&amp;</span>accounts_batch)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
 <span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span>
 <span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="co">// Then, load and import all transfers with their timestamps from the historical source.</span></span>
@@ -1018,7 +1018,7 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb21-1"><a href=
 <span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>    transfers_batch<span class="op">.</span>push(transfer)<span class="op">;</span></span>
 <span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>transfers_batch)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>transfers_batch)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
 <span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span>
 <span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a><span class="co">// Since it is a linked chain, in case of any error the entire batch is rolled back and can be retried</span></span>
 <span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="co">// with the same historical timestamps without regressing the cluster timestamp.</span></span></code></pre></div>

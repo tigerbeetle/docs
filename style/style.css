@@ -898,13 +898,15 @@ article {
       }
     }
 
-    blockquote {
+    blockquote,
+    .important {
       font-style: italic;
       padding: 0 0 0 24px;
       position: relative;
     }
-    
-    blockquote::before {
+
+    blockquote::before,
+    .important::before {
       background-color: var(--primary-10);
       border-radius: 2px;
       content: "";
@@ -1203,5 +1205,33 @@ article {
         line-height: 20px;
       }
     }
+  }
+}
+
+@media print {
+
+  nav.left-pane,
+  body>.resizer,
+  body>.expand-button,
+  #github-link,
+  #single-page-link,
+  .edit-link,
+  .code-wrapper button {
+    display: none !important;
+  }
+
+  body {
+    display: block;
+    height: unset;
+  }
+
+  article {
+    display: block;
+    overflow-y: unset;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
   }
 }

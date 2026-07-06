@@ -110,6 +110,7 @@
 <li class="item"><a href="#coding-clients-java">Java</a></li>
 <li class="item"><a href="#coding-clients-node">Node.js</a></li>
 <li class="item"><a href="#coding-clients-python">Python</a></li>
+<li class="item"><a href="#coding-clients-ruby">Ruby</a></li>
 <li class="item"><a href="#coding-clients-rust">Rust</a></li>
 </ol>
 </details></li>
@@ -696,6 +697,17 @@ data.</p>
 is unacceptable when it comes to accounting. Legal compliance and good
 business practices require that all funds be fully accounted for, and
 all history be maintained.</p>
+<h3 id="concepts-debit-credit-preserving-user-privacy"><a href="#concepts-debit-credit-preserving-user-privacy"
+class="anchor">Preserving User Privacy</a></h3>
+<p>Many applications must comply with GDPR and other privacy-preserving
+requirements, such as the right to be forgotten. User privacy can be
+preserved by being intentional about what data is stored in the
+<code>user_data_*</code> fields.</p>
+<p>For example, if <code>user_data_128</code> is used to map from your
+application’s unique <code>user_id</code> and TigerBeetle, a user can be
+‘forgotten’ by deleting that mapping. Without it, the accounts and
+transfers in TigerBeetle cannot be linked back to a real user, rendering
+them meaningless and preserving the user’s privacy.</p>
 <h2 id="concepts-debit-credit-dont-roll-your-own-ledger"><a href="#concepts-debit-credit-dont-roll-your-own-ledger"
 class="anchor">Don’t Roll Your Own Ledger</a></h2>
 <p>Many companies start out building their own system for recording
@@ -4563,6 +4575,10 @@ package</a>).</li>
 href="https://github.com/tigerbeetle/tigerbeetle/blob/main/src/clients/python/">Python</a>
 (<a href="https://pypi.org/project/tigerbeetle/">PyPi package</a>).</li>
 <li><a
+href="https://github.com/tigerbeetle/tigerbeetle/blob/main/src/clients/ruby/">Ruby</a>
+(<a href="https://rubygems.org/gems/tigerbeetle">RubyGems
+package</a>).</li>
+<li><a
 href="https://github.com/tigerbeetle/tigerbeetle/blob/main/src/clients/rust/">Rust</a>
 (<a href="https://crates.io/crates/tigerbeetle">Cargo package</a>).</li>
 </ul>
@@ -7171,11 +7187,10 @@ the directory.</p>
 </button>
     
 <div class="sourceCode" id="cb2"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> { id } <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;tigerbeetle-node&quot;</span>)<span class="op">;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> { createClient } <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;tigerbeetle-node&quot;</span>)<span class="op">;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> <span class="bu">process</span> <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;process&quot;</span>)<span class="op">;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Import ok!&quot;</span>)<span class="op">;</span></span></code></pre></div>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> { createClient<span class="op">,</span> id } <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;tigerbeetle-node&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> <span class="bu">process</span> <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;process&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Import ok!&quot;</span>)<span class="op">;</span></span></code></pre></div>
 </div>
 <p>Finally, build and run:</p>
 <div class="code-wrapper">
@@ -8899,6 +8914,800 @@ href="#coding-reliable-transaction-submission">Reliable transaction
 submission</a> explains how to make transfers retry-proof using IDs for
 end-to-end idempotency.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/src/clients/python/README.md">
+  <svg width="16" height="16" fill="none">
+    <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+  </svg>
+  Edit this page
+</a>
+
+<!-- This file is generated by [/src/scripts/client_readmes.zig](/src/scripts/client_readmes.zig). -->
+
+<h1 id="coding-clients-ruby"><a href="#coding-clients-ruby"
+class="anchor">tigerbeetle</a></h1>
+<p>The TigerBeetle client for Ruby.</p>
+<div class="important">
+<div class="title">
+<p>Important</p>
+</div>
+<p>This gem changed ownership from <a
+href="https://github.com/antstorm">Anthony D</a> to TigerBeetle. If
+you’re upgrading from a 0.0.x version, please consult the <a
+href="https://github.com/tigerbeetle/tigerbeetle/blob/main/src/clients/ruby/docs/migration.md">migration
+guide</a> for the necessary code changes.</p>
+</div>
+<h2 id="coding-clients-ruby-prerequisites"><a href="#coding-clients-ruby-prerequisites"
+class="anchor">Prerequisites</a></h2>
+<p>Linux &gt;= 5.6 is the only production environment we support. But
+for ease of development we also support macOS and Windows.</p>
+<ul>
+<li>Ruby &gt;= <code>3.3</code></li>
+</ul>
+<h2 id="coding-clients-ruby-setup"><a href="#coding-clients-ruby-setup" class="anchor">Setup</a></h2>
+<p>First, create a directory for your project and <code>cd</code> into
+the directory.</p>
+<p>Then, install the TigerBeetle client:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<pre class="console"><code>gem install tigerbeetle</code></pre>
+</div>
+<p>Now, create <code>main.rb</code> and copy this into it:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span> <span class="st">&quot;tigerbeetle&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">puts</span>(<span class="st">&quot;Import OK!&quot;</span>)</span></code></pre></div>
+</div>
+<p>Finally, build and run:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<pre class="console"><code>ruby main.rb</code></pre>
+</div>
+<p>Now that all prerequisites and dependencies are correctly set up,
+let’s dig into using TigerBeetle.</p>
+<h2 id="coding-clients-ruby-sample-projects"><a href="#coding-clients-ruby-sample-projects"
+class="anchor">Sample projects</a></h2>
+<p>This document is primarily a reference guide to the client. Below are
+various sample projects demonstrating features of TigerBeetle.</p>
+<ul>
+<li><a
+href="https://github.com/tigerbeetle/tigerbeetle/blob/main/src/clients/ruby/samples/basic/">Basic</a>:
+Create two accounts and transfer an amount between them.</li>
+<li><a
+href="https://github.com/tigerbeetle/tigerbeetle/blob/main/src/clients/ruby/samples/two-phase/">Two-Phase
+Transfer</a>: Create two accounts and start a pending transfer between
+them, then post the transfer.</li>
+<li><a
+href="https://github.com/tigerbeetle/tigerbeetle/blob/main/src/clients/ruby/samples/two-phase-many/">Many
+Two-Phase Transfers</a>: Create two accounts and start a number of
+pending transfers between them, posting and voiding alternating
+transfers.</li>
+</ul>
+<h2 id="coding-clients-ruby-creating-a-client"><a href="#coding-clients-ruby-creating-a-client"
+class="anchor">Creating a Client</a></h2>
+<p>A client is created with a cluster ID and replica addresses for all
+replicas in the cluster. The cluster ID and replica addresses are both
+chosen by the system that starts the TigerBeetle cluster.</p>
+<p>Clients are thread-safe and a single instance should be shared
+between multiple concurrent tasks. This allows events to be <a
+href="#coding-requests-batching-events">automatically batched</a>.</p>
+<p>Multiple clients are useful when connecting to more than one
+TigerBeetle cluster.</p>
+<p>In this example the cluster ID is <code>0</code> and there is one
+replica. The address is read from the <code>TB_ADDRESS</code>
+environment variable and defaults to port <code>3000</code>.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>replica_addresses <span class="kw">=</span> <span class="cn">ENV</span><span class="at">.fetch</span>(<span class="st">&quot;TB_ADDRESS&quot;</span>, <span class="st">&quot;3000&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Client</span><span class="at">.open</span>(<span class="wa">cluster_id: </span><span class="dv">0</span>, replica_addresses:) <span class="cf">do</span> <span class="kw">|</span>client<span class="kw">|</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Use the client.</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+</div>
+<p>The gem also provides an optional top-level alias. Require
+<code>tigerbeetle/tb</code> to use <code>TB</code> as a shorthand for
+<code>TigerBeetle</code>:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span> <span class="st">&quot;tigerbeetle/tb&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>account <span class="kw">=</span> <span class="cn">TB</span><span class="kw">::</span><span class="dt">Account</span><span class="at">.new</span>(<span class="wa">id: </span><span class="cn">TB</span><span class="at">.id</span>, <span class="wa">ledger: </span><span class="dv">1</span>, <span class="wa">code: </span><span class="dv">1</span>)</span></code></pre></div>
+</div>
+<p>The alias is opt-in and is not defined by
+<code>require "tigerbeetle"</code>.</p>
+<p>The <code>TigerBeetle::Client</code> is fiber-scheduler aware, so it
+works with e.g. the <code>async</code> gem without requiring code
+changes.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span> <span class="st">&quot;async&quot;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span> <span class="st">&quot;async/semaphore&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span> <span class="st">&quot;tigerbeetle&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>semaphore <span class="kw">=</span> <span class="dt">Async</span><span class="kw">::</span><span class="dt">Semaphore</span><span class="at">.new</span>(<span class="dv">16</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>account_batches <span class="kw">=</span> <span class="dt">Array</span><span class="at">.new</span>(<span class="dv">16</span>) <span class="cf">do</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Array</span><span class="at">.new</span>(<span class="dv">1_000</span>) <span class="cf">do</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Account</span><span class="at">.new</span>(<span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>, <span class="wa">ledger: </span><span class="dv">1</span>, <span class="wa">code: </span><span class="dv">1</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Client</span><span class="at">.open</span>(<span class="wa">cluster_id: </span><span class="dv">0</span>, <span class="wa">replica_addresses: </span><span class="st">&quot;3000&quot;</span>) <span class="cf">do</span> <span class="kw">|</span>client<span class="kw">|</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Async</span> <span class="cf">do</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    account_batches</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">.map</span> <span class="kw">{</span> <span class="kw">|</span>batch<span class="kw">|</span> semaphore<span class="at">.async</span> <span class="kw">{</span> client<span class="at">.create_accounts</span>(batch) <span class="kw">}</span> <span class="kw">}</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">.each</span>(<span class="kw">&amp;</span><span class="wa">:wait</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+</div>
+<p>The following are valid addresses:</p>
+<ul>
+<li><code>3000</code> (interpreted as <code>127.0.0.1:3000</code>)</li>
+<li><code>127.0.0.1:3000</code> (interpreted as
+<code>127.0.0.1:3000</code>)</li>
+<li><code>127.0.0.1</code> (interpreted as <code>127.0.0.1:3001</code>,
+<code>3001</code> is the default port)</li>
+</ul>
+<h2 id="coding-clients-ruby-creating-accounts"><a href="#coding-clients-ruby-creating-accounts"
+class="anchor">Creating Accounts</a></h2>
+<p>See details for account fields in the <a
+href="#reference-account">Accounts reference</a>.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>account <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Account</span><span class="at">.new</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="wa">debits_pending: </span><span class="dv">0</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="wa">debits_posted: </span><span class="dv">0</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="wa">credits_pending: </span><span class="dv">0</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="wa">credits_posted: </span><span class="dv">0</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_128: </span><span class="dv">0</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_64: </span><span class="dv">0</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_32: </span><span class="dv">0</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="wa">code: </span><span class="dv">718</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="wa">flags: </span><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">AccountFlags</span><span class="kw">::</span><span class="cn">NONE</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="wa">timestamp: </span><span class="dv">0</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>account_results <span class="kw">=</span> client<span class="at">.create_accounts</span>(<span class="kw">[</span>account<span class="kw">]</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Results handling omitted.</span></span></code></pre></div>
+</div>
+<p>See details for the recommended ID scheme in <a
+href="#coding-data-modeling-tigerbeetle-time-based-identifiers-recommended">time-based
+identifiers</a>.</p>
+<h3 id="coding-clients-ruby-account-flags"><a href="#coding-clients-ruby-account-flags" class="anchor">Account
+Flags</a></h3>
+<p>The account flags value is a bitfield. See details for these flags in
+the <a href="#reference-account-flags">Accounts reference</a>.</p>
+<p>To toggle behavior for an account, combine constants from the
+<code>TigerBeetle::AccountFlags</code> module with bitwise-or:</p>
+<ul>
+<li><code>AccountFlags::LINKED</code></li>
+<li><code>AccountFlags::DEBITS_MUST_NOT_EXCEED_CREDITS</code></li>
+<li><code>AccountFlags::CREDITS_MUST_NOT_EXCEED_DEBITS</code></li>
+<li><code>AccountFlags::HISTORY</code></li>
+</ul>
+<p>For example, to link two accounts where the first account
+additionally has the <code>debits_must_not_exceed_credits</code>
+constraint:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>account0 <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Account</span><span class="at">.new</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="wa">code: </span><span class="dv">1</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="wa">flags: </span><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">AccountFlags</span><span class="kw">::</span><span class="cn">LINKED</span> <span class="kw">|</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">AccountFlags</span><span class="kw">::</span><span class="cn">DEBITS_MUST_NOT_EXCEED_CREDITS</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>account1 <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Account</span><span class="at">.new</span>(</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="wa">code: </span><span class="dv">1</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="wa">flags: </span><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">AccountFlags</span><span class="kw">::</span><span class="cn">HISTORY</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>account_results <span class="kw">=</span> client<span class="at">.create_accounts</span>(<span class="kw">[</span>account0, account1<span class="kw">]</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Results handling omitted.</span></span></code></pre></div>
+</div>
+<h3 id="coding-clients-ruby-response-and-errors"><a href="#coding-clients-ruby-response-and-errors"
+class="anchor">Response and Errors</a></h3>
+<p>The response is an array containing the <em>status code</em> and the
+<em>timestamp</em> of each account in the request batch:</p>
+<ul>
+<li>Successfully created accounts with the status <a
+href="#reference-requests-create_accounts-created"><code>created</code></a>
+return the timestamp assigned to the <code>Account</code> object.</li>
+<li>Already existing accounts with the result <a
+href="#reference-requests-create_accounts-exists"><code>exists</code></a>
+return the timestamp of the original existing object.</li>
+<li>Failed accounts return the status code along with the timestamp when
+the validation occurred. See all error conditions in the <a
+href="#reference-requests-create_accounts-status">create_accounts
+reference</a>.</li>
+</ul>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>accounts <span class="kw">=</span> <span class="kw">[</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Account</span><span class="at">.new</span>(<span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>, <span class="wa">ledger: </span><span class="dv">1</span>, <span class="wa">code: </span><span class="dv">1</span>),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Account</span><span class="at">.new</span>(<span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>, <span class="wa">ledger: </span><span class="dv">1</span>, <span class="wa">code: </span><span class="dv">1</span>),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Account</span><span class="at">.new</span>(<span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>, <span class="wa">ledger: </span><span class="dv">1</span>, <span class="wa">code: </span><span class="dv">1</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">]</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>account_results <span class="kw">=</span> client<span class="at">.create_accounts</span>(accounts)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>account_results<span class="at">.each_with_index</span> <span class="cf">do</span> <span class="kw">|</span>result, index<span class="kw">|</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">case</span> result<span class="at">.status</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">when</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">CreateAccountStatus</span><span class="kw">::</span><span class="cn">CREATED</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">puts</span>(<span class="st">&quot;Batch account at </span><span class="sc">#{</span>index<span class="sc">}</span><span class="st"> successfully created with timestamp </span><span class="sc">#{</span>result<span class="at">.timestamp</span><span class="sc">}</span><span class="st">.&quot;</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">when</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">CreateAccountStatus</span><span class="kw">::</span><span class="cn">EXISTS</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">puts</span>(<span class="st">&quot;Batch account at </span><span class="sc">#{</span>index<span class="sc">}</span><span class="st"> already exists with timestamp </span><span class="sc">#{</span>result<span class="at">.timestamp</span><span class="sc">}</span><span class="st">.&quot;</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">puts</span>(<span class="st">&quot;Batch account at </span><span class="sc">#{</span>index<span class="sc">}</span><span class="st"> failed to create: </span><span class="sc">#{</span>result<span class="at">.status</span><span class="sc">}</span><span class="st">.&quot;</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+</div>
+<p>To handle errors you can compare the result status returned from
+<code>client.create_accounts</code> with constants in the
+<code>TigerBeetle::CreateAccountStatus</code> module.</p>
+<h2 id="coding-clients-ruby-account-lookup"><a href="#coding-clients-ruby-account-lookup" class="anchor">Account
+Lookup</a></h2>
+<p>Account lookup is batched, like account creation. Pass in all IDs to
+fetch. The account for each matched ID is returned.</p>
+<p>If no account matches an ID, no object is returned for that account.
+So the order of accounts in the response is not necessarily the same as
+the order of IDs in the request. You can refer to the ID field in the
+response to distinguish accounts.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>accounts <span class="kw">=</span> client<span class="at">.lookup_accounts</span>(<span class="kw">[</span>account0<span class="at">.id</span>, account1<span class="at">.id</span><span class="kw">]</span>)</span></code></pre></div>
+</div>
+<h2 id="coding-clients-ruby-create-transfers"><a href="#coding-clients-ruby-create-transfers"
+class="anchor">Create Transfers</a></h2>
+<p>This creates a journal entry between two accounts.</p>
+<p>See details for transfer fields in the <a
+href="#reference-transfer">Transfers reference</a>.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>transfers <span class="kw">=</span> <span class="kw">[</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Transfer</span><span class="at">.new</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="wa">debit_account_id: </span>transfer_debit_account_id,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="wa">credit_account_id: </span>transfer_credit_account_id,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="wa">amount: </span><span class="dv">10</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="wa">pending_id: </span><span class="dv">0</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="wa">user_data_128: </span><span class="dv">0</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="wa">user_data_64: </span><span class="dv">0</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="wa">user_data_32: </span><span class="dv">0</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="wa">timeout: </span><span class="dv">0</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="wa">code: </span><span class="dv">720</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="wa">flags: </span><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">TransferFlags</span><span class="kw">::</span><span class="cn">NONE</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="wa">timestamp: </span><span class="dv">0</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="kw">]</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>transfer_results <span class="kw">=</span> client<span class="at">.create_transfers</span>(transfers)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Results handling omitted.</span></span></code></pre></div>
+</div>
+<p>See details for the recommended ID scheme in <a
+href="#coding-data-modeling-tigerbeetle-time-based-identifiers-recommended">time-based
+identifiers</a>.</p>
+<h3 id="coding-clients-ruby-response-and-errors-1"><a href="#coding-clients-ruby-response-and-errors-1"
+class="anchor">Response and Errors</a></h3>
+<p>The response is an array containing the <em>status code</em> and the
+<em>timestamp</em> of each transfer in the request batch:</p>
+<ul>
+<li>Successfully created transfers with the result <a
+href="#reference-requests-create_transfers-created"><code>created</code></a>
+return the timestamp assigned to the <code>Transfer</code> object.</li>
+<li>Already existing transfers with the result <a
+href="#reference-requests-create_transfers-exists"><code>exists</code></a>
+return the timestamp of the original existing object.</li>
+<li>Failed transfers return the status code along with the timestamp
+when the validation occurred. See all error conditions in the <a
+href="#reference-requests-create_transfers-status">create_transfers
+reference</a>.</li>
+</ul>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>batch <span class="kw">=</span> <span class="kw">[</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Transfer</span><span class="at">.new</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="wa">debit_account_id: </span>transfer_debit_account_id,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="wa">credit_account_id: </span>transfer_credit_account_id,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="wa">amount: </span><span class="dv">10</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="wa">code: </span><span class="dv">720</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Transfer</span><span class="at">.new</span>(</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="wa">debit_account_id: </span>transfer_debit_account_id,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="wa">credit_account_id: </span>transfer_credit_account_id,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="wa">amount: </span><span class="dv">10</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="wa">code: </span><span class="dv">720</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Transfer</span><span class="at">.new</span>(</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="wa">debit_account_id: </span>transfer_debit_account_id,</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="wa">credit_account_id: </span>transfer_credit_account_id,</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="wa">amount: </span><span class="dv">10</span>,</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="wa">code: </span><span class="dv">720</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="kw">]</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>transfer_results <span class="kw">=</span> client<span class="at">.create_transfers</span>(batch)</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>transfer_results<span class="at">.each_with_index</span> <span class="cf">do</span> <span class="kw">|</span>result, index<span class="kw">|</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>  <span class="cf">case</span> result<span class="at">.status</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>  <span class="cf">when</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">CreateTransferStatus</span><span class="kw">::</span><span class="cn">CREATED</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">puts</span>(<span class="st">&quot;Batch transfer at </span><span class="sc">#{</span>index<span class="sc">}</span><span class="st"> successfully created with timestamp </span><span class="sc">#{</span>result<span class="at">.timestamp</span><span class="sc">}</span><span class="st">.&quot;</span>)</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>  <span class="cf">when</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">CreateTransferStatus</span><span class="kw">::</span><span class="cn">EXISTS</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">puts</span>(<span class="st">&quot;Batch transfer at </span><span class="sc">#{</span>index<span class="sc">}</span><span class="st"> already exists with timestamp </span><span class="sc">#{</span>result<span class="at">.timestamp</span><span class="sc">}</span><span class="st">.&quot;</span>)</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">puts</span>(<span class="st">&quot;Batch transfer at </span><span class="sc">#{</span>index<span class="sc">}</span><span class="st"> failed to create: </span><span class="sc">#{</span>result<span class="at">.status</span><span class="sc">}</span><span class="st">.&quot;</span>)</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+</div>
+<p>To handle errors you can compare the result status returned from
+<code>client.create_transfers</code> with constants in the
+<code>TigerBeetle::CreateTransferStatus</code> module.</p>
+<h2 id="coding-clients-ruby-batching"><a href="#coding-clients-ruby-batching" class="anchor">Batching</a></h2>
+<p>TigerBeetle performance is maximized when you batch API requests.</p>
+<p>A client instance shared across multiple threads/tasks can
+automatically batch concurrent requests, but the application must still
+send as many events as possible in a single call.</p>
+<p>For example, if you insert 1 million transfers sequentially, one at a
+time, the insert rate will be a <em>fraction</em> of the potential,
+because the client will wait for a reply between each one. Instead,
+<strong>always batch as much as you can</strong>.</p>
+<p>The maximum batch size is set in the TigerBeetle server. The default
+is 8189.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Array of transfers to create.</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>batch <span class="kw">=</span> <span class="kw">[]</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>batch<span class="at">.each_slice</span>(<span class="dv">8189</span>) <span class="cf">do</span> <span class="kw">|</span>slice<span class="kw">|</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  transfer_results <span class="kw">=</span> client<span class="at">.create_transfers</span>(slice)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Results handling omitted.</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+</div>
+<h3 id="coding-clients-ruby-queues-and-workers"><a href="#coding-clients-ruby-queues-and-workers"
+class="anchor">Queues and Workers</a></h3>
+<p>If you are making requests to TigerBeetle from workers pulling jobs
+from a queue, you can batch requests to TigerBeetle by having the worker
+act on multiple jobs from the queue at once rather than one at a time.
+i.e. pulling multiple jobs from the queue rather than just one.</p>
+<h2 id="coding-clients-ruby-transfer-flags"><a href="#coding-clients-ruby-transfer-flags"
+class="anchor">Transfer Flags</a></h2>
+<p>The transfer <code>flags</code> value is a bitfield. See details for
+these flags in the <a href="#reference-transfer-flags">Transfers
+reference</a>.</p>
+<p>To toggle behavior for a transfer, combine constants from the
+<code>TigerBeetle::TransferFlags</code> module with bitwise-or:</p>
+<ul>
+<li><code>TransferFlags::LINKED</code></li>
+<li><code>TransferFlags::PENDING</code></li>
+<li><code>TransferFlags::POST_PENDING_TRANSFER</code></li>
+<li><code>TransferFlags::VOID_PENDING_TRANSFER</code></li>
+</ul>
+<p>For example, to link <code>transfer0</code> and
+<code>transfer1</code>:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>transfer0 <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Transfer</span><span class="at">.new</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="wa">debit_account_id: </span>transfer_debit_account_id,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="wa">credit_account_id: </span>transfer_credit_account_id,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="wa">amount: </span><span class="dv">10</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="wa">code: </span><span class="dv">720</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="wa">flags: </span><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">TransferFlags</span><span class="kw">::</span><span class="cn">LINKED</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>transfer1 <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Transfer</span><span class="at">.new</span>(</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="wa">debit_account_id: </span>transfer_debit_account_id,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="wa">credit_account_id: </span>transfer_credit_account_id,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="wa">amount: </span><span class="dv">10</span>,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="wa">code: </span><span class="dv">720</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>transfer_results <span class="kw">=</span> client<span class="at">.create_transfers</span>(<span class="kw">[</span>transfer0, transfer1<span class="kw">]</span>)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Results handling omitted.</span></span></code></pre></div>
+</div>
+<h3 id="coding-clients-ruby-two-phase-transfers"><a href="#coding-clients-ruby-two-phase-transfers"
+class="anchor">Two-Phase Transfers</a></h3>
+<p>Two-phase transfers are supported natively by toggling the
+appropriate flag. TigerBeetle will then adjust the
+<code>credits_pending</code> and <code>debits_pending</code> fields of
+the appropriate accounts. A corresponding post pending transfer then
+needs to be sent to post or void the transfer.</p>
+<h4 id="coding-clients-ruby-post-a-pending-transfer"><a href="#coding-clients-ruby-post-a-pending-transfer"
+class="anchor">Post a Pending Transfer</a></h4>
+<p>With <code>flags</code> set to <code>post_pending_transfer</code>,
+TigerBeetle will post the transfer. TigerBeetle will atomically roll
+back the changes to <code>debits_pending</code> and
+<code>credits_pending</code> of the appropriate accounts and apply them
+to the <code>debits_posted</code> and <code>credits_posted</code>
+balances.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pending_transfer <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Transfer</span><span class="at">.new</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="wa">debit_account_id: </span>transfer_debit_account_id,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="wa">credit_account_id: </span>transfer_credit_account_id,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="wa">amount: </span><span class="dv">10</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="wa">code: </span><span class="dv">720</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="wa">flags: </span><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">TransferFlags</span><span class="kw">::</span><span class="cn">PENDING</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>transfer_results <span class="kw">=</span> client<span class="at">.create_transfers</span>(<span class="kw">[</span>pending_transfer<span class="kw">]</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Results handling omitted.</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>post_transfer <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Transfer</span><span class="at">.new</span>(</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="wa">debit_account_id: </span>transfer_debit_account_id,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="wa">credit_account_id: </span>transfer_credit_account_id,</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="wa">amount: </span><span class="dv">10</span>,</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  <span class="wa">pending_id: </span>pending_transfer<span class="at">.id</span>,</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  <span class="wa">code: </span><span class="dv">720</span>,</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  <span class="wa">flags: </span><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">TransferFlags</span><span class="kw">::</span><span class="cn">POST_PENDING_TRANSFER</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>transfer_results <span class="kw">=</span> client<span class="at">.create_transfers</span>(<span class="kw">[</span>post_transfer<span class="kw">]</span>)</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Results handling omitted.</span></span></code></pre></div>
+</div>
+<h4 id="coding-clients-ruby-void-a-pending-transfer"><a href="#coding-clients-ruby-void-a-pending-transfer"
+class="anchor">Void a Pending Transfer</a></h4>
+<p>In contrast, with <code>flags</code> set to
+<code>void_pending_transfer</code>, TigerBeetle will void the transfer.
+TigerBeetle will roll back the changes to <code>debits_pending</code>
+and <code>credits_pending</code> of the appropriate accounts and
+<strong>not</strong> apply them to the <code>debits_posted</code> and
+<code>credits_posted</code> balances.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pending_transfer <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Transfer</span><span class="at">.new</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="wa">debit_account_id: </span>transfer_debit_account_id,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="wa">credit_account_id: </span>transfer_credit_account_id,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="wa">amount: </span><span class="dv">10</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="wa">code: </span><span class="dv">720</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="wa">flags: </span><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">TransferFlags</span><span class="kw">::</span><span class="cn">PENDING</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>transfer_results <span class="kw">=</span> client<span class="at">.create_transfers</span>(<span class="kw">[</span>pending_transfer<span class="kw">]</span>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Results handling omitted.</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>void_transfer <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Transfer</span><span class="at">.new</span>(</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="wa">debit_account_id: </span>transfer_debit_account_id,</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="wa">credit_account_id: </span>transfer_credit_account_id,</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="wa">amount: </span><span class="dv">0</span>,</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="wa">pending_id: </span>pending_transfer<span class="at">.id</span>,</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="wa">code: </span><span class="dv">720</span>,</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  <span class="wa">flags: </span><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">TransferFlags</span><span class="kw">::</span><span class="cn">VOID_PENDING_TRANSFER</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>transfer_results <span class="kw">=</span> client<span class="at">.create_transfers</span>(<span class="kw">[</span>void_transfer<span class="kw">]</span>)</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Results handling omitted.</span></span></code></pre></div>
+</div>
+<h2 id="coding-clients-ruby-transfer-lookup"><a href="#coding-clients-ruby-transfer-lookup"
+class="anchor">Transfer Lookup</a></h2>
+<p>NOTE: While transfer lookup exists, it is not a flexible query API.
+We are developing query APIs and there will be new methods for querying
+transfers in the future.</p>
+<p>Transfer lookup is batched, like transfer creation. Pass in all
+<code>id</code>s to fetch, and matched transfers are returned.</p>
+<p>If no transfer matches an <code>id</code>, no object is returned for
+that transfer. So the order of transfers in the response is not
+necessarily the same as the order of <code>id</code>s in the request.
+You can refer to the <code>id</code> field in the response to
+distinguish transfers.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>transfers <span class="kw">=</span> client<span class="at">.lookup_transfers</span>(<span class="kw">[</span>transfer0<span class="at">.id</span>, transfer1<span class="at">.id</span><span class="kw">]</span>)</span></code></pre></div>
+</div>
+<h2 id="coding-clients-ruby-get-account-transfers"><a href="#coding-clients-ruby-get-account-transfers"
+class="anchor">Get Account Transfers</a></h2>
+<p>NOTE: This is a preview API that is subject to breaking changes once
+we have a stable querying API.</p>
+<p>Fetches the transfers involving a given account, allowing basic
+filter and pagination capabilities.</p>
+<p>The transfers in the response are sorted by <code>timestamp</code> in
+chronological or reverse-chronological order.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>filter <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">AccountFilter</span><span class="at">.new</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="wa">account_id: </span>account1<span class="at">.id</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_128: </span><span class="dv">0</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_64: </span><span class="dv">0</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_32: </span><span class="dv">0</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="wa">code: </span><span class="dv">0</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="wa">timestamp_min: </span><span class="dv">0</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="wa">timestamp_max: </span><span class="dv">0</span>,</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="wa">limit: </span><span class="dv">10</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="wa">flags: </span><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">AccountFilterFlags</span><span class="kw">::</span><span class="cn">DEBITS</span> <span class="kw">|</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">AccountFilterFlags</span><span class="kw">::</span><span class="cn">CREDITS</span> <span class="kw">|</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">AccountFilterFlags</span><span class="kw">::</span><span class="cn">REVERSED</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>account_transfers <span class="kw">=</span> client<span class="at">.get_account_transfers</span>(filter)</span></code></pre></div>
+</div>
+<h2 id="coding-clients-ruby-get-account-balances"><a href="#coding-clients-ruby-get-account-balances"
+class="anchor">Get Account Balances</a></h2>
+<p>NOTE: This is a preview API that is subject to breaking changes once
+we have a stable querying API.</p>
+<p>Fetches the point-in-time balances of a given account, allowing basic
+filter and pagination capabilities.</p>
+<p>Only accounts created with the flag <a
+href="#reference-account-flagshistory"><code>history</code></a> set
+retain <a href="#reference-requests-get_account_balances">historical
+balances</a>.</p>
+<p>The balances in the response are sorted by <code>timestamp</code> in
+chronological or reverse-chronological order.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>filter <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">AccountFilter</span><span class="at">.new</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="wa">account_id: </span>account1<span class="at">.id</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_128: </span><span class="dv">0</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_64: </span><span class="dv">0</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_32: </span><span class="dv">0</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="wa">code: </span><span class="dv">0</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="wa">timestamp_min: </span><span class="dv">0</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="wa">timestamp_max: </span><span class="dv">0</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="wa">limit: </span><span class="dv">10</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="wa">flags: </span><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">AccountFilterFlags</span><span class="kw">::</span><span class="cn">DEBITS</span> <span class="kw">|</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">AccountFilterFlags</span><span class="kw">::</span><span class="cn">CREDITS</span> <span class="kw">|</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">AccountFilterFlags</span><span class="kw">::</span><span class="cn">REVERSED</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>account_balances <span class="kw">=</span> client<span class="at">.get_account_balances</span>(filter)</span></code></pre></div>
+</div>
+<h2 id="coding-clients-ruby-query-accounts"><a href="#coding-clients-ruby-query-accounts" class="anchor">Query
+Accounts</a></h2>
+<p>NOTE: This is a preview API that is subject to breaking changes once
+we have a stable querying API.</p>
+<p>Query accounts by the intersection of some fields and by timestamp
+range.</p>
+<p>The accounts in the response are sorted by <code>timestamp</code> in
+chronological or reverse-chronological order.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>query_filter <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">QueryFilter</span><span class="at">.new</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_128: </span><span class="dv">0</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_64: </span><span class="dv">0</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_32: </span><span class="dv">0</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="wa">code: </span><span class="dv">1</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="wa">timestamp_min: </span><span class="dv">0</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="wa">timestamp_max: </span><span class="dv">0</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="wa">limit: </span><span class="dv">10</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="wa">flags: </span><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">QueryFilterFlags</span><span class="kw">::</span><span class="cn">REVERSED</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>query_accounts <span class="kw">=</span> client<span class="at">.query_accounts</span>(query_filter)</span></code></pre></div>
+</div>
+<h2 id="coding-clients-ruby-query-transfers"><a href="#coding-clients-ruby-query-transfers" class="anchor">Query
+Transfers</a></h2>
+<p>NOTE: This is a preview API that is subject to breaking changes once
+we have a stable querying API.</p>
+<p>Query transfers by the intersection of some fields and by timestamp
+range.</p>
+<p>The transfers in the response are sorted by <code>timestamp</code> in
+chronological or reverse-chronological order.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>query_filter <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">QueryFilter</span><span class="at">.new</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_128: </span><span class="dv">0</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_64: </span><span class="dv">0</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="wa">user_data_32: </span><span class="dv">0</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="wa">code: </span><span class="dv">720</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="wa">timestamp_min: </span><span class="dv">0</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="wa">timestamp_max: </span><span class="dv">0</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="wa">limit: </span><span class="dv">10</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="wa">flags: </span><span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">QueryFilterFlags</span><span class="kw">::</span><span class="cn">REVERSED</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>query_transfers <span class="kw">=</span> client<span class="at">.query_transfers</span>(query_filter)</span></code></pre></div>
+</div>
+<h2 id="coding-clients-ruby-linked-events"><a href="#coding-clients-ruby-linked-events" class="anchor">Linked
+Events</a></h2>
+<p>When the <code>linked</code> flag is specified for an account when
+creating accounts or a transfer when creating transfers, it links that
+event with the next event in the batch, to create a chain of events, of
+arbitrary length, which all succeed or fail together. The tail of a
+chain is denoted by the first event without this flag. The last event in
+a batch may therefore never have the <code>linked</code> flag set as
+this would leave a chain open-ended. Multiple chains or individual
+events may coexist within a batch to succeed or fail independently.</p>
+<p>Events within a chain are executed within order, or are rolled back
+on error, so that the effect of each event in the chain is visible to
+the next, and so that the chain is either visible or invisible as a unit
+to subsequent events after the chain. The event that was the first to
+break the chain will have a unique error result. Other events in the
+chain will have their error result set to
+<code>linked_event_failed</code>.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>linked_flag <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">TransferFlags</span><span class="kw">::</span><span class="cn">LINKED</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>batch <span class="kw">=</span> <span class="kw">[</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Transfer</span><span class="at">.new</span>(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="wa">debit_account_id: </span>transfer_debit_account_id,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="wa">credit_account_id: </span>transfer_credit_account_id,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="wa">amount: </span><span class="dv">1</span>,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="wa">code: </span><span class="dv">720</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="wa">flags: </span>linked_flag</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">Transfer</span><span class="at">.new</span>(</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="wa">id: </span><span class="dt">TigerBeetle</span><span class="at">.id</span>,</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="wa">debit_account_id: </span>transfer_debit_account_id,</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="wa">credit_account_id: </span>transfer_credit_account_id,</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="wa">amount: </span><span class="dv">1</span>,</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="wa">ledger: </span><span class="dv">1</span>,</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="wa">code: </span><span class="dv">720</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="kw">]</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>transfer_results <span class="kw">=</span> client<span class="at">.create_transfers</span>(batch)</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Results handling omitted.</span></span></code></pre></div>
+</div>
+<h2 id="coding-clients-ruby-imported-events"><a href="#coding-clients-ruby-imported-events"
+class="anchor">Imported Events</a></h2>
+<p>When the <code>imported</code> flag is specified for an account when
+creating accounts or a transfer when creating transfers, it allows
+importing historical events with a user-defined timestamp.</p>
+<p>The entire batch of events must be set with the flag
+<code>imported</code>.</p>
+<p>It’s recommended to submit the whole batch as a <code>linked</code>
+chain of events, ensuring that if any event fails, none of them are
+committed, preserving the last timestamp unchanged. This approach gives
+the application a chance to correct failed imported events,
+re-submitting the batch again with the same user-defined timestamps.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>historical_timestamp <span class="kw">=</span> <span class="dv">0</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Loaded from an external source.</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>historical_accounts <span class="kw">=</span> <span class="kw">[]</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Loaded from an external source.</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>historical_transfers <span class="kw">=</span> <span class="kw">[]</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>accounts_to_import <span class="kw">=</span> historical_accounts<span class="at">.map.with_index</span> <span class="cf">do</span> <span class="kw">|</span>historical_account, index<span class="kw">|</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  historical_timestamp <span class="kw">+=</span> <span class="dv">1</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  historical_account<span class="at">.timestamp</span> <span class="kw">=</span> historical_timestamp</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  historical_account<span class="at">.flags</span> <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">AccountFlags</span><span class="kw">::</span><span class="cn">IMPORTED</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> index <span class="kw">&lt;</span> historical_accounts<span class="at">.length</span> <span class="kw">-</span> <span class="dv">1</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    historical_account<span class="at">.flags</span> <span class="kw">|=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">AccountFlags</span><span class="kw">::</span><span class="cn">LINKED</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  historical_account</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>account_results <span class="kw">=</span> client<span class="at">.create_accounts</span>(accounts_to_import)</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Results handling omitted.</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>transfers_to_import <span class="kw">=</span> historical_transfers<span class="at">.map.with_index</span> <span class="cf">do</span> <span class="kw">|</span>historical_transfer, index<span class="kw">|</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>  historical_timestamp <span class="kw">+=</span> <span class="dv">1</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>  historical_transfer<span class="at">.timestamp</span> <span class="kw">=</span> historical_timestamp</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>  historical_transfer<span class="at">.flags</span> <span class="kw">=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">TransferFlags</span><span class="kw">::</span><span class="cn">IMPORTED</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> index <span class="kw">&lt;</span> historical_transfers<span class="at">.length</span> <span class="kw">-</span> <span class="dv">1</span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>    historical_transfer<span class="at">.flags</span> <span class="kw">|=</span> <span class="dt">TigerBeetle</span><span class="kw">::</span><span class="dt">TransferFlags</span><span class="kw">::</span><span class="cn">LINKED</span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>  historical_transfer</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>transfer_results <span class="kw">=</span> client<span class="at">.create_transfers</span>(transfers_to_import)</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Results handling omitted.</span></span></code></pre></div>
+</div>
+<h2 id="coding-clients-ruby-timeouts-and-cancellation"><a href="#coding-clients-ruby-timeouts-and-cancellation"
+class="anchor">Timeouts And Cancellation</a></h2>
+<p>The Client retries indefinitely and doesn’t impose any per-request
+timeout. Cancellation is provided as a mechanism, and the specific
+cancellation policy is left to the application. A Client instance can be
+closed at any time. On close, all in-flight requests are canceled and
+return an error to the caller. Even if an error is returned, a request
+might still be processed by the TigerBeetle server. <a
+href="#coding-reliable-transaction-submission">Reliable transaction
+submission</a> explains how to make transfers retry-proof using IDs for
+end-to-end idempotency.</p>
+<a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/src/clients/ruby/README.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
   </svg>

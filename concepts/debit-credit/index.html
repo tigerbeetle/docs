@@ -324,6 +324,17 @@ data.</p>
 is unacceptable when it comes to accounting. Legal compliance and good
 business practices require that all funds be fully accounted for, and
 all history be maintained.</p>
+<h3 id="preserving-user-privacy"><a href="#preserving-user-privacy"
+class="anchor">Preserving User Privacy</a></h3>
+<p>Many applications must comply with GDPR and other privacy-preserving
+requirements, such as the right to be forgotten. User privacy can be
+preserved by being intentional about what data is stored in the
+<code>user_data_*</code> fields.</p>
+<p>For example, if <code>user_data_128</code> is used to map from your
+application’s unique <code>user_id</code> and TigerBeetle, a user can be
+‘forgotten’ by deleting that mapping. Without it, the accounts and
+transfers in TigerBeetle cannot be linked back to a real user, rendering
+them meaningless and preserving the user’s privacy.</p>
 <h2 id="dont-roll-your-own-ledger"><a href="#dont-roll-your-own-ledger"
 class="anchor">Don’t Roll Your Own Ledger</a></h2>
 <p>Many companies start out building their own system for recording

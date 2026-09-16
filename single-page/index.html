@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-W1GNp3+VWjJioYCdm8AYiKdLkMCj2IaEzYszX8JFTh4='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -62,10 +62,34 @@
               </svg>
             </a>
           </header>
-          
+                    <div class="search-box">
+            <input type="search" placeholder="Search">
+            <svg class="search-icon" width="16" height="16" fill="none">
+              <circle cx="6.5" cy="6.5" r="4.5" stroke-width="1.5" stroke="currentColor"/>
+              <path d="M10 10l4 4" stroke-width="1.5" stroke-linecap="round" stroke="currentColor"/>
+            </svg>
+            <a class="hotkey" title="Press / to activate search">
+              <svg width="14" height="14" fill="none">
+                <path d="m8.56 2.39-2.34 8.71h-0.77l2.34-8.71h0.77z" fill="var(--gray-11)"/>
+              </svg>
+            </a>
+            <svg class="clear-button" width="16" height="16">
+              <path d="m16 8a8 8 0 0 0-16 0 8 8 0 0 0 16 0m-9 0-2.5-2.5 1-1 2.5 2.5 2.5-2.5 1 1-2.5 2.5 2.5 2.5-1 1-2.5-2.5-2.5 2.5-1-1" fill="currentColor" />
+            </svg>
+          </div>
+          <p class="search-stats"></p>
+
         </div>
       </div>
-      
+            <div class="search-results"></div>
+      <div class="search-notfound">
+        <picture>
+          <source width="158" height="119" srcset="/img/notfound-light.webp" media="(prefers-color-scheme: light)">
+          <source width="160" height="119" srcset="/img/notfound-dark.webp" media="(prefers-color-scheme: dark)">
+          <img width="158" height="119" src="/img/notfound-light.webp" alt="Result not found illustration">
+        </picture>
+      </div>
+
       <nav class="side">
         <ol>
 <li class="item"><a href="#start">Start</a></li>
@@ -162,6 +186,13 @@
 </ol>
 </details></li>
 </ol>
+        <a id="multi-page-link" href="/">
+          <svg width="16" height="24" fill="none" viewBox="0 0 16 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 2.5H10L15 7.5V18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8.02591 4.5L13 9.5V20.5C13 21.0523 12.5523 21.5 12 21.5H2C1.44772 21.5 1 21.0523 1 20.5V5.5C1 4.94772 1.44771 4.5 2 4.5H8.02591ZM13 9.5H9.02591C8.47362 9.5 8.02591 9.05228 8.02591 8.5V4.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Multi Page
+        </a>
 
       </nav>
     </nav>
@@ -16235,6 +16266,7 @@ library</a></li>
 }
 
 window.urlPrefix = "";
+const singlePage = location.pathname === urlPrefix + "/single-page/";
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register(urlPrefix + "/service-worker.js");
@@ -16305,7 +16337,14 @@ function syncSideNavWithLocation() {
   document.querySelectorAll("nav.side details").forEach(details => details.open = false);
 
   let path = location.pathname;
-  if (path.includes("single-page")) path = location.hash;
+  if (singlePage) {
+    path = location.hash;
+    // The sidebar only has page titles, so we need to find the nearest H1 above
+    let heading = document.getElementById(path.slice(1));
+    while (heading && heading.parentElement !== content) heading = heading.parentElement;
+    while (heading && heading.tagName !== "H1") heading = heading.previousElementSibling;
+    if (heading) path = "#" + heading.id;
+  }
   if (path.length > 1) {
     document.querySelectorAll("nav.side a").forEach(a => {
       if (a.href.endsWith(path)) {
@@ -16338,6 +16377,6 @@ function addContentEventHandlers() {
 
 addContentEventHandlers();
 </script>
-    
+    <script src="/js/search.js"></script>
   </body>
 </html>

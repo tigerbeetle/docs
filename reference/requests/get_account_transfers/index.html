@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-W1GNp3+VWjJioYCdm8AYiKdLkMCj2IaEzYszX8JFTh4='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -277,6 +277,7 @@ library</a></li>
 }
 
 window.urlPrefix = "";
+const singlePage = location.pathname === urlPrefix + "/single-page/";
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register(urlPrefix + "/service-worker.js");
@@ -347,7 +348,14 @@ function syncSideNavWithLocation() {
   document.querySelectorAll("nav.side details").forEach(details => details.open = false);
 
   let path = location.pathname;
-  if (path.includes("single-page")) path = location.hash;
+  if (singlePage) {
+    path = location.hash;
+    // The sidebar only has page titles, so we need to find the nearest H1 above
+    let heading = document.getElementById(path.slice(1));
+    while (heading && heading.parentElement !== content) heading = heading.parentElement;
+    while (heading && heading.tagName !== "H1") heading = heading.previousElementSibling;
+    if (heading) path = "#" + heading.id;
+  }
   if (path.length > 1) {
     document.querySelectorAll("nav.side a").forEach(a => {
       if (a.href.endsWith(path)) {

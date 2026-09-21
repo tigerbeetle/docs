@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -228,7 +228,7 @@ observe the effects of <code>T1</code>. Note, however, that there could
 be concurrent requests from multiple applications, so, unless
 <code>T1</code> and <code>T2</code> are in the same batch of transfers,
 some other transfer could happen in between them. See the <a
-href="../../reference/sessions">reference</a> for precise
+href="../../reference/sessions/">reference</a> for precise
 guarantees.</p>
 <h2 id="physical-time"><a href="#physical-time" class="anchor">Physical
 Time</a></h2>
@@ -237,9 +237,9 @@ provided by the consensus algorithm. Financial transactions require
 physical time for multiple reasons, including:</p>
 <ul>
 <li><strong>Liquidity</strong> - TigerBeetle supports <a
-href="../two-phase-transfers">Two-Phase Transfers</a> that reserve funds
-and hold them in a pending state until they are posted, voided, or the
-transfer times out. A timeout is useful to ensure that the reserved
+href="../two-phase-transfers/">Two-Phase Transfers</a> that reserve
+funds and hold them in a pending state until they are posted, voided, or
+the transfer times out. A timeout is useful to ensure that the reserved
 funds are not held in limbo indefinitely.</li>
 <li><strong>Compliance and Auditing</strong> - For regulatory and
 security purposes, it is useful to have a specific idea of when (in
@@ -257,13 +257,14 @@ href="#why-tigerbeetle-manages-timestamps" class="anchor">Why
 TigerBeetle Manages Timestamps</a></h2>
 <p>An important invariant is that the TigerBeetle cluster assigns all
 timestamps. In particular, timestamps on <a
-href="../../reference/transfer#timestamp"><code>Transfer</code>s</a> and
-<a href="../../reference/account#timestamp"><code>Account</code>s</a>
-are set by the cluster when the corresponding event arrives at the
-primary. This is why the <code>timestamp</code> field must be set to
+href="../../reference/transfer/#timestamp"><code>Transfer</code>s</a>
+and <a
+href="../../reference/account/#timestamp"><code>Account</code>s</a> are
+set by the cluster when the corresponding event arrives at the primary.
+This is why the <code>timestamp</code> field must be set to
 <code>0</code> when operations are submitted by the client.</p>
 <p>Similarly, the <a
-href="../../reference/transfer#timeout"><code>Transfer.timeout</code></a>
+href="../../reference/transfer/#timeout"><code>Transfer.timeout</code></a>
 is given as an interval in seconds, rather than as an absolute
 timestamp, because it is also managed by the primary. The
 <code>timeout</code> is calculated relative to the
@@ -374,6 +375,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

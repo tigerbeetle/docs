@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -209,13 +209,13 @@
           <h1 id="create_transfers"><a href="#create_transfers"
 class="anchor"><code>create_transfers</code></a></h1>
 <p>Create one or more <a
-href="../../transfer"><code>Transfer</code></a>s. A successfully created
-transfer will modify the amount fields of its <a
-href="../../transfer#debit_account_id">debit</a> and <a
-href="../../transfer#credit_account_id">credit</a> accounts.</p>
+href="../../transfer/"><code>Transfer</code></a>s. A successfully
+created transfer will modify the amount fields of its <a
+href="../../transfer/#debit_account_id">debit</a> and <a
+href="../../transfer/#credit_account_id">credit</a> accounts.</p>
 <h2 id="event"><a href="#event" class="anchor">Event</a></h2>
 <p>A batch of transfers to create. See <a
-href="../../transfer"><code>Transfer</code></a> for constraints.</p>
+href="../../transfer/"><code>Transfer</code></a> for constraints.</p>
 <h2 id="result"><a href="#result" class="anchor">Result</a></h2>
 <p>An array containing the result for each transfer in the events
 batch.</p>
@@ -223,10 +223,10 @@ batch.</p>
 class="anchor"><code>timestamp</code></a></h3>
 <ul>
 <li>For <a href="#created">successful transfers</a>, it is the <a
-href="../../transfer#timestamp"><code>timestamp</code></a> assigned to
+href="../../transfer/#timestamp"><code>timestamp</code></a> assigned to
 the transfer object.</li>
 <li>For <a href="#exists">existing transfers</a>, it is the <a
-href="../../transfer#timestamp"><code>timestamp</code></a> of the
+href="../../transfer/#timestamp"><code>timestamp</code></a> of the
 original object.</li>
 <li>For all other results, it indicates the time at which validation
 occurred.</li>
@@ -252,19 +252,19 @@ class="anchor"><code>created</code></a></h4>
 <h4 id="linked_event_failed"><a href="#linked_event_failed"
 class="anchor"><code>linked_event_failed</code></a></h4>
 <p>The transfer was not created. One or more of the other transfers in
-the <a href="../../transfer#flagslinked">linked chain</a> is invalid, so
-the whole chain failed.</p>
+the <a href="../../transfer/#flagslinked">linked chain</a> is invalid,
+so the whole chain failed.</p>
 <h4 id="linked_event_chain_open"><a href="#linked_event_chain_open"
 class="anchor"><code>linked_event_chain_open</code></a></h4>
 <p>The transfer was not created. The <a
-href="../../transfer#flagslinked"><code>Transfer.flags.linked</code></a>
+href="../../transfer/#flagslinked"><code>Transfer.flags.linked</code></a>
 flag was set on the last event in the batch, which is not legal.
 (<code>flags.linked</code> indicates that the chain continues to the
 next operation).</p>
 <h4 id="imported_event_expected"><a href="#imported_event_expected"
 class="anchor"><code>imported_event_expected</code></a></h4>
 <p>The transfer was not created. The <a
-href="../../transfer#flagsimported"><code>Transfer.flags.imported</code></a>
+href="../../transfer/#flagsimported"><code>Transfer.flags.imported</code></a>
 was set on the first transfer of the batch, but not all transfers in the
 batch. Batches cannot mix imported transfers with non-imported
 transfers.</p>
@@ -272,43 +272,43 @@ transfers.</p>
 href="#imported_event_not_expected"
 class="anchor"><code>imported_event_not_expected</code></a></h4>
 <p>The transfer was not created. The <a
-href="../../transfer#flagsimported"><code>Transfer.flags.imported</code></a>
+href="../../transfer/#flagsimported"><code>Transfer.flags.imported</code></a>
 was expected to <em>not</em> be set, as it’s not allowed to mix
 transfers with different <code>imported</code> flag in the same batch.
 The first transfer determines the entire operation.</p>
 <h4 id="timestamp_must_be_zero"><a href="#timestamp_must_be_zero"
 class="anchor"><code>timestamp_must_be_zero</code></a></h4>
 <p>This result only applies when <a
-href="../../account#flagsimported"><code>Account.flags.imported</code></a>
+href="../../account/#flagsimported"><code>Account.flags.imported</code></a>
 is <em>not</em> set.</p>
 <p>The transfer was not created. The <a
-href="../../transfer#timestamp"><code>Transfer.timestamp</code></a> is
+href="../../transfer/#timestamp"><code>Transfer.timestamp</code></a> is
 nonzero, but must be zero. The cluster is responsible for setting this
 field.</p>
 <p>The <a
-href="../../transfer#timestamp"><code>Transfer.timestamp</code></a> can
+href="../../transfer/#timestamp"><code>Transfer.timestamp</code></a> can
 only be assigned when creating transfers with <a
-href="../../transfer#flagsimported"><code>Transfer.flags.imported</code></a>
+href="../../transfer/#flagsimported"><code>Transfer.flags.imported</code></a>
 set.</p>
 <h4 id="imported_event_timestamp_out_of_range"><a
 href="#imported_event_timestamp_out_of_range"
 class="anchor"><code>imported_event_timestamp_out_of_range</code></a></h4>
 <p>This result only applies when <a
-href="../../transfer#flagsimported"><code>Transfer.flags.imported</code></a>
+href="../../transfer/#flagsimported"><code>Transfer.flags.imported</code></a>
 is set.</p>
 <p>The transfer was not created. The <a
-href="../../transfer#timestamp"><code>Transfer.timestamp</code></a> is
+href="../../transfer/#timestamp"><code>Transfer.timestamp</code></a> is
 out of range, but must be a user-defined timestamp greater than
 <code>0</code> and less than <code>2^63</code>.</p>
 <h4 id="imported_event_timestamp_must_not_advance"><a
 href="#imported_event_timestamp_must_not_advance"
 class="anchor"><code>imported_event_timestamp_must_not_advance</code></a></h4>
 <p>This result only applies when <a
-href="../../transfer#flagsimported"><code>Transfer.flags.imported</code></a>
+href="../../transfer/#flagsimported"><code>Transfer.flags.imported</code></a>
 is set.</p>
 <p>The transfer was not created. The user-defined <a
-href="../../transfer#timestamp"><code>Transfer.timestamp</code></a> is
-greater than the current <a href="../../../coding/time">cluster
+href="../../transfer/#timestamp"><code>Transfer.timestamp</code></a> is
+greater than the current <a href="../../../coding/time/">cluster
 time</a>, but it must be a past timestamp.</p>
 <h4 id="reserved_flag"><a href="#reserved_flag"
 class="anchor"><code>reserved_flag</code></a></h4>
@@ -317,50 +317,51 @@ nonzero, but must be zero.</p>
 <h4 id="id_must_not_be_zero"><a href="#id_must_not_be_zero"
 class="anchor"><code>id_must_not_be_zero</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#id"><code>Transfer.id</code></a> is zero, which is
+href="../../transfer/#id"><code>Transfer.id</code></a> is zero, which is
 a reserved value.</p>
 <h4 id="id_must_not_be_int_max"><a href="#id_must_not_be_int_max"
 class="anchor"><code>id_must_not_be_int_max</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#id"><code>Transfer.id</code></a> is
+href="../../transfer/#id"><code>Transfer.id</code></a> is
 <code>2^128 - 1</code>, which is a reserved value.</p>
 <h4 id="exists_with_different_flags"><a
 href="#exists_with_different_flags"
 class="anchor"><code>exists_with_different_flags</code></a></h4>
 <p>A transfer with the same <code>id</code> already exists, but with
-different <a href="../../transfer#flags"><code>flags</code></a>.</p>
+different <a href="../../transfer/#flags"><code>flags</code></a>.</p>
 <h4 id="exists_with_different_pending_id"><a
 href="#exists_with_different_pending_id"
 class="anchor"><code>exists_with_different_pending_id</code></a></h4>
 <p>A transfer with the same <code>id</code> already exists, but with a
 different <a
-href="../../transfer#pending_id"><code>pending_id</code></a>.</p>
+href="../../transfer/#pending_id"><code>pending_id</code></a>.</p>
 <h4 id="exists_with_different_timeout"><a
 href="#exists_with_different_timeout"
 class="anchor"><code>exists_with_different_timeout</code></a></h4>
 <p>A transfer with the same <code>id</code> already exists, but with a
-different <a href="../../transfer#timeout"><code>timeout</code></a>.</p>
+different <a
+href="../../transfer/#timeout"><code>timeout</code></a>.</p>
 <h4 id="exists_with_different_debit_account_id"><a
 href="#exists_with_different_debit_account_id"
 class="anchor"><code>exists_with_different_debit_account_id</code></a></h4>
 <p>A transfer with the same <code>id</code> already exists, but with a
 different <a
-href="../../transfer#debit_account_id"><code>debit_account_id</code></a>.</p>
+href="../../transfer/#debit_account_id"><code>debit_account_id</code></a>.</p>
 <h4 id="exists_with_different_credit_account_id"><a
 href="#exists_with_different_credit_account_id"
 class="anchor"><code>exists_with_different_credit_account_id</code></a></h4>
 <p>A transfer with the same <code>id</code> already exists, but with a
 different <a
-href="../../transfer#credit_account_id"><code>credit_account_id</code></a>.</p>
+href="../../transfer/#credit_account_id"><code>credit_account_id</code></a>.</p>
 <h4 id="exists_with_different_amount"><a
 href="#exists_with_different_amount"
 class="anchor"><code>exists_with_different_amount</code></a></h4>
 <p>A transfer with the same <code>id</code> already exists, but with a
-different <a href="../../transfer#amount"><code>amount</code></a>.</p>
+different <a href="../../transfer/#amount"><code>amount</code></a>.</p>
 <p>If the transfer has <a
-href="../../transfer#flagsbalancing_debit"><code>flags.balancing_debit</code></a>
+href="../../transfer/#flagsbalancing_debit"><code>flags.balancing_debit</code></a>
 or <a
-href="../../transfer#flagsbalancing_credit"><code>flags.balancing_credit</code></a>
+href="../../transfer/#flagsbalancing_credit"><code>flags.balancing_credit</code></a>
 set, then the actual amount transferred exceeds this failed transfer’s
 <code>amount</code>.</p>
 <h4 id="exists_with_different_user_data_128"><a
@@ -368,43 +369,43 @@ href="#exists_with_different_user_data_128"
 class="anchor"><code>exists_with_different_user_data_128</code></a></h4>
 <p>A transfer with the same <code>id</code> already exists, but with a
 different <a
-href="../../transfer#user_data_128"><code>user_data_128</code></a>.</p>
+href="../../transfer/#user_data_128"><code>user_data_128</code></a>.</p>
 <h4 id="exists_with_different_user_data_64"><a
 href="#exists_with_different_user_data_64"
 class="anchor"><code>exists_with_different_user_data_64</code></a></h4>
 <p>A transfer with the same <code>id</code> already exists, but with a
 different <a
-href="../../transfer#user_data_64"><code>user_data_64</code></a>.</p>
+href="../../transfer/#user_data_64"><code>user_data_64</code></a>.</p>
 <h4 id="exists_with_different_user_data_32"><a
 href="#exists_with_different_user_data_32"
 class="anchor"><code>exists_with_different_user_data_32</code></a></h4>
 <p>A transfer with the same <code>id</code> already exists, but with a
 different <a
-href="../../transfer#user_data_32"><code>user_data_32</code></a>.</p>
+href="../../transfer/#user_data_32"><code>user_data_32</code></a>.</p>
 <h4 id="exists_with_different_ledger"><a
 href="#exists_with_different_ledger"
 class="anchor"><code>exists_with_different_ledger</code></a></h4>
 <p>A transfer with the same <code>id</code> already exists, but with a
-different <a href="../../transfer#ledger"><code>ledger</code></a>.</p>
+different <a href="../../transfer/#ledger"><code>ledger</code></a>.</p>
 <h4 id="exists_with_different_code"><a
 href="#exists_with_different_code"
 class="anchor"><code>exists_with_different_code</code></a></h4>
 <p>A transfer with the same <code>id</code> already exists, but with a
-different <a href="../../transfer#code"><code>code</code></a>.</p>
+different <a href="../../transfer/#code"><code>code</code></a>.</p>
 <h4 id="exists"><a href="#exists"
 class="anchor"><code>exists</code></a></h4>
 <p>A transfer with the same <code>id</code> already exists.</p>
 <p>If the transfer has <a
-href="../../transfer#flagsbalancing_debit"><code>flags.balancing_debit</code></a>
+href="../../transfer/#flagsbalancing_debit"><code>flags.balancing_debit</code></a>
 or <a
-href="../../transfer#flagsbalancing_credit"><code>flags.balancing_credit</code></a>
+href="../../transfer/#flagsbalancing_credit"><code>flags.balancing_credit</code></a>
 set, then the existing transfer may have a different <a
-href="../../transfer#amount"><code>amount</code></a>, limited to the
+href="../../transfer/#amount"><code>amount</code></a>, limited to the
 maximum <code>amount</code> of the transfer in the request.</p>
 <p>If the transfer has <a
-href="../../transfer#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>
+href="../../transfer/#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>
 set, then the existing transfer may have a different <a
-href="../../transfer#amount"><code>amount</code></a>:</p>
+href="../../transfer/#amount"><code>amount</code></a>:</p>
 <ul>
 <li>If the original posted amount was less than the pending amount, then
 the transfer amount must be equal to the posted amount.</li>
@@ -415,11 +416,11 @@ pending amount.</li>
 <summary>Client release &lt; 0.16.0</summary>
 
 <p>If the transfer has <a
-href="../../transfer#flagsbalancing_debit"><code>flags.balancing_debit</code></a>
+href="../../transfer/#flagsbalancing_debit"><code>flags.balancing_debit</code></a>
 or <a
-href="../../transfer#flagsbalancing_credit"><code>flags.balancing_credit</code></a>
+href="../../transfer/#flagsbalancing_credit"><code>flags.balancing_credit</code></a>
 set, then the existing transfer may have a different <a
-href="../../transfer#amount"><code>amount</code></a>, limited to the
+href="../../transfer/#amount"><code>amount</code></a>, limited to the
 maximum <code>amount</code> of the transfer in the request.</p>
 </details>
 
@@ -427,14 +428,14 @@ maximum <code>amount</code> of the transfer in the request.</p>
 field, the existing transfer is identical to the transfer in the
 request.</p>
 <p>To correctly <a
-href="../../../coding/reliable-transaction-submission">recover from
+href="../../../coding/reliable-transaction-submission/">recover from
 application crashes</a>, many applications should handle
 <code>exists</code> exactly as <a
 href="#created"><code>created</code></a>.</p>
 <h4 id="id_already_failed"><a href="#id_already_failed"
 class="anchor"><code>id_already_failed</code></a></h4>
 <p>The transfer was not created. A previous transfer with the same <a
-href="../../transfer#id"><code>id</code></a> failed due to one of the
+href="../../transfer/#id"><code>id</code></a> failed due to one of the
 following <em>transient errors</em>:</p>
 <ul>
 <li><a
@@ -452,7 +453,7 @@ href="#credit_account_already_closed"><code>credit_account_already_closed</code>
 </ul>
 <p>Transient errors depend on the database state at a given point in
 time, and each attempt is uniquely associated with the corresponding <a
-href="../../transfer#id"><code>Transfer.id</code></a>. This behavior
+href="../../transfer/#id"><code>Transfer.id</code></a>. This behavior
 guarantees that retrying a transfer will not produce a different outcome
 (either success or failure).</p>
 <p>Without this mechanism, a transfer that previously failed could
@@ -464,11 +465,11 @@ application restart) or because it is correcting a previously rejected
 malformed request (e.g., due to an application bug). If the application
 intends to submit the transfer again even after a transient error, it
 must generate a new <a
-href="../../../coding/data-modeling#id">idempotency id</a>.</p>
+href="../../../coding/data-modeling/#id">idempotency id</a>.</p>
 <details>
 <summary>Client release &lt; 0.16.4</summary>
 
-<p>The <a href="../../transfer#id"><code>id</code></a> is never checked
+<p>The <a href="../../transfer/#id"><code>id</code></a> is never checked
 against failed transfers, regardless of the error. Therefore, a transfer
 that failed due to a transient error could succeed if retried later.</p>
 </details>
@@ -478,184 +479,185 @@ href="#flags_are_mutually_exclusive"
 class="anchor"><code>flags_are_mutually_exclusive</code></a></h4>
 <p>The transfer was not created. A transfer cannot be created with the
 specified combination of <a
-href="../../transfer#flags"><code>Transfer.flags</code></a>.</p>
+href="../../transfer/#flags"><code>Transfer.flags</code></a>.</p>
 <p>Flag compatibility (✓ = compatible, ✗ = mutually exclusive):</p>
 <ul>
-<li><a href="../../transfer#flagspending"><code>flags.pending</code></a>
+<li><a
+href="../../transfer/#flagspending"><code>flags.pending</code></a>
 <ul>
 <li>✗ <a
-href="../../transfer#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
+href="../../transfer/#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
 <li>✗ <a
-href="../../transfer#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></li>
+href="../../transfer/#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsbalancing_debit"><code>flags.balancing_debit</code></a></li>
+href="../../transfer/#flagsbalancing_debit"><code>flags.balancing_debit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsbalancing_credit"><code>flags.balancing_credit</code></a></li>
+href="../../transfer/#flagsbalancing_credit"><code>flags.balancing_credit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsclosing_debit"><code>flags.closing_debit</code></a></li>
+href="../../transfer/#flagsclosing_debit"><code>flags.closing_debit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsclosing_credit"><code>flags.closing_credit</code></a></li>
+href="../../transfer/#flagsclosing_credit"><code>flags.closing_credit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsimported"><code>flags.imported</code></a></li>
+href="../../transfer/#flagsimported"><code>flags.imported</code></a></li>
 </ul></li>
 <li><a
-href="../../transfer#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>
+href="../../transfer/#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>
 <ul>
 <li>✗ <a
-href="../../transfer#flagspending"><code>flags.pending</code></a></li>
+href="../../transfer/#flagspending"><code>flags.pending</code></a></li>
 <li>✗ <a
-href="../../transfer#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></li>
+href="../../transfer/#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></li>
 <li>✗ <a
-href="../../transfer#flagsbalancing_debit"><code>flags.balancing_debit</code></a></li>
+href="../../transfer/#flagsbalancing_debit"><code>flags.balancing_debit</code></a></li>
 <li>✗ <a
-href="../../transfer#flagsbalancing_credit"><code>flags.balancing_credit</code></a></li>
+href="../../transfer/#flagsbalancing_credit"><code>flags.balancing_credit</code></a></li>
 <li>✗ <a
-href="../../transfer#flagsclosing_debit"><code>flags.closing_debit</code></a></li>
+href="../../transfer/#flagsclosing_debit"><code>flags.closing_debit</code></a></li>
 <li>✗ <a
-href="../../transfer#flagsclosing_credit"><code>flags.closing_credit</code></a></li>
+href="../../transfer/#flagsclosing_credit"><code>flags.closing_credit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsimported"><code>flags.imported</code></a></li>
+href="../../transfer/#flagsimported"><code>flags.imported</code></a></li>
 </ul></li>
 <li><a
-href="../../transfer#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a>
+href="../../transfer/#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a>
 <ul>
 <li>✗ <a
-href="../../transfer#flagspending"><code>flags.pending</code></a></li>
+href="../../transfer/#flagspending"><code>flags.pending</code></a></li>
 <li>✗ <a
-href="../../transfer#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
+href="../../transfer/#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
 <li>✗ <a
-href="../../transfer#flagsbalancing_debit"><code>flags.balancing_debit</code></a></li>
+href="../../transfer/#flagsbalancing_debit"><code>flags.balancing_debit</code></a></li>
 <li>✗ <a
-href="../../transfer#flagsbalancing_credit"><code>flags.balancing_credit</code></a></li>
+href="../../transfer/#flagsbalancing_credit"><code>flags.balancing_credit</code></a></li>
 <li>✗ <a
-href="../../transfer#flagsclosing_debit"><code>flags.closing_debit</code></a></li>
+href="../../transfer/#flagsclosing_debit"><code>flags.closing_debit</code></a></li>
 <li>✗ <a
-href="../../transfer#flagsclosing_credit"><code>flags.closing_credit</code></a></li>
+href="../../transfer/#flagsclosing_credit"><code>flags.closing_credit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsimported"><code>flags.imported</code></a></li>
+href="../../transfer/#flagsimported"><code>flags.imported</code></a></li>
 </ul></li>
 <li><a
-href="../../transfer#flagsbalancing_debit"><code>flags.balancing_debit</code></a>
+href="../../transfer/#flagsbalancing_debit"><code>flags.balancing_debit</code></a>
 <ul>
 <li>✓ <a
-href="../../transfer#flagspending"><code>flags.pending</code></a></li>
+href="../../transfer/#flagspending"><code>flags.pending</code></a></li>
 <li>✗ <a
-href="../../transfer#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></li>
+href="../../transfer/#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></li>
 <li>✗ <a
-href="../../transfer#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
+href="../../transfer/#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsbalancing_credit"><code>flags.balancing_credit</code></a></li>
+href="../../transfer/#flagsbalancing_credit"><code>flags.balancing_credit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsclosing_debit"><code>flags.closing_debit</code></a></li>
+href="../../transfer/#flagsclosing_debit"><code>flags.closing_debit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsclosing_credit"><code>flags.closing_credit</code></a></li>
+href="../../transfer/#flagsclosing_credit"><code>flags.closing_credit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsimported"><code>flags.imported</code></a></li>
+href="../../transfer/#flagsimported"><code>flags.imported</code></a></li>
 </ul></li>
 <li><a
-href="../../transfer#flagsbalancing_credit"><code>flags.balancing_credit</code></a>
+href="../../transfer/#flagsbalancing_credit"><code>flags.balancing_credit</code></a>
 <ul>
 <li>✓ <a
-href="../../transfer#flagspending"><code>flags.pending</code></a></li>
+href="../../transfer/#flagspending"><code>flags.pending</code></a></li>
 <li>✗ <a
-href="../../transfer#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></li>
+href="../../transfer/#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></li>
 <li>✗ <a
-href="../../transfer#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
+href="../../transfer/#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsbalancing_debit"><code>flags.balancing_debit</code></a></li>
+href="../../transfer/#flagsbalancing_debit"><code>flags.balancing_debit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsclosing_debit"><code>flags.closing_debit</code></a></li>
+href="../../transfer/#flagsclosing_debit"><code>flags.closing_debit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsclosing_credit"><code>flags.closing_credit</code></a></li>
+href="../../transfer/#flagsclosing_credit"><code>flags.closing_credit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsimported"><code>flags.imported</code></a></li>
+href="../../transfer/#flagsimported"><code>flags.imported</code></a></li>
 </ul></li>
 <li><a
-href="../../transfer#flagsclosing_debit"><code>flags.closing_debit</code></a>
+href="../../transfer/#flagsclosing_debit"><code>flags.closing_debit</code></a>
 <ul>
 <li>✓ <a
-href="../../transfer#flagspending"><code>flags.pending</code></a></li>
+href="../../transfer/#flagspending"><code>flags.pending</code></a></li>
 <li>✗ <a
-href="../../transfer#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
+href="../../transfer/#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
 <li>✗ <a
-href="../../transfer#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></li>
+href="../../transfer/#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsbalancing_debit"><code>flags.balancing_debit</code></a></li>
+href="../../transfer/#flagsbalancing_debit"><code>flags.balancing_debit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsbalancing_credit"><code>flags.balancing_credit</code></a></li>
+href="../../transfer/#flagsbalancing_credit"><code>flags.balancing_credit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsclosing_credit"><code>flags.closing_credit</code></a></li>
+href="../../transfer/#flagsclosing_credit"><code>flags.closing_credit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsimported"><code>flags.imported</code></a></li>
+href="../../transfer/#flagsimported"><code>flags.imported</code></a></li>
 </ul></li>
 <li><a
-href="../../transfer#flagsclosing_credit"><code>flags.closing_credit</code></a>
+href="../../transfer/#flagsclosing_credit"><code>flags.closing_credit</code></a>
 <ul>
 <li>✓ <a
-href="../../transfer#flagspending"><code>flags.pending</code></a></li>
+href="../../transfer/#flagspending"><code>flags.pending</code></a></li>
 <li>✗ <a
-href="../../transfer#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
+href="../../transfer/#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
 <li>✗ <a
-href="../../transfer#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></li>
+href="../../transfer/#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsbalancing_debit"><code>flags.balancing_debit</code></a></li>
+href="../../transfer/#flagsbalancing_debit"><code>flags.balancing_debit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsbalancing_credit"><code>flags.balancing_credit</code></a></li>
+href="../../transfer/#flagsbalancing_credit"><code>flags.balancing_credit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsclosing_debit"><code>flags.closing_debit</code></a></li>
+href="../../transfer/#flagsclosing_debit"><code>flags.closing_debit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsimported"><code>flags.imported</code></a></li>
+href="../../transfer/#flagsimported"><code>flags.imported</code></a></li>
 </ul></li>
 <li><a
-href="../../transfer#flagsimported"><code>flags.imported</code></a>
+href="../../transfer/#flagsimported"><code>flags.imported</code></a>
 <ul>
 <li>✓ <a
-href="../../transfer#flagspending"><code>flags.pending</code></a></li>
+href="../../transfer/#flagspending"><code>flags.pending</code></a></li>
 <li>✓ <a
-href="../../transfer#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
+href="../../transfer/#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></li>
+href="../../transfer/#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsbalancing_debit"><code>flags.balancing_debit</code></a></li>
+href="../../transfer/#flagsbalancing_debit"><code>flags.balancing_debit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsbalancing_credit"><code>flags.balancing_credit</code></a></li>
+href="../../transfer/#flagsbalancing_credit"><code>flags.balancing_credit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsclosing_debit"><code>flags.closing_debit</code></a></li>
+href="../../transfer/#flagsclosing_debit"><code>flags.closing_debit</code></a></li>
 <li>✓ <a
-href="../../transfer#flagsclosing_credit"><code>flags.closing_credit</code></a></li>
+href="../../transfer/#flagsclosing_credit"><code>flags.closing_credit</code></a></li>
 </ul></li>
 </ul>
 <h4 id="debit_account_id_must_not_be_zero"><a
 href="#debit_account_id_must_not_be_zero"
 class="anchor"><code>debit_account_id_must_not_be_zero</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#debit_account_id"><code>Transfer.debit_account_id</code></a>
+href="../../transfer/#debit_account_id"><code>Transfer.debit_account_id</code></a>
 is zero, but must be a valid account id.</p>
 <h4 id="debit_account_id_must_not_be_int_max"><a
 href="#debit_account_id_must_not_be_int_max"
 class="anchor"><code>debit_account_id_must_not_be_int_max</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#debit_account_id"><code>Transfer.debit_account_id</code></a>
+href="../../transfer/#debit_account_id"><code>Transfer.debit_account_id</code></a>
 is <code>2^128 - 1</code>, but must be a valid account id.</p>
 <h4 id="credit_account_id_must_not_be_zero"><a
 href="#credit_account_id_must_not_be_zero"
 class="anchor"><code>credit_account_id_must_not_be_zero</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#credit_account_id"><code>Transfer.credit_account_id</code></a>
+href="../../transfer/#credit_account_id"><code>Transfer.credit_account_id</code></a>
 is zero, but must be a valid account id.</p>
 <h4 id="credit_account_id_must_not_be_int_max"><a
 href="#credit_account_id_must_not_be_int_max"
 class="anchor"><code>credit_account_id_must_not_be_int_max</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#credit_account_id"><code>Transfer.credit_account_id</code></a>
+href="../../transfer/#credit_account_id"><code>Transfer.credit_account_id</code></a>
 is <code>2^128 - 1</code>, but must be a valid account id.</p>
 <h4 id="accounts_must_be_different"><a
 href="#accounts_must_be_different"
 class="anchor"><code>accounts_must_be_different</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#debit_account_id"><code>Transfer.debit_account_id</code></a>
+href="../../transfer/#debit_account_id"><code>Transfer.debit_account_id</code></a>
 and <a
-href="../../transfer#credit_account_id"><code>Transfer.credit_account_id</code></a>
+href="../../transfer/#credit_account_id"><code>Transfer.credit_account_id</code></a>
 must not be equal.</p>
 <p>That is, an account cannot transfer money to itself.</p>
 <h4 id="pending_id_must_be_zero"><a href="#pending_id_must_be_zero"
@@ -665,67 +667,67 @@ a pending transfer.</p>
 <p>Either:</p>
 <ul>
 <li><a
-href="../../transfer#flagspost_pending_transfer"><code>Transfer.flags.post_pending_transfer</code></a>
+href="../../transfer/#flagspost_pending_transfer"><code>Transfer.flags.post_pending_transfer</code></a>
 must be set, or</li>
 <li><a
-href="../../transfer#flagsvoid_pending_transfer"><code>Transfer.flags.void_pending_transfer</code></a>
+href="../../transfer/#flagsvoid_pending_transfer"><code>Transfer.flags.void_pending_transfer</code></a>
 must be set, or</li>
 <li><a
-href="../../transfer#pending_id"><code>Transfer.pending_id</code></a>
+href="../../transfer/#pending_id"><code>Transfer.pending_id</code></a>
 must be zero.</li>
 </ul>
 <h4 id="pending_id_must_not_be_zero"><a
 href="#pending_id_must_not_be_zero"
 class="anchor"><code>pending_id_must_not_be_zero</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#flagspost_pending_transfer"><code>Transfer.flags.post_pending_transfer</code></a>
+href="../../transfer/#flagspost_pending_transfer"><code>Transfer.flags.post_pending_transfer</code></a>
 or <a
-href="../../transfer#flagsvoid_pending_transfer"><code>Transfer.flags.void_pending_transfer</code></a>
+href="../../transfer/#flagsvoid_pending_transfer"><code>Transfer.flags.void_pending_transfer</code></a>
 is set, but <a
-href="../../transfer#pending_id"><code>Transfer.pending_id</code></a> is
-zero. A posting or voiding transfer must reference a <a
-href="../../transfer#flagspending"><code>pending</code></a>
+href="../../transfer/#pending_id"><code>Transfer.pending_id</code></a>
+is zero. A posting or voiding transfer must reference a <a
+href="../../transfer/#flagspending"><code>pending</code></a>
 transfer.</p>
 <h4 id="pending_id_must_not_be_int_max"><a
 href="#pending_id_must_not_be_int_max"
 class="anchor"><code>pending_id_must_not_be_int_max</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#pending_id"><code>Transfer.pending_id</code></a> is
-<code>2^128 - 1</code>, which is a reserved value.</p>
+href="../../transfer/#pending_id"><code>Transfer.pending_id</code></a>
+is <code>2^128 - 1</code>, which is a reserved value.</p>
 <h4 id="pending_id_must_be_different"><a
 href="#pending_id_must_be_different"
 class="anchor"><code>pending_id_must_be_different</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#pending_id"><code>Transfer.pending_id</code></a> is
-set to the same id as <a
-href="../../transfer#id"><code>Transfer.id</code></a>. Instead it should
-refer to a different (existing) transfer.</p>
+href="../../transfer/#pending_id"><code>Transfer.pending_id</code></a>
+is set to the same id as <a
+href="../../transfer/#id"><code>Transfer.id</code></a>. Instead it
+should refer to a different (existing) transfer.</p>
 <h4 id="timeout_reserved_for_pending_transfer"><a
 href="#timeout_reserved_for_pending_transfer"
 class="anchor"><code>timeout_reserved_for_pending_transfer</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#timeout"><code>Transfer.timeout</code></a> is
-nonzero, but only <a href="../../transfer#flagspending">pending</a>
+href="../../transfer/#timeout"><code>Transfer.timeout</code></a> is
+nonzero, but only <a href="../../transfer/#flagspending">pending</a>
 transfers have nonzero timeouts.</p>
 <h4 id="closing_transfer_must_be_pending"><a
 href="#closing_transfer_must_be_pending"
 class="anchor"><code>closing_transfer_must_be_pending</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#flagspending"><code>Transfer.flags.pending</code></a>
+href="../../transfer/#flagspending"><code>Transfer.flags.pending</code></a>
 is not set, but closing transfers must be two-phase pending
 transfers.</p>
 <p>If either <a
-href="../../transfer#flagsclosing_debit"><code>Transfer.flags.closing_debit</code></a>
+href="../../transfer/#flagsclosing_debit"><code>Transfer.flags.closing_debit</code></a>
 or <a
-href="../../transfer#flagsclosing_credit"><code>Transfer.flags.closing_credit</code></a>
+href="../../transfer/#flagsclosing_credit"><code>Transfer.flags.closing_credit</code></a>
 is set, <a
-href="../../transfer#flagspending"><code>Transfer.flags.pending</code></a>
+href="../../transfer/#flagspending"><code>Transfer.flags.pending</code></a>
 must also be set.</p>
 <p>This ensures that closing transfers are reversible by <a
-href="../../transfer#flagsvoid_pending_transfer">voiding</a> the pending
-transfer, and requires that the reversal operation references the
-corresponding closing transfer, guarding against unexpected interleaving
-of close/unclose operations.</p>
+href="../../transfer/#flagsvoid_pending_transfer">voiding</a> the
+pending transfer, and requires that the reversal operation references
+the corresponding closing transfer, guarding against unexpected
+interleaving of close/unclose operations.</p>
 <h4 id="amount_must_not_be_zero"><a href="#amount_must_not_be_zero"
 class="anchor"><code>amount_must_not_be_zero</code></a></h4>
 <p><strong>Deprecated</strong>: This error code is only returned to
@@ -735,7 +737,7 @@ zero-amount transfers are permitted.</p>
 <summary>Client release &lt; 0.16.0</summary>
 
 <p>The transfer was not created. <a
-href="../../transfer#amount"><code>Transfer.amount</code></a> is zero,
+href="../../transfer/#amount"><code>Transfer.amount</code></a> is zero,
 but must be nonzero.</p>
 <p>Every transfer must move value. Only posting and voiding transfer
 amounts may be zero — when zero, they will move the full pending
@@ -745,82 +747,82 @@ amount.</p>
 <h4 id="ledger_must_not_be_zero"><a href="#ledger_must_not_be_zero"
 class="anchor"><code>ledger_must_not_be_zero</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#ledger"><code>Transfer.ledger</code></a> is zero,
+href="../../transfer/#ledger"><code>Transfer.ledger</code></a> is zero,
 but must be nonzero.</p>
 <h4 id="code_must_not_be_zero"><a href="#code_must_not_be_zero"
 class="anchor"><code>code_must_not_be_zero</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#code"><code>Transfer.code</code></a> is zero, but
+href="../../transfer/#code"><code>Transfer.code</code></a> is zero, but
 must be nonzero.</p>
 <h4 id="debit_account_not_found"><a href="#debit_account_not_found"
 class="anchor"><code>debit_account_not_found</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#debit_account_id"><code>Transfer.debit_account_id</code></a>
+href="../../transfer/#debit_account_id"><code>Transfer.debit_account_id</code></a>
 must refer to an existing <code>Account</code>.</p>
 <p>This is a <a href="#id_already_failed">transient error</a>. The <a
-href="../../transfer#id"><code>Transfer.id</code></a> associated with
+href="../../transfer/#id"><code>Transfer.id</code></a> associated with
 this particular attempt will always fail upon retry, even if the
 underlying issue is resolved. To succeed, a new <a
-href="../../../coding/data-modeling#id">idempotency id</a> must be
+href="../../../coding/data-modeling/#id">idempotency id</a> must be
 submitted.</p>
 <h4 id="credit_account_not_found"><a href="#credit_account_not_found"
 class="anchor"><code>credit_account_not_found</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#credit_account_id"><code>Transfer.credit_account_id</code></a>
+href="../../transfer/#credit_account_id"><code>Transfer.credit_account_id</code></a>
 must refer to an existing <code>Account</code>.</p>
 <p>This is a <a href="#id_already_failed">transient error</a>. The <a
-href="../../transfer#id"><code>Transfer.id</code></a> associated with
+href="../../transfer/#id"><code>Transfer.id</code></a> associated with
 this particular attempt will always fail upon retry, even if the
 underlying issue is resolved. To succeed, a new <a
-href="../../../coding/data-modeling#id">idempotency id</a> must be
+href="../../../coding/data-modeling/#id">idempotency id</a> must be
 submitted.</p>
 <h3 id="accounts_must_have_the_same_ledger"><a
 href="#accounts_must_have_the_same_ledger"
 class="anchor"><code>accounts_must_have_the_same_ledger</code></a></h3>
 <p>The transfer was not created. The accounts referred to by <a
-href="../../transfer#debit_account_id"><code>Transfer.debit_account_id</code></a>
+href="../../transfer/#debit_account_id"><code>Transfer.debit_account_id</code></a>
 and <a
-href="../../transfer#credit_account_id"><code>Transfer.credit_account_id</code></a>
+href="../../transfer/#credit_account_id"><code>Transfer.credit_account_id</code></a>
 must have an identical <a
-href="../../account#ledger"><code>ledger</code></a>.</p>
-<p><a href="../../../coding/recipes/currency-exchange">Currency
+href="../../account/#ledger"><code>ledger</code></a>.</p>
+<p><a href="../../../coding/recipes/currency-exchange/">Currency
 exchange</a> is implemented with multiple transfers.</p>
 <h4 id="transfer_must_have_the_same_ledger_as_accounts"><a
 href="#transfer_must_have_the_same_ledger_as_accounts"
 class="anchor"><code>transfer_must_have_the_same_ledger_as_accounts</code></a></h4>
 <p>The transfer was not created. The accounts referred to by <a
-href="../../transfer#debit_account_id"><code>Transfer.debit_account_id</code></a>
+href="../../transfer/#debit_account_id"><code>Transfer.debit_account_id</code></a>
 and <a
-href="../../transfer#credit_account_id"><code>Transfer.credit_account_id</code></a>
+href="../../transfer/#credit_account_id"><code>Transfer.credit_account_id</code></a>
 are equivalent, but differ from the <a
-href="../../transfer#ledger"><code>Transfer.ledger</code></a>.</p>
+href="../../transfer/#ledger"><code>Transfer.ledger</code></a>.</p>
 <h4 id="pending_transfer_not_found"><a
 href="#pending_transfer_not_found"
 class="anchor"><code>pending_transfer_not_found</code></a></h4>
 <p>The transfer was not created. The transfer referenced by <a
-href="../../transfer#pending_id"><code>Transfer.pending_id</code></a>
+href="../../transfer/#pending_id"><code>Transfer.pending_id</code></a>
 does not exist.</p>
 <p>This is a <a href="#id_already_failed">transient error</a>. The <a
-href="../../transfer#id"><code>Transfer.id</code></a> associated with
+href="../../transfer/#id"><code>Transfer.id</code></a> associated with
 this particular attempt will always fail upon retry, even if the
 underlying issue is resolved. To succeed, a new <a
-href="../../../coding/data-modeling#id">idempotency id</a> must be
+href="../../../coding/data-modeling/#id">idempotency id</a> must be
 submitted.</p>
 <h4 id="pending_transfer_not_pending"><a
 href="#pending_transfer_not_pending"
 class="anchor"><code>pending_transfer_not_pending</code></a></h4>
 <p>The transfer was not created. The transfer referenced by <a
-href="../../transfer#pending_id"><code>Transfer.pending_id</code></a>
+href="../../transfer/#pending_id"><code>Transfer.pending_id</code></a>
 exists, but does not have <a
-href="../../transfer#flagspending"><code>flags.pending</code></a>
+href="../../transfer/#flagspending"><code>flags.pending</code></a>
 set.</p>
 <h4 id="pending_transfer_has_different_debit_account_id"><a
 href="#pending_transfer_has_different_debit_account_id"
 class="anchor"><code>pending_transfer_has_different_debit_account_id</code></a></h4>
 <p>The transfer was not created. The transfer referenced by <a
-href="../../transfer#pending_id"><code>Transfer.pending_id</code></a>
+href="../../transfer/#pending_id"><code>Transfer.pending_id</code></a>
 exists, but with a different <a
-href="../../transfer#debit_account_id"><code>debit_account_id</code></a>.</p>
+href="../../transfer/#debit_account_id"><code>debit_account_id</code></a>.</p>
 <p>The post/void transfer’s <code>debit_account_id</code> must either be
 <code>0</code> or identical to the pending transfer’s
 <code>debit_account_id</code>.</p>
@@ -828,9 +830,9 @@ href="../../transfer#debit_account_id"><code>debit_account_id</code></a>.</p>
 href="#pending_transfer_has_different_credit_account_id"
 class="anchor"><code>pending_transfer_has_different_credit_account_id</code></a></h4>
 <p>The transfer was not created. The transfer referenced by <a
-href="../../transfer#pending_id"><code>Transfer.pending_id</code></a>
+href="../../transfer/#pending_id"><code>Transfer.pending_id</code></a>
 exists, but with a different <a
-href="../../transfer#credit_account_id"><code>credit_account_id</code></a>.</p>
+href="../../transfer/#credit_account_id"><code>credit_account_id</code></a>.</p>
 <p>The post/void transfer’s <code>credit_account_id</code> must either
 be <code>0</code> or identical to the pending transfer’s
 <code>credit_account_id</code>.</p>
@@ -838,9 +840,9 @@ be <code>0</code> or identical to the pending transfer’s
 href="#pending_transfer_has_different_ledger"
 class="anchor"><code>pending_transfer_has_different_ledger</code></a></h4>
 <p>The transfer was not created. The transfer referenced by <a
-href="../../transfer#pending_id"><code>Transfer.pending_id</code></a>
+href="../../transfer/#pending_id"><code>Transfer.pending_id</code></a>
 exists, but with a different <a
-href="../../transfer#ledger"><code>ledger</code></a>.</p>
+href="../../transfer/#ledger"><code>ledger</code></a>.</p>
 <p>The post/void transfer’s <code>ledger</code> must either be
 <code>0</code> or identical to the pending transfer’s
 <code>ledger</code>.</p>
@@ -848,9 +850,9 @@ href="../../transfer#ledger"><code>ledger</code></a>.</p>
 href="#pending_transfer_has_different_code"
 class="anchor"><code>pending_transfer_has_different_code</code></a></h4>
 <p>The transfer was not created. The transfer referenced by <a
-href="../../transfer#pending_id"><code>Transfer.pending_id</code></a>
+href="../../transfer/#pending_id"><code>Transfer.pending_id</code></a>
 exists, but with a different <a
-href="../../transfer#code"><code>code</code></a>.</p>
+href="../../transfer/#code"><code>code</code></a>.</p>
 <p>The post/void transfer’s <code>code</code> must either be
 <code>0</code> or identical to the pending transfer’s
 <code>code</code>.</p>
@@ -858,26 +860,26 @@ href="../../transfer#code"><code>code</code></a>.</p>
 href="#exceeds_pending_transfer_amount"
 class="anchor"><code>exceeds_pending_transfer_amount</code></a></h4>
 <p>The transfer was not created. The transfer’s <a
-href="../../transfer#amount"><code>amount</code></a> exceeds the
+href="../../transfer/#amount"><code>amount</code></a> exceeds the
 <code>amount</code> of its <a
-href="../../transfer#pending_id">pending</a> transfer.</p>
+href="../../transfer/#pending_id">pending</a> transfer.</p>
 <h4 id="pending_transfer_has_different_amount"><a
 href="#pending_transfer_has_different_amount"
 class="anchor"><code>pending_transfer_has_different_amount</code></a></h4>
 <p>The transfer was not created. The transfer is attempting to <a
-href="../../transfer#flagsvoid_pending_transfer">void</a> a pending
+href="../../transfer/#flagsvoid_pending_transfer">void</a> a pending
 transfer. The voiding transfer’s <a
-href="../../transfer#amount"><code>amount</code></a> must be either
+href="../../transfer/#amount"><code>amount</code></a> must be either
 <code>0</code> or exactly the <code>amount</code> of the pending
 transfer.</p>
 <p>To partially void a transfer, create a <a
-href="../../transfer#flagspost_pending_transfer">posting transfer</a>
+href="../../transfer/#flagspost_pending_transfer">posting transfer</a>
 with an amount less than the pending transfer’s <code>amount</code>.</p>
 <details>
 <summary>Client release &lt; 0.16.0</summary>
 
 <p>To partially void a transfer, create a <a
-href="../../transfer#flagspost_pending_transfer">posting transfer</a>
+href="../../transfer/#flagspost_pending_transfer">posting transfer</a>
 with an amount between <code>0</code> and the pending transfer’s
 <code>amount</code>.</p>
 </details>
@@ -886,99 +888,100 @@ with an amount between <code>0</code> and the pending transfer’s
 href="#pending_transfer_already_posted"
 class="anchor"><code>pending_transfer_already_posted</code></a></h4>
 <p>The transfer was not created. The referenced <a
-href="../../transfer#pending_id">pending</a> transfer was already posted
-by a <a
-href="../../transfer#flagspost_pending_transfer"><code>post_pending_transfer</code></a>.</p>
+href="../../transfer/#pending_id">pending</a> transfer was already
+posted by a <a
+href="../../transfer/#flagspost_pending_transfer"><code>post_pending_transfer</code></a>.</p>
 <h4 id="pending_transfer_already_voided"><a
 href="#pending_transfer_already_voided"
 class="anchor"><code>pending_transfer_already_voided</code></a></h4>
 <p>The transfer was not created. The referenced <a
-href="../../transfer#pending_id">pending</a> transfer was already voided
-by a <a
-href="../../transfer#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a>.</p>
+href="../../transfer/#pending_id">pending</a> transfer was already
+voided by a <a
+href="../../transfer/#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a>.</p>
 <h4 id="pending_transfer_expired"><a href="#pending_transfer_expired"
 class="anchor"><code>pending_transfer_expired</code></a></h4>
 <p>The transfer was not created. The referenced <a
-href="../../transfer#pending_id">pending</a> transfer was already voided
-because its <a href="../../transfer#timeout">timeout</a> has passed.</p>
+href="../../transfer/#pending_id">pending</a> transfer was already
+voided because its <a href="../../transfer/#timeout">timeout</a> has
+passed.</p>
 <h4 id="imported_event_timestamp_must_not_regress"><a
 href="#imported_event_timestamp_must_not_regress"
 class="anchor"><code>imported_event_timestamp_must_not_regress</code></a></h4>
 <p>This result only applies when <a
-href="../../transfer#flagsimported"><code>Transfer.flags.imported</code></a>
+href="../../transfer/#flagsimported"><code>Transfer.flags.imported</code></a>
 is set.</p>
 <p>The transfer was not created. The user-defined <a
-href="../../transfer#timestamp"><code>Transfer.timestamp</code></a>
+href="../../transfer/#timestamp"><code>Transfer.timestamp</code></a>
 regressed, but it must be greater than the last timestamp assigned to
 any <code>Transfer</code> in the cluster and cannot be equal to the
 timestamp of any existing <a
-href="../../account"><code>Account</code></a>.</p>
+href="../../account/"><code>Account</code></a>.</p>
 <h4 id="imported_event_timestamp_must_postdate_debit_account"><a
 href="#imported_event_timestamp_must_postdate_debit_account"
 class="anchor"><code>imported_event_timestamp_must_postdate_debit_account</code></a></h4>
 <p>This result only applies when <a
-href="../../transfer#flagsimported"><code>Transfer.flags.imported</code></a>
+href="../../transfer/#flagsimported"><code>Transfer.flags.imported</code></a>
 is set.</p>
 <p>The transfer was not created. <a
-href="../../transfer#debit_account_id"><code>Transfer.debit_account_id</code></a>
+href="../../transfer/#debit_account_id"><code>Transfer.debit_account_id</code></a>
 must refer to an <code>Account</code> whose <a
-href="../../account#timestamp"><code>timestamp</code></a> is less than
+href="../../account/#timestamp"><code>timestamp</code></a> is less than
 the <a
-href="../../transfer#timestamp"><code>Transfer.timestamp</code></a>.</p>
+href="../../transfer/#timestamp"><code>Transfer.timestamp</code></a>.</p>
 <h4 id="imported_event_timestamp_must_postdate_credit_account"><a
 href="#imported_event_timestamp_must_postdate_credit_account"
 class="anchor"><code>imported_event_timestamp_must_postdate_credit_account</code></a></h4>
 <p>This result only applies when <a
-href="../../transfer#flagsimported"><code>Transfer.flags.imported</code></a>
+href="../../transfer/#flagsimported"><code>Transfer.flags.imported</code></a>
 is set.</p>
 <p>The transfer was not created. <a
-href="../../transfer#credit_account_id"><code>Transfer.credit_account_id</code></a>
+href="../../transfer/#credit_account_id"><code>Transfer.credit_account_id</code></a>
 must refer to an <code>Account</code> whose <a
-href="../../account#timestamp"><code>timestamp</code></a> is less than
+href="../../account/#timestamp"><code>timestamp</code></a> is less than
 the <a
-href="../../transfer#timestamp"><code>Transfer.timestamp</code></a>.</p>
+href="../../transfer/#timestamp"><code>Transfer.timestamp</code></a>.</p>
 <h4 id="imported_event_timeout_must_be_zero"><a
 href="#imported_event_timeout_must_be_zero"
 class="anchor"><code>imported_event_timeout_must_be_zero</code></a></h4>
 <p>This result only applies when <a
-href="../../transfer#flagsimported"><code>Transfer.flags.imported</code></a>
+href="../../transfer/#flagsimported"><code>Transfer.flags.imported</code></a>
 is set.</p>
 <p>The transfer was not created. The <a
-href="../../transfer#timeout"><code>Transfer.timeout</code></a> is
+href="../../transfer/#timeout"><code>Transfer.timeout</code></a> is
 nonzero, but must be zero.</p>
 <p>It’s possible to import <a
-href="../../transfer#flagspending">pending</a> transfers with a
+href="../../transfer/#flagspending">pending</a> transfers with a
 user-defined timestamp, but since it’s not driven by the cluster clock,
 it cannot define a timeout for automatic expiration. In those cases, the
-<a href="../../../coding/two-phase-transfers">two-phase post or
+<a href="../../../coding/two-phase-transfers/">two-phase post or
 rollback</a> must be done manually.</p>
 <h4 id="debit_account_already_closed"><a
 href="#debit_account_already_closed"
 class="anchor"><code>debit_account_already_closed</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#debit_account_id"><code>Transfer.debit_account_id</code></a>
+href="../../transfer/#debit_account_id"><code>Transfer.debit_account_id</code></a>
 must refer to an <code>Account</code> whose <a
-href="../../account#flagsclosed"><code>Account.flags.closed</code></a>
+href="../../account/#flagsclosed"><code>Account.flags.closed</code></a>
 is not already set.</p>
 <p>This is a <a href="#id_already_failed">transient error</a>. The <a
-href="../../transfer#id"><code>Transfer.id</code></a> associated with
+href="../../transfer/#id"><code>Transfer.id</code></a> associated with
 this particular attempt will always fail upon retry, even if the
 underlying issue is resolved. To succeed, a new <a
-href="../../../coding/data-modeling#id">idempotency id</a> must be
+href="../../../coding/data-modeling/#id">idempotency id</a> must be
 submitted.</p>
 <h4 id="credit_account_already_closed"><a
 href="#credit_account_already_closed"
 class="anchor"><code>credit_account_already_closed</code></a></h4>
 <p>The transfer was not created. <a
-href="../../transfer#credit_account_id"><code>Transfer.credit_account_id</code></a>
+href="../../transfer/#credit_account_id"><code>Transfer.credit_account_id</code></a>
 must refer to an <code>Account</code> whose <a
-href="../../account#flagsclosed"><code>Account.flags.closed</code></a>
+href="../../account/#flagsclosed"><code>Account.flags.closed</code></a>
 is not already set.</p>
 <p>This is a <a href="#id_already_failed">transient error</a>. The <a
-href="../../transfer#id"><code>Transfer.id</code></a> associated with
+href="../../transfer/#id"><code>Transfer.id</code></a> associated with
 this particular attempt will always fail upon retry, even if the
 underlying issue is resolved. To succeed, a new <a
-href="../../../coding/data-modeling#id">idempotency id</a> must be
+href="../../../coding/data-modeling/#id">idempotency id</a> must be
 submitted.</p>
 <h4 id="overflows_debits_pending"><a href="#overflows_debits_pending"
 class="anchor"><code>overflows_debits_pending</code></a></h4>
@@ -1015,32 +1018,32 @@ class="anchor"><code>overflows_timeout</code></a></h4>
 <p>The transfer was not created.
 <code>transfer.timestamp + (transfer.timeout * 1_000_000_000)</code>
 would exceed <code>2^63</code>.</p>
-<p><a href="../../transfer#timeout"><code>Transfer.timeout</code></a> is
-converted to nanoseconds.</p>
+<p><a href="../../transfer/#timeout"><code>Transfer.timeout</code></a>
+is converted to nanoseconds.</p>
 <p>This computation uses the <a
-href="../../transfer#timestamp"><code>Transfer.timestamp</code></a>
+href="../../transfer/#timestamp"><code>Transfer.timestamp</code></a>
 value assigned by the replica, not the <code>0</code> value sent by the
 client.</p>
 <h4 id="exceeds_credits"><a href="#exceeds_credits"
 class="anchor"><code>exceeds_credits</code></a></h4>
 <p>The transfer was not created.</p>
-<p>The <a href="../../transfer#debit_account_id">debit account</a> has
+<p>The <a href="../../transfer/#debit_account_id">debit account</a> has
 <a
-href="../../account#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
+href="../../account/#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
 set, but
 <code>debit_account.debits_pending + debit_account.debits_posted + transfer.amount</code>
 would exceed <code>debit_account.credits_posted</code>.</p>
 <p>This is a <a href="#id_already_failed">transient error</a>. The <a
-href="../../transfer#id"><code>Transfer.id</code></a> associated with
+href="../../transfer/#id"><code>Transfer.id</code></a> associated with
 this particular attempt will always fail upon retry, even if the
 underlying issue is resolved. To succeed, a new <a
-href="../../../coding/data-modeling#id">idempotency id</a> must be
+href="../../../coding/data-modeling/#id">idempotency id</a> must be
 submitted.</p>
 <details>
 <summary>Client release &lt; 0.16.0</summary>
 
 <p>If <a
-href="../../transfer#flagsbalancing_debit"><code>flags.balancing_debit</code></a>
+href="../../transfer/#flagsbalancing_debit"><code>flags.balancing_debit</code></a>
 is set, then
 <code>debit_account.debits_pending + debit_account.debits_posted + 1</code>
 would exceed <code>debit_account.credits_posted</code>.</p>
@@ -1049,23 +1052,23 @@ would exceed <code>debit_account.credits_posted</code>.</p>
 <h4 id="exceeds_debits"><a href="#exceeds_debits"
 class="anchor"><code>exceeds_debits</code></a></h4>
 <p>The transfer was not created.</p>
-<p>The <a href="../../transfer#credit_account_id">credit account</a> has
-<a
-href="../../account#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
+<p>The <a href="../../transfer/#credit_account_id">credit account</a>
+has <a
+href="../../account/#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
 set, but
 <code>credit_account.credits_pending + credit_account.credits_posted + transfer.amount</code>
 would exceed <code>credit_account.debits_posted</code>.</p>
 <p>This is a <a href="#id_already_failed">transient error</a>. The <a
-href="../../transfer#id"><code>Transfer.id</code></a> associated with
+href="../../transfer/#id"><code>Transfer.id</code></a> associated with
 this particular attempt will always fail upon retry, even if the
 underlying issue is resolved. To succeed, a new <a
-href="../../../coding/data-modeling#id">idempotency id</a> must be
+href="../../../coding/data-modeling/#id">idempotency id</a> must be
 submitted.</p>
 <details>
 <summary>Client release &lt; 0.16.0</summary>
 
 <p>If <a
-href="../../transfer#flagsbalancing_credit"><code>flags.balancing_credit</code></a>
+href="../../transfer/#flagsbalancing_credit"><code>flags.balancing_credit</code></a>
 is set, then
 <code>credit_account.credits_pending + credit_account.credits_posted + 1</code>
 would exceed <code>credit_account.debits_posted</code>.</p>
@@ -1172,6 +1175,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

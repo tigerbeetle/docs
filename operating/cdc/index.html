@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -211,8 +211,8 @@ class="anchor">Change Data Capture</a></h1>
 <p>TigerBeetle can stream changes (transfers and balance updates) to
 message queues using the AMQP 0.9.1 protocol, which is compatible with
 RabbitMQ and various other message brokers.</p>
-<p>See <a href="../installing">Installing</a> for instructions on how to
-deploy the TigerBeetle binary.</p>
+<p>See <a href="../installing/">Installing</a> for instructions on how
+to deploy the TigerBeetle binary.</p>
 <p>Here’s how to start the CDC job:</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
@@ -343,30 +343,30 @@ the message body for full nanosecond precision.</em></p>
 </blockquote>
 <p>Message body:</p>
 <p>Each <em>event</em> published contains information about the <a
-href="../../reference/transfer">transfer</a> and the <a
-href="../../reference/account">account</a>s involved.</p>
+href="../../reference/transfer/">transfer</a> and the <a
+href="../../reference/account/">account</a>s involved.</p>
 <ul>
 <li><p><code>type</code>: The type of event.<br> One of
 <code>single_phase</code>, <code>two_phase_pending</code>,
 <code>two_phase_posted</code>, <code>two_phase_voided</code> or
 <code>two_phase_expired</code>.<br> See the <a
-href="../../coding/two-phase-transfers">Two-Phase Transfers</a> for more
-details.</p></li>
+href="../../coding/two-phase-transfers/">Two-Phase Transfers</a> for
+more details.</p></li>
 <li><p><code>timestamp</code>: The event timestamp.<br> Usually, it’s
 the same as the transfer’s timestamp, except when
 <code>event_type == 'two_phase_expired'</code> when it’s the expiry
 timestamp.</p></li>
 <li><p><code>ledger</code>: The <a
-href="../../coding/data-modeling#ledgers">ledger</a> code.</p></li>
+href="../../coding/data-modeling/#ledgers">ledger</a> code.</p></li>
 <li><p><code>transfer</code>: Full details of the <a
-href="../../reference/transfer">transfer</a>.<br> For
+href="../../reference/transfer/">transfer</a>.<br> For
 <code>two_phase_expired</code> events, it’s the pending transfer that
 was reverted.</p></li>
 <li><p><code>debit_account</code>: Full details of the <a
-href="../../reference/transfer#debit_account_id">debit account</a>, with
-the balance <em>as of</em> the time of the event.</p></li>
+href="../../reference/transfer/#debit_account_id">debit account</a>,
+with the balance <em>as of</em> the time of the event.</p></li>
 <li><p><code>credit_account</code>: Full details of the <a
-href="../../reference/transfer#credit_account_id">credit account</a>,
+href="../../reference/transfer/#credit_account_id">credit account</a>,
 with the balance <em>as of</em> the time of the event.</p></li>
 </ul>
 <p>The message body is encoded as a UTF-8 JSON without line breaks or
@@ -437,7 +437,7 @@ checks</strong> when processing messages.</p>
 class="anchor">Upgrading</a></h2>
 <p>The CDC job requires TigerBeetle cluster version <code>0.16.43</code>
 or greater.</p>
-<p>The same <a href="../upgrading#planning-for-upgrades">upgrade
+<p>The same <a href="../upgrading/#planning-for-upgrades">upgrade
 planning</a> recommended for clients applies to the CDC job. The CDC job
 version must not be newer than the cluster version, and if so will fail
 with an error message.</p>
@@ -448,7 +448,7 @@ processing:</p>
 <li>Events of type <code>two_phase_expired</code> are
 <strong>not</strong> supported.</li>
 <li>Only transfers where both the debit and credit accounts have the <a
-href="../../reference/account#flagshistory"><code>flags.history</code></a>
+href="../../reference/account/#flagshistory"><code>flags.history</code></a>
 enabled are visible to CDC.</li>
 </ul>
 <p>Transactions committed after version <code>0.16.29</code> are fully
@@ -556,6 +556,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

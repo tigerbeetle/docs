@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -216,19 +216,20 @@ context of databases.</p>
 <p>Note that transfers debit a single account and credit a single
 account on the same ledger. You can compose these into more complex
 transactions using the methods described in <a
-href="../../coding/recipes/currency-exchange">Currency Exchange</a> and
-<a href="../../coding/recipes/multi-debit-credit-transfers">Multi-Debit,
+href="../../coding/recipes/currency-exchange/">Currency Exchange</a> and
+<a
+href="../../coding/recipes/multi-debit-credit-transfers/">Multi-Debit,
 Multi-Credit Transfers</a>.</p>
 <h3 id="updates"><a href="#updates" class="anchor">Updates</a></h3>
 <p>Transfers <em>cannot be modified</em> after creation.</p>
 <p>If a detail of a transfer is incorrect and needs to be modified, this
 is done using <a
-href="../../coding/recipes/correcting-transfers">correcting
+href="../../coding/recipes/correcting-transfers/">correcting
 transfers</a>.</p>
 <h3 id="deletion"><a href="#deletion" class="anchor">Deletion</a></h3>
 <p>Transfers <em>cannot be deleted</em> after creation.</p>
 <p>If a transfer is made in error, its effects can be reversed using a
-<a href="../../coding/recipes/correcting-transfers">correcting
+<a href="../../coding/recipes/correcting-transfers/">correcting
 transfer</a>.</p>
 <h3 id="guarantees"><a href="#guarantees"
 class="anchor">Guarantees</a></h3>
@@ -238,18 +239,18 @@ successfully created.</li>
 <li>There is at most one <code>Transfer</code> with a particular <a
 href="#id"><code>id</code></a>.</li>
 <li>A <a
-href="../../coding/two-phase-transfers#reserve-funds-pending-transfer">pending
+href="../../coding/two-phase-transfers/#reserve-funds-pending-transfer">pending
 transfer</a> resolves at most once.</li>
 <li>Transfer <a href="#timeout">timeouts</a> are deterministic, driven
 by the <a
-href="../../coding/time#why-tigerbeetle-manages-timestamps">cluster’s
+href="../../coding/time/#why-tigerbeetle-manages-timestamps">cluster’s
 timestamp</a>.</li>
 </ul>
 <h2 id="modes"><a href="#modes" class="anchor">Modes</a></h2>
 <p>Transfers can either be Single-Phase, where they are executed
 immediately, or Two-Phase, where they are first put in a Pending state
 and then either Posted or Voided. For more details on the latter, see
-the <a href="../../coding/two-phase-transfers">Two-Phase Transfer
+the <a href="../../coding/two-phase-transfers/">Two-Phase Transfer
 guide</a>.</p>
 <p>Fields used by each mode of transfer:</p>
 <div class="table">
@@ -427,7 +428,7 @@ Required if <code>flags.imported</code> is set.</em></p>
 <li>Must not be zero or <code>2^128 - 1</code></li>
 <li>Must not conflict with another transfer in the cluster</li>
 </ul>
-<p>See the <a href="../../coding/data-modeling#id"><code>id</code>
+<p>See the <a href="../../coding/data-modeling/#id"><code>id</code>
 section in the data modeling doc</a> for more recommendations on
 choosing an ID scheme.</p>
 <p>Note that transfer IDs are unique for the cluster – not the ledger.
@@ -458,7 +459,7 @@ corresponding pending transfer’s <code>debit_account_id</code>.</li>
 </ul></li>
 <li>When <code>flags.imported</code> is set:
 <ul>
-<li>The matching account’s <a href="../account#timestamp">timestamp</a>
+<li>The matching account’s <a href="../account/#timestamp">timestamp</a>
 must be less than or equal to the transfer’s <a
 href="#timestamp">timestamp</a>.</li>
 </ul></li>
@@ -486,7 +487,7 @@ corresponding pending transfer’s <code>credit_account_id</code>.</li>
 </ul></li>
 <li>When <code>flags.imported</code> is set:
 <ul>
-<li>The matching account’s <a href="../account#timestamp">timestamp</a>
+<li>The matching account’s <a href="../account/#timestamp">timestamp</a>
 must be less than or equal to the transfer’s <a
 href="#timestamp">timestamp</a>.</li>
 </ul></li>
@@ -498,9 +499,9 @@ class="anchor"><code>amount</code></a></h3>
 <code>credit_account_id</code> account.</p>
 <p>Note that this is an unsigned 128-bit integer. You can read more
 about using <a
-href="../../coding/data-modeling#debits-vs-credits">debits and
+href="../../coding/data-modeling/#debits-vs-credits">debits and
 credits</a> to represent positive and negative balances as well as <a
-href="../../coding/data-modeling#fractional-amounts-and-asset-scale">fractional
+href="../../coding/data-modeling/#fractional-amounts-and-asset-scale">fractional
 amounts and asset scales</a>.</p>
 <ul>
 <li>When <code>flags.balancing_debit</code> is set, this is the maximum
@@ -570,10 +571,10 @@ must be nonzero:
 <ul>
 <li>For representing fractional amounts (e.g. <code>$12.34</code>), see
 <a
-href="../../coding/data-modeling#fractional-amounts-and-asset-scale">Fractional
+href="../../coding/data-modeling/#fractional-amounts-and-asset-scale">Fractional
 Amounts</a>.</li>
 <li>For balancing transfers, see <a
-href="../../coding/recipes/close-account">Close Account</a>.</li>
+href="../../coding/recipes/close-account/">Close Account</a>.</li>
 </ul>
 <h3 id="pending_id"><a href="#pending_id"
 class="anchor"><code>pending_id</code></a></h3>
@@ -581,8 +582,8 @@ class="anchor"><code>pending_id</code></a></h3>
 <code>pending_id</code> references that pending transfer. If this is not
 a post or void transfer, it must be zero.</p>
 <p>See the section on <a
-href="../../coding/two-phase-transfers">Two-Phase Transfers</a> for more
-information on how the <code>pending_id</code> is used.</p>
+href="../../coding/two-phase-transfers/">Two-Phase Transfers</a> for
+more information on how the <code>pending_id</code> is used.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 128-bit unsigned integer (16 bytes)</li>
@@ -596,7 +597,7 @@ class="anchor"><code>user_data_128</code></a></h3>
 transfer to an external entity or event.</p>
 <p>When set to zero, no secondary identifier will be associated with the
 transfer, therefore only non-zero values can be used as <a
-href="../query-filter">query filter</a>.</p>
+href="../query-filter/">query filter</a>.</p>
 <p>When set to zero, if <a
 href="#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>
 or <a
@@ -604,10 +605,10 @@ href="#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a>
 is set, then it will be automatically set to the pending transfer’s
 <code>user_data_128</code>.</p>
 <p>As an example, you might generate a <a
-href="../../coding/data-modeling#tigerbeetle-time-based-identifiers-recommended">TigerBeetle
+href="../../coding/data-modeling/#tigerbeetle-time-based-identifiers-recommended">TigerBeetle
 Time-Based Identifier</a> that ties together a group of transfers.</p>
 <p>For more information, see <a
-href="../../coding/data-modeling#user_data">Data Modeling</a>.</p>
+href="../../coding/data-modeling/#user_data">Data Modeling</a>.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 128-bit unsigned integer (16 bytes)</li>
@@ -618,7 +619,7 @@ class="anchor"><code>user_data_64</code></a></h3>
 to an external entity or event.</p>
 <p>When set to zero, no secondary identifier will be associated with the
 transfer, therefore only non-zero values can be used as <a
-href="../query-filter">query filter</a>.</p>
+href="../query-filter/">query filter</a>.</p>
 <p>When set to zero, if <a
 href="#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>
 or <a
@@ -628,7 +629,7 @@ is set, then it will be automatically set to the pending transfer’s
 <p>As an example, you might use this field store an external
 timestamp.</p>
 <p>For more information, see <a
-href="../../coding/data-modeling#user_data">Data Modeling</a>.</p>
+href="../../coding/data-modeling/#user_data">Data Modeling</a>.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 64-bit unsigned integer (8 bytes)</li>
@@ -639,7 +640,7 @@ class="anchor"><code>user_data_32</code></a></h3>
 to an external entity or event.</p>
 <p>When set to zero, no secondary identifier will be associated with the
 transfer, therefore only non-zero values can be used as <a
-href="../query-filter">query filter</a>.</p>
+href="../query-filter/">query filter</a>.</p>
 <p>When set to zero, if <a
 href="#flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a>
 or <a
@@ -649,7 +650,7 @@ is set, then it will be automatically set to the pending transfer’s
 <p>As an example, you might use this field to store a timezone or
 locale.</p>
 <p>For more information, see <a
-href="../../coding/data-modeling#user_data">Data Modeling</a>.</p>
+href="../../coding/data-modeling/#user_data">Data Modeling</a>.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 32-bit unsigned integer (4 bytes)</li>
@@ -701,7 +702,7 @@ details.)</p>
 class="anchor"><code>ledger</code></a></h3>
 <p>This is an identifier that partitions the sets of accounts that can
 transact with each other.</p>
-<p>See <a href="../../coding/data-modeling#ledgers">data modeling</a>
+<p>See <a href="../../coding/data-modeling/#ledgers">data modeling</a>
 for more details about how to think about setting up your ledgers.</p>
 <p>Constraints:</p>
 <ul>
@@ -750,7 +751,7 @@ class="anchor"><code>flags</code></a></h3>
 <ul>
 <li>Type is 16-bit unsigned integer (2 bytes)</li>
 <li>Some flags are mutually exclusive; see <a
-href="../requests/create_transfers#flags_are_mutually_exclusive"><code>flags_are_mutually_exclusive</code></a>.</li>
+href="../requests/create_transfers/#flags_are_mutually_exclusive"><code>flags_are_mutually_exclusive</code></a>.</li>
 </ul>
 <h4 id="flagslinked"><a href="#flagslinked"
 class="anchor"><code>flags.linked</code></a></h4>
@@ -759,30 +760,30 @@ next transfer in the request such that they will either succeed or fail
 together.</p>
 <p>The last transfer in a chain of linked transfers does
 <strong>not</strong> have this flag set.</p>
-<p>You can read more about <a href="../../coding/linked-events">linked
+<p>You can read more about <a href="../../coding/linked-events/">linked
 events</a>.</p>
 <h5 id="examples-1"><a href="#examples-1"
 class="anchor">Examples</a></h5>
 <ul>
-<li><a href="../../coding/recipes/currency-exchange">Currency
+<li><a href="../../coding/recipes/currency-exchange/">Currency
 Exchange</a></li>
 </ul>
 <h4 id="flagspending"><a href="#flagspending"
 class="anchor"><code>flags.pending</code></a></h4>
 <p>Mark the transfer as a <a
-href="../../coding/two-phase-transfers#reserve-funds-pending-transfer">pending
+href="../../coding/two-phase-transfers/#reserve-funds-pending-transfer">pending
 transfer</a>.</p>
 <h4 id="flagspost_pending_transfer"><a
 href="#flagspost_pending_transfer"
 class="anchor"><code>flags.post_pending_transfer</code></a></h4>
 <p>Mark the transfer as a <a
-href="../../coding/two-phase-transfers#post-pending-transfer">post-pending
+href="../../coding/two-phase-transfers/#post-pending-transfer">post-pending
 transfer</a>.</p>
 <h4 id="flagsvoid_pending_transfer"><a
 href="#flagsvoid_pending_transfer"
 class="anchor"><code>flags.void_pending_transfer</code></a></h4>
 <p>Mark the transfer as a <a
-href="../../coding/two-phase-transfers#void-pending-transfer">void-pending
+href="../../coding/two-phase-transfers/#void-pending-transfer">void-pending
 transfer</a>.</p>
 <h4 id="flagsbalancing_debit"><a href="#flagsbalancing_debit"
 class="anchor"><code>flags.balancing_debit</code></a></h4>
@@ -794,11 +795,11 @@ such that
 amount that was transferred, which is less than or equal to the amount
 that was passed to <code>create_transfers</code>.</p>
 <p>Retrying a balancing transfer will return <a
-href="../requests/create_transfers#exists_with_different_amount"><code>exists_with_different_amount</code></a>
+href="../requests/create_transfers/#exists_with_different_amount"><code>exists_with_different_amount</code></a>
 only when the maximum amount passed to <code>create_transfers</code> is
 insufficient to fulfill the amount that was actually transferred.
 Otherwise it may return <a
-href="../requests/create_transfers#exists"><code>exists</code></a> even
+href="../requests/create_transfers/#exists"><code>exists</code></a> even
 if the retry amount differs from the original value.</p>
 <p><code>flags.balancing_debit</code> is exclusive with the
 <code>flags.post_pending_transfer</code>/<code>flags.void_pending_transfer</code>
@@ -816,13 +817,13 @@ such that
 If <code>amount</code> is set to <code>0</code>, transfer at most
 <code>2^64 - 1</code> (i.e. as much as possible).</p>
 <p>If the highest amount transferable is <code>0</code>, returns <a
-href="../requests/create_transfers#exceeds_credits"><code>exceeds_credits</code></a>.</p>
+href="../requests/create_transfers/#exceeds_credits"><code>exceeds_credits</code></a>.</p>
 </details>
 
 <h5 id="examples-2"><a href="#examples-2"
 class="anchor">Examples</a></h5>
 <ul>
-<li><a href="../../coding/recipes/close-account">Close Account</a></li>
+<li><a href="../../coding/recipes/close-account/">Close Account</a></li>
 </ul>
 <h4 id="flagsbalancing_credit"><a href="#flagsbalancing_credit"
 class="anchor"><code>flags.balancing_credit</code></a></h4>
@@ -834,11 +835,11 @@ such that
 amount that was transferred, which is less than or equal to the amount
 that was passed to <code>create_transfers</code>.</p>
 <p>Retrying a balancing transfer will return <a
-href="../requests/create_transfers#exists_with_different_amount"><code>exists_with_different_amount</code></a>
+href="../requests/create_transfers/#exists_with_different_amount"><code>exists_with_different_amount</code></a>
 only when the maximum amount passed to <code>create_transfers</code> is
 insufficient to fulfill the amount that was actually transferred.
 Otherwise it may return <a
-href="../requests/create_transfers#exists"><code>exists</code></a> even
+href="../requests/create_transfers/#exists"><code>exists</code></a> even
 if the retry amount differs from the original value.</p>
 <p><code>flags.balancing_credit</code> is exclusive with the
 <code>flags.post_pending_transfer</code>/<code>flags.void_pending_transfer</code>
@@ -856,20 +857,20 @@ such that
 If <code>amount</code> is set to <code>0</code>, transfer at most
 <code>2^64 - 1</code> (i.e. as much as possible).</p>
 <p>If the highest amount transferable is <code>0</code>, returns <a
-href="../requests/create_transfers#exceeds_debits"><code>exceeds_debits</code></a>.</p>
+href="../requests/create_transfers/#exceeds_debits"><code>exceeds_debits</code></a>.</p>
 </details>
 
 <h5 id="examples-3"><a href="#examples-3"
 class="anchor">Examples</a></h5>
 <ul>
-<li><a href="../../coding/recipes/close-account">Close Account</a></li>
+<li><a href="../../coding/recipes/close-account/">Close Account</a></li>
 </ul>
 <h4 id="flagsclosing_debit"><a href="#flagsclosing_debit"
 class="anchor"><code>flags.closing_debit</code></a></h4>
 <p>When set, it will cause the <a
-href="../account#flagsclosed"><code>Account.flags.closed</code></a> flag
-of the <a href="#debit_account_id">debit account</a> to be set if the
-transfer succeeds.</p>
+href="../account/#flagsclosed"><code>Account.flags.closed</code></a>
+flag of the <a href="#debit_account_id">debit account</a> to be set if
+the transfer succeeds.</p>
 <p>This flag requires a <a href="#modes">two-phase transfer</a>, so the
 flag <a href="#flagspending"><code>flags.pending</code></a> must also be
 set. This ensures that closing transfers are reversible by <a
@@ -880,9 +881,9 @@ close/unclose operations.</p>
 <h4 id="flagsclosing_credit"><a href="#flagsclosing_credit"
 class="anchor"><code>flags.closing_credit</code></a></h4>
 <p>When set, it will cause the <a
-href="../account#flagsclosed"><code>Account.flags.closed</code></a> flag
-of the <a href="#credit_account_id">credit account</a> to be set if the
-transfer succeeds.</p>
+href="../account/#flagsclosed"><code>Account.flags.closed</code></a>
+flag of the <a href="#credit_account_id">credit account</a> to be set if
+the transfer succeeds.</p>
 <p>This flag requires a <a href="#modes">two-phase transfer</a>, so the
 flag <a href="#flagspending"><code>flags.pending</code></a> must also be
 set. This ensures that closing transfers are reversible by <a
@@ -894,7 +895,7 @@ close/unclose operations.</p>
 class="anchor"><code>flags.imported</code></a></h4>
 <p>When set, allows importing historical <code>Transfer</code>s with
 their original <a href="#timestamp"><code>timestamp</code></a>.</p>
-<p>TigerBeetle will not use the <a href="../../coding/time">cluster
+<p>TigerBeetle will not use the <a href="../../coding/time/">cluster
 clock</a> to assign the timestamp, allowing the user to define it,
 expressing <em>when</em> the transfer was effectively created by an
 external event.</p>
@@ -931,13 +932,13 @@ href="#timeout"><code>timeout</code></a>.</p>
 with a user-defined timestamp, but since it’s not driven by the cluster
 clock, it cannot define a <a href="#timeout"><code>timeout</code></a>
 for automatic expiration. In those cases, the <a
-href="../../coding/two-phase-transfers">two-phase post or rollback</a>
+href="../../coding/two-phase-transfers/">two-phase post or rollback</a>
 must be done manually.</p></li>
 </ul>
 <h3 id="timestamp"><a href="#timestamp"
 class="anchor"><code>timestamp</code></a></h3>
 <p>This is the time the transfer was created, as nanoseconds since UNIX
-epoch. You can read more about <a href="../../coding/time">Time in
+epoch. You can read more about <a href="../../coding/time/">Time in
 TigerBeetle</a>.</p>
 <p>Constraints:</p>
 <ul>
@@ -1040,6 +1041,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -285,7 +285,7 @@ billing. But this makes it hard to provide real-time balance reporting
 or spending limits. It also creates a poor user experience that’s hard
 to fix post system design.</p>
 <p>TigerBeetle uses a <a
-href="../performance#single-threaded-by-design">single-core design</a>
+href="../performance/#single-threaded-by-design">single-core design</a>
 and unique performance optimizations to deliver high throughput. And
 this without the downsides of horizontal scaling.</p>
 <h2 id="bottleneck-for-your-system"><a
@@ -303,7 +303,7 @@ Up: Debit / Credit is the Schema for OLTP</a></h2>
 <p>The world is becoming more transactional. OLTP workloads are
 increasing and we need a database designed from the ground up to handle
 them. What is the perfect schema and language for this database? <a
-href="../debit-credit">Debit / Credit</a>.</p>
+href="../debit-credit/">Debit / Credit</a>.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/concepts/oltp.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
@@ -384,6 +384,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

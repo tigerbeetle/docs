@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -220,13 +220,13 @@ rates fluctuate).</p>
 <h2 id="data-modeling"><a href="#data-modeling" class="anchor">Data
 Modeling</a></h2>
 <p>Distinct <a
-href="../../../reference/account#ledger"><code>ledger</code></a> values
+href="../../../reference/account/#ledger"><code>ledger</code></a> values
 denote different currencies (or other asset types). Transfers between
 pairs of accounts with different <code>ledger</code>s are <a
-href="../../../reference/requests/create_transfers#accounts_must_have_the_same_ledger">not
+href="../../../reference/requests/create_transfers/#accounts_must_have_the_same_ledger">not
 permitted</a>.</p>
 <p>Instead, currency exchange is implemented by creating two <a
-href="../../../reference/transfer#flagslinked">atomically linked</a>
+href="../../../reference/transfer/#flagslinked">atomically linked</a>
 different-ledger transfers between two pairs of same-ledger
 accounts.</p>
 <p>A simple currency exchange involves four accounts:</p>
@@ -290,7 +290,7 @@ Assuming an exchange rate of <code>1.00 USD = 82.42135 INR</code>,
 </div>
 <ul>
 <li>Amounts are <a
-href="../../data-modeling#fractional-amounts-and-asset-scale">represented
+href="../../data-modeling/#fractional-amounts-and-asset-scale">represented
 as integers</a>.</li>
 <li>Because both liquidity accounts belong to the same entity, the
 entity does not lose money on the transaction.
@@ -431,6 +431,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

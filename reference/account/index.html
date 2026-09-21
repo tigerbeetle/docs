@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -209,7 +209,7 @@
           <h1 id="account"><a href="#account"
 class="anchor"><code>Account</code></a></h1>
 <p>An <code>Account</code> is a record storing the cumulative effect of
-committed <a href="../transfer">transfers</a>.</p>
+committed <a href="../transfer/">transfers</a>.</p>
 <h3 id="updates"><a href="#updates" class="anchor">Updates</a></h3>
 <p>Account fields <em>cannot be changed by the user</em> after creation.
 However, debits and credits fields are updated by TigerBeetle as
@@ -219,7 +219,7 @@ transfers move money to and from an account.</p>
 provides a strong guarantee for an audit trail – and the account record
 is only 128 bytes.</p>
 <p>If an account is no longer in use, you may want to <a
-href="../../coding/recipes/close-account">zero out its balance</a>.</p>
+href="../../coding/recipes/close-account/">zero out its balance</a>.</p>
 <h3 id="guarantees"><a href="#guarantees"
 class="anchor">Guarantees</a></h3>
 <ul>
@@ -247,7 +247,7 @@ href="#credits_posted"><code>credits_posted</code></a>.</li>
 unsigned integer)</li>
 <li>Must not conflict with another account in the cluster</li>
 </ul>
-<p>See the <a href="../../coding/data-modeling#id"><code>id</code>
+<p>See the <a href="../../coding/data-modeling/#id"><code>id</code>
 section in the data modeling doc</a> for more recommendations on
 choosing an ID scheme.</p>
 <p>Note that account IDs are unique for the cluster – not per ledger. If
@@ -301,12 +301,12 @@ class="anchor"><code>user_data_128</code></a></h3>
 to an external entity or event.</p>
 <p>When set to zero, no secondary identifier will be associated with the
 account, therefore only non-zero values can be used as <a
-href="../query-filter">query filter</a>.</p>
+href="../query-filter/">query filter</a>.</p>
 <p>As an example, you might use a <a
-href="../../coding/data-modeling#tigerbeetle-time-based-identifiers-recommended">ULID</a>
+href="../../coding/data-modeling/#tigerbeetle-time-based-identifiers-recommended">ULID</a>
 that ties together a group of accounts.</p>
 <p>For more information, see <a
-href="../../coding/data-modeling#user_data">Data Modeling</a>.</p>
+href="../../coding/data-modeling/#user_data">Data Modeling</a>.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 128-bit unsigned integer (16 bytes)</li>
@@ -317,11 +317,11 @@ class="anchor"><code>user_data_64</code></a></h3>
 to an external entity or event.</p>
 <p>When set to zero, no secondary identifier will be associated with the
 account, therefore only non-zero values can be used as <a
-href="../query-filter">query filter</a>.</p>
+href="../query-filter/">query filter</a>.</p>
 <p>As an example, you might use this field store an external
 timestamp.</p>
 <p>For more information, see <a
-href="../../coding/data-modeling#user_data">Data Modeling</a>.</p>
+href="../../coding/data-modeling/#user_data">Data Modeling</a>.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 64-bit unsigned integer (8 bytes)</li>
@@ -332,11 +332,11 @@ class="anchor"><code>user_data_32</code></a></h3>
 to an external entity or event.</p>
 <p>When set to zero, no secondary identifier will be associated with the
 account, therefore only non-zero values can be used as <a
-href="../query-filter">query filter</a>.</p>
+href="../query-filter/">query filter</a>.</p>
 <p>As an example, you might use this field to store a timezone or
 locale.</p>
 <p>For more information, see <a
-href="../../coding/data-modeling#user_data">Data Modeling</a>.</p>
+href="../../coding/data-modeling/#user_data">Data Modeling</a>.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 32-bit unsigned integer (4 bytes)</li>
@@ -353,7 +353,7 @@ class="anchor"><code>reserved</code></a></h3>
 class="anchor"><code>ledger</code></a></h3>
 <p>This is an identifier that partitions the sets of accounts that can
 transact with each other.</p>
-<p>See <a href="../../coding/data-modeling#ledgers">data modeling</a>
+<p>See <a href="../../coding/data-modeling/#ledgers">data modeling</a>
 for more details about how to think about setting up your ledgers.</p>
 <p>Constraints:</p>
 <ul>
@@ -379,7 +379,7 @@ class="anchor"><code>flags</code></a></h3>
 <ul>
 <li>Type is 16-bit unsigned integer (2 bytes)</li>
 <li>Some flags are mutually exclusive; see <a
-href="../requests/create_accounts#flags_are_mutually_exclusive"><code>flags_are_mutually_exclusive</code></a>.</li>
+href="../requests/create_accounts/#flags_are_mutually_exclusive"><code>flags_are_mutually_exclusive</code></a>.</li>
 </ul>
 <h4 id="flagslinked"><a href="#flagslinked"
 class="anchor"><code>flags.linked</code></a></h4>
@@ -388,7 +388,7 @@ the next one in the request, such that they will either succeed or fail
 together.</p>
 <p>The last account in a chain of linked accounts does
 <strong>not</strong> have this flag set.</p>
-<p>You can read more about <a href="../../coding/linked-events">linked
+<p>You can read more about <a href="../../coding/linked-events/">linked
 events</a>.</p>
 <h4 id="flagsdebits_must_not_exceed_credits"><a
 href="#flagsdebits_must_not_exceed_credits"
@@ -411,13 +411,13 @@ class="anchor"><code>flags.history</code></a></h4>
 <p>When set, the account will retain the history of balances at each
 transfer.</p>
 <p>Note that the <a
-href="../requests/get_account_balances"><code>get_account_balances</code></a>
+href="../requests/get_account_balances/"><code>get_account_balances</code></a>
 operation only works for accounts with this flag set.</p>
 <h4 id="flagsimported"><a href="#flagsimported"
 class="anchor"><code>flags.imported</code></a></h4>
 <p>When set, allows importing historical <code>Account</code>s with
 their original <a href="#timestamp"><code>timestamp</code></a>.</p>
-<p>TigerBeetle will not use the <a href="../../coding/time">cluster
+<p>TigerBeetle will not use the <a href="../../coding/time/">cluster
 clock</a> to assign the timestamp, allowing the user to define it,
 expressing <em>when</em> the account was effectively created by an
 external event.</p>
@@ -452,25 +452,25 @@ user-defined timestamps.</p></li>
 <h4 id="flagsclosed"><a href="#flagsclosed"
 class="anchor"><code>flags.closed</code></a></h4>
 <p>When set, the account will reject further transfers, except for <a
-href="../transfer#modes">voiding two-phase transfers</a> that are still
+href="../transfer/#modes">voiding two-phase transfers</a> that are still
 pending.</p>
 <ul>
 <li>This flag can be set during the account creation.</li>
 <li>This flag can also be set by sending a <a
-href="../transfer#flagspending">two-phase pending transfer</a> with the
+href="../transfer/#flagspending">two-phase pending transfer</a> with the
 <a
-href="../transfer#flagsclosing_debit"><code>Transfer.flags.closing_debit</code></a>
+href="../transfer/#flagsclosing_debit"><code>Transfer.flags.closing_debit</code></a>
 and/or <a
-href="../transfer#flagsclosing_credit"><code>Transfer.flags.closing_credit</code></a>
+href="../transfer/#flagsclosing_credit"><code>Transfer.flags.closing_credit</code></a>
 flags set.</li>
 <li>This flag can be <em>unset</em> by <a
-href="../transfer#flagsvoid_pending_transfer">voiding</a> the two-phase
+href="../transfer/#flagsvoid_pending_transfer">voiding</a> the two-phase
 pending transfer that closed the account.</li>
 </ul>
 <h3 id="timestamp"><a href="#timestamp"
 class="anchor"><code>timestamp</code></a></h3>
 <p>This is the time the account was created, as nanoseconds since UNIX
-epoch. You can read more about <a href="../../coding/time">Time in
+epoch. You can read more about <a href="../../coding/time/">Time in
 TigerBeetle</a>.</p>
 <p>Constraints:</p>
 <ul>
@@ -573,6 +573,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

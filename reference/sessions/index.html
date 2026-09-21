@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -222,8 +222,8 @@ receives a reply.</p>
 href="#eviction">hard limit</a> on the number of concurrent client
 sessions. To maximize throughput, users are encouraged to minimize the
 number of concurrent clients and <a
-href="../../coding/requests#batching-events">batch</a> as many events as
-possible per request.</p>
+href="../../coding/requests/#batching-events">batch</a> as many events
+as possible per request.</p>
 <h2 id="lifecycle"><a href="#lifecycle"
 class="anchor">Lifecycle</a></h2>
 <p>A client session begins when a client registers itself with the
@@ -303,15 +303,15 @@ write operation will observe the effects of the write.</li>
 <li>A client session observes writes in the order that they occur on the
 cluster.</li>
 <li>A client session observes <a
-href="../account#debits_posted"><code>debits_posted</code></a> and <a
-href="../account#credits_posted"><code>credits_posted</code></a> as
+href="../account/#debits_posted"><code>debits_posted</code></a> and <a
+href="../account/#credits_posted"><code>credits_posted</code></a> as
 monotonically increasing. That is, a client session will never see
 <code>credits_posted</code> or <code>debits_posted</code> decrease.</li>
 <li>A client session never observes uncommitted updates.</li>
 <li>A client session never observes a broken invariant (e.g. <a
-href="../account#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
+href="../account/#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
 or <a
-href="../transfer#flagslinked"><code>flags.linked</code></a>).</li>
+href="../transfer/#flagslinked"><code>flags.linked</code></a>).</li>
 <li>Multiple client sessions may receive replies out of order relative
 to one another. For example, if two clients submit requests around the
 same time, the client whose request is committed first might receive the
@@ -326,7 +326,7 @@ guaranteed to see the effects of updates for which the corresponding
 reply was <em>not</em> received prior to the restart. Those updates may
 occur at any point in the future, or never. Handling application crash
 recovery safely requires <a
-href="../../coding/reliable-transaction-submission">using
+href="../../coding/reliable-transaction-submission/">using
 <code>id</code>s to idempotently retry events</a>.</li>
 </ul>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/reference/sessions.md">
@@ -409,6 +409,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -211,17 +211,17 @@
 currency? Or made a wrong transfer and want to undo that? We have a
 recipe for that!</p>
 <ul>
-<li><a href="./currency-exchange">Currency Exchange</a></li>
-<li><a href="./multi-debit-credit-transfers">Multi-Debit, Multi-Credit
+<li><a href="./currency-exchange/">Currency Exchange</a></li>
+<li><a href="./multi-debit-credit-transfers/">Multi-Debit, Multi-Credit
 Transfers</a></li>
-<li><a href="./close-account">Closing Accounts</a></li>
-<li><a href="./balance-conditional-transfers">Balance-Conditional
+<li><a href="./close-account/">Closing Accounts</a></li>
+<li><a href="./balance-conditional-transfers/">Balance-Conditional
 Transfers</a></li>
-<li><a href="./balance-invariant-transfers">Balance-Invariant
+<li><a href="./balance-invariant-transfers/">Balance-Invariant
 Transfers</a></li>
-<li><a href="./balance-bounds">Balance Bounds</a></li>
-<li><a href="./correcting-transfers">Correcting Transfers</a></li>
-<li><a href="./rate-limiting">Rate Limiting</a></li>
+<li><a href="./balance-bounds/">Balance Bounds</a></li>
+<li><a href="./correcting-transfers/">Correcting Transfers</a></li>
+<li><a href="./rate-limiting/">Rate Limiting</a></li>
 </ul>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/coding/recipes/README.md">
   <svg width="16" height="16" fill="none">
@@ -303,6 +303,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

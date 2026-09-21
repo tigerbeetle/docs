@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -212,7 +212,7 @@ class="anchor">Deploying</a></h1>
 dependencies, so the overall deployment procedure is simple:</p>
 <ul>
 <li>Get the <code>tigerbeetle</code> binary onto each of the cluster’s
-machines (see <a href="../installing">Installing</a>).</li>
+machines (see <a href="../installing/">Installing</a>).</li>
 <li>Format the data files, specifying cluster id, replica count, and
 replica index.</li>
 <li>Start replicas, specifying path to the data file and addresses of
@@ -257,7 +257,7 @@ address at the replica index must correspond to replica’s own
 address.</li>
 </ul>
 <p>Production deployment differs in three aspects (see <a
-href="../cluster">Cluster Recommendations</a>):</p>
+href="../cluster/">Cluster Recommendations</a>):</p>
 <ul>
 <li>Each replica runs on a dedicated machine.</li>
 <li>Six replicas are used rather than three.</li>
@@ -268,9 +268,9 @@ crash.</li>
 class="anchor">Deployment Recipes</a></h2>
 <p>We have recipes for some commonly used deployment tools:</p>
 <ul>
-<li><a href="./systemd">systemd</a></li>
-<li><a href="./docker">Docker</a></li>
-<li><a href="./managed-service">Managed</a></li>
+<li><a href="./systemd/">systemd</a></li>
+<li><a href="./docker/">Docker</a></li>
+<li><a href="./managed-service/">Managed</a></li>
 </ul>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/deploying/README.md">
   <svg width="16" height="16" fill="none">
@@ -352,6 +352,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

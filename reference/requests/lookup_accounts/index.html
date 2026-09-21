@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -213,26 +213,26 @@ class="anchor"><code>lookup_accounts</code></a></h1>
 balance using this request before creating a transfer. That would not be
 atomic and the balance could change in between the check and the
 transfer. Instead, set the <a
-href="../../account#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a>
+href="../../account/#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a>
 or <a
-href="../../account#flagscredits_must_not_exceed_debits"><code>credits_must_not_exceed_debits</code></a>
+href="../../account/#flagscredits_must_not_exceed_debits"><code>credits_must_not_exceed_debits</code></a>
 flag on the accounts to limit their account balances. More complex
 conditional transfers can be expressed using <a
-href="../../../coding/recipes/balance-conditional-transfers">balance-conditional
+href="../../../coding/recipes/balance-conditional-transfers/">balance-conditional
 transfers</a>.</p>
 <p>⚠️ It is not possible currently to look up more than a full batch
 (8189) of accounts atomically. When issuing multiple
 <code>lookup_accounts</code> calls, it can happen that other operations
 will interleave between the calls leading to read skew. Consider using
-the <a href="../../account#flagshistory"><code>history</code></a> flag
+the <a href="../../account/#flagshistory"><code>history</code></a> flag
 to enable atomic lookups.</p>
 <h2 id="event"><a href="#event" class="anchor">Event</a></h2>
-<p>An <a href="../../account#id"><code>id</code></a> belonging to a <a
-href="../../account"><code>Account</code></a>.</p>
+<p>An <a href="../../account/#id"><code>id</code></a> belonging to a <a
+href="../../account/"><code>Account</code></a>.</p>
 <h2 id="result"><a href="#result" class="anchor">Result</a></h2>
 <ul>
 <li>If the account exists, return the <a
-href="../../account"><code>Account</code></a>.</li>
+href="../../account/"><code>Account</code></a>.</li>
 <li>If the account does not exist, return nothing.</li>
 </ul>
 <h2 id="client-libraries"><a href="#client-libraries"
@@ -332,6 +332,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

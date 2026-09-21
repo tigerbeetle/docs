@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -209,10 +209,10 @@
           <h1 id="accountbalance"><a href="#accountbalance"
 class="anchor"><code>AccountBalance</code></a></h1>
 <p>An <code>AccountBalance</code> is a record storing the <a
-href="../account"><code>Account</code></a>’s balance at a given point in
-time.</p>
+href="../account/"><code>Account</code></a>’s balance at a given point
+in time.</p>
 <p>Only Accounts with the flag <a
-href="../account#flagshistory"><code>history</code></a> set retain <a
+href="../account/#flagshistory"><code>history</code></a> set retain <a
 href="/reference/requests/get_account_balances">historical
 balances</a>.</p>
 <h2 id="fields"><a href="#fields" class="anchor">Fields</a></h2>
@@ -221,8 +221,8 @@ class="anchor"><code>timestamp</code></a></h3>
 <p>This is the time the account balance was updated, as nanoseconds
 since UNIX epoch.</p>
 <p>The timestamp refers to the same <a
-href="../transfer#timestamp"><code>Transfer.timestamp</code></a> which
-changed the <a href="../account"><code>Account</code></a>.</p>
+href="../transfer/#timestamp"><code>Transfer.timestamp</code></a> which
+changed the <a href="../account/"><code>Account</code></a>.</p>
 <p>The amounts refer to the account balance recorded <em>after</em> the
 transfer execution.</p>
 <p>Constraints:</p>
@@ -231,21 +231,22 @@ transfer execution.</p>
 </ul>
 <h3 id="debits_pending"><a href="#debits_pending"
 class="anchor"><code>debits_pending</code></a></h3>
-<p>Amount of <a href="../account#debits_pending">pending debits</a>.</p>
+<p>Amount of <a href="../account/#debits_pending">pending
+debits</a>.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 128-bit unsigned integer (16 bytes)</li>
 </ul>
 <h3 id="debits_posted"><a href="#debits_posted"
 class="anchor"><code>debits_posted</code></a></h3>
-<p>Amount of <a href="../account#debits_posted">posted debits</a>.</p>
+<p>Amount of <a href="../account/#debits_posted">posted debits</a>.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 128-bit unsigned integer (16 bytes)</li>
 </ul>
 <h3 id="credits_pending"><a href="#credits_pending"
 class="anchor"><code>credits_pending</code></a></h3>
-<p>Amount of <a href="../account#credits_pending">pending
+<p>Amount of <a href="../account/#credits_pending">pending
 credits</a>.</p>
 <p>Constraints:</p>
 <ul>
@@ -253,7 +254,8 @@ credits</a>.</p>
 </ul>
 <h3 id="credits_posted"><a href="#credits_posted"
 class="anchor"><code>credits_posted</code></a></h3>
-<p>Amount of <a href="../account#credits_posted">posted credits</a>.</p>
+<p>Amount of <a href="../account/#credits_posted">posted
+credits</a>.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 128-bit unsigned integer (16 bytes)</li>
@@ -346,6 +348,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

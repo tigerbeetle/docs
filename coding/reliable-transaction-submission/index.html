@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -217,8 +217,8 @@ submit events – and especially transfers – reliably.</p>
 <h2 id="the-app-or-browser-should-generate-the-id"><a
 href="#the-app-or-browser-should-generate-the-id" class="anchor">The App
 or Browser Should Generate the ID</a></h2>
-<p><a href="../../reference/transfer#id"><code>Transfer</code>s</a> and
-<a href="../../reference/account#id"><code>Account</code>s</a> carry an
+<p><a href="../../reference/transfer/#id"><code>Transfer</code>s</a> and
+<a href="../../reference/account/#id"><code>Account</code>s</a> carry an
 <code>id</code> field that is used as an idempotency key to ensure the
 same object is not created twice.</p>
 <p><strong>The client software, such as your app or web page, that the
@@ -229,12 +229,12 @@ retries.</strong></p>
 <ol type="1">
 <li>User initiates a transfer.</li>
 <li>Client software (app, web page, etc) <a
-href="../data-modeling#id">generates the transfer
+href="../data-modeling/#id">generates the transfer
 <code>id</code></a>.</li>
 <li>Client software <strong>persists the <code>id</code> in the app or
 browser local storage.</strong></li>
 <li>Client software submits the transfer to your <a
-href="../system-architecture">API service</a>.</li>
+href="../system-architecture/">API service</a>.</li>
 <li>API service includes the transfer in a <a
 href="../../reference/requests/">request</a>.</li>
 <li>TigerBeetle creates the transfer with the given <code>id</code> once
@@ -253,10 +253,10 @@ transfers can be safely retried. The app must use the same
 <code>id</code> each time the transfer is resent.</p>
 <p>If the transfer was already created before and then retried,
 TigerBeetle will return the <a
-href="../../reference/requests/create_transfers#exists"><code>exists</code></a>
+href="../../reference/requests/create_transfers/#exists"><code>exists</code></a>
 response code. If the transfer had not already been created, it will be
 created and return the <a
-href="../../reference/requests/create_transfers#created"><code>created</code></a>.</p>
+href="../../reference/requests/create_transfers/#created"><code>created</code></a>.</p>
 <h3 id="handling-client-software-restarts"><a
 href="#handling-client-software-restarts" class="anchor">Handling Client
 Software Restarts</a></h3>
@@ -270,9 +270,9 @@ the same <code>id</code>.</p>
 client app or browser restarts before receiving the response to the
 operation. Similar to the case of a network failure, TigerBeetle will
 respond with the <a
-href="../../reference/requests/create_transfers#created"><code>created</code></a>
+href="../../reference/requests/create_transfers/#created"><code>created</code></a>
 if a transfer is newly created and <a
-href="../../reference/requests/create_transfers#exists"><code>exists</code></a>
+href="../../reference/requests/create_transfers/#exists"><code>exists</code></a>
 if an object with the same <code>id</code> was already created.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/coding/reliable-transaction-submission.md">
   <svg width="16" height="16" fill="none">
@@ -354,6 +354,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

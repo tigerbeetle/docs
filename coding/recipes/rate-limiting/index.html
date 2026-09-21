@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -222,10 +222,10 @@ balance limit applied.</p>
 <p>To set up the rate limiting system, we will first credit the resource
 limit amount to each of the users. For each user request, we will then
 create a <a
-href="../../two-phase-transfers#reserve-funds-pending-transfer">pending
+href="../../two-phase-transfers/#reserve-funds-pending-transfer">pending
 transfer</a> with a <a
-href="../../two-phase-transfers#expire-pending-transfer">timeout</a>. We
-will never post or void these transfers, but will instead let them
+href="../../two-phase-transfers/#expire-pending-transfer">timeout</a>.
+We will never post or void these transfers, but will instead let them
 expire.</p>
 <p>Since each account’s credit “balance” is limited, requesting a
 pending transfer that would exceed the rate limit will fail. However,
@@ -254,7 +254,7 @@ class="anchor">Request Rate Limiting</a></h2>
 <td>Request Rate</td>
 <td>User</td>
 <td><a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a></td>
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -306,7 +306,7 @@ for 1 unit back to the operator from the user:</p>
 <td style="text-align: right;">1</td>
 <td>60</td>
 <td style="text-align: right;"><a
-href="../../../reference/transfer#flagspending"><code>pending</code></a></td>
+href="../../../reference/transfer/#flagspending"><code>pending</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -342,7 +342,7 @@ per minute.</p>
 <td>Bandwidth</td>
 <td>User</td>
 <td><a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a></td>
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -395,7 +395,7 @@ amount is equal to the request size:</p>
 <td style="text-align: right;">Request Size</td>
 <td>60</td>
 <td style="text-align: right;"><a
-href="../../../reference/transfer#flagspending"><code>pending</code></a></td>
+href="../../../reference/transfer/#flagspending"><code>pending</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -426,7 +426,7 @@ using 2 ledgers and linked transfers.</p>
 <td>Rate Limiting</td>
 <td>User</td>
 <td><a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a></td>
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a></td>
 </tr>
 <tr>
 <td>USD</td>
@@ -437,7 +437,7 @@ href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>debi
 <td>USD</td>
 <td>User</td>
 <td><a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a></td>
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -469,7 +469,7 @@ Limiting ledger:</p>
 </table>
 </div>
 <p>For each transfer the user wants to do, we will create 2 transfers
-that are <a href="../../linked-events">linked</a>:</p>
+that are <a href="../../linked-events/">linked</a>:</p>
 <div class="table">
 <table>
 <thead>
@@ -493,9 +493,9 @@ flags)</th>
 <td style="text-align: right;">Transfer Amount</td>
 <td>86400</td>
 <td style="text-align: right;"><a
-href="../../../reference/transfer#flagspending"><code>pending</code></a>
+href="../../../reference/transfer/#flagspending"><code>pending</code></a>
 | <a
-href="../../../reference/transfer#flagslinked"><code>linked</code></a></td>
+href="../../../reference/transfer/#flagslinked"><code>linked</code></a></td>
 </tr>
 <tr>
 <td>2N + 1</td>
@@ -594,6 +594,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

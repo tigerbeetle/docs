@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -214,30 +214,30 @@ Coding provides a series of topical guides, Reference exhaustively
 documents every single aspect of TigerBeetle. Any answer can be found
 here, but it might take some digging!</p>
 <ul>
-<li><a href="./sessions">Client Sessions</a></li>
-<li><a href="./account">Account</a></li>
-<li><a href="./transfer">Transfer</a></li>
-<li><a href="./account-balance">AccountBalance</a></li>
-<li><a href="./account-filter">AccountFilter</a></li>
-<li><a href="./query-filter">QueryFilter</a></li>
+<li><a href="./sessions/">Client Sessions</a></li>
+<li><a href="./account/">Account</a></li>
+<li><a href="./transfer/">Transfer</a></li>
+<li><a href="./account-balance/">AccountBalance</a></li>
+<li><a href="./account-filter/">AccountFilter</a></li>
+<li><a href="./query-filter/">QueryFilter</a></li>
 <li><a href="./requests/">Requests</a>
 <ul>
 <li><a
-href="./requests/create_accounts"><code>create_accounts</code></a></li>
+href="./requests/create_accounts/"><code>create_accounts</code></a></li>
 <li><a
-href="./requests/create_transfers"><code>create_transfers</code></a></li>
+href="./requests/create_transfers/"><code>create_transfers</code></a></li>
 <li><a
-href="./requests/lookup_accounts"><code>lookup_accounts</code></a></li>
+href="./requests/lookup_accounts/"><code>lookup_accounts</code></a></li>
 <li><a
-href="./requests/lookup_transfers"><code>lookup_transfers</code></a></li>
+href="./requests/lookup_transfers/"><code>lookup_transfers</code></a></li>
 <li><a
-href="./requests/get_account_balances"><code>get_account_balances</code></a></li>
+href="./requests/get_account_balances/"><code>get_account_balances</code></a></li>
 <li><a
-href="./requests/get_account_transfers"><code>get_account_transfers</code></a></li>
+href="./requests/get_account_transfers/"><code>get_account_transfers</code></a></li>
 <li><a
-href="./requests/query_accounts"><code>query_accounts</code></a></li>
+href="./requests/query_accounts/"><code>query_accounts</code></a></li>
 <li><a
-href="./requests/query_transfers"><code>query_transfers</code></a></li>
+href="./requests/query_transfers/"><code>query_transfers</code></a></li>
 </ul></li>
 </ul>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/reference/README.md">
@@ -320,6 +320,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

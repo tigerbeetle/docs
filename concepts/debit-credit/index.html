@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -251,7 +251,7 @@ complete: two entities (accounts, transfers) and one invariant (every
 debit has an equal and opposite credit) model any exchange of value, in
 any domain.</p>
 <p>(For a deeper dive on debits and credits, see our primer on <a
-href="../../coding/financial-accounting">Financial Accounting</a>.)</p>
+href="../../coding/financial-accounting/">Financial Accounting</a>.)</p>
 <h2 id="sql-vs-debitcredit"><a href="#sql-vs-debitcredit"
 class="anchor">SQL vs Debit/Credit</a></h2>
 <p>While SQL is a great query language for getting data out of a
@@ -272,39 +272,40 @@ Database</a></h2>
 ready for you to use:</p>
 <ul>
 <li><strong>Who</strong>: the <a
-href="../../reference/transfer#debit_account_id"><code>debit_account_id</code></a>
+href="../../reference/transfer/#debit_account_id"><code>debit_account_id</code></a>
 and <a
-href="../../reference/transfer#credit_account_id"><code>credit_account_id</code></a>
+href="../../reference/transfer/#credit_account_id"><code>credit_account_id</code></a>
 indicate which accounts are transacting.</li>
 <li><strong>What</strong>: each asset or type of value in TigerBeetle is
 tracked on a separate <a
-href="../../coding/data-modeling#ledgers">ledger</a>. The <a
-href="../../reference/transfer#ledger"><code>ledger</code></a> field
+href="../../coding/data-modeling/#ledgers">ledger</a>. The <a
+href="../../reference/transfer/#ledger"><code>ledger</code></a> field
 indicates what is being transferred.</li>
 <li><strong>When</strong>: each transfer has a unique <a
-href="../../reference/transfer#timestamp"><code>timestamp</code></a> for
-when it is processed by the cluster, but you can add another timestamp
-representing when the transaction happened in the real world in the <a
-href="../../reference/transfer#user_data_64"><code>user_data_64</code></a>
+href="../../reference/transfer/#timestamp"><code>timestamp</code></a>
+for when it is processed by the cluster, but you can add another
+timestamp representing when the transaction happened in the real world
+in the <a
+href="../../reference/transfer/#user_data_64"><code>user_data_64</code></a>
 field.</li>
 <li><strong>Where</strong>: the <a
-href="../../reference/transfer#user_data_32"><code>user_data_32</code></a>
+href="../../reference/transfer/#user_data_32"><code>user_data_32</code></a>
 can be used to store the locale where the transfer occurred.</li>
 <li><strong>Why</strong>: the <a
-href="../../reference/transfer#code"><code>code</code></a> field stores
+href="../../reference/transfer/#code"><code>code</code></a> field stores
 the reason a transfer occurred and should map to an enum or table of all
 the possible business events.</li>
 <li><strong>How Much</strong>: the <a
-href="../../reference/transfer#amount"><code>amount</code></a> indicates
-how much of the asset or item is being transferred.</li>
+href="../../reference/transfer/#amount"><code>amount</code></a>
+indicates how much of the asset or item is being transferred.</li>
 </ul>
 <p>TigerBeetle also supports <a
-href="../../coding/two-phase-transfers">two-phase transfers</a> out of
+href="../../coding/two-phase-transfers/">two-phase transfers</a> out of
 the box, and can express complex atomic chains of transfers using <a
-href="../../coding/linked-events">linked events</a>. These powerful
+href="../../coding/linked-events/">linked events</a>. These powerful
 built-in primitives allow for a large vocabulary of <a
 href="../../coding/recipes/">patterns and recipes</a> for <a
-href="../../coding/data-modeling">data modeling</a>.</p>
+href="../../coding/data-modeling/">data modeling</a>.</p>
 <p>Crucially, accounting invariants such as balance limits are enforced
 within the database, avoiding round-trips between your database and
 application logic.</p>
@@ -400,7 +401,7 @@ implementation of it, built for OLTP in the 21st century.</p>
 class="anchor">Next: Performance</a></h2>
 <p>So far, we’ve seen why we need a new database designed for OLTP and
 how Debit/Credit provides the perfect data model for it. Next, we look
-at the <a href="../performance">performance</a> of a database designed
+at the <a href="../performance/">performance</a> of a database designed
 for OLTP.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/concepts/debit-credit.md">
   <svg width="16" height="16" fill="none">
@@ -482,6 +483,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

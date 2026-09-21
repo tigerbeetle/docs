@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -209,36 +209,36 @@
           <h1 id="get_account_balances"><a href="#get_account_balances"
 class="anchor"><code>get_account_balances</code></a></h1>
 <p>Fetch the historical <a
-href="../../account-balance"><code>AccountBalance</code></a>s of a given
-<a href="../../account"><code>Account</code></a>.</p>
+href="../../account-balance/"><code>AccountBalance</code></a>s of a
+given <a href="../../account/"><code>Account</code></a>.</p>
 <p><strong>Only accounts created with the <a
-href="../../account#flagshistory"><code>history</code></a> flag set
+href="../../account/#flagshistory"><code>history</code></a> flag set
 retain historical balances.</strong> This is off by default.</p>
 <ul>
 <li><p>Each balance returned has a corresponding transfer with the same
-<a href="../../transfer#timestamp"><code>timestamp</code></a>. See the
+<a href="../../transfer/#timestamp"><code>timestamp</code></a>. See the
 <a
-href="../get_account_transfers"><code>get_account_transfers</code></a>
+href="../get_account_transfers/"><code>get_account_transfers</code></a>
 operation for more details.</p></li>
 <li><p>The amounts refer to the account balance recorded <em>after</em>
 the transfer execution.</p></li>
-<li><p><a href="../../transfer#flagspending">Pending</a> balances
+<li><p><a href="../../transfer/#flagspending">Pending</a> balances
 automatically removed due to <a
-href="../../transfer#timeout">timeout</a> expiration don’t change
+href="../../transfer/#timeout">timeout</a> expiration don’t change
 historical balances.</p></li>
 </ul>
 <h2 id="event"><a href="#event" class="anchor">Event</a></h2>
 <p>The account filter. See <a
-href="../../account-filter"><code>AccountFilter</code></a> for
+href="../../account-filter/"><code>AccountFilter</code></a> for
 constraints.</p>
 <h2 id="result"><a href="#result" class="anchor">Result</a></h2>
 <ul>
 <li>If the account has the flag <a
-href="../../account#flagshistory"><code>history</code></a> set and any
+href="../../account/#flagshistory"><code>history</code></a> set and any
 matching balances exist, return an array of <a
-href="../../account-balance"><code>AccountBalance</code></a>s.</li>
+href="../../account-balance/"><code>AccountBalance</code></a>s.</li>
 <li>If the account does not have the flag <a
-href="../../account#flagshistory"><code>history</code></a> set, return
+href="../../account/#flagshistory"><code>history</code></a> set, return
 nothing.</li>
 <li>If no matching balances exist, return nothing.</li>
 <li>If any constraint is violated, return nothing.</li>
@@ -338,6 +338,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

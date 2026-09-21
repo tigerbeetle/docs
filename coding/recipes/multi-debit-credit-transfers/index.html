@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -219,7 +219,7 @@ transfer where you want to extract fees and/or taxes.</p>
 transfers!</p>
 <blockquote>
 <p>Note that all of these examples use the <a
-href="../../../reference/transfer#flagslinked">Linked Transfers flag
+href="../../../reference/transfer/#flagslinked">Linked Transfers flag
 (<code>flags.linked</code>)</a> to ensure that all of the transfers
 succeed or fail together.</p>
 </blockquote>
@@ -335,10 +335,10 @@ transfer amount.</p>
 <ul>
 <li>Three <em>source accounts</em> <code>A</code>, <code>B</code>, and
 <code>C</code>, with <a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>.</li>
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>.</li>
 <li>A <em>destination account</em> <code>X</code>.</li>
 <li>A control account <code>LIMIT</code>, with <a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>.</li>
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>.</li>
 <li>A control account <code>SETUP</code>, for setting up the
 <code>LIMIT</code> account.</li>
 </ul>
@@ -362,7 +362,7 @@ href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>flag
 <td style="text-align: right;"><code>LIMIT</code></td>
 <td style="text-align: right;">100</td>
 <td style="text-align: left;"><a
-href="../../../reference/transfer#flagslinked"><code>linked</code></a></td>
+href="../../../reference/transfer/#flagslinked"><code>linked</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;">2</td>
@@ -371,11 +371,11 @@ href="../../../reference/transfer#flagslinked"><code>linked</code></a></td>
 <td style="text-align: right;"><code>SETUP</code></td>
 <td style="text-align: right;">100</td>
 <td style="text-align: left;"><a
-href="../../../reference/transfer#flagslinked"><code>linked</code></a>,
+href="../../../reference/transfer/#flagslinked"><code>linked</code></a>,
 <a
-href="../../../reference/transfer#flagsbalancing_debit"><code>balancing_debit</code></a>,
+href="../../../reference/transfer/#flagsbalancing_debit"><code>balancing_debit</code></a>,
 <a
-href="../../../reference/transfer#flagsbalancing_credit"><code>balancing_credit</code></a></td>
+href="../../../reference/transfer/#flagsbalancing_credit"><code>balancing_credit</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;">3</td>
@@ -384,11 +384,11 @@ href="../../../reference/transfer#flagsbalancing_credit"><code>balancing_credit<
 <td style="text-align: right;"><code>SETUP</code></td>
 <td style="text-align: right;">100</td>
 <td style="text-align: left;"><a
-href="../../../reference/transfer#flagslinked"><code>linked</code></a>,
+href="../../../reference/transfer/#flagslinked"><code>linked</code></a>,
 <a
-href="../../../reference/transfer#flagsbalancing_debit"><code>balancing_debit</code></a>,
+href="../../../reference/transfer/#flagsbalancing_debit"><code>balancing_debit</code></a>,
 <a
-href="../../../reference/transfer#flagsbalancing_credit"><code>balancing_credit</code></a></td>
+href="../../../reference/transfer/#flagsbalancing_credit"><code>balancing_credit</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;">4</td>
@@ -397,11 +397,11 @@ href="../../../reference/transfer#flagsbalancing_credit"><code>balancing_credit<
 <td style="text-align: right;"><code>SETUP</code></td>
 <td style="text-align: right;">100</td>
 <td style="text-align: left;"><a
-href="../../../reference/transfer#flagslinked"><code>linked</code></a>,
+href="../../../reference/transfer/#flagslinked"><code>linked</code></a>,
 <a
-href="../../../reference/transfer#flagsbalancing_debit"><code>balancing_debit</code></a>,
+href="../../../reference/transfer/#flagsbalancing_debit"><code>balancing_debit</code></a>,
 <a
-href="../../../reference/transfer#flagsbalancing_credit"><code>balancing_credit</code></a></td>
+href="../../../reference/transfer/#flagsbalancing_credit"><code>balancing_credit</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;">5</td>
@@ -410,7 +410,7 @@ href="../../../reference/transfer#flagsbalancing_credit"><code>balancing_credit<
 <td style="text-align: right;"><code>X</code></td>
 <td style="text-align: right;">100</td>
 <td style="text-align: left;"><a
-href="../../../reference/transfer#flagslinked"><code>linked</code></a></td>
+href="../../../reference/transfer/#flagslinked"><code>linked</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;">6</td>
@@ -419,13 +419,13 @@ href="../../../reference/transfer#flagslinked"><code>linked</code></a></td>
 <td style="text-align: right;"><code>SETUP</code></td>
 <td style="text-align: right;"><code>AMOUNT_MAX</code></td>
 <td style="text-align: left;"><a
-href="../../../reference/transfer#flagsbalancing_credit"><code>balancing_credit</code></a></td>
+href="../../../reference/transfer/#flagsbalancing_credit"><code>balancing_credit</code></a></td>
 </tr>
 </tbody>
 </table>
 </div>
 <p>If the cumulative <a
-href="../../data-modeling#credit-balances">credit balance</a> of
+href="../../data-modeling/#credit-balances">credit balance</a> of
 <code>A + B + C</code> is less than <code>100</code>, the chain will
 fail (transfer <code>6</code> will return
 <code>exceeds_credits</code>).</p>
@@ -590,6 +590,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

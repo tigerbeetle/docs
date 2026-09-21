@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -289,7 +289,7 @@ Releases</a></h2>
 <p><a
 href="https://github.com/tigerbeetle/tigerbeetle/releases">https://github.com/tigerbeetle/tigerbeetle/releases</a></p>
 <p>TigerBeetle can be upgraded with a few seconds of downtime, this is
-documented in <a href="../upgrading">Upgrading</a>.</p>
+documented in <a href="../upgrading/">Upgrading</a>.</p>
 <h2 id="building-from-source"><a href="#building-from-source"
 class="anchor">Building from Source</a></h2>
 <p>Building from source is easy, but is not recommended for production
@@ -382,6 +382,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

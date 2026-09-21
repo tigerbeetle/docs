@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -214,7 +214,7 @@ performance even on commodity hardware.</p>
 and there’s no requirement for RAID.</p>
 <p>In cloud or more complex deployments, remote block storage (e.g.,
 EBS, NVMe-oF) may be used but will be slower and care must be taken to
-ensure <a href="../cluster#hardware-fault-tolerance">independent fault
+ensure <a href="../cluster/#hardware-fault-tolerance">independent fault
 domains</a> across replicas.</p>
 <p>Currently, TigerBeetle uses around 16TiB for 40 billion transfers. If
 you wish to use more capacity than a single disk, RAID 10 / RAID 0 is
@@ -323,6 +323,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

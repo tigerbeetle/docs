@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -209,25 +209,25 @@
           <h1 id="requests"><a href="#requests" class="anchor">Requests</a></h1>
 <p>TigerBeetle supports the following request types:</p>
 <ul>
-<li><a href="./create_accounts"><code>create_accounts</code></a>: create
-<a href="../account"><code>Account</code>s</a></li>
-<li><a href="./create_transfers"><code>create_transfers</code></a>:
-create <a href="../transfer"><code>Transfer</code>s</a></li>
-<li><a href="./lookup_accounts"><code>lookup_accounts</code></a>: fetch
+<li><a href="./create_accounts/"><code>create_accounts</code></a>:
+create <a href="../account/"><code>Account</code>s</a></li>
+<li><a href="./create_transfers/"><code>create_transfers</code></a>:
+create <a href="../transfer/"><code>Transfer</code>s</a></li>
+<li><a href="./lookup_accounts/"><code>lookup_accounts</code></a>: fetch
 <code>Account</code>s by <code>id</code></li>
-<li><a href="./lookup_transfers"><code>lookup_transfers</code></a>:
+<li><a href="./lookup_transfers/"><code>lookup_transfers</code></a>:
 fetch <code>Transfer</code>s by <code>id</code></li>
 <li><a
-href="./get_account_transfers"><code>get_account_transfers</code></a>:
+href="./get_account_transfers/"><code>get_account_transfers</code></a>:
 fetch <code>Transfer</code>s by <code>debit_account_id</code> or
 <code>credit_account_id</code></li>
 <li><a
-href="./get_account_balances"><code>get_account_balances</code></a>:
+href="./get_account_balances/"><code>get_account_balances</code></a>:
 fetch the historical account balance by the <code>Account</code>’s
 <code>id</code>.</li>
-<li><a href="./query_accounts"><code>query_accounts</code></a>: query
+<li><a href="./query_accounts/"><code>query_accounts</code></a>: query
 <code>Account</code>s</li>
-<li><a href="./query_transfers"><code>query_transfers</code></a>: query
+<li><a href="./query_transfers/"><code>query_transfers</code></a>: query
 <code>Transfer</code>s</li>
 </ul>
 <p><em>More request types, including more powerful queries, are coming
@@ -312,6 +312,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

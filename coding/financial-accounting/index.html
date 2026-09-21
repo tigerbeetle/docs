@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -362,11 +362,11 @@ debit and the credit: every transaction has at least one debit and at
 least one credit. (Note that for efficiency’s sake, TigerBeetle
 <code>Transfer</code>s consist of exactly one debit and one credit.
 These can be composed into more complex <a
-href="../recipes/multi-debit-credit-transfers">multi-debit, multi-credit
-transfers</a>.) Which entry is the debit and which is the credit? The
-answer is easy once you understand that <strong>accounting is a type
-system</strong>. An account increases with a debit or credit according
-to its type.</p>
+href="../recipes/multi-debit-credit-transfers/">multi-debit,
+multi-credit transfers</a>.) Which entry is the debit and which is the
+credit? The answer is easy once you understand that <strong>accounting
+is a type system</strong>. An account increases with a debit or credit
+according to its type.</p>
 <p>When our example loan increases the assets and liabilities, we need
 to assign each of these entries to either be a debit or a credit. At
 some level, this is completely arbitrary. For clarity, accountants have
@@ -557,6 +557,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -209,16 +209,16 @@
           <h1 id="queryfilter"><a href="#queryfilter"
 class="anchor"><code>QueryFilter</code></a></h1>
 <p>A <code>QueryFilter</code> is a record containing the filter
-parameters for <a href="../requests/query_accounts">querying
-accounts</a> and <a href="../requests/query_transfers">querying
+parameters for <a href="../requests/query_accounts/">querying
+accounts</a> and <a href="../requests/query_transfers/">querying
 transfers</a>.</p>
 <h2 id="fields"><a href="#fields" class="anchor">Fields</a></h2>
 <h3 id="user_data_128"><a href="#user_data_128"
 class="anchor"><code>user_data_128</code></a></h3>
 <p>Filter the results by the field <a
-href="../account#user_data_128"><code>Account.user_data_128</code></a>
+href="../account/#user_data_128"><code>Account.user_data_128</code></a>
 or <a
-href="../transfer#user_data_128"><code>Transfer.user_data_128</code></a>.
+href="../transfer/#user_data_128"><code>Transfer.user_data_128</code></a>.
 Optional; set to zero to disable the filter.</p>
 <p>Constraints:</p>
 <ul>
@@ -227,9 +227,9 @@ Optional; set to zero to disable the filter.</p>
 <h3 id="user_data_64"><a href="#user_data_64"
 class="anchor"><code>user_data_64</code></a></h3>
 <p>Filter the results by the field <a
-href="../account#user_data_64"><code>Account.user_data_64</code></a> or
+href="../account/#user_data_64"><code>Account.user_data_64</code></a> or
 <a
-href="../transfer#user_data_64"><code>Transfer.user_data_64</code></a>.
+href="../transfer/#user_data_64"><code>Transfer.user_data_64</code></a>.
 Optional; set to zero to disable the filter.</p>
 <p>Constraints:</p>
 <ul>
@@ -238,9 +238,9 @@ Optional; set to zero to disable the filter.</p>
 <h3 id="user_data_32"><a href="#user_data_32"
 class="anchor"><code>user_data_32</code></a></h3>
 <p>Filter the results by the field <a
-href="../account#user_data_32"><code>Account.user_data_32</code></a> or
+href="../account/#user_data_32"><code>Account.user_data_32</code></a> or
 <a
-href="../transfer#user_data_32"><code>Transfer.user_data_32</code></a>.
+href="../transfer/#user_data_32"><code>Transfer.user_data_32</code></a>.
 Optional; set to zero to disable the filter.</p>
 <p>Constraints:</p>
 <ul>
@@ -249,8 +249,8 @@ Optional; set to zero to disable the filter.</p>
 <h3 id="ledger"><a href="#ledger"
 class="anchor"><code>ledger</code></a></h3>
 <p>Filter the results by the field <a
-href="../account#ledger"><code>Account.ledger</code></a> or <a
-href="../transfer#ledger"><code>Transfer.ledger</code></a>. Optional;
+href="../account/#ledger"><code>Account.ledger</code></a> or <a
+href="../transfer/#ledger"><code>Transfer.ledger</code></a>. Optional;
 set to zero to disable the filter.</p>
 <p>Constraints:</p>
 <ul>
@@ -258,9 +258,9 @@ set to zero to disable the filter.</p>
 </ul>
 <h3 id="code"><a href="#code" class="anchor"><code>code</code></a></h3>
 <p>Filter the results by the field <a
-href="../account#code"><code>Account.code</code></a> or <a
-href="../transfer#code"><code>Transfer.code</code></a>. Optional; set to
-zero to disable the filter.</p>
+href="../account/#code"><code>Account.code</code></a> or <a
+href="../transfer/#code"><code>Transfer.code</code></a>. Optional; set
+to zero to disable the filter.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 16-bit unsigned integer (2 bytes)</li>
@@ -276,8 +276,8 @@ class="anchor"><code>reserved</code></a></h3>
 <h3 id="timestamp_min"><a href="#timestamp_min"
 class="anchor"><code>timestamp_min</code></a></h3>
 <p>The minimum <a
-href="../account#timestamp"><code>Account.timestamp</code></a> or <a
-href="../transfer#timestamp"><code>Transfer.timestamp</code></a> from
+href="../account/#timestamp"><code>Account.timestamp</code></a> or <a
+href="../transfer/#timestamp"><code>Transfer.timestamp</code></a> from
 which results will be returned, inclusive range. Optional; set to zero
 to disable the lower-bound filter.</p>
 <p>Constraints:</p>
@@ -288,8 +288,8 @@ to disable the lower-bound filter.</p>
 <h3 id="timestamp_max"><a href="#timestamp_max"
 class="anchor"><code>timestamp_max</code></a></h3>
 <p>The maximum <a
-href="../account#timestamp"><code>Account.timestamp</code></a> or <a
-href="../transfer#timestamp"><code>Transfer.timestamp</code></a> from
+href="../account/#timestamp"><code>Account.timestamp</code></a> or <a
+href="../transfer/#timestamp"><code>Transfer.timestamp</code></a> from
 which results will be returned, inclusive range. Optional; set to zero
 to disable the upper-bound filter.</p>
 <p>Constraints:</p>
@@ -301,7 +301,7 @@ to disable the upper-bound filter.</p>
 class="anchor"><code>limit</code></a></h3>
 <p>The maximum number of results that can be returned by this query.</p>
 <p>Limited by the <a
-href="../../coding/requests#batching-events">maximum message
+href="../../coding/requests/#batching-events">maximum message
 size</a>.</p>
 <p>Constraints:</p>
 <ul>
@@ -402,6 +402,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

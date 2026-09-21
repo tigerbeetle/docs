@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -212,7 +212,7 @@ Transfers</a></h1>
 <p>In some use cases, you may want to execute a transfer if and only if
 an account has at least a certain balance.</p>
 <p>It would be unsafe to check an account’s balance using the <a
-href="../../../reference/requests/lookup_accounts"><code>lookup_accounts</code></a>
+href="../../../reference/requests/lookup_accounts/"><code>lookup_accounts</code></a>
 and then perform the transfer, because these requests are not be atomic
 and the account’s balance may change between the lookup and the
 transfer.</p>
@@ -228,12 +228,12 @@ Target Account Must Have a Limited Balance</a></h3>
 of these flags set:</p>
 <ul>
 <li><a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
-for accounts with <a href="../../data-modeling#credit-balances">credit
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
+for accounts with <a href="../../data-modeling/#credit-balances">credit
 balances</a></li>
 <li><a
-href="../../../reference/account#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
-for accounts with <a href="../../data-modeling#debit-balances">debit
+href="../../../reference/account/#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
+for accounts with <a href="../../data-modeling/#debit-balances">debit
 balances</a></li>
 </ul>
 <h3 id="2-create-a-control-account"><a
@@ -247,7 +247,7 @@ the control account.</p>
 href="#executing-a-balance-conditional-transfer"
 class="anchor">Executing a Balance-Conditional Transfer</a></h2>
 <p>The balance-conditional transfer consists of 3 <a
-href="../../linked-events">linked transfers</a>.</p>
+href="../../linked-events/">linked transfers</a>.</p>
 <p>We will refer to two amounts:</p>
 <ul>
 <li>The <strong>threshold amount</strong> is the minimum amount the
@@ -279,9 +279,9 @@ Source Account Has a Credit Balance</a></h3>
 <td>Threshold</td>
 <td>-</td>
 <td><a
-href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a>,
+href="../../../reference/transfer/#flagslinked"><code>flags.linked</code></a>,
 <a
-href="../../../reference/transfer#flagspending"><code>pending</code></a></td>
+href="../../../reference/transfer/#flagspending"><code>pending</code></a></td>
 </tr>
 <tr>
 <td>2</td>
@@ -290,9 +290,9 @@ href="../../../reference/transfer#flagspending"><code>pending</code></a></td>
 <td>-</td>
 <td>1</td>
 <td><a
-href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a>,
+href="../../../reference/transfer/#flagslinked"><code>flags.linked</code></a>,
 <a
-href="../../../reference/transfer#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a></td>
+href="../../../reference/transfer/#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a></td>
 </tr>
 <tr>
 <td>3</td>
@@ -328,9 +328,9 @@ Source Account Has a Debit Balance</a></h3>
 <td>Threshold</td>
 <td>-</td>
 <td><a
-href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a>,
+href="../../../reference/transfer/#flagslinked"><code>flags.linked</code></a>,
 <a
-href="../../../reference/transfer#flagspending"><code>pending</code></a></td>
+href="../../../reference/transfer/#flagspending"><code>pending</code></a></td>
 </tr>
 <tr>
 <td>2</td>
@@ -339,9 +339,9 @@ href="../../../reference/transfer#flagspending"><code>pending</code></a></td>
 <td>-</td>
 <td>1</td>
 <td><a
-href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a>,
+href="../../../reference/transfer/#flagslinked"><code>flags.linked</code></a>,
 <a
-href="../../../reference/transfer#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a></td>
+href="../../../reference/transfer/#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a></td>
 </tr>
 <tr>
 <td>3</td>
@@ -452,6 +452,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

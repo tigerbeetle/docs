@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -489,8 +489,8 @@ about it, or curious. It focuses on the big picture and problems that
 TigerBeetle solves. As well as why it looks nothing like a typical SQL
 database from the outside <em>and</em> from the inside.</p>
 <ul>
-<li><a href="#concepts-oltp">OLTP</a> defines the domain of TigerBeetle — system
-of record for business transactions.</li>
+<li><a href="#concepts-oltp">OLTP</a> defines the domain of TigerBeetle —
+system of record for business transactions.</li>
 <li><a href="#concepts-debit-credit">Debit-Credit</a> argues that double-entry
 bookkeeping is the right schema for this domain.</li>
 <li><a href="#concepts-performance">Performance</a> explains how TigerBeetle
@@ -686,9 +686,10 @@ href="#coding-data-modeling-ledgers">ledger</a>. The <a
 href="#reference-transfer-ledger"><code>ledger</code></a> field
 indicates what is being transferred.</li>
 <li><strong>When</strong>: each transfer has a unique <a
-href="#reference-transfer-timestamp"><code>timestamp</code></a> for
-when it is processed by the cluster, but you can add another timestamp
-representing when the transaction happened in the real world in the <a
+href="#reference-transfer-timestamp"><code>timestamp</code></a>
+for when it is processed by the cluster, but you can add another
+timestamp representing when the transaction happened in the real world
+in the <a
 href="#reference-transfer-user_data_64"><code>user_data_64</code></a>
 field.</li>
 <li><strong>Where</strong>: the <a
@@ -699,8 +700,8 @@ href="#reference-transfer-code"><code>code</code></a> field stores
 the reason a transfer occurred and should map to an enum or table of all
 the possible business events.</li>
 <li><strong>How Much</strong>: the <a
-href="#reference-transfer-amount"><code>amount</code></a> indicates
-how much of the asset or item is being transferred.</li>
+href="#reference-transfer-amount"><code>amount</code></a>
+indicates how much of the asset or item is being transferred.</li>
 </ul>
 <p>TigerBeetle also supports <a
 href="#coding-two-phase-transfers">two-phase transfers</a> out of
@@ -1184,8 +1185,8 @@ solutions for common business requirements such as a currency
 exchange.</li>
 <li><a href="#coding-clients">Clients</a> shows how to use TigerBeetle from
 the comfort of .NET, Go, Java, Node.js, or Python.</li>
-<li><a href="#coding-api-changes">API Changes</a> describes changes introduced
-in the TigerBeetle Client libraries. <br> Subscribe to the <a
+<li><a href="#coding-api-changes">API Changes</a> describes changes
+introduced in the TigerBeetle Client libraries. <br> Subscribe to the <a
 href="https://github.com/tigerbeetle/tigerbeetle/issues/2231">tracking
 issue #2231</a> to receive notifications about breaking changes!</li>
 </ul>
@@ -1251,7 +1252,8 @@ API</li>
 <li>Enforce strict serializability of events</li>
 <li>Optionally store pointers to records or entities in the general
 purpose database in the <a
-href="#coding-data-modeling-user_data"><code>user_data</code></a> fields</li>
+href="#coding-data-modeling-user_data"><code>user_data</code></a>
+fields</li>
 </ul>
 <h2 id="coding-system-architecture-ledger-account-and-transfer-types"><a
 href="#coding-system-architecture-ledger-account-and-transfer-types" class="anchor">Ledger,
@@ -1387,16 +1389,16 @@ class="anchor">Compound Transfers</a></h3>
 <p><code>Transfer</code>s in TigerBeetle debit a single account and
 credit a single account. You can read more about implementing compound
 transfers in <a
-href="#coding-recipes-multi-debit-credit-transfers">Multi-Debit, Multi-Credit
-Transfers</a>.</p>
+href="#coding-recipes-multi-debit-credit-transfers">Multi-Debit,
+Multi-Credit Transfers</a>.</p>
 <h2 id="coding-data-modeling-fractional-amounts-and-asset-scale"><a
 href="#coding-data-modeling-fractional-amounts-and-asset-scale" class="anchor">Fractional
 Amounts and Asset Scale</a></h2>
 <p>To maximize precision and efficiency, <a
 href="#reference-account"><code>Account</code></a> debits/credits
-and <a href="#reference-transfer"><code>Transfer</code></a> amounts
-are unsigned 128-bit integers. However, currencies are often denominated
-in fractional amounts.</p>
+and <a href="#reference-transfer"><code>Transfer</code></a>
+amounts are unsigned 128-bit integers. However, currencies are often
+denominated in fractional amounts.</p>
 <p>To represent a fractional amount in TigerBeetle, <strong>map the
 smallest useful unit of the fractional currency to 1</strong>. Consider
 all amounts in TigerBeetle as a multiple of that unit.</p>
@@ -1762,11 +1764,11 @@ debit and the credit: every transaction has at least one debit and at
 least one credit. (Note that for efficiency’s sake, TigerBeetle
 <code>Transfer</code>s consist of exactly one debit and one credit.
 These can be composed into more complex <a
-href="#coding-recipes-multi-debit-credit-transfers">multi-debit, multi-credit
-transfers</a>.) Which entry is the debit and which is the credit? The
-answer is easy once you understand that <strong>accounting is a type
-system</strong>. An account increases with a debit or credit according
-to its type.</p>
+href="#coding-recipes-multi-debit-credit-transfers">multi-debit,
+multi-credit transfers</a>.) Which entry is the debit and which is the
+credit? The answer is easy once you understand that <strong>accounting
+is a type system</strong>. An account increases with a debit or credit
+according to its type.</p>
 <p>When our example loan increases the assets and liabilities, we need
 to assign each of these entries to either be a debit or a credit. At
 some level, this is completely arbitrary. For clarity, accountants have
@@ -2107,8 +2109,8 @@ reply from the cluster. This is because in the case of a network
 partition, a lack of response from the cluster could either indicate
 that the request was dropped before it was processed or that the reply
 was dropped after the request was processed. Note that individual <a
-href="#coding-two-phase-transfers">pending transfers</a> within a request may
-have <a href="#reference-transfer-timeout">timeouts</a>.</li>
+href="#coding-two-phase-transfers">pending transfers</a> within a request
+may have <a href="#reference-transfer-timeout">timeouts</a>.</li>
 <li>Requests retried by their original client session receive identical
 replies.</li>
 <li>Requests retried by a different client (same request body, different
@@ -2266,8 +2268,8 @@ is returned.</li>
 
 <ul>
 <li>If the posted <a
-href="#reference-transfer-amount"><code>amount</code></a> is 0, the
-full pending transfer’s amount is posted.</li>
+href="#reference-transfer-amount"><code>amount</code></a> is 0,
+the full pending transfer’s amount is posted.</li>
 <li>If the posted <a
 href="#reference-transfer-amount"><code>amount</code></a> is
 nonzero, then only this amount is posted, and the remainder is restored
@@ -2693,8 +2695,8 @@ independently of <code>B</code>, <code>C</code>, <code>D</code>, and
 each other.</p>
 <p>After the chain of linked events has executed, the fact that they
 were linked will not be saved. To save the association between Transfers
-or Accounts, it must be <a href="#coding-data-modeling">encoded into the data
-model</a>, for example by adding an ID to one of the <a
+or Accounts, it must be <a href="#coding-data-modeling">encoded into the
+data model</a>, for example by adding an ID to one of the <a
 href="#coding-data-modeling-user_data">user data</a> fields.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/coding/linked-events.md">
   <svg width="16" height="16" fill="none">
@@ -2734,9 +2736,9 @@ provided by the consensus algorithm. Financial transactions require
 physical time for multiple reasons, including:</p>
 <ul>
 <li><strong>Liquidity</strong> - TigerBeetle supports <a
-href="#coding-two-phase-transfers">Two-Phase Transfers</a> that reserve funds
-and hold them in a pending state until they are posted, voided, or the
-transfer times out. A timeout is useful to ensure that the reserved
+href="#coding-two-phase-transfers">Two-Phase Transfers</a> that reserve
+funds and hold them in a pending state until they are posted, voided, or
+the transfer times out. A timeout is useful to ensure that the reserved
 funds are not held in limbo indefinitely.</li>
 <li><strong>Compliance and Auditing</strong> - For regulatory and
 security purposes, it is useful to have a specific idea of when (in
@@ -2754,10 +2756,11 @@ href="#coding-time-why-tigerbeetle-manages-timestamps" class="anchor">Why
 TigerBeetle Manages Timestamps</a></h2>
 <p>An important invariant is that the TigerBeetle cluster assigns all
 timestamps. In particular, timestamps on <a
-href="#reference-transfer-timestamp"><code>Transfer</code>s</a> and
-<a href="#reference-account-timestamp"><code>Account</code>s</a>
-are set by the cluster when the corresponding event arrives at the
-primary. This is why the <code>timestamp</code> field must be set to
+href="#reference-transfer-timestamp"><code>Transfer</code>s</a>
+and <a
+href="#reference-account-timestamp"><code>Account</code>s</a> are
+set by the cluster when the corresponding event arrives at the primary.
+This is why the <code>timestamp</code> field must be set to
 <code>0</code> when operations are submitted by the client.</p>
 <p>Similarly, the <a
 href="#reference-transfer-timeout"><code>Transfer.timeout</code></a>
@@ -4253,9 +4256,10 @@ direction:</p>
 </table>
 </div>
 <p>Note that the codes used here don’t have any actual meaning, but you
-would want to <a href="#coding-data-modeling-code">enumerate your business
-events</a> and map each to a numeric code value, including the initial
-reasons for transfers and the reasons they might be corrected.</p>
+would want to <a href="#coding-data-modeling-code">enumerate your
+business events</a> and map each to a numeric code value, including the
+initial reasons for transfers and the reasons they might be
+corrected.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/coding/recipes/correcting-transfers.md">
   <svg width="16" height="16" fill="none">
     <path d="M10 4L12 6M8.667 13.333H14M3.333 10.667L2.667 13.333L5.333 12.667L13.0574 4.94263C13.3074 4.69259 13.4478 4.35351 13.4478 4C13.4478 3.64641 13.3074 3.30733 13.0574 3.05729L12.9427 2.94263C12.6927 2.69267 12.3536 2.55225 12 2.55225C11.6465 2.55225 11.3075 2.69267 11.0574 2.94263L3.333 10.667Z" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
@@ -4281,8 +4285,8 @@ limit amount to each of the users. For each user request, we will then
 create a <a
 href="#coding-two-phase-transfers-reserve-funds-pending-transfer">pending
 transfer</a> with a <a
-href="#coding-two-phase-transfers-expire-pending-transfer">timeout</a>. We
-will never post or void these transfers, but will instead let them
+href="#coding-two-phase-transfers-expire-pending-transfer">timeout</a>.
+We will never post or void these transfers, but will instead let them
 expire.</p>
 <p>Since each account’s credit “balance” is limited, requesting a
 pending transfer that would exceed the rate limit will fail. However,
@@ -11753,8 +11757,8 @@ to reasons that depend exclusively on the database status. For example,
 when an <code>account</code> does not have enough credits to fulfill the
 <code>transfer</code>.</p>
 <p>Please refer to the <a
-href="#reference-requests-create_transfers">documentation</a> for a
-complete list of all transient failures.</p>
+href="#reference-requests-create_transfers">documentation</a> for
+a complete list of all transient failures.</p>
 <p>As of <code>0.16.4</code>:</p>
 <ul>
 <li><p>New precedence order for the <code>create_transfers</code> and
@@ -12948,8 +12952,8 @@ class="anchor">Change Data Capture</a></h1>
 <p>TigerBeetle can stream changes (transfers and balance updates) to
 message queues using the AMQP 0.9.1 protocol, which is compatible with
 RabbitMQ and various other message brokers.</p>
-<p>See <a href="#operating-installing">Installing</a> for instructions on how to
-deploy the TigerBeetle binary.</p>
+<p>See <a href="#operating-installing">Installing</a> for instructions on how
+to deploy the TigerBeetle binary.</p>
 <p>Here’s how to start the CDC job:</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
@@ -13087,8 +13091,8 @@ href="#reference-account">account</a>s involved.</p>
 <code>single_phase</code>, <code>two_phase_pending</code>,
 <code>two_phase_posted</code>, <code>two_phase_voided</code> or
 <code>two_phase_expired</code>.<br> See the <a
-href="#coding-two-phase-transfers">Two-Phase Transfers</a> for more
-details.</p></li>
+href="#coding-two-phase-transfers">Two-Phase Transfers</a> for
+more details.</p></li>
 <li><p><code>timestamp</code>: The event timestamp.<br> Usually, it’s
 the same as the transfer’s timestamp, except when
 <code>event_type == 'two_phase_expired'</code> when it’s the expiry
@@ -13100,8 +13104,8 @@ href="#reference-transfer">transfer</a>.<br> For
 <code>two_phase_expired</code> events, it’s the pending transfer that
 was reverted.</p></li>
 <li><p><code>debit_account</code>: Full details of the <a
-href="#reference-transfer-debit_account_id">debit account</a>, with
-the balance <em>as of</em> the time of the event.</p></li>
+href="#reference-transfer-debit_account_id">debit account</a>,
+with the balance <em>as of</em> the time of the event.</p></li>
 <li><p><code>credit_account</code>: Full details of the <a
 href="#reference-transfer-credit_account_id">credit account</a>,
 with the balance <em>as of</em> the time of the event.</p></li>
@@ -13277,8 +13281,8 @@ receives a reply.</p>
 href="#reference-sessions-eviction">hard limit</a> on the number of concurrent client
 sessions. To maximize throughput, users are encouraged to minimize the
 number of concurrent clients and <a
-href="#coding-requests-batching-events">batch</a> as many events as
-possible per request.</p>
+href="#coding-requests-batching-events">batch</a> as many events
+as possible per request.</p>
 <h2 id="reference-sessions-lifecycle"><a href="#reference-sessions-lifecycle"
 class="anchor">Lifecycle</a></h2>
 <p>A client session begins when a client registers itself with the
@@ -13696,7 +13700,8 @@ context of databases.</p>
 account on the same ledger. You can compose these into more complex
 transactions using the methods described in <a
 href="#coding-recipes-currency-exchange">Currency Exchange</a> and
-<a href="#coding-recipes-multi-debit-credit-transfers">Multi-Debit,
+<a
+href="#coding-recipes-multi-debit-credit-transfers">Multi-Debit,
 Multi-Credit Transfers</a>.</p>
 <h3 id="reference-transfer-updates"><a href="#reference-transfer-updates" class="anchor">Updates</a></h3>
 <p>Transfers <em>cannot be modified</em> after creation.</p>
@@ -14060,8 +14065,8 @@ class="anchor"><code>pending_id</code></a></h3>
 <code>pending_id</code> references that pending transfer. If this is not
 a post or void transfer, it must be zero.</p>
 <p>See the section on <a
-href="#coding-two-phase-transfers">Two-Phase Transfers</a> for more
-information on how the <code>pending_id</code> is used.</p>
+href="#coding-two-phase-transfers">Two-Phase Transfers</a> for
+more information on how the <code>pending_id</code> is used.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 128-bit unsigned integer (16 bytes)</li>
@@ -14346,9 +14351,9 @@ class="anchor">Examples</a></h5>
 <h4 id="reference-transfer-flagsclosing_debit"><a href="#reference-transfer-flagsclosing_debit"
 class="anchor"><code>flags.closing_debit</code></a></h4>
 <p>When set, it will cause the <a
-href="#reference-account-flagsclosed"><code>Account.flags.closed</code></a> flag
-of the <a href="#reference-transfer-debit_account_id">debit account</a> to be set if the
-transfer succeeds.</p>
+href="#reference-account-flagsclosed"><code>Account.flags.closed</code></a>
+flag of the <a href="#reference-transfer-debit_account_id">debit account</a> to be set if
+the transfer succeeds.</p>
 <p>This flag requires a <a href="#reference-transfer-modes">two-phase transfer</a>, so the
 flag <a href="#reference-transfer-flagspending"><code>flags.pending</code></a> must also be
 set. This ensures that closing transfers are reversible by <a
@@ -14359,9 +14364,9 @@ close/unclose operations.</p>
 <h4 id="reference-transfer-flagsclosing_credit"><a href="#reference-transfer-flagsclosing_credit"
 class="anchor"><code>flags.closing_credit</code></a></h4>
 <p>When set, it will cause the <a
-href="#reference-account-flagsclosed"><code>Account.flags.closed</code></a> flag
-of the <a href="#reference-transfer-credit_account_id">credit account</a> to be set if the
-transfer succeeds.</p>
+href="#reference-account-flagsclosed"><code>Account.flags.closed</code></a>
+flag of the <a href="#reference-transfer-credit_account_id">credit account</a> to be set if
+the transfer succeeds.</p>
 <p>This flag requires a <a href="#reference-transfer-modes">two-phase transfer</a>, so the
 flag <a href="#reference-transfer-flagspending"><code>flags.pending</code></a> must also be
 set. This ensures that closing transfers are reversible by <a
@@ -14449,8 +14454,8 @@ Search for <code>fn create_transfer(</code>.</p>
 <h1 id="reference-account-balance"><a href="#reference-account-balance"
 class="anchor"><code>AccountBalance</code></a></h1>
 <p>An <code>AccountBalance</code> is a record storing the <a
-href="#reference-account"><code>Account</code></a>’s balance at a given point in
-time.</p>
+href="#reference-account"><code>Account</code></a>’s balance at a given point
+in time.</p>
 <p>Only Accounts with the flag <a
 href="#reference-account-flagshistory"><code>history</code></a> set retain <a
 href="#reference-requests-get_account_balances">historical
@@ -14471,7 +14476,8 @@ transfer execution.</p>
 </ul>
 <h3 id="reference-account-balance-debits_pending"><a href="#reference-account-balance-debits_pending"
 class="anchor"><code>debits_pending</code></a></h3>
-<p>Amount of <a href="#reference-account-debits_pending">pending debits</a>.</p>
+<p>Amount of <a href="#reference-account-debits_pending">pending
+debits</a>.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 128-bit unsigned integer (16 bytes)</li>
@@ -14493,7 +14499,8 @@ credits</a>.</p>
 </ul>
 <h3 id="reference-account-balance-credits_posted"><a href="#reference-account-balance-credits_posted"
 class="anchor"><code>credits_posted</code></a></h3>
-<p>Amount of <a href="#reference-account-credits_posted">posted credits</a>.</p>
+<p>Amount of <a href="#reference-account-credits_posted">posted
+credits</a>.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 128-bit unsigned integer (16 bytes)</li>
@@ -14559,8 +14566,8 @@ Optional; set to zero to disable the filter.</p>
 </ul>
 <h3 id="reference-account-filter-code"><a href="#reference-account-filter-code" class="anchor"><code>code</code></a></h3>
 <p>Filter the results by the <a
-href="#reference-transfer-code"><code>Transfer.code</code></a>. Optional; set to
-zero to disable the filter.</p>
+href="#reference-transfer-code"><code>Transfer.code</code></a>. Optional; set
+to zero to disable the filter.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 16-bit unsigned integer (2 bytes)</li>
@@ -14692,8 +14699,8 @@ set to zero to disable the filter.</p>
 <h3 id="reference-query-filter-code"><a href="#reference-query-filter-code" class="anchor"><code>code</code></a></h3>
 <p>Filter the results by the field <a
 href="#reference-account-code"><code>Account.code</code></a> or <a
-href="#reference-transfer-code"><code>Transfer.code</code></a>. Optional; set to
-zero to disable the filter.</p>
+href="#reference-transfer-code"><code>Transfer.code</code></a>. Optional; set
+to zero to disable the filter.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 16-bit unsigned integer (2 bytes)</li>
@@ -14765,8 +14772,8 @@ come first.</p>
 <h1 id="reference-requests"><a href="#reference-requests" class="anchor">Requests</a></h1>
 <p>TigerBeetle supports the following request types:</p>
 <ul>
-<li><a href="#reference-requests-create_accounts"><code>create_accounts</code></a>: create
-<a href="#reference-account"><code>Account</code>s</a></li>
+<li><a href="#reference-requests-create_accounts"><code>create_accounts</code></a>:
+create <a href="#reference-account"><code>Account</code>s</a></li>
 <li><a href="#reference-requests-create_transfers"><code>create_transfers</code></a>:
 create <a href="#reference-transfer"><code>Transfer</code>s</a></li>
 <li><a href="#reference-requests-lookup_accounts"><code>lookup_accounts</code></a>: fetch
@@ -14884,8 +14891,8 @@ class="anchor"><code>imported_event_timestamp_out_of_range</code></a></h4>
 href="#reference-account-flagsimported"><code>Account.flags.imported</code></a>
 is set.</p>
 <p>The account was not created. The <a
-href="#reference-account-timestamp"><code>Account.timestamp</code></a> is out
-of range, but must be a user-defined timestamp greater than
+href="#reference-account-timestamp"><code>Account.timestamp</code></a> is
+out of range, but must be a user-defined timestamp greater than
 <code>0</code> and less than <code>2^63</code>.</p>
 <h4 id="reference-requests-create_accounts-imported_event_timestamp_must_not_advance"><a
 href="#reference-requests-create_accounts-imported_event_timestamp_must_not_advance"
@@ -15010,8 +15017,8 @@ is nonzero, but must be zero.</p>
 <h4 id="reference-requests-create_accounts-ledger_must_not_be_zero"><a href="#reference-requests-create_accounts-ledger_must_not_be_zero"
 class="anchor"><code>ledger_must_not_be_zero</code></a></h4>
 <p>The account was not created. <a
-href="#reference-account-ledger"><code>Account.ledger</code></a> is zero, but
-must be nonzero.</p>
+href="#reference-account-ledger"><code>Account.ledger</code></a> is zero,
+but must be nonzero.</p>
 <h4 id="reference-requests-create_accounts-code_must_not_be_zero"><a href="#reference-requests-create_accounts-code_must_not_be_zero"
 class="anchor"><code>code_must_not_be_zero</code></a></h4>
 <p>The account was not created. <a
@@ -15060,8 +15067,8 @@ Search for <code>fn create_account(</code> and
 <h1 id="reference-requests-create_transfers"><a href="#reference-requests-create_transfers"
 class="anchor"><code>create_transfers</code></a></h1>
 <p>Create one or more <a
-href="#reference-transfer"><code>Transfer</code></a>s. A successfully created
-transfer will modify the amount fields of its <a
+href="#reference-transfer"><code>Transfer</code></a>s. A successfully
+created transfer will modify the amount fields of its <a
 href="#reference-transfer-debit_account_id">debit</a> and <a
 href="#reference-transfer-credit_account_id">credit</a> accounts.</p>
 <h2 id="reference-requests-create_transfers-event"><a href="#reference-requests-create_transfers-event" class="anchor">Event</a></h2>
@@ -15103,8 +15110,8 @@ class="anchor"><code>created</code></a></h4>
 <h4 id="reference-requests-create_transfers-linked_event_failed"><a href="#reference-requests-create_transfers-linked_event_failed"
 class="anchor"><code>linked_event_failed</code></a></h4>
 <p>The transfer was not created. One or more of the other transfers in
-the <a href="#reference-transfer-flagslinked">linked chain</a> is invalid, so
-the whole chain failed.</p>
+the <a href="#reference-transfer-flagslinked">linked chain</a> is invalid,
+so the whole chain failed.</p>
 <h4 id="reference-requests-create_transfers-linked_event_chain_open"><a href="#reference-requests-create_transfers-linked_event_chain_open"
 class="anchor"><code>linked_event_chain_open</code></a></h4>
 <p>The transfer was not created. The <a
@@ -15190,7 +15197,8 @@ href="#reference-transfer-pending_id"><code>pending_id</code></a>.</p>
 href="#reference-requests-create_transfers-exists_with_different_timeout"
 class="anchor"><code>exists_with_different_timeout</code></a></h4>
 <p>A transfer with the same <code>id</code> already exists, but with a
-different <a href="#reference-transfer-timeout"><code>timeout</code></a>.</p>
+different <a
+href="#reference-transfer-timeout"><code>timeout</code></a>.</p>
 <h4 id="reference-requests-create_transfers-exists_with_different_debit_account_id"><a
 href="#reference-requests-create_transfers-exists_with_different_debit_account_id"
 class="anchor"><code>exists_with_different_debit_account_id</code></a></h4>
@@ -15332,7 +15340,8 @@ specified combination of <a
 href="#reference-transfer-flags"><code>Transfer.flags</code></a>.</p>
 <p>Flag compatibility (✓ = compatible, ✗ = mutually exclusive):</p>
 <ul>
-<li><a href="#reference-transfer-flagspending"><code>flags.pending</code></a>
+<li><a
+href="#reference-transfer-flagspending"><code>flags.pending</code></a>
 <ul>
 <li>✗ <a
 href="#reference-transfer-flagspost_pending_transfer"><code>flags.post_pending_transfer</code></a></li>
@@ -15533,24 +15542,24 @@ href="#reference-transfer-flagspost_pending_transfer"><code>Transfer.flags.post_
 or <a
 href="#reference-transfer-flagsvoid_pending_transfer"><code>Transfer.flags.void_pending_transfer</code></a>
 is set, but <a
-href="#reference-transfer-pending_id"><code>Transfer.pending_id</code></a> is
-zero. A posting or voiding transfer must reference a <a
+href="#reference-transfer-pending_id"><code>Transfer.pending_id</code></a>
+is zero. A posting or voiding transfer must reference a <a
 href="#reference-transfer-flagspending"><code>pending</code></a>
 transfer.</p>
 <h4 id="reference-requests-create_transfers-pending_id_must_not_be_int_max"><a
 href="#reference-requests-create_transfers-pending_id_must_not_be_int_max"
 class="anchor"><code>pending_id_must_not_be_int_max</code></a></h4>
 <p>The transfer was not created. <a
-href="#reference-transfer-pending_id"><code>Transfer.pending_id</code></a> is
-<code>2^128 - 1</code>, which is a reserved value.</p>
+href="#reference-transfer-pending_id"><code>Transfer.pending_id</code></a>
+is <code>2^128 - 1</code>, which is a reserved value.</p>
 <h4 id="reference-requests-create_transfers-pending_id_must_be_different"><a
 href="#reference-requests-create_transfers-pending_id_must_be_different"
 class="anchor"><code>pending_id_must_be_different</code></a></h4>
 <p>The transfer was not created. <a
-href="#reference-transfer-pending_id"><code>Transfer.pending_id</code></a> is
-set to the same id as <a
-href="#reference-transfer-id"><code>Transfer.id</code></a>. Instead it should
-refer to a different (existing) transfer.</p>
+href="#reference-transfer-pending_id"><code>Transfer.pending_id</code></a>
+is set to the same id as <a
+href="#reference-transfer-id"><code>Transfer.id</code></a>. Instead it
+should refer to a different (existing) transfer.</p>
 <h4 id="reference-requests-create_transfers-timeout_reserved_for_pending_transfer"><a
 href="#reference-requests-create_transfers-timeout_reserved_for_pending_transfer"
 class="anchor"><code>timeout_reserved_for_pending_transfer</code></a></h4>
@@ -15573,10 +15582,10 @@ is set, <a
 href="#reference-transfer-flagspending"><code>Transfer.flags.pending</code></a>
 must also be set.</p>
 <p>This ensures that closing transfers are reversible by <a
-href="#reference-transfer-flagsvoid_pending_transfer">voiding</a> the pending
-transfer, and requires that the reversal operation references the
-corresponding closing transfer, guarding against unexpected interleaving
-of close/unclose operations.</p>
+href="#reference-transfer-flagsvoid_pending_transfer">voiding</a> the
+pending transfer, and requires that the reversal operation references
+the corresponding closing transfer, guarding against unexpected
+interleaving of close/unclose operations.</p>
 <h4 id="reference-requests-create_transfers-amount_must_not_be_zero"><a href="#reference-requests-create_transfers-amount_must_not_be_zero"
 class="anchor"><code>amount_must_not_be_zero</code></a></h4>
 <p><strong>Deprecated</strong>: This error code is only returned to
@@ -15737,21 +15746,22 @@ with an amount between <code>0</code> and the pending transfer’s
 href="#reference-requests-create_transfers-pending_transfer_already_posted"
 class="anchor"><code>pending_transfer_already_posted</code></a></h4>
 <p>The transfer was not created. The referenced <a
-href="#reference-transfer-pending_id">pending</a> transfer was already posted
-by a <a
+href="#reference-transfer-pending_id">pending</a> transfer was already
+posted by a <a
 href="#reference-transfer-flagspost_pending_transfer"><code>post_pending_transfer</code></a>.</p>
 <h4 id="reference-requests-create_transfers-pending_transfer_already_voided"><a
 href="#reference-requests-create_transfers-pending_transfer_already_voided"
 class="anchor"><code>pending_transfer_already_voided</code></a></h4>
 <p>The transfer was not created. The referenced <a
-href="#reference-transfer-pending_id">pending</a> transfer was already voided
-by a <a
+href="#reference-transfer-pending_id">pending</a> transfer was already
+voided by a <a
 href="#reference-transfer-flagsvoid_pending_transfer"><code>void_pending_transfer</code></a>.</p>
 <h4 id="reference-requests-create_transfers-pending_transfer_expired"><a href="#reference-requests-create_transfers-pending_transfer_expired"
 class="anchor"><code>pending_transfer_expired</code></a></h4>
 <p>The transfer was not created. The referenced <a
-href="#reference-transfer-pending_id">pending</a> transfer was already voided
-because its <a href="#reference-transfer-timeout">timeout</a> has passed.</p>
+href="#reference-transfer-pending_id">pending</a> transfer was already
+voided because its <a href="#reference-transfer-timeout">timeout</a> has
+passed.</p>
 <h4 id="reference-requests-create_transfers-imported_event_timestamp_must_not_regress"><a
 href="#reference-requests-create_transfers-imported_event_timestamp_must_not_regress"
 class="anchor"><code>imported_event_timestamp_must_not_regress</code></a></h4>
@@ -15866,8 +15876,8 @@ class="anchor"><code>overflows_timeout</code></a></h4>
 <p>The transfer was not created.
 <code>transfer.timestamp + (transfer.timeout * 1_000_000_000)</code>
 would exceed <code>2^63</code>.</p>
-<p><a href="#reference-transfer-timeout"><code>Transfer.timeout</code></a> is
-converted to nanoseconds.</p>
+<p><a href="#reference-transfer-timeout"><code>Transfer.timeout</code></a>
+is converted to nanoseconds.</p>
 <p>This computation uses the <a
 href="#reference-transfer-timestamp"><code>Transfer.timestamp</code></a>
 value assigned by the replica, not the <code>0</code> value sent by the
@@ -15900,8 +15910,8 @@ would exceed <code>debit_account.credits_posted</code>.</p>
 <h4 id="reference-requests-create_transfers-exceeds_debits"><a href="#reference-requests-create_transfers-exceeds_debits"
 class="anchor"><code>exceeds_debits</code></a></h4>
 <p>The transfer was not created.</p>
-<p>The <a href="#reference-transfer-credit_account_id">credit account</a> has
-<a
+<p>The <a href="#reference-transfer-credit_account_id">credit account</a>
+has <a
 href="#reference-account-flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
 set, but
 <code>credit_account.credits_pending + credit_account.credits_posted + transfer.amount</code>
@@ -16042,8 +16052,8 @@ Search for <code>fn execute_lookup_transfers(</code>.</p>
 
 <h1 id="reference-requests-get_account_transfers"><a href="#reference-requests-get_account_transfers"
 class="anchor"><code>get_account_transfers</code></a></h1>
-<p>Fetch <a href="#reference-transfer"><code>Transfer</code></a>s involving a
-given <a href="#reference-account"><code>Account</code></a>.</p>
+<p>Fetch <a href="#reference-transfer"><code>Transfer</code></a>s involving
+a given <a href="#reference-account"><code>Account</code></a>.</p>
 <h2 id="reference-requests-get_account_transfers-event"><a href="#reference-requests-get_account_transfers-event" class="anchor">Event</a></h2>
 <p>The account filter. See <a
 href="#reference-account-filter"><code>AccountFilter</code></a> for
@@ -16089,8 +16099,8 @@ library</a></li>
 <h1 id="reference-requests-get_account_balances"><a href="#reference-requests-get_account_balances"
 class="anchor"><code>get_account_balances</code></a></h1>
 <p>Fetch the historical <a
-href="#reference-account-balance"><code>AccountBalance</code></a>s of a given
-<a href="#reference-account"><code>Account</code></a>.</p>
+href="#reference-account-balance"><code>AccountBalance</code></a>s of a
+given <a href="#reference-account"><code>Account</code></a>.</p>
 <p><strong>Only accounts created with the <a
 href="#reference-account-flagshistory"><code>history</code></a> flag set
 retain historical balances.</strong> This is off by default.</p>
@@ -16314,6 +16324,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

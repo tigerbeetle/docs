@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -211,32 +211,32 @@
 TigerBeetle. It is organized as a series of loosely connected guides
 which can be read in any order.</p>
 <ul>
-<li><a href="./system-architecture">System Architecture</a> paints the
+<li><a href="./system-architecture/">System Architecture</a> paints the
 big picture.</li>
-<li><a href="./data-modeling">Data Modeling</a> shows how to map
+<li><a href="./data-modeling/">Data Modeling</a> shows how to map
 business-level entities to the primitives provided by TigerBeetle.</li>
-<li><a href="./financial-accounting">Financial Accounting</a>, a deep
+<li><a href="./financial-accounting/">Financial Accounting</a>, a deep
 dive into double-entry bookkeeping.</li>
-<li><a href="./requests">Requests</a> outlines the database
+<li><a href="./requests/">Requests</a> outlines the database
 interface.</li>
-<li><a href="./reliable-transaction-submission">Reliable Transaction
+<li><a href="./reliable-transaction-submission/">Reliable Transaction
 Submission</a> explains the end-to-end principle and how it helps to
 avoid double spending.</li>
-<li><a href="./two-phase-transfers">Two-Phase Transfers</a> introduces
+<li><a href="./two-phase-transfers/">Two-Phase Transfers</a> introduces
 pending transfers, one of the most powerful primitives built into
 TigerBeetle.</li>
-<li><a href="./linked-events">Linked Events</a> shows how several
+<li><a href="./linked-events/">Linked Events</a> shows how several
 transfers can be chained together into a larger transaction, which
 succeeds or fails atomically.</li>
-<li><a href="./time">Time</a> lists the guarantees provided by the
+<li><a href="./time/">Time</a> lists the guarantees provided by the
 TigerBeetle cluster clock.</li>
 <li><a href="./recipes/">Recipes</a> is a library of ready-made
 solutions for common business requirements such as a currency
 exchange.</li>
 <li><a href="./clients/">Clients</a> shows how to use TigerBeetle from
 the comfort of .NET, Go, Java, Node.js, or Python.</li>
-<li><a href="./api-changes">API Changes</a> describes changes introduced
-in the TigerBeetle Client libraries. <br> Subscribe to the <a
+<li><a href="./api-changes/">API Changes</a> describes changes
+introduced in the TigerBeetle Client libraries. <br> Subscribe to the <a
 href="https://github.com/tigerbeetle/tigerbeetle/issues/2231">tracking
 issue #2231</a> to receive notifications about breaking changes!</li>
 </ul>
@@ -320,6 +320,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

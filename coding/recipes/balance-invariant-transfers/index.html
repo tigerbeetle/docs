@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -210,9 +210,9 @@
 href="#balance-invariant-transfers" class="anchor">Balance-invariant
 Transfers</a></h1>
 <p>For some accounts, it may be useful to enforce <a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
 or <a
-href="../../../reference/account#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
+href="../../../reference/account/#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
 balance invariants for only a subset of all transfers, rather than all
 transfers.</p>
 <p>This can be achieved by having a <strong>control</strong> account
@@ -236,14 +236,14 @@ invariant on a destination account after a particular transfer.</p>
 <li>The <strong>source</strong> account, to debit.</li>
 <li>The <strong>destination</strong> account, to credit. (With
 <em>neither</em> <a
-href="../../../reference/account#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
+href="../../../reference/account/#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
 nor <a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
 set, since in this recipe we are only enforcing the invariant on a
 per-transfer basis.)</li>
 <li>The <strong>control</strong> account, to test the balance invariant.
 The control account should have <a
-href="../../../reference/account#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
+href="../../../reference/account/#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
 set.</li>
 </ol>
 <div class="table">
@@ -266,7 +266,7 @@ set.</li>
 <td style="text-align: right;">123</td>
 <td style="text-align: right;">-</td>
 <td style="text-align: right;"><a
-href="../../../reference/transfer#flagslinked"><code>linked</code></a></td>
+href="../../../reference/transfer/#flagslinked"><code>linked</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;">2</td>
@@ -275,11 +275,11 @@ href="../../../reference/transfer#flagslinked"><code>linked</code></a></td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">-</td>
 <td style="text-align: right;"><a
-href="../../../reference/transfer#flagslinked"><code>linked</code></a>,
+href="../../../reference/transfer/#flagslinked"><code>linked</code></a>,
 <a
-href="../../../reference/transfer#flagspending"><code>pending</code></a>,
+href="../../../reference/transfer/#flagspending"><code>pending</code></a>,
 <a
-href="../../../reference/transfer#flagsbalancing_debit"><code>balancing_debit</code></a></td>
+href="../../../reference/transfer/#flagsbalancing_debit"><code>balancing_debit</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;">3</td>
@@ -288,7 +288,7 @@ href="../../../reference/transfer#flagsbalancing_debit"><code>balancing_debit</c
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;"><a
-href="../../../reference/transfer#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a></td>
+href="../../../reference/transfer/#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -305,12 +305,12 @@ class="anchor">Per-transfer
 <ol type="1">
 <li>The <strong>source</strong> is account to credit.</li>
 <li>The <strong>destination</strong> is account to debit. Neither <a
-href="../../../reference/account#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
+href="../../../reference/account/#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
 nor <a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
 are set.</li>
 <li>The <strong>control</strong> account has <a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
 set.</li>
 </ol>
 <div class="table">
@@ -333,7 +333,7 @@ set.</li>
 <td style="text-align: right;">123</td>
 <td style="text-align: right;">-</td>
 <td style="text-align: right;"><a
-href="../../../reference/transfer#flagslinked"><code>linked</code></a></td>
+href="../../../reference/transfer/#flagslinked"><code>linked</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;">2</td>
@@ -342,11 +342,11 @@ href="../../../reference/transfer#flagslinked"><code>linked</code></a></td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">-</td>
 <td style="text-align: right;"><a
-href="../../../reference/transfer#flagslinked"><code>linked</code></a>,
+href="../../../reference/transfer/#flagslinked"><code>linked</code></a>,
 <a
-href="../../../reference/transfer#flagspending"><code>pending</code></a>,
+href="../../../reference/transfer/#flagspending"><code>pending</code></a>,
 <a
-href="../../../reference/transfer#flagsbalancing_credit"><code>balancing_credit</code></a></td>
+href="../../../reference/transfer/#flagsbalancing_credit"><code>balancing_credit</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;">3</td>
@@ -355,7 +355,7 @@ href="../../../reference/transfer#flagsbalancing_credit"><code>balancing_credit<
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;"><a
-href="../../../reference/transfer#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a></td>
+href="../../../reference/transfer/#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -440,6 +440,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

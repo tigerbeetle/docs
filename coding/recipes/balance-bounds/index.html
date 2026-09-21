@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -209,9 +209,9 @@
           <h1 id="balance-bounds"><a href="#balance-bounds" class="anchor">Balance
 Bounds</a></h1>
 <p>It is easy to limit an account’s balance using either <a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
 or <a
-href="../../../reference/account#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>.</p>
+href="../../../reference/account/#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>.</p>
 <p>What if you want an account’s balance to stay between an upper and a
 lower bound?</p>
 <p>This is possible to check atomically using a set of linked transfers.
@@ -228,12 +228,12 @@ class="anchor">Preconditions</a></h2>
 flags set:</p>
 <ul>
 <li><a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
-for accounts with <a href="../../data-modeling#credit-balances">credit
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
+for accounts with <a href="../../data-modeling/#credit-balances">credit
 balances</a></li>
 <li><a
-href="../../../reference/account#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
-for accounts with <a href="../../data-modeling#debit-balances">debit
+href="../../../reference/account/#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
+for accounts with <a href="../../data-modeling/#debit-balances">debit
 balances</a></li>
 </ul>
 <ol start="2" type="1">
@@ -247,13 +247,13 @@ in and out of the control account to apply the limit.</p>
 account:</p>
 <ul>
 <li><a
-href="../../../reference/account#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
+href="../../../reference/account/#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
 if the target account has a <a
-href="../../data-modeling#credit-balances">credit balance</a></li>
+href="../../data-modeling/#credit-balances">credit balance</a></li>
 <li><a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>
 if the target account has a <a
-href="../../data-modeling#debit-balances">debit balance</a></li>
+href="../../data-modeling/#debit-balances">debit balance</a></li>
 </ul>
 <ol start="3" type="1">
 <li>Create an Operator Account</li>
@@ -262,7 +262,7 @@ href="../../data-modeling#debit-balances">debit balance</a></li>
 <h2 id="executing-a-transfer-with-a-balance-bounds-check"><a
 href="#executing-a-transfer-with-a-balance-bounds-check"
 class="anchor">Executing a Transfer with a Balance Bounds Check</a></h2>
-<p>This consists of 5 <a href="../../linked-events">linked
+<p>This consists of 5 <a href="../../linked-events/">linked
 transfers</a>.</p>
 <p>We will refer to two amounts:</p>
 <ul>
@@ -297,7 +297,7 @@ between the bounds.</p>
 <td>Transfer</td>
 <td>-</td>
 <td><a
-href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a></td>
+href="../../../reference/transfer/#flagslinked"><code>flags.linked</code></a></td>
 </tr>
 <tr>
 <td>2</td>
@@ -306,7 +306,7 @@ href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a></td
 <td>Limit</td>
 <td>-</td>
 <td><a
-href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a></td>
+href="../../../reference/transfer/#flagslinked"><code>flags.linked</code></a></td>
 </tr>
 <tr>
 <td>3</td>
@@ -315,11 +315,11 @@ href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a></td
 <td><code>AMOUNT_MAX</code></td>
 <td>-</td>
 <td><a
-href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a>
+href="../../../reference/transfer/#flagslinked"><code>flags.linked</code></a>
 | <a
-href="../../../reference/transfer#flagsbalancing_debit"><code>flags.balancing_debit</code></a>
+href="../../../reference/transfer/#flagsbalancing_debit"><code>flags.balancing_debit</code></a>
 | <a
-href="../../../reference/transfer#flagspending"><code>flags.pending</code></a></td>
+href="../../../reference/transfer/#flagspending"><code>flags.pending</code></a></td>
 </tr>
 <tr>
 <td>4</td>
@@ -328,9 +328,9 @@ href="../../../reference/transfer#flagspending"><code>flags.pending</code></a></
 <td>-</td>
 <td><code>3</code>*</td>
 <td><a
-href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a>
+href="../../../reference/transfer/#flagslinked"><code>flags.linked</code></a>
 | <a
-href="../../../reference/transfer#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></td>
+href="../../../reference/transfer/#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a></td>
 </tr>
 <tr>
 <td>5</td>
@@ -370,7 +370,7 @@ between the bounds.</p>
 <td>Transfer</td>
 <td>-</td>
 <td><a
-href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a></td>
+href="../../../reference/transfer/#flagslinked"><code>flags.linked</code></a></td>
 </tr>
 <tr>
 <td>2</td>
@@ -379,7 +379,7 @@ href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a></td
 <td>Limit</td>
 <td>-</td>
 <td><a
-href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a></td>
+href="../../../reference/transfer/#flagslinked"><code>flags.linked</code></a></td>
 </tr>
 <tr>
 <td>3</td>
@@ -388,11 +388,11 @@ href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a></td
 <td><code>AMOUNT_MAX</code></td>
 <td>-</td>
 <td><a
-href="../../../reference/transfer#flagsbalancing_credit"><code>flags.balancing_credit</code></a>
+href="../../../reference/transfer/#flagsbalancing_credit"><code>flags.balancing_credit</code></a>
 | <a
-href="../../../reference/transfer#flagspending"><code>flags.pending</code></a>
+href="../../../reference/transfer/#flagspending"><code>flags.pending</code></a>
 | <a
-href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a></td>
+href="../../../reference/transfer/#flagslinked"><code>flags.linked</code></a></td>
 </tr>
 <tr>
 <td>4</td>
@@ -401,9 +401,9 @@ href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a></td
 <td>-</td>
 <td><code>3</code>*</td>
 <td><a
-href="../../../reference/transfer#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a>
+href="../../../reference/transfer/#flagsvoid_pending_transfer"><code>flags.void_pending_transfer</code></a>
 | <a
-href="../../../reference/transfer#flagslinked"><code>flags.linked</code></a></td>
+href="../../../reference/transfer/#flagslinked"><code>flags.linked</code></a></td>
 </tr>
 <tr>
 <td>5</td>
@@ -421,15 +421,15 @@ example, it is transfer 3).</p>
 <h3 id="understanding-the-mechanism"><a
 href="#understanding-the-mechanism" class="anchor">Understanding the
 Mechanism</a></h3>
-<p>Each of the 5 transfers is <a href="../../linked-events">linked</a>
+<p>Each of the 5 transfers is <a href="../../linked-events/">linked</a>
 so that all of them will succeed or all of them will fail.</p>
 <p>The first transfer is the one we actually want to send.</p>
 <p>The second transfer sets the Control Account’s balance to the upper
 bound we want to impose.</p>
 <p>The third transfer uses a <a
-href="../../../reference/transfer#flagsbalancing_debit"><code>balancing_debit</code></a>
+href="../../../reference/transfer/#flagsbalancing_debit"><code>balancing_debit</code></a>
 or <a
-href="../../../reference/transfer#flagsbalancing_credit"><code>balancing_credit</code></a>
+href="../../../reference/transfer/#flagsbalancing_credit"><code>balancing_credit</code></a>
 to transfer the Destination Account’s net credit balance or net debit
 balance, respectively, to the Control Account. This transfer will fail
 if the first transfer would put the Destination Account’s balance above
@@ -520,6 +520,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

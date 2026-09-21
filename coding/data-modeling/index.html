@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -215,20 +215,20 @@ requirements onto the data model.</p>
 href="#accounts-transfers-and-ledgers" class="anchor">Accounts,
 Transfers, and Ledgers</a></h2>
 <p>The TigerBeetle data model consists of <a
-href="../../reference/account"><code>Account</code>s</a>, <a
-href="../../reference/transfer"><code>Transfer</code>s</a>, and
+href="../../reference/account/"><code>Account</code>s</a>, <a
+href="../../reference/transfer/"><code>Transfer</code>s</a>, and
 ledgers.</p>
 <h3 id="ledgers"><a href="#ledgers" class="anchor">Ledgers</a></h3>
 <p>Ledgers partition accounts into groups that may represent a currency
 or asset type or any other logical grouping. Only accounts on the same
 ledger can transact directly, but you can use atomically linked
-transfers to implement <a href="../recipes/currency-exchange">currency
+transfers to implement <a href="../recipes/currency-exchange/">currency
 exchange</a>.</p>
 <p>Ledgers are only stored in TigerBeetle as a numeric identifier on the
-<a href="../../reference/account#ledger">account</a> and <a
-href="../../reference/transfer">transfer</a> data structures. You may
+<a href="../../reference/account/#ledger">account</a> and <a
+href="../../reference/transfer/">transfer</a> data structures. You may
 want to store additional metadata about each ledger in a control plane
-<a href="../system-architecture">database</a>.</p>
+<a href="../system-architecture/">database</a>.</p>
 <p>You can also use different ledgers to further partition accounts,
 beyond asset type. For example, if you have a multi-tenant setup where
 you are tracking balances for your customers’ end-users, you might have
@@ -247,7 +247,7 @@ the balance from the cumulative debits/credits.</p>
 accounting conventions recommend using a certain balance type for
 certain types of accounts.</p>
 <p>If you are new to thinking in terms of debits and credits, read the
-<a href="../financial-accounting">deep dive on financial accounting</a>
+<a href="../financial-accounting/">deep dive on financial accounting</a>
 to get a better understanding of double-entry bookkeeping and the
 different types of accounts.</p>
 <h3 id="debit-balances"><a href="#debit-balances" class="anchor">Debit
@@ -259,9 +259,9 @@ Balances</a></h3>
 <li>Operator’s Expenses</li>
 </ul>
 <p>To enforce a positive (non-negative) debit balance, use <a
-href="../../reference/account#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>.</p>
+href="../../reference/account/#flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>.</p>
 <p>To keep an account’s balance between an upper and lower bound, see
-the <a href="../recipes/balance-bounds">Balance Bounds recipe</a>.</p>
+the <a href="../recipes/balance-bounds/">Balance Bounds recipe</a>.</p>
 <h3 id="credit-balances"><a href="#credit-balances"
 class="anchor">Credit Balances</a></h3>
 <p><code>balance = credits - debits</code></p>
@@ -272,27 +272,27 @@ class="anchor">Credit Balances</a></h3>
 <li>Operator’s Income</li>
 </ul>
 <p>To enforce a positive (non-negative) credit balance, use <a
-href="../../reference/account#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>.
+href="../../reference/account/#flagsdebits_must_not_exceed_credits"><code>flags.debits_must_not_exceed_credits</code></a>.
 For example, a customer account that is represented as an Operator’s
 Liability would use this flag to ensure that the balance cannot go
 negative.</p>
 <p>To keep an account’s balance between an upper and lower bound, see
-the <a href="../recipes/balance-bounds">Balance Bounds recipe</a>.</p>
+the <a href="../recipes/balance-bounds/">Balance Bounds recipe</a>.</p>
 <h3 id="compound-transfers"><a href="#compound-transfers"
 class="anchor">Compound Transfers</a></h3>
 <p><code>Transfer</code>s in TigerBeetle debit a single account and
 credit a single account. You can read more about implementing compound
 transfers in <a
-href="../recipes/multi-debit-credit-transfers">Multi-Debit, Multi-Credit
-Transfers</a>.</p>
+href="../recipes/multi-debit-credit-transfers/">Multi-Debit,
+Multi-Credit Transfers</a>.</p>
 <h2 id="fractional-amounts-and-asset-scale"><a
 href="#fractional-amounts-and-asset-scale" class="anchor">Fractional
 Amounts and Asset Scale</a></h2>
 <p>To maximize precision and efficiency, <a
-href="../../reference/account"><code>Account</code></a> debits/credits
-and <a href="../../reference/transfer"><code>Transfer</code></a> amounts
-are unsigned 128-bit integers. However, currencies are often denominated
-in fractional amounts.</p>
+href="../../reference/account/"><code>Account</code></a> debits/credits
+and <a href="../../reference/transfer/"><code>Transfer</code></a>
+amounts are unsigned 128-bit integers. However, currencies are often
+denominated in fractional amounts.</p>
 <p>To represent a fractional amount in TigerBeetle, <strong>map the
 smallest useful unit of the fractional currency to 1</strong>. Consider
 all amounts in TigerBeetle as a multiple of that unit.</p>
@@ -355,8 +355,8 @@ over to the new one.</p>
 class="anchor"><code>user_data</code></a></h2>
 <p><code>user_data_128</code>, <code>user_data_64</code> and
 <code>user_data_32</code> are the most flexible fields in the schema
-(for both <a href="../../reference/account">accounts</a> and <a
-href="../../reference/transfer">transfers</a>). Each
+(for both <a href="../../reference/account/">accounts</a> and <a
+href="../../reference/transfer/">transfers</a>). Each
 <code>user_data</code> field’s contents are arbitrary, interpreted only
 by the application.</p>
 <p>Each <code>user_data</code> field is indexed for efficient point and
@@ -372,7 +372,7 @@ database.</li>
 <li><code>user_data_64</code> - this might store a second timestamp for
 “when” the transaction originated in the real world, rather than when
 the transfer was <a
-href="../time#why-tigerbeetle-manages-timestamps">timestamped by
+href="../time/#why-tigerbeetle-manages-timestamps">timestamped by
 TigerBeetle</a>. This can be used if you need to model <a
 href="https://tigerbeetle.com/blog/2026-01-14-bitemporality/">bitemporality</a>.
 Alternatively, if you do not need this to be used for a timestamp, you
@@ -389,11 +389,11 @@ encode the “why” of a transfer.)</p>
 <p>Any of the <code>user_data</code> fields can be used as a group
 identifier for objects that will be queried together. For example, for
 multiple transfers used for <a
-href="../recipes/currency-exchange">currency exchange</a>.</p>
+href="../recipes/currency-exchange/">currency exchange</a>.</p>
 <h2 id="id"><a href="#id" class="anchor"><code>id</code></a></h2>
 <p>The <code>id</code> field uniquely identifies each <a
-href="../../reference/account#id"><code>Account</code></a> and <a
-href="../../reference/transfer#id"><code>Transfer</code></a> within the
+href="../../reference/account/#id"><code>Account</code></a> and <a
+href="../../reference/transfer/#id"><code>Transfer</code></a> within the
 cluster.</p>
 <p>The primary purpose of an <code>id</code> is to serve as an
 “idempotency key” — to avoid executing an event twice. For example, if a
@@ -407,13 +407,13 @@ a connection between multiple <code>Account</code>s or multiple
 <code>Transfer</code>s that are related to one another. For example,
 different currency <code>Account</code>s belonging to the same user or
 multiple <code>Transfer</code>s that are part of a <a
-href="../recipes/currency-exchange">currency exchange</a>.</p>
+href="../recipes/currency-exchange/">currency exchange</a>.</p>
 <p><a href="#tigerbeetle-time-based-identifiers-recommended">TigerBeetle
 Time-Based Identifiers</a> are recommended for most applications.</p>
 <p>When selecting an <code>id</code> scheme:</p>
 <ul>
 <li>Idempotency is particularly important (and difficult) in the context
-of <a href="../reliable-transaction-submission">application crash
+of <a href="../reliable-transaction-submission/">application crash
 recovery</a>.</li>
 <li>Be careful to <a
 href="https://en.wikipedia.org/wiki/Birthday_problem">avoid
@@ -478,17 +478,17 @@ identifier within the foreign database can be used as the
 <code>Account.id</code> within TigerBeetle.</p>
 <p>To reuse the foreign identifier, it must conform to TigerBeetle’s
 <code>id</code> <a
-href="../../reference/account#id">constraints</a>.</p>
+href="../../reference/account/#id">constraints</a>.</p>
 <h2 id="code"><a href="#code" class="anchor"><code>code</code></a></h2>
 <p>The <code>code</code> identifier represents the “why” for an Account
 or Transfer.</p>
 <p>On an <a
-href="../../reference/account#code"><code>Account</code></a>, the
+href="../../reference/account/#code"><code>Account</code></a>, the
 <code>code</code> indicates the account type, such as assets,
 liabilities, equity, income, or expenses, and subcategories within those
 classification.</p>
 <p>On a <a
-href="../../reference/transfer#code"><code>Transfer</code></a>, the
+href="../../reference/transfer/#code"><code>Transfer</code></a>, the
 <code>code</code> indicates why a given transfer is happening, such as a
 purchase, refund, currency exchange, etc.</p>
 <p>When you start building out your application on top of TigerBeetle,
@@ -575,6 +575,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -224,12 +224,12 @@ class="anchor">New return type for <code>create_accounts</code> and
 <code>create_transfers</code>.</a></h3>
 <p>The TigerBeetle release <code>0.17.0</code> introduced a new API for
 handling results when creating <a
-href="../../reference/requests/create_accounts">Accounts</a> and <a
-href="../../reference/requests/create_transfers">Transfers</a>.</p>
+href="../../reference/requests/create_accounts/">Accounts</a> and <a
+href="../../reference/requests/create_transfers/">Transfers</a>.</p>
 <p>The previous API for <a
-href="../../reference/requests/create_accounts"><code>create_accounts</code></a>
+href="../../reference/requests/create_accounts/"><code>create_accounts</code></a>
 and <a
-href="../../reference/requests/create_transfers"><code>create_transfers</code></a>
+href="../../reference/requests/create_transfers/"><code>create_transfers</code></a>
 reported outcomes only for failed events, returning a <em>sparse
 array</em> of results. Each result included the <code>index</code> of
 the failed element within the event batch and the corresponding error
@@ -245,8 +245,8 @@ ones, along with the <code>timestamp</code> when they were processed by
 the TigerBeetle cluster.</p>
 <p>Applications can now benefit from knowing the <code>timestamp</code>
 assigned to a successfully created <a
-href="../../reference/account#timestamp"><code>Account</code></a> or <a
-href="../../reference/transfer#timestamp"><code>Transfer</code></a>,
+href="../../reference/account/#timestamp"><code>Account</code></a> or <a
+href="../../reference/transfer/#timestamp"><code>Transfer</code></a>,
 while also handling alternative paths more efficiently by knowing
 <em>when</em> validation occurred for those that couldn’t be
 created.</p>
@@ -310,29 +310,29 @@ class="sourceCode zig"><code class="sourceCode zig"><span id="cb2-1"><a href="#c
 <h3 id="query-limits"><a href="#query-limits" class="anchor">Query
 limits.</a></h3>
 <p>The previous API did not validate the maximum range of the fields <a
-href="../../reference/account-filter#limit"><code>AccountFilter.limit</code></a>
+href="../../reference/account-filter/#limit"><code>AccountFilter.limit</code></a>
 and <a
-href="../../reference/query-filter#limit"><code>QueryFilter.limit</code></a>.
+href="../../reference/query-filter/#limit"><code>QueryFilter.limit</code></a>.
 Values up to <code>2^32 - 1</code> were accepted, and the TigerBeetle
 cluster was responsible for capping the number of results to fit the
 message size.</p>
 <p>Now the TigerBeetle client enforces a valid <code>limit</code> and
 rejects requests with limits greater than the <a
-href="../../coding/requests#batching-events">maximum batch size</a>,
+href="../../coding/requests/#batching-events">maximum batch size</a>,
 returning the <code>too_much_data</code> error code.</p>
 <p>This is the same behavior as when, for example, <a
-href="../../reference/requests/create_accounts"><code>create_accounts</code></a>
+href="../../reference/requests/create_accounts/"><code>create_accounts</code></a>
 or <a
-href="../../reference/requests/create_transfers"><code>create_transfers</code></a>
+href="../../reference/requests/create_transfers/"><code>create_transfers</code></a>
 are called with more than <em>8189</em> events.</p>
 <p>The operations <a
-href="../../reference/requests/query_accounts"><code>query_accounts</code></a>,
+href="../../reference/requests/query_accounts/"><code>query_accounts</code></a>,
 <a
-href="../../reference/requests/query_transfers"><code>query_transfers</code></a>,
+href="../../reference/requests/query_transfers/"><code>query_transfers</code></a>,
 <a
-href="../../reference/requests/get_account_transfers"><code>get_account_transfers</code></a>,
+href="../../reference/requests/get_account_transfers/"><code>get_account_transfers</code></a>,
 and <a
-href="../../reference/requests/get_account_balances"><code>get_account_balances</code></a>
+href="../../reference/requests/get_account_balances/"><code>get_account_balances</code></a>
 are affected.</p>
 <h3 id="client-breaking-changes"><a href="#client-breaking-changes"
 class="anchor">Client breaking changes</a></h3>
@@ -352,9 +352,9 @@ following breaking changes:</p>
 <li><p>The enum types <code>CreateAccount<b>Result</b></code> and
 <code>CreateTransfer<b>Result</b></code>, with the status codes for the
 <a
-href="../../reference/requests/create_accounts"><code>create_accounts</code></a>
+href="../../reference/requests/create_accounts/"><code>create_accounts</code></a>
 and <a
-href="../../reference/requests/create_transfers"><code>create_transfers</code></a>
+href="../../reference/requests/create_transfers/"><code>create_transfers</code></a>
 operations respectively, were renamed to
 <code>CreateAccount<b>Status</b></code> and
 <code>CreateTransfer<b>Status</b></code>.</p>
@@ -571,9 +571,9 @@ following breaking changes:</p>
 <li><p>The enum types <code>CreateAccount<b>Result</b></code> and
 <code>CreateTransfer<b>Result</b></code>, with the status codes for the
 <a
-href="../../reference/requests/create_accounts"><code>create_accounts</code></a>
+href="../../reference/requests/create_accounts/"><code>create_accounts</code></a>
 and <a
-href="../../reference/requests/create_transfers"><code>create_transfers</code></a>
+href="../../reference/requests/create_transfers/"><code>create_transfers</code></a>
 operations respectively, were renamed to
 <code>CreateAccount<b>Status</b></code> and
 <code>CreateTransfer<b>Status</b></code>.</p>
@@ -774,9 +774,9 @@ following breaking changes:</p>
 <li><p>The enum types <code>CreateAccount<b>Result</b></code> and
 <code>CreateTransfer<b>Result</b></code>, with the status codes for the
 <a
-href="../../reference/requests/create_accounts"><code>create_accounts</code></a>
+href="../../reference/requests/create_accounts/"><code>create_accounts</code></a>
 and <a
-href="../../reference/requests/create_transfers"><code>create_transfers</code></a>
+href="../../reference/requests/create_transfers/"><code>create_transfers</code></a>
 operations respectively, were renamed to
 <code>CreateAccount<b>Status</b></code> and
 <code>CreateTransfer<b>Status</b></code>.</p>
@@ -979,9 +979,9 @@ following breaking changes:</p>
 <ul>
 <li><p>The enum types <code>CreateAccountError</code> and
 <code>CreateTransferError</code>, with the status codes for the <a
-href="../../reference/requests/create_accounts"><code>create_accounts</code></a>
+href="../../reference/requests/create_accounts/"><code>create_accounts</code></a>
 and <a
-href="../../reference/requests/create_transfers"><code>create_transfers</code></a>
+href="../../reference/requests/create_transfers/"><code>create_transfers</code></a>
 operations respectively, were renamed to
 <code>CreateAccountStatus</code> and
 <code>CreateTransferStatus</code>.</p>
@@ -1159,9 +1159,9 @@ following breaking changes:</p>
 <ul>
 <li><p>The enum types <code>CreateAccountResult</code> and
 <code>CreateTransferResult</code>, with the status codes for the <a
-href="../../reference/requests/create_accounts"><code>create_accounts</code></a>
+href="../../reference/requests/create_accounts/"><code>create_accounts</code></a>
 and <a
-href="../../reference/requests/create_transfers"><code>create_transfers</code></a>
+href="../../reference/requests/create_transfers/"><code>create_transfers</code></a>
 operations respectively, were renamed to
 <code>CreateAccountStatus</code> and
 <code>CreateTransferStatus</code>.</p>
@@ -1378,8 +1378,8 @@ to reasons that depend exclusively on the database status. For example,
 when an <code>account</code> does not have enough credits to fulfill the
 <code>transfer</code>.</p>
 <p>Please refer to the <a
-href="../../reference/requests/create_transfers">documentation</a> for a
-complete list of all transient failures.</p>
+href="../../reference/requests/create_transfers/">documentation</a> for
+a complete list of all transient failures.</p>
 <p>As of <code>0.16.4</code>:</p>
 <ul>
 <li><p>New precedence order for the <code>create_transfers</code> and
@@ -1400,7 +1400,7 @@ by the client’s release.</em> <em>Clients of previous versions will
 receive <code>transfer_must_have_the_same_ledger_as_accounts</code>
 instead.</em></p></li>
 <li><p>Added a new result code <a
-href="../../reference/requests/create_transfers#id_already_failed"><code>id_already_failed</code></a>.
+href="../../reference/requests/create_transfers/#id_already_failed"><code>id_already_failed</code></a>.
 It is returned by <code>create_transfers</code> when the
 <code>Transfer.id</code> was already used in a previous attempt that
 resulted in a transient failure.</p>
@@ -1511,6 +1511,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

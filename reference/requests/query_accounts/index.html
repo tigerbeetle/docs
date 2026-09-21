@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -208,33 +208,33 @@
         <div class="content">
           <h1 id="query_accounts"><a href="#query_accounts"
 class="anchor"><code>query_accounts</code></a></h1>
-<p>Query <a href="../../account"><code>Account</code></a>s by the
+<p>Query <a href="../../account/"><code>Account</code></a>s by the
 intersection of some fields and by timestamp range.</p>
 <p>⚠️ It is not possible currently to query more than a full batch
 (8189) of accounts atomically. When issuing multiple
 <code>query_accounts</code> calls, it can happen that other operations
 will interleave between the calls leading to read skew. Consider using
-the <a href="../../account#flagshistory"><code>history</code></a> flag
+the <a href="../../account/#flagshistory"><code>history</code></a> flag
 to enable atomic lookups.</p>
 <h2 id="event"><a href="#event" class="anchor">Event</a></h2>
 <p>The query filter. See <a
-href="../../query-filter"><code>QueryFilter</code></a> for
+href="../../query-filter/"><code>QueryFilter</code></a> for
 constraints.</p>
 <h2 id="result"><a href="#result" class="anchor">Result</a></h2>
 <ul>
 <li>Return a (possibly empty) array of <a
-href="../../account"><code>Account</code></a>s that match the
+href="../../account/"><code>Account</code></a>s that match the
 filter.</li>
 <li>If any constraint is violated, return nothing.</li>
 <li>By default, <code>Account</code>s are sorted chronologically by
 <code>timestamp</code>. You can use the <a
-href="../../query-filter#flagsreversed"><code>reversed</code></a> to
+href="../../query-filter/#flagsreversed"><code>reversed</code></a> to
 change this.</li>
 <li>The result is always limited in size. If there are more results, you
 need to page through them using the <code>QueryFilter</code>’s <a
-href="../../query-filter#timestamp_min"><code>timestamp_min</code></a>
+href="../../query-filter/#timestamp_min"><code>timestamp_min</code></a>
 and/or <a
-href="../../query-filter#timestamp_max"><code>timestamp_max</code></a>.</li>
+href="../../query-filter/#timestamp_max"><code>timestamp_max</code></a>.</li>
 </ul>
 <h2 id="client-libraries"><a href="#client-libraries"
 class="anchor">Client libraries</a></h2>
@@ -329,6 +329,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

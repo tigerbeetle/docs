@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -215,7 +215,7 @@ transfers.</p>
 <p>The cluster commits an entire request at once. Events are applied in
 series, such that successive events observe the effects of previous ones
 and event timestamps are <a
-href="../time#timestamps-are-totally-ordered">totally ordered</a>.</p>
+href="../time/#timestamps-are-totally-ordered">totally ordered</a>.</p>
 <p>Each request receives one <em>reply</em> message from the cluster.
 The reply contains one <em>result</em> for each event in the
 request.</p>
@@ -223,31 +223,31 @@ request.</p>
 Types</a></h2>
 <ul>
 <li><a
-href="../../reference/requests/create_accounts"><code>create_accounts</code></a>:
-create <a href="../../reference/account"><code>Account</code>s</a></li>
+href="../../reference/requests/create_accounts/"><code>create_accounts</code></a>:
+create <a href="../../reference/account/"><code>Account</code>s</a></li>
 <li><a
-href="../../reference/requests/create_transfers"><code>create_transfers</code></a>:
+href="../../reference/requests/create_transfers/"><code>create_transfers</code></a>:
 create <a
-href="../../reference/transfer"><code>Transfer</code>s</a></li>
+href="../../reference/transfer/"><code>Transfer</code>s</a></li>
 <li><a
-href="../../reference/requests/lookup_accounts"><code>lookup_accounts</code></a>:
+href="../../reference/requests/lookup_accounts/"><code>lookup_accounts</code></a>:
 fetch <code>Account</code>s by <code>id</code></li>
 <li><a
-href="../../reference/requests/lookup_transfers"><code>lookup_transfers</code></a>:
+href="../../reference/requests/lookup_transfers/"><code>lookup_transfers</code></a>:
 fetch <code>Transfer</code>s by <code>id</code></li>
 <li><a
-href="../../reference/requests/get_account_transfers"><code>get_account_transfers</code></a>:
+href="../../reference/requests/get_account_transfers/"><code>get_account_transfers</code></a>:
 fetch <code>Transfer</code>s by <code>debit_account_id</code> or
 <code>credit_account_id</code></li>
 <li><a
-href="../../reference/requests/get_account_balances"><code>get_account_balances</code></a>:
+href="../../reference/requests/get_account_balances/"><code>get_account_balances</code></a>:
 fetch the historical account balance by the <code>Account</code>’s
 <code>id</code>.</li>
 <li><a
-href="../../reference/requests/query_accounts"><code>query_accounts</code></a>:
+href="../../reference/requests/query_accounts/"><code>query_accounts</code></a>:
 query <code>Account</code>s</li>
 <li><a
-href="../../reference/requests/query_transfers"><code>query_transfers</code></a>:
+href="../../reference/requests/query_transfers/"><code>query_transfers</code></a>:
 query <code>Transfer</code>s</li>
 </ul>
 <h2 id="events-and-results"><a href="#events-and-results"
@@ -267,63 +267,63 @@ type:</p>
 <tr>
 <td><code>create_accounts</code></td>
 <td><a
-href="../../reference/requests/create_accounts#event"><code>Account</code></a></td>
+href="../../reference/requests/create_accounts/#event"><code>Account</code></a></td>
 <td><a
-href="../../reference/requests/create_accounts#result"><code>CreateAccountResult</code></a></td>
+href="../../reference/requests/create_accounts/#result"><code>CreateAccountResult</code></a></td>
 </tr>
 <tr>
 <td><code>create_transfers</code></td>
 <td><a
-href="../../reference/requests/create_transfers#event"><code>Transfer</code></a></td>
+href="../../reference/requests/create_transfers/#event"><code>Transfer</code></a></td>
 <td><a
-href="../../reference/requests/create_transfers#result"><code>CreateTransferResult</code></a></td>
+href="../../reference/requests/create_transfers/#result"><code>CreateTransferResult</code></a></td>
 </tr>
 <tr>
 <td><code>lookup_accounts</code></td>
 <td><a
-href="../../reference/requests/lookup_accounts#event"><code>Account.id</code></a></td>
+href="../../reference/requests/lookup_accounts/#event"><code>Account.id</code></a></td>
 <td><a
-href="../../reference/requests/lookup_accounts#result"><code>Account</code></a>
+href="../../reference/requests/lookup_accounts/#result"><code>Account</code></a>
 or nothing</td>
 </tr>
 <tr>
 <td><code>lookup_transfers</code></td>
 <td><a
-href="../../reference/requests/lookup_transfers#event"><code>Transfer.id</code></a></td>
+href="../../reference/requests/lookup_transfers/#event"><code>Transfer.id</code></a></td>
 <td><a
-href="../../reference/requests/lookup_transfers#result"><code>Transfer</code></a>
+href="../../reference/requests/lookup_transfers/#result"><code>Transfer</code></a>
 or nothing</td>
 </tr>
 <tr>
 <td><code>get_account_transfers</code></td>
 <td><a
-href="../../reference/account-filter"><code>AccountFilter</code></a></td>
+href="../../reference/account-filter/"><code>AccountFilter</code></a></td>
 <td><a
-href="../../reference/requests/get_account_transfers#result"><code>Transfer</code></a>
+href="../../reference/requests/get_account_transfers/#result"><code>Transfer</code></a>
 or nothing</td>
 </tr>
 <tr>
 <td><code>get_account_balances</code></td>
 <td><a
-href="../../reference/account-filter"><code>AccountFilter</code></a></td>
+href="../../reference/account-filter/"><code>AccountFilter</code></a></td>
 <td><a
-href="../../reference/requests/get_account_balances#result"><code>AccountBalance</code></a>
+href="../../reference/requests/get_account_balances/#result"><code>AccountBalance</code></a>
 or nothing</td>
 </tr>
 <tr>
 <td><code>query_accounts</code></td>
 <td><a
-href="../../reference/query-filter"><code>QueryFilter</code></a></td>
+href="../../reference/query-filter/"><code>QueryFilter</code></a></td>
 <td><a
-href="../../reference/requests/lookup_accounts#result"><code>Account</code></a>
+href="../../reference/requests/lookup_accounts/#result"><code>Account</code></a>
 or nothing</td>
 </tr>
 <tr>
 <td><code>query_transfers</code></td>
 <td><a
-href="../../reference/query-filter"><code>QueryFilter</code></a></td>
+href="../../reference/query-filter/"><code>QueryFilter</code></a></td>
 <td><a
-href="../../reference/requests/lookup_transfers#result"><code>Transfer</code></a>
+href="../../reference/requests/lookup_transfers/#result"><code>Transfer</code></a>
 or nothing</td>
 </tr>
 </tbody>
@@ -339,7 +339,7 @@ receive the <code>exists</code> result.</p>
 class="anchor">Batching Events</a></h2>
 <p>To achieve high throughput, TigerBeetle amortizes the overhead of
 consensus and I/O by <a
-href="../../concepts/performance#batching-batching-batching">batching</a>
+href="../../concepts/performance/#batching-batching-batching">batching</a>
 many events in each request.</p>
 <p>In the default configuration, the maximum batch sizes for each
 request type are:</p>
@@ -412,7 +412,7 @@ server where each HTTP request is handled on a different thread.</p>
 <p>The TigerBeetle client should be shared across threads (or tasks,
 depending on your paradigm), since it automatically groups together
 batches of small sizes into one request. Since TigerBeetle clients can
-have <a href="../../reference/sessions"><strong>at most one in-flight
+have <a href="../../reference/sessions/"><strong>at most one in-flight
 request</strong></a>, the client accumulates smaller batches together
 while waiting for a reply to the last request.</p>
 <p>†: For queries (e.g. <code>get_account_transfers</code>, etc)
@@ -423,14 +423,14 @@ sure that all of their results will fit in a single reply.</p>
 class="anchor">Guarantees</a></h2>
 <ul>
 <li>A request executes within the cluster at most once.</li>
-<li>Requests do not <a href="../../reference/sessions#retries">time
+<li>Requests do not <a href="../../reference/sessions/#retries">time
 out</a>. Clients will continuously retry requests until they receive a
 reply from the cluster. This is because in the case of a network
 partition, a lack of response from the cluster could either indicate
 that the request was dropped before it was processed or that the reply
 was dropped after the request was processed. Note that individual <a
-href="../two-phase-transfers">pending transfers</a> within a request may
-have <a href="../../reference/transfer#timeout">timeouts</a>.</li>
+href="../two-phase-transfers/">pending transfers</a> within a request
+may have <a href="../../reference/transfer/#timeout">timeouts</a>.</li>
 <li>Requests retried by their original client session receive identical
 replies.</li>
 <li>Requests retried by a different client (same request body, different
@@ -443,11 +443,11 @@ requests.</li>
 <li>All events within a request batch are committed, or none are. Note
 that this does not mean that all of the events in a batch will succeed,
 or that all will fail. Events succeed or fail independently unless they
-are explicitly <a href="../linked-events">linked</a>.</li>
+are explicitly <a href="../linked-events/">linked</a>.</li>
 <li>Once committed, an event will always be committed – the cluster’s
 state never backtracks.</li>
 <li>Within a cluster, object <a
-href="../time#timestamps-are-totally-ordered">timestamps are unique and
+href="../time/#timestamps-are-totally-ordered">timestamps are unique and
 strictly increasing</a>. No two objects within the same cluster will
 have the same timestamp. Furthermore, the order of the timestamps
 indicates the order in which the objects were committed.</li>
@@ -532,6 +532,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

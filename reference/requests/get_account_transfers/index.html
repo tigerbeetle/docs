@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -208,27 +208,27 @@
         <div class="content">
           <h1 id="get_account_transfers"><a href="#get_account_transfers"
 class="anchor"><code>get_account_transfers</code></a></h1>
-<p>Fetch <a href="../../transfer"><code>Transfer</code></a>s involving a
-given <a href="../../account"><code>Account</code></a>.</p>
+<p>Fetch <a href="../../transfer/"><code>Transfer</code></a>s involving
+a given <a href="../../account/"><code>Account</code></a>.</p>
 <h2 id="event"><a href="#event" class="anchor">Event</a></h2>
 <p>The account filter. See <a
-href="../../account-filter"><code>AccountFilter</code></a> for
+href="../../account-filter/"><code>AccountFilter</code></a> for
 constraints.</p>
 <h2 id="result"><a href="#result" class="anchor">Result</a></h2>
 <ul>
 <li>Return a (possibly empty) array of <a
-href="../../transfer"><code>Transfer</code></a>s that match the
+href="../../transfer/"><code>Transfer</code></a>s that match the
 filter.</li>
 <li>If any constraint is violated, return nothing.</li>
 <li>By default, <code>Transfer</code>s are sorted chronologically by
 <code>timestamp</code>. You can use the <a
-href="../../account-filter#flagsreversed"><code>reversed</code></a> to
+href="../../account-filter/#flagsreversed"><code>reversed</code></a> to
 change this.</li>
 <li>The result is always limited in size. If there are more results, you
 need to page through them using the <code>AccountFilter</code>’s <a
-href="../../account-filter#timestamp_min"><code>timestamp_min</code></a>
+href="../../account-filter/#timestamp_min"><code>timestamp_min</code></a>
 and/or <a
-href="../../account-filter#timestamp_max"><code>timestamp_max</code></a>.</li>
+href="../../account-filter/#timestamp_max"><code>timestamp_max</code></a>.</li>
 </ul>
 <h2 id="client-libraries"><a href="#client-libraries"
 class="anchor">Client libraries</a></h2>
@@ -325,6 +325,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

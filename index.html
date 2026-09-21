@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -210,10 +210,10 @@
 class="anchor">TigerBeetle</a></h1>
 <p>This is the documentation for TigerBeetle: the financial transactions
 database designed for mission critical safety and performance to power
-the next 30 years of <a href="./concepts/oltp">OLTP</a>.</p>
+the next 30 years of <a href="./concepts/oltp/">OLTP</a>.</p>
 <p>This is how the entire documentation is organized:</p>
 <ul>
-<li><a href="./start">Start</a> gets you up and running with a
+<li><a href="./start/">Start</a> gets you up and running with a
 cluster.</li>
 <li><a href="./concepts/">Concepts</a> explains why TigerBeetle
 exists.</li>
@@ -309,6 +309,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

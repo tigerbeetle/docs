@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -228,7 +228,7 @@ Responsibilities</a></h2>
 <ul>
 <li>Initiate transactions</li>
 <li><a
-href="../reliable-transaction-submission#the-app-or-browser-should-generate-the-id">Generate
+href="../reliable-transaction-submission/#the-app-or-browser-should-generate-the-id">Generate
 Transfer and Account IDs</a></li>
 </ul>
 <p><strong>Stateless API Service</strong></p>
@@ -238,9 +238,9 @@ Transfer and Account IDs</a></li>
 TigerBeetle when users sign up</li>
 <li><a href="#ledger-account-and-transfer-types">Cache ledger
 metadata</a></li>
-<li><a href="../requests#batching-events">Batch transfers</a></li>
+<li><a href="../requests/#batching-events">Batch transfers</a></li>
 <li>Apply exchange rates for <a
-href="../recipes/currency-exchange">currency exchange</a>
+href="../recipes/currency-exchange/">currency exchange</a>
 transactions</li>
 </ul>
 <p><strong>General Purpose (OLGP) Database</strong></p>
@@ -261,7 +261,8 @@ API</li>
 <li>Enforce strict serializability of events</li>
 <li>Optionally store pointers to records or entities in the general
 purpose database in the <a
-href="../data-modeling#user_data"><code>user_data</code></a> fields</li>
+href="../data-modeling/#user_data"><code>user_data</code></a>
+fields</li>
 </ul>
 <h2 id="ledger-account-and-transfer-types"><a
 href="#ledger-account-and-transfer-types" class="anchor">Ledger,
@@ -293,16 +294,16 @@ include:</p>
 <tr>
 <td>Currency or asset code’s string representation (for example,
 “USD”)</td>
-<td><a href="../data-modeling#asset-scale"><code>ledger</code></a> and
-<a href="../data-modeling#asset-scale">asset scale</a></td>
+<td><a href="../data-modeling/#asset-scale"><code>ledger</code></a> and
+<a href="../data-modeling/#asset-scale">asset scale</a></td>
 </tr>
 <tr>
 <td>Account type’s string representation (for example, “cash”)</td>
-<td><a href="../data-modeling#code"><code>code</code></a></td>
+<td><a href="../data-modeling/#code"><code>code</code></a></td>
 </tr>
 <tr>
 <td>Transfer type’s string representation (for example, “refund”)</td>
-<td><a href="../data-modeling#code"><code>code</code></a></td>
+<td><a href="../data-modeling/#code"><code>code</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -393,6 +394,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

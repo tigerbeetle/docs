@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -216,7 +216,7 @@ another account.</p>
 account (i.e. at the end of an accounting period, upon account
 termination, or even temporarily freezing the account for audit
 purposes). This doesn’t affect existing <a
-href="../../two-phase-transfers">pending transfers</a>, which can still
+href="../../two-phase-transfers/">pending transfers</a>, which can still
 time out but can’t be posted or voided.</p>
 <h3 id="example"><a href="#example" class="anchor">Example</a></h3>
 <p>Given a set of accounts:</p>
@@ -240,7 +240,7 @@ time out but can’t be posted or voided.</p>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">20</td>
 <td><a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a></td>
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;"><code>B</code></td>
@@ -249,7 +249,7 @@ href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>debi
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5</td>
 <td><a
-href="../../../reference/account#flagscredits_must_not_exceed_debits"><code>credits_must_not_exceed_debits</code></a></td>
+href="../../../reference/account/#flagscredits_must_not_exceed_debits"><code>credits_must_not_exceed_debits</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;"><code>C</code></td>
@@ -293,8 +293,8 @@ not be closed.</p></li>
 <td style="text-align: right;"><code>AMOUNT_MAX</code></td>
 <td style="text-align: right;">10</td>
 <td><a
-href="../../../reference/transfer#flagsbalancing_debit"><code>balancing_debit</code></a>,<a
-href="../../../reference/transfer#flagslinked"><code>linked</code></a></td>
+href="../../../reference/transfer/#flagsbalancing_debit"><code>balancing_debit</code></a>,<a
+href="../../../reference/transfer/#flagslinked"><code>linked</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;"><code>T2</code></td>
@@ -303,9 +303,9 @@ href="../../../reference/transfer#flagslinked"><code>linked</code></a></td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td><a
-href="../../../reference/transfer#flagsclosing_debit"><code>closing_debit</code></a>,
+href="../../../reference/transfer/#flagsclosing_debit"><code>closing_debit</code></a>,
 <a
-href="../../../reference/transfer#flagspending"><code>pending</code></a></td>
+href="../../../reference/transfer/#flagspending"><code>pending</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;"><code>T3</code></td>
@@ -314,8 +314,8 @@ href="../../../reference/transfer#flagspending"><code>pending</code></a></td>
 <td style="text-align: right;"><code>AMOUNT_MAX</code></td>
 <td style="text-align: right;">25</td>
 <td><a
-href="../../../reference/transfer#flagsbalancing_credit"><code>balancing_credit</code></a>,<a
-href="../../../reference/transfer#flagslinked"><code>linked</code></a></td>
+href="../../../reference/transfer/#flagsbalancing_credit"><code>balancing_credit</code></a>,<a
+href="../../../reference/transfer/#flagslinked"><code>linked</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;"><code>T4</code></td>
@@ -324,9 +324,9 @@ href="../../../reference/transfer#flagslinked"><code>linked</code></a></td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td><a
-href="../../../reference/transfer#flagsclosing_credit"><code>closing_credit</code></a>,
+href="../../../reference/transfer/#flagsclosing_credit"><code>closing_credit</code></a>,
 <a
-href="../../../reference/transfer#flagspending"><code>pending</code></a></td>
+href="../../../reference/transfer/#flagspending"><code>pending</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -366,9 +366,9 @@ transfers.</p>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">20</td>
 <td><a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a>,
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a>,
 <a
-href="../../../reference/account#flagsclosed"><code>closed</code></a></td>
+href="../../../reference/account/#flagsclosed"><code>closed</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;"><code>B</code></td>
@@ -377,9 +377,9 @@ href="../../../reference/account#flagsclosed"><code>closed</code></a></td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">30</td>
 <td><a
-href="../../../reference/account#flagscredits_must_not_exceed_debits"><code>credits_must_not_exceed_debits</code></a>,
+href="../../../reference/account/#flagscredits_must_not_exceed_debits"><code>credits_must_not_exceed_debits</code></a>,
 <a
-href="../../../reference/account#flagsclosed"><code>closed</code></a></td>
+href="../../../reference/account/#flagsclosed"><code>closed</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;"><code>C</code></td>
@@ -415,7 +415,7 @@ the net balance):</p>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;"><code>T2</code></td>
 <td><a
-href="../../../reference/transfer#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a></td>
+href="../../../reference/transfer/#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;"><code>T6</code></td>
@@ -424,7 +424,7 @@ href="../../../reference/transfer#flagsvoid_pending_transfer"><code>void_pending
 <td style="text-align: right;">0</td>
 <td style="text-align: right;"><code>T4</code></td>
 <td><a
-href="../../../reference/transfer#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a></td>
+href="../../../reference/transfer/#flagsvoid_pending_transfer"><code>void_pending_transfer</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -451,7 +451,7 @@ are re-opened and can accept transfers again:</p>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">20</td>
 <td><a
-href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a></td>
+href="../../../reference/account/#flagsdebits_must_not_exceed_credits"><code>debits_must_not_exceed_credits</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;"><code>B</code></td>
@@ -460,7 +460,7 @@ href="../../../reference/account#flagsdebits_must_not_exceed_credits"><code>debi
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">30</td>
 <td><a
-href="../../../reference/account#flagscredits_must_not_exceed_debits"><code>credits_must_not_exceed_debits</code></a></td>
+href="../../../reference/account/#flagscredits_must_not_exceed_debits"><code>credits_must_not_exceed_debits</code></a></td>
 </tr>
 <tr>
 <td style="text-align: right;"><code>C</code></td>
@@ -553,6 +553,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -210,12 +210,12 @@
 class="anchor"><code>lookup_transfers</code></a></h1>
 <p>Fetch one or more transfers by their <code>id</code>s.</p>
 <h2 id="event"><a href="#event" class="anchor">Event</a></h2>
-<p>An <a href="../../transfer#id"><code>id</code></a> belonging to a <a
-href="../../transfer"><code>Transfer</code></a>.</p>
+<p>An <a href="../../transfer/#id"><code>id</code></a> belonging to a <a
+href="../../transfer/"><code>Transfer</code></a>.</p>
 <h2 id="result"><a href="#result" class="anchor">Result</a></h2>
 <ul>
 <li>If the transfer exists, return the <a
-href="../../transfer"><code>Transfer</code></a>.</li>
+href="../../transfer/"><code>Transfer</code></a>.</li>
 <li>If the transfer does not exist, return nothing.</li>
 </ul>
 <h2 id="client-libraries"><a href="#client-libraries"
@@ -316,6 +316,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

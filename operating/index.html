@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -212,21 +212,21 @@ class="anchor">Operating</a></h1>
 While tiger beetles thrive even in the harshest conditions, there’s
 certainly a preferred way to handle one!</p>
 <ul>
-<li><a href="./installing">Installing</a> lists all the various way to
+<li><a href="./installing/">Installing</a> lists all the various way to
 get the freshest TigerBeetle binary.</li>
-<li><a href="./hardware">Hardware</a> specifies the host
+<li><a href="./hardware/">Hardware</a> specifies the host
 requirements.</li>
-<li><a href="./cluster">Cluster</a> specifies the overall cluster
+<li><a href="./cluster/">Cluster</a> specifies the overall cluster
 requirements and recommendations.</li>
 <li><a href="./deploying/">Deploying</a> spells out deployment process
 and its variations.</li>
-<li><a href="./monitoring">Monitoring</a> details how to monitor a
+<li><a href="./monitoring/">Monitoring</a> details how to monitor a
 TigerBeetle cluster.</li>
-<li><a href="./upgrading">Upgrading</a> explains how to move to a newer
+<li><a href="./upgrading/">Upgrading</a> explains how to move to a newer
 TigerBeetle version with a few seconds of downtime.</li>
-<li><a href="./recovering">Recovering</a> explains how to repair the
+<li><a href="./recovering/">Recovering</a> explains how to repair the
 cluster when a replica is permanently lost.</li>
-<li><a href="./cdc">Change Data Capture</a> explains how to stream data
+<li><a href="./cdc/">Change Data Capture</a> explains how to stream data
 out of TigerBeetle.</li>
 </ul>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/operating/README.md">
@@ -309,6 +309,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

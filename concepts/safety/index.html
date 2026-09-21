@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-6ngUEWbAd58E+Qn78rOJMiEY48lXyYr7EO+8DPiQmpw='">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' plausible.io 'sha256-WlmN268DREwaFxE+U91mXUCFfQWxKudiUgt52zoTnWo='">
     <meta name="description" content="The financial transactions database to power the next 30 years of Online Transaction Processing.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@TigerBeetleDB">
@@ -225,7 +225,7 @@ reason, TigerBeetle intentionally supports only the strictest possible
 isolation level – <strong>strict serializability</strong>. All transfers
 are executed one-by-one, on a single core.</p>
 <p>Furthermore, TigerBeetle’s state machine is designed according to the
-<a href="../../coding/reliable-transaction-submission">end-to-end
+<a href="../../coding/reliable-transaction-submission/">end-to-end
 idempotency principle</a> – each transfer has a unique client-generated
 <code>u128</code> id, and each transfer is processed at most once, even
 in the presence of intermediate retry loops.</p>
@@ -243,7 +243,7 @@ It’s worth emphasizing that consensus proper needs only be engaged
 during actual failover. During the normal operation, the cost of
 consensus is just the cost of replication, which is further minimized
 because of <a
-href="../performance#batching-batching-batching">batching</a>, tail
+href="../performance/#batching-batching-batching">batching</a>, tail
 latency tolerance, and pipelining.</p>
 <p>TigerBeetle does not depend on synchronized system clocks, does not
 use leader leases, and <strong>performs leader-based
@@ -367,7 +367,7 @@ stored in TigerBeetle’s LSM-Forest local storage engine.</p>
 durability since the WAL is the source of truth. If TigerBeetle crashes,
 the WAL is replayed at startup from the last checkpoint on disk.</p>
 <p>However, financial atomicity goes further than this: events and
-transfers can be <a href="../../coding/linked-events">linked</a> when
+transfers can be <a href="../../coding/linked-events/">linked</a> when
 created so they all succeed or fail together.</p>
 <h3 id="consistency"><a href="#consistency"
 class="anchor">Consistency</a></h3>
@@ -427,10 +427,10 @@ way to handle asynchronous disk I/O.</p>
 <h2 id="next-coding"><a href="#next-coding" class="anchor">Next:
 Coding</a></h2>
 <p>This concludes the discussion of the concepts behind TigerBeetle — an
-<a href="../oltp">OLTP</a> database for recording business transactions
-in real time, using a <a href="../debit-credit">double-entry
-bookkeeping</a> schema, which <a href="../performance">is orders of
-magnitude faster</a> and <a href="../safety">keeps the data safe</a>
+<a href="../oltp/">OLTP</a> database for recording business transactions
+in real time, using a <a href="../debit-credit/">double-entry
+bookkeeping</a> schema, which <a href="../performance/">is orders of
+magnitude faster</a> and <a href="../safety/">keeps the data safe</a>
 even when the underlying hardware inevitably fails.</p>
 <p>We will now learn <a href="../../coding/">how to build applications
 on top of TigerBeetle</a>.</p>
@@ -514,6 +514,11 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("mobile-expanded");
   if (leftPane.classList.contains("search-active")) closeSearch();
 });
+if (singlePage) {
+  document.querySelectorAll("nav.side a").forEach(a =>
+    a.addEventListener("click", () => document.body.classList.remove("mobile-expanded"))
+  );
+}
 
 // Restore and save the state of the side navigation.
 const navState = JSON.parse(localStorage.getItem("navState"));

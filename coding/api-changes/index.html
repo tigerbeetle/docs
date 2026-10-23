@@ -234,7 +234,7 @@ reported outcomes only for failed events, returning a <em>sparse
 array</em> of results. Each result included the <code>index</code> of
 the failed element within the event batch and the corresponding error
 code. Successfully created events were not returned by the TigerBeetle
-cluster, and the application could safely assume them as
+cluster, and the application could safely assume they were
 <code>ok</code>.</p>
 <p>While this approach prioritized saving network bandwidth by omitting
 results for the common <em>happy path</em>, it didn’t provide enough
@@ -339,8 +339,7 @@ class="anchor">Client breaking changes</a></h3>
 <p>Along with the new result types, some client libraries have changed
 the API to be more idiomatic, for naming consistency, or even due to bug
 fixes in the previous API.</p>
-<p>See below is a list of API changes specific to each client
-library:</p>
+<p>Below is a list of API changes specific to each client library:</p>
 <details><summary><b>.NET</b></summary>
 
 <h3 id="net-client-breaking-changes"><a
@@ -577,9 +576,9 @@ href="../../reference/requests/create_transfers/"><code>create_transfers</code><
 operations respectively, were renamed to
 <code>CreateAccount<b>Status</b></code> and
 <code>CreateTransfer<b>Status</b></code>.</p>
-<p>The enum values <code>AccountOK</code> and <code>TransferOK</code>,
+<p>The enum values <code>AccountOK</code> and <code>TransferOK</code>
 were replaced by the new status codes <code>AccountCreated</code> and
-<code>TransferCreated</code>, which indicates the event was successfully
+<code>TransferCreated</code>, which indicate the event was successfully
 created by the operation.</p>
 <div class="table">
 <table>
@@ -1364,7 +1363,7 @@ class="anchor"><span>0.16.33</span></a></h2>
 <h3 id="oldest-supported-client-version-is-0164"><a
 href="#oldest-supported-client-version-is-0164" class="anchor">Oldest
 supported client version is <code>0.16.4</code></a></h3>
-<p>Please make sure that all of your clients are running on at
+<p>Please make sure that all of your clients are running
 <code>0.16.4</code> or newer before upgrading to this release!</p>
 <h2 id="0164"><a href="#0164"
 class="anchor"><span>0.16.4</span></a></h2>

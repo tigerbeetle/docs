@@ -269,9 +269,9 @@ class="anchor"><code>reserved</code></a></h3>
 <h3 id="timestamp_min"><a href="#timestamp_min"
 class="anchor"><code>timestamp_min</code></a></h3>
 <p>The minimum <a
-href="../transfer/#timestamp"><code>Transfer.timestamp</code></a> from
-which results will be returned, inclusive range. Optional; set to zero
-to disable the lower-bound filter.</p>
+href="../transfer/#timestamp"><code>Transfer.timestamp</code></a> for
+which results will be returned (inclusive). Optional; set to zero to
+disable the lower-bound filter.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 64-bit unsigned integer (8 bytes)</li>
@@ -280,9 +280,9 @@ to disable the lower-bound filter.</p>
 <h3 id="timestamp_max"><a href="#timestamp_max"
 class="anchor"><code>timestamp_max</code></a></h3>
 <p>The maximum <a
-href="../transfer/#timestamp"><code>Transfer.timestamp</code></a> from
-which results will be returned, inclusive range. Optional; set to zero
-to disable the upper-bound filter.</p>
+href="../transfer/#timestamp"><code>Transfer.timestamp</code></a> for
+which results will be returned (inclusive). Optional; set to zero to
+disable the upper-bound filter.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 64-bit unsigned integer (8 bytes)</li>
@@ -305,6 +305,8 @@ class="anchor"><code>flags</code></a></h3>
 <p>Constraints:</p>
 <ul>
 <li>Type is 32-bit unsigned integer (4 bytes)</li>
+<li>At least one of <code>flags.debits</code> or
+<code>flags.credits</code> must be set. Both may be set.</li>
 </ul>
 <h4 id="flagsdebits"><a href="#flagsdebits"
 class="anchor"><code>flags.debits</code></a></h4>

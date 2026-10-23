@@ -331,7 +331,9 @@ TigerBeetle has clients for several popular programming languages,
 including <a href="#coding-clients-python">Python</a>, <a
 href="#coding-clients-java">Java</a>, <a
 href="#coding-clients-node">Node.js</a>, <a
-href="#coding-clients-dotnet">.Net</a>, and <a
+href="#coding-clients-dotnet">.Net</a>, <a
+href="#coding-clients-rust">Rust</a>, <a
+href="#coding-clients-ruby">Ruby</a> and <a
 href="#coding-clients-go">Go</a>, and more are coming; see the <a
 href="#coding">Coding</a> section for details. For this tutorial,
 we’ll keep it simple and connect to the cluster using the built-in CLI
@@ -524,7 +526,7 @@ databases.</p>
 href="https://en.wikipedia.org/wiki/Unified_Payments_Interface">UPI</a>
 real-time payments switch in India processed 10 billion payments in the
 year 2019. In January 2025 alone, it processed <a
-href="https://www.npci.org.in/what-we-do/upi/product-statistics">16.9
+href="https://www.npci.org.in/product/upi/product-statistics">16.9
 billion payments.</a></li>
 <li>Cleaner energy and smart metering means energy is being traded by
 the kilowatt-hour. Customer billing is every 15 or 30 minutes rather
@@ -735,11 +737,11 @@ class="anchor">Preserving User Privacy</a></h3>
 requirements, such as the right to be forgotten. User privacy can be
 preserved by being intentional about what data is stored in the
 <code>user_data_*</code> fields.</p>
-<p>For example, if <code>user_data_128</code> is used to map from your
-application’s unique <code>user_id</code> and TigerBeetle, a user can be
-‘forgotten’ by deleting that mapping. Without it, the accounts and
-transfers in TigerBeetle cannot be linked back to a real user, rendering
-them meaningless and preserving the user’s privacy.</p>
+<p>For example, if <code>user_data_128</code> is used to map between
+your application’s unique <code>user_id</code> and TigerBeetle, a user
+can be ‘forgotten’ by deleting that mapping. Without it, the accounts
+and transfers in TigerBeetle cannot be linked back to a real user,
+rendering them meaningless and preserving the user’s privacy.</p>
 <h2 id="concepts-debit-credit-dont-roll-your-own-ledger"><a href="#concepts-debit-credit-dont-roll-your-own-ledger"
 class="anchor">Don’t Roll Your Own Ledger</a></h2>
 <p>Many companies start out building their own system for recording
@@ -825,7 +827,7 @@ workloads.</p>
 <p>The prevailing paradigm for OLGP is interactive transactions, where
 business-logic lives in the application, and the job of the database is
 to send the data to the application, holding the locks while the data is
-being processed. This works for mixed read-write workload with low
+being processed. This works for mixed read-write workloads with low
 contention, but fails for highly-contended OLTP workloads — locks over
 the network are very expensive!</p>
 <p>With TigerBeetle, <strong>all the logic lives inside the
@@ -927,7 +929,7 @@ new data, it should be able to retrieve it later. Surprisingly, many
 databases don’t provide guaranteed durability – usually the data is
 there, but, under certain edge case conditions, it can get lost!</p>
 <p>As the purpose of TigerBeetle is to be the system of record for
-business transaction, associated with real-world value transfers, it is
+business transactions, associated with real-world value transfers, it is
 paramount that the data stored in TigerBeetle is safe.</p>
 <p>TigerBeetle is therefore designed, engineered, and tested to deliver
 unbreakable durability – even under the most extreme failure
@@ -1132,7 +1134,7 @@ implement its own access controls.</p>
 <p>Note on <code>io_uring</code>: it is a relatively recent (<a
 href="https://www.kernel.org/pub/linux/kernel/v5.x/ChangeLog-5.1">Linux
 5.1, 2019</a>) part of the Linux kernel. It had some kernel exploits,
-which made it problematic for sandboxed applications, and lead to
+which made it problematic for sandboxed applications, and led to
 <code>io_uring</code> being <a
 href="https://security.googleblog.com/2023/06/learnings-from-kctf-vrps-42-linux.html">disabled</a>
 for systems which deal with untrusted data. Because TigerBeetle, by
@@ -1550,7 +1552,7 @@ advantage of LSM optimizations, which leads to higher database
 throughput.</p>
 <p>TigerBeetle clients include an <code>id()</code> function to generate
 IDs using the recommended scheme.</p>
-<p>TigerBeetle ID is a 128-bit number where:</p>
+<p>TigerBeetle ID (TBID) is a 128-bit number where:</p>
 <ul>
 <li>the high 48 bits are a millisecond timestamp</li>
 <li>the low 80 bits are random.</li>
@@ -1564,7 +1566,7 @@ IDs using the recommended scheme.</p>
 </div>
 <p>When creating multiple objects during the same millisecond, we
 increment the random bytes rather than generating new random bytes.
-These details ensure that a sequence of objects have strictly increasing
+These details ensure that a sequence of objects has strictly increasing
 IDs according to the server, which improves database optimization.</p>
 <p>Similar to ULIDs and UUIDv7s, these IDs have the following
 benefits:</p>
@@ -1592,14 +1594,14 @@ or Transfer.</p>
 href="#reference-account-code"><code>Account</code></a>, the
 <code>code</code> indicates the account type, such as assets,
 liabilities, equity, income, or expenses, and subcategories within those
-classification.</p>
+classifications.</p>
 <p>On a <a
 href="#reference-transfer-code"><code>Transfer</code></a>, the
 <code>code</code> indicates why a given transfer is happening, such as a
 purchase, refund, currency exchange, etc.</p>
 <p>When you start building out your application on top of TigerBeetle,
 you may find it helpful to list out all of the known types of accounts
-and movements of funds and mapping each of these to <code>code</code>
+and movements of funds and map each of these to <code>code</code>
 numbers or ranges.</p>
 <a class="edit-link" href="https://github.com/tigerbeetle/tigerbeetle/edit/main/docs/coding/data-modeling.md">
   <svg width="16" height="16" fill="none">
@@ -1667,7 +1669,7 @@ role="doc-noteref"><sup>3</sup></a></li>
 </ul>
 <p>As mentioned above, the type of account depends on whose perspective
 you are doing the accounting from. In those examples, the loan you have
-from the bank is liability for you, because you owe the amount to the
+from the bank is a liability for you, because you owe the amount to the
 bank. However, that same loan is an asset from the bank’s perspective.
 In contrast, the money in your bank account is an asset for you but it
 is a liability for the bank.</p>
@@ -2744,13 +2746,13 @@ funds are not held in limbo indefinitely.</li>
 security purposes, it is useful to have a specific idea of when (in
 terms of wall clock time) transfers took place.</li>
 </ul>
-<p>TigerBeetle uses two-layered approach to physical time. On the basic
-layer, each replica asks the underling operating system about the
+<p>TigerBeetle uses a two-layered approach to physical time. On the
+basic layer, each replica asks the underlying operating system about the
 current time. Then, timing information from several replicas is
 aggregated to make sure that the replicas roughly agree on the time, to
 prevent a replica with a bad clock from issuing incorrect timestamps.
-Additionally, this “cluster time” is made strictly monotonic, for end
-user’s convenience.</p>
+Additionally, this “cluster time” is made strictly monotonic, for the
+end user’s convenience.</p>
 <h2 id="coding-time-why-tigerbeetle-manages-timestamps"><a
 href="#coding-time-why-tigerbeetle-manages-timestamps" class="anchor">Why
 TigerBeetle Manages Timestamps</a></h2>
@@ -3422,11 +3424,11 @@ know (or query) the balance prior to closing the account.</p>
 amount transferred.</p></li>
 <li><p><code>T2</code> and <code>T4</code> are <em>closing
 transfers</em> that will cause the respective account to be closed.</p>
-<p>The closing transfer must be also a <em>pending transfer</em> so the
+<p>The closing transfer must also be a <em>pending transfer</em> so the
 action can be reversible.</p></li>
 </ul>
 <p>After committing these transfers, <code>A</code> and <code>B</code>
-are closed with net balance zero, and will reject any further
+are closed with a net balance of zero, and will reject any further
 transfers.</p>
 <div class="table">
 <table>
@@ -3569,8 +3571,8 @@ Transfers</a></h1>
 an account has at least a certain balance.</p>
 <p>It would be unsafe to check an account’s balance using the <a
 href="#reference-requests-lookup_accounts"><code>lookup_accounts</code></a>
-and then perform the transfer, because these requests are not be atomic
-and the account’s balance may change between the lookup and the
+and then perform the transfer, because these requests are not atomic and
+the account’s balance may change between the lookup and the
 transfer.</p>
 <p>You can atomically run a check against an account’s balance before
 executing a transfer by using a control or temporary account and linked
@@ -3933,8 +3935,8 @@ balances</a></li>
 <p>As you can see below, this account will never actually take control
 of the target account’s funds, but we will set up simultaneous transfers
 in and out of the control account to apply the limit.</p>
-<p>This account must have the opposite limit applied as the target
-account:</p>
+<p>This account must have the opposite limit to the one applied to the
+target account:</p>
 <ul>
 <li><a
 href="#reference-account-flagscredits_must_not_exceed_debits"><code>flags.credits_must_not_exceed_debits</code></a>
@@ -5466,10 +5468,10 @@ class="anchor">Prerequisites</a></h2>
 <p>Linux &gt;= 5.6 is the only production environment we support. But
 for ease of development we also support macOS and Windows.</p>
 <ul>
-<li>Go &gt;= 1.21</li>
+<li>Go &gt;= 1.26</li>
 </ul>
 <p><strong>Additionally on Windows</strong>: you must install <a
-href="https://ziglang.org/download/#release-0.14.1">Zig 0.14.1</a> and
+href="https://ziglang.org/download/#release-0.16.0">Zig 0.16.0</a> and
 set the <code>CC</code> environment variable to <code>zig.exe cc</code>.
 Use the full path for <code>zig.exe</code>.</p>
 <h2 id="coding-clients-go-setup"><a href="#coding-clients-go-setup" class="anchor">Setup</a></h2>
@@ -5601,7 +5603,7 @@ a few helper functions to make it easier to convert 128-bit
 little-endian unsigned integers between <code>string</code>,
 <code>math/big.Int</code>, and <code>[]byte</code>.</p>
 <p>See the type <a
-href="https://pkg.go.dev/github.com/tigerbeetle/tigerbeetle-go/pkg/types#Uint128">Uint128</a>
+href="https://pkg.go.dev/github.com/tigerbeetle/tigerbeetle-go#Uint128">Uint128</a>
 for more details.</p>
 <h3 id="coding-clients-go-account-flags"><a href="#coding-clients-go-account-flags" class="anchor">Account
 Flags</a></h3>
@@ -6466,7 +6468,7 @@ the <a href="#reference-account-flags">Accounts reference</a>.</p>
 <ul>
 <li><code>AccountFlags.LINKED</code></li>
 <li><code>AccountFlags.DEBITS_MUST_NOT_EXCEED_CREDITS</code></li>
-<li><code>AccountFlags.CREDITS_MUST_NOT_EXCEED_CREDITS</code></li>
+<li><code>AccountFlags.CREDITS_MUST_NOT_EXCEED_DEBITS</code></li>
 <li><code>AccountFlags.HISTORY</code></li>
 </ul>
 <p>For example, to link two accounts where the first account
@@ -7338,7 +7340,7 @@ with bitwise-or:</p>
 <ul>
 <li><code>AccountFlags.linked</code></li>
 <li><code>AccountFlags.debits_must_not_exceed_credits</code></li>
-<li><code>AccountFlags.credits_must_not_exceed_credits</code></li>
+<li><code>AccountFlags.credits_must_not_exceed_debits</code></li>
 <li><code>AccountFlags.history</code></li>
 </ul>
 <p>For example, to link two accounts where the first account
@@ -8233,7 +8235,7 @@ with bitwise-or:</p>
 <ul>
 <li><code>AccountFlags.linked</code></li>
 <li><code>AccountFlags.debits_must_not_exceed_credits</code></li>
-<li><code>AccountFlags.credits_must_not_exceed_credits</code></li>
+<li><code>AccountFlags.credits_must_not_exceed_debits</code></li>
 <li><code>AccountFlags.history</code></li>
 </ul>
 <p>For example, to link two accounts where the first account
@@ -9758,12 +9760,16 @@ class="anchor">tigerbeetle-rust</a></h1>
 src="https://img.shields.io/crates/v/tigerbeetle" alt="crates.io" /></a>
 <a href="https://docs.rs/tigerbeetle"><img
 src="https://img.shields.io/docsrs/tigerbeetle" alt="docs.rs" /></a></p>
+<p>The client must not be newer than the TigerBeetle cluster it connects
+to, so always pin exact versions:
+<code>cargo add tigerbeetle@=X.Y.Z</code>, where <code>X.Y.Z</code> is
+the version of your cluster.</p>
 <h2 id="coding-clients-rust-prerequisites"><a href="#coding-clients-rust-prerequisites"
 class="anchor">Prerequisites</a></h2>
 <p>Linux &gt;= 5.6 is the only production environment we support. But
 for ease of development we also support macOS and Windows.</p>
 <ul>
-<li>Rust 1.68+</li>
+<li>Rust 1.63+</li>
 </ul>
 <h2 id="coding-clients-rust-setup"><a href="#coding-clients-rust-setup" class="anchor">Setup</a></h2>
 <p>First, create a directory for your project and <code>cd</code> into
@@ -9778,11 +9784,24 @@ the directory.</p>
 class="sourceCode toml"><code class="sourceCode toml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[package]</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;tigerbeetle-test&quot;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">version</span> <span class="op">=</span> <span class="st">&quot;0.1.0&quot;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">edition</span> <span class="op">=</span> <span class="st">&quot;2024&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">edition</span> <span class="op">=</span> <span class="st">&quot;2021&quot;</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">[dependencies]</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="dt">tigerbeetle.path</span> <span class="op">=</span> <span class="st">&quot;../..&quot;</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="dt">futures</span> <span class="op">=</span> <span class="st">&quot;0.3&quot;</span></span></code></pre></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">[profile.release]</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># It is *strongly* recommended that Rust applications using TigerBeetle</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># enable overflow checks, because the nature of accounting makes overflow</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># errors catastrophic.</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that the following line enables the checks only for this crate, so</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># overflow checks must always be enabled in the Cargo.toml of the end application.</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="dt">overflow-checks</span> <span class="op">=</span> <span class="cn">true</span></span></code></pre></div>
+</div>
+<p>Then, install the TigerBeetle client:</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<pre class="console"><code>cargo add tigerbeetle</code></pre>
 </div>
 <p>Now, create <code>src/main.rs</code> and copy this into it:</p>
 <div class="code-wrapper">
@@ -9790,17 +9809,41 @@ class="sourceCode toml"><code class="sourceCode toml"><span id="cb1-1"><a href="
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> tigerbeetle <span class="kw">as</span> tb<span class="op">;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">fn</span> main() <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span>()<span class="op">,</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="pp">std::error::</span><span class="bu">Error</span><span class="op">&gt;&gt;</span> <span class="op">{</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="pp">futures::executor::</span>block_on(main_async())</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">fn</span> main_async() <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span>()<span class="op">,</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="pp">std::error::</span><span class="bu">Error</span><span class="op">&gt;&gt;</span> <span class="op">{</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="pp">println!</span>(<span class="st">&quot;hello world&quot;</span>)<span class="op">;</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Ok</span>(())</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> tigerbeetle <span class="kw">as</span> tb<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">fn</span> main() <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span>()<span class="op">,</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="pp">std::error::</span><span class="bu">Error</span><span class="op">&gt;&gt;</span> <span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    block_on(main_async())</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">fn</span> main_async() <span class="op">-&gt;</span> <span class="dt">Result</span><span class="op">&lt;</span>()<span class="op">,</span> <span class="dt">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="pp">std::error::</span><span class="bu">Error</span><span class="op">&gt;&gt;</span> <span class="op">{</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="pp">println!</span>(<span class="st">&quot;hello world&quot;</span>)<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Ok</span>(())</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">/// Minimal async executor for this sample. In a real application, use a proper async runtime.</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">fn</span> block_on<span class="op">&lt;</span>F<span class="op">:</span> <span class="pp">std::future::</span><span class="bu">Future</span><span class="op">&gt;</span>(future<span class="op">:</span> F) <span class="op">-&gt;</span> <span class="pp">F::</span>Output <span class="op">{</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">use</span> <span class="pp">std::sync::</span>Arc<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">use</span> <span class="pp">std::task::</span><span class="op">{</span>Context<span class="op">,</span> Poll<span class="op">,</span> Wake<span class="op">,</span> Waker<span class="op">};</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">struct</span> ThreadWaker(<span class="pp">std::thread::</span>Thread)<span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">impl</span> Wake <span class="cf">for</span> ThreadWaker <span class="op">{</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="kw">fn</span> wake(<span class="kw">self</span><span class="op">:</span> Arc<span class="op">&lt;</span><span class="dt">Self</span><span class="op">&gt;</span>) <span class="op">{</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            <span class="kw">self</span><span class="op">.</span><span class="dv">0</span><span class="op">.</span>unpark()<span class="op">;</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> <span class="kw">mut</span> future <span class="op">=</span> <span class="dt">Box</span><span class="pp">::</span>pin(future)<span class="op">;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> waker <span class="op">=</span> <span class="pp">Waker::</span>from(<span class="pp">Arc::</span>new(ThreadWaker(<span class="pp">std::thread::</span>current())))<span class="op">;</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> <span class="kw">mut</span> context <span class="op">=</span> <span class="pp">Context::</span>from_waker(<span class="op">&amp;</span>waker)<span class="op">;</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">loop</span> <span class="op">{</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">match</span> future<span class="op">.</span>as_mut()<span class="op">.</span>poll(<span class="op">&amp;</span><span class="kw">mut</span> context) <span class="op">{</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>            <span class="pp">Poll::</span>Ready(output) <span class="op">=&gt;</span> <span class="cf">return</span> output<span class="op">,</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>            <span class="pp">Poll::</span>Pending <span class="op">=&gt;</span> <span class="pp">std::thread::</span>park()<span class="op">,</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <p>Finally, build and run:</p>
 <div class="code-wrapper">
@@ -9848,12 +9891,12 @@ environment variable and defaults to port <code>3000</code>.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cluster_id <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> replica_address <span class="op">=</span> <span class="pp">std::env::</span>var(<span class="st">&quot;TB_ADDRESS&quot;</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>ok()</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>unwrap_or_else(<span class="op">||</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">&quot;3000&quot;</span>))<span class="op">;</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> client <span class="op">=</span> <span class="pp">tb::Client::</span>new(cluster_id<span class="op">,</span> <span class="op">&amp;</span>replica_address)<span class="op">?;</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cluster_id <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> replica_address <span class="op">=</span> <span class="pp">std::env::</span>var(<span class="st">&quot;TB_ADDRESS&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>ok()</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>unwrap_or_else(<span class="op">||</span> <span class="dt">String</span><span class="pp">::</span>from(<span class="st">&quot;3000&quot;</span>))<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> client <span class="op">=</span> <span class="pp">tb::Client::</span>new(cluster_id<span class="op">,</span> <span class="op">&amp;</span>replica_address)<span class="op">?;</span></span></code></pre></div>
 </div>
 <p>The following are valid addresses:</p>
 <ul>
@@ -9872,16 +9915,16 @@ href="#reference-account">Accounts reference</a>.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_results <span class="op">=</span> client</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>create_accounts(<span class="op">&amp;</span>[<span class="pp">tb::</span>Account <span class="op">{</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        id<span class="op">:</span> <span class="pp">tb::</span>id()<span class="op">,</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        code<span class="op">:</span> <span class="dv">718</span><span class="op">,</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>])<span class="op">?</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_results <span class="op">=</span> client</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>create_accounts(<span class="op">&amp;</span>[<span class="pp">tb::</span>Account <span class="op">{</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        id<span class="op">:</span> <span class="pp">tb::</span>id()<span class="op">,</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        code<span class="op">:</span> <span class="dv">718</span><span class="op">,</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>])</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
 </div>
 <p>See details for the recommended ID scheme in <a
 href="#coding-data-modeling-tigerbeetle-time-based-identifiers-recommended">time-based
@@ -9908,24 +9951,24 @@ constraint:</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb6"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account0 <span class="op">=</span> <span class="pp">tb::</span>Account <span class="op">{</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">100</span><span class="op">,</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">718</span><span class="op">,</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::AccountFlags::</span>DebitsMustNotExceedCredits <span class="op">|</span> <span class="pp">tb::AccountFlags::</span>Linked<span class="op">,</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account1 <span class="op">=</span> <span class="pp">tb::</span>Account <span class="op">{</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">718</span><span class="op">,</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::AccountFlags::</span>History<span class="op">,</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_results <span class="op">=</span> client<span class="op">.</span>create_accounts(<span class="op">&amp;</span>[account0<span class="op">,</span> account1])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account0 <span class="op">=</span> <span class="pp">tb::</span>Account <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">100</span><span class="op">,</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">718</span><span class="op">,</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::AccountFlags::</span>DebitsMustNotExceedCredits <span class="op">|</span> <span class="pp">tb::AccountFlags::</span>Linked<span class="op">,</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account1 <span class="op">=</span> <span class="pp">tb::</span>Account <span class="op">{</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">718</span><span class="op">,</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::AccountFlags::</span>History<span class="op">,</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_results <span class="op">=</span> client<span class="op">.</span>create_accounts(<span class="op">&amp;</span>[account0<span class="op">,</span> account1])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
 </div>
 <h3 id="coding-clients-rust-response-and-errors"><a href="#coding-clients-rust-response-and-errors"
 class="anchor">Response and Errors</a></h3>
@@ -9948,53 +9991,53 @@ reference</a>.</li>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb7"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account0 <span class="op">=</span> <span class="pp">tb::</span>Account <span class="op">{</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">718</span><span class="op">,</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account1 <span class="op">=</span> <span class="pp">tb::</span>Account <span class="op">{</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">103</span><span class="op">,</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">718</span><span class="op">,</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account2 <span class="op">=</span> <span class="pp">tb::</span>Account <span class="op">{</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">104</span><span class="op">,</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">718</span><span class="op">,</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_results <span class="op">=</span> client</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>create_accounts(<span class="op">&amp;</span>[account0<span class="op">,</span> account1<span class="op">,</span> account2])<span class="op">?</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="pp">assert!</span>(account_results<span class="op">.</span>len() <span class="op">==</span> <span class="dv">3</span>)<span class="op">;</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (index<span class="op">,</span> result) <span class="kw">in</span> account_results<span class="op">.</span>into_iter()<span class="op">.</span>enumerate() <span class="op">{</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">match</span> result<span class="op">.</span>status <span class="op">{</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::CreateAccountStatus::</span>Created <span class="op">=&gt;</span> <span class="op">{</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>            <span class="pp">println!</span>(</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Batch account at {} successfully created with timestamp {}&quot;</span><span class="op">,</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>                index<span class="op">,</span> result<span class="op">.</span>timestamp</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>            )<span class="op">;</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::CreateAccountStatus::</span>Exists <span class="op">=&gt;</span> <span class="op">{</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>            <span class="pp">println!</span>(</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Batch account at {} already exists with timestamp {}.&quot;</span><span class="op">,</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>                index<span class="op">,</span> result<span class="op">.</span>timestamp</span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>            )<span class="op">;</span></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>        _ <span class="op">=&gt;</span> <span class="op">{</span></span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>            <span class="pp">eprintln!</span>(</span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Batch account at {} failed to create: {:?}&quot;</span><span class="op">,</span></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>                index<span class="op">,</span> result<span class="op">.</span>status</span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>            )<span class="op">;</span></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account0 <span class="op">=</span> <span class="pp">tb::</span>Account <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">718</span><span class="op">,</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account1 <span class="op">=</span> <span class="pp">tb::</span>Account <span class="op">{</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">103</span><span class="op">,</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">718</span><span class="op">,</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account2 <span class="op">=</span> <span class="pp">tb::</span>Account <span class="op">{</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">104</span><span class="op">,</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">718</span><span class="op">,</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_results <span class="op">=</span> client</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>create_accounts(<span class="op">&amp;</span>[account0<span class="op">,</span> account1<span class="op">,</span> account2])</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="pp">assert!</span>(account_results<span class="op">.</span>len() <span class="op">==</span> <span class="dv">3</span>)<span class="op">;</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (index<span class="op">,</span> result) <span class="kw">in</span> account_results<span class="op">.</span>into_iter()<span class="op">.</span>enumerate() <span class="op">{</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">match</span> result<span class="op">.</span>status <span class="op">{</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::CreateAccountStatus::</span>Created <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>            <span class="pp">println!</span>(</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Batch account at {} successfully created with timestamp {}&quot;</span><span class="op">,</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>                index<span class="op">,</span> result<span class="op">.</span>timestamp</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>            )<span class="op">;</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::CreateAccountStatus::</span>Exists <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>            <span class="pp">println!</span>(</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Batch account at {} already exists with timestamp {}.&quot;</span><span class="op">,</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>                index<span class="op">,</span> result<span class="op">.</span>timestamp</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>            )<span class="op">;</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>        _ <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>            <span class="pp">eprintln!</span>(</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Batch account at {} failed to create: {:?}&quot;</span><span class="op">,</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>                index<span class="op">,</span> result<span class="op">.</span>status</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>            )<span class="op">;</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <h2 id="coding-clients-rust-account-lookup"><a href="#coding-clients-rust-account-lookup" class="anchor">Account
 Lookup</a></h2>
@@ -10009,8 +10052,8 @@ response to distinguish accounts.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb8"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> accounts <span class="op">=</span> client<span class="op">.</span>lookup_accounts(<span class="op">&amp;</span>[<span class="dv">100</span><span class="op">,</span> <span class="dv">101</span>])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> accounts <span class="op">=</span> client<span class="op">.</span>lookup_accounts(<span class="op">&amp;</span>[<span class="dv">100</span><span class="op">,</span> <span class="dv">101</span>])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
 </div>
 <h2 id="coding-clients-rust-create-transfers"><a href="#coding-clients-rust-create-transfers"
 class="anchor">Create Transfers</a></h2>
@@ -10022,19 +10065,19 @@ href="#reference-transfer">Transfers reference</a>.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> <span class="pp">vec!</span>[<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="pp">tb::</span>id()<span class="op">,</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>]<span class="op">;</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>transfers)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> <span class="pp">vec!</span>[<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="pp">tb::</span>id()<span class="op">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>]<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>transfers)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
 </div>
 <p>See details for the recommended ID scheme in <a
 href="#coding-data-modeling-tigerbeetle-time-based-identifiers-recommended">time-based
@@ -10060,61 +10103,61 @@ reference</a>.</li>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb10"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> <span class="pp">vec!</span>[</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        id<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        id<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>        credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>        amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        id<span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>        amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>        ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>        code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>        <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>transfers)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="pp">assert!</span>(transfer_results<span class="op">.</span>len() <span class="op">==</span> transfers<span class="op">.</span>len())<span class="op">;</span></span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (index<span class="op">,</span> result) <span class="kw">in</span> transfer_results<span class="op">.</span>into_iter()<span class="op">.</span>enumerate() <span class="op">{</span></span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">match</span> result<span class="op">.</span>status <span class="op">{</span></span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::CreateTransferStatus::</span>Created <span class="op">=&gt;</span> <span class="op">{</span></span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>            <span class="pp">println!</span>(</span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Batch transfer at {} successfully created with timestamp {}&quot;</span><span class="op">,</span></span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>                index<span class="op">,</span> result<span class="op">.</span>timestamp</span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>            )<span class="op">;</span></span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::CreateTransferStatus::</span>Exists <span class="op">=&gt;</span> <span class="op">{</span></span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>            <span class="pp">println!</span>(</span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Batch transfer at {} already exists with timestamp {}.&quot;</span><span class="op">,</span></span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>                index<span class="op">,</span> result<span class="op">.</span>timestamp</span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>            )<span class="op">;</span></span>
-<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>        _ <span class="op">=&gt;</span> <span class="op">{</span></span>
-<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>            <span class="pp">eprintln!</span>(</span>
-<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Batch transfer at {} failed to create: {:?}&quot;</span><span class="op">,</span></span>
-<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>                index<span class="op">,</span> result<span class="op">.</span>status</span>
-<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>            )<span class="op">;</span></span>
-<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> <span class="pp">vec!</span>[</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        id<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        id<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>        debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>        credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>        amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        id<span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>        credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>        code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>        <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>transfers)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="pp">assert!</span>(transfer_results<span class="op">.</span>len() <span class="op">==</span> transfers<span class="op">.</span>len())<span class="op">;</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (index<span class="op">,</span> result) <span class="kw">in</span> transfer_results<span class="op">.</span>into_iter()<span class="op">.</span>enumerate() <span class="op">{</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">match</span> result<span class="op">.</span>status <span class="op">{</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::CreateTransferStatus::</span>Created <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>            <span class="pp">println!</span>(</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Batch transfer at {} successfully created with timestamp {}&quot;</span><span class="op">,</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>                index<span class="op">,</span> result<span class="op">.</span>timestamp</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>            )<span class="op">;</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::CreateTransferStatus::</span>Exists <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>            <span class="pp">println!</span>(</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Batch transfer at {} already exists with timestamp {}.&quot;</span><span class="op">,</span></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>                index<span class="op">,</span> result<span class="op">.</span>timestamp</span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>            )<span class="op">;</span></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>        _ <span class="op">=&gt;</span> <span class="op">{</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>            <span class="pp">eprintln!</span>(</span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Batch transfer at {} failed to create: {:?}&quot;</span><span class="op">,</span></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>                index<span class="op">,</span> result<span class="op">.</span>status</span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>            )<span class="op">;</span></span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <h2 id="coding-clients-rust-batching"><a href="#coding-clients-rust-batching" class="anchor">Batching</a></h2>
 <p>TigerBeetle performance is maximized when you batch API requests.</p>
@@ -10132,13 +10175,13 @@ is 8189.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb11"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers<span class="op">:</span> <span class="dt">Vec</span><span class="op">&lt;</span><span class="pp">tb::</span>Transfer<span class="op">&gt;</span> <span class="op">=</span> <span class="pp">vec!</span>[]<span class="op">;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> BATCH_SIZE<span class="op">:</span> <span class="dt">usize</span> <span class="op">=</span> <span class="dv">8189</span><span class="op">;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> batch <span class="kw">in</span> transfers<span class="op">.</span>chunks(BATCH_SIZE) <span class="op">{</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(batch)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Result handling omitted.</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> BATCH_SIZE<span class="op">:</span> <span class="dt">usize</span> <span class="op">=</span> <span class="dv">8189</span><span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers<span class="op">:</span> <span class="dt">Vec</span><span class="op">&lt;</span><span class="pp">tb::</span>Transfer<span class="op">&gt;</span> <span class="op">=</span> <span class="pp">vec!</span>[]<span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> batch <span class="kw">in</span> transfers<span class="op">.</span>chunks(BATCH_SIZE) <span class="op">{</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(batch)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Result handling omitted.</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <h3 id="coding-clients-rust-queues-and-workers"><a href="#coding-clients-rust-queues-and-workers"
 class="anchor">Queues and Workers</a></h3>
@@ -10168,29 +10211,29 @@ operator. Here are a few examples:</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb12"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer0 <span class="op">=</span> <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">4</span><span class="op">,</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::TransferFlags::</span>Linked<span class="op">,</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer1 <span class="op">=</span> <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer0<span class="op">,</span> transfer1])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer0 <span class="op">=</span> <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">4</span><span class="op">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::TransferFlags::</span>Linked<span class="op">,</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer1 <span class="op">=</span> <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer0<span class="op">,</span> transfer1])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
 </div>
 <h3 id="coding-clients-rust-two-phase-transfers"><a href="#coding-clients-rust-two-phase-transfers"
 class="anchor">Two-Phase Transfers</a></h3>
@@ -10212,30 +10255,30 @@ balances.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb13"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer0 <span class="op">=</span> <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">6</span><span class="op">,</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer0])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer1 <span class="op">=</span> <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">7</span><span class="op">,</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">:</span> <span class="dt">u128</span><span class="pp">::</span><span class="cn">MAX</span><span class="op">,</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    pending_id<span class="op">:</span> <span class="dv">6</span><span class="op">,</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::TransferFlags::</span>PostPendingTransfer<span class="op">,</span></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer1])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer0 <span class="op">=</span> <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">6</span><span class="op">,</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer0])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer1 <span class="op">=</span> <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">7</span><span class="op">,</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">:</span> <span class="dt">u128</span><span class="pp">::</span><span class="cn">MAX</span><span class="op">,</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    pending_id<span class="op">:</span> <span class="dv">6</span><span class="op">,</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::TransferFlags::</span>PostPendingTransfer<span class="op">,</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer1])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
 </div>
 <h4 id="coding-clients-rust-void-a-pending-transfer"><a href="#coding-clients-rust-void-a-pending-transfer"
 class="anchor">Void a Pending Transfer</a></h4>
@@ -10250,30 +10293,30 @@ and <code>credits_pending</code> of the appropriate accounts and
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb14"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer0 <span class="op">=</span> <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">8</span><span class="op">,</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer0])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer1 <span class="op">=</span> <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">9</span><span class="op">,</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    pending_id<span class="op">:</span> <span class="dv">8</span><span class="op">,</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::TransferFlags::</span>VoidPendingTransfer<span class="op">,</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer1])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer0 <span class="op">=</span> <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">8</span><span class="op">,</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    debit_account_id<span class="op">:</span> <span class="dv">101</span><span class="op">,</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    credit_account_id<span class="op">:</span> <span class="dv">102</span><span class="op">,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer0])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer1 <span class="op">=</span> <span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">9</span><span class="op">,</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    amount<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    pending_id<span class="op">:</span> <span class="dv">8</span><span class="op">,</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::TransferFlags::</span>VoidPendingTransfer<span class="op">,</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>[transfer1])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
 </div>
 <h2 id="coding-clients-rust-transfer-lookup"><a href="#coding-clients-rust-transfer-lookup"
 class="anchor">Transfer Lookup</a></h2>
@@ -10292,8 +10335,8 @@ distinguish transfers.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb15"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> client<span class="op">.</span>lookup_transfers(<span class="op">&amp;</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span>])<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> client<span class="op">.</span>lookup_transfers(<span class="op">&amp;</span>[<span class="dv">1</span><span class="op">,</span> <span class="dv">2</span>])<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
 </div>
 <h2 id="coding-clients-rust-get-account-transfers"><a href="#coding-clients-rust-get-account-transfers"
 class="anchor">Get Account Transfers</a></h2>
@@ -10302,41 +10345,6 @@ we have a stable querying API.</p>
 <p>Fetches the transfers involving a given account, allowing basic
 filter and pagination capabilities.</p>
 <p>The transfers in the response are sorted by <code>timestamp</code> in
-chronological or reverse-chronological order.</p>
-<div class="code-wrapper">
-<button class="copy" title="Copy">
-    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
-</button>
-    
-<div class="sourceCode" id="cb16"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> filter <span class="op">=</span> <span class="pp">tb::</span>AccountFilter <span class="op">{</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    account_id<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    user_data_128<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    user_data_64<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    user_data_32<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    reserved<span class="op">:</span> <span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()<span class="op">,</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    timestamp_min<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    timestamp_max<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    limit<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::AccountFilterFlags::</span>Debits</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> <span class="pp">tb::AccountFilterFlags::</span>Credits</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> <span class="pp">tb::AccountFilterFlags::</span>Reversed<span class="op">,</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> client<span class="op">.</span>get_account_transfers(filter)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
-</div>
-<h2 id="coding-clients-rust-get-account-balances"><a href="#coding-clients-rust-get-account-balances"
-class="anchor">Get Account Balances</a></h2>
-<p>NOTE: This is a preview API that is subject to breaking changes once
-we have a stable querying API.</p>
-<p>Fetches the point-in-time balances of a given account, allowing basic
-filter and pagination capabilities.</p>
-<p>Only accounts created with the flag <a
-href="#reference-account-flagshistory"><code>history</code></a> set
-retain <a href="#reference-requests-get_account_balances">historical
-balances</a>.</p>
-<p>The balances in the response are sorted by <code>timestamp</code> in
 chronological or reverse-chronological order.</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
@@ -10359,7 +10367,42 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb17-1"><a href=
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> <span class="pp">tb::AccountFilterFlags::</span>Reversed<span class="op">,</span></span>
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_balances <span class="op">=</span> client<span class="op">.</span>get_account_balances(filter)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> client<span class="op">.</span>get_account_transfers(filter)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
+</div>
+<h2 id="coding-clients-rust-get-account-balances"><a href="#coding-clients-rust-get-account-balances"
+class="anchor">Get Account Balances</a></h2>
+<p>NOTE: This is a preview API that is subject to breaking changes once
+we have a stable querying API.</p>
+<p>Fetches the point-in-time balances of a given account, allowing basic
+filter and pagination capabilities.</p>
+<p>Only accounts created with the flag <a
+href="#reference-account-flagshistory"><code>history</code></a> set
+retain <a href="#reference-requests-get_account_balances">historical
+balances</a>.</p>
+<p>The balances in the response are sorted by <code>timestamp</code> in
+chronological or reverse-chronological order.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> filter <span class="op">=</span> <span class="pp">tb::</span>AccountFilter <span class="op">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    account_id<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    user_data_128<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    user_data_64<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    user_data_32<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    reserved<span class="op">:</span> <span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()<span class="op">,</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    timestamp_min<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    timestamp_max<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    limit<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::AccountFilterFlags::</span>Debits</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> <span class="pp">tb::AccountFilterFlags::</span>Credits</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> <span class="pp">tb::AccountFilterFlags::</span>Reversed<span class="op">,</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_balances <span class="op">=</span> client<span class="op">.</span>get_account_balances(filter)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
 </div>
 <h2 id="coding-clients-rust-query-accounts"><a href="#coding-clients-rust-query-accounts" class="anchor">Query
 Accounts</a></h2>
@@ -10368,35 +10411,6 @@ we have a stable querying API.</p>
 <p>Query accounts by the intersection of some fields and by timestamp
 range.</p>
 <p>The accounts in the response are sorted by <code>timestamp</code> in
-chronological or reverse-chronological order.</p>
-<div class="code-wrapper">
-<button class="copy" title="Copy">
-    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
-</button>
-    
-<div class="sourceCode" id="cb18"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> filter <span class="op">=</span> <span class="pp">tb::</span>QueryFilter <span class="op">{</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    user_data_128<span class="op">:</span> <span class="dv">1000</span><span class="op">,</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    user_data_64<span class="op">:</span> <span class="dv">100</span><span class="op">,</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    user_data_32<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    reserved<span class="op">:</span> <span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()<span class="op">,</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    timestamp_min<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    timestamp_max<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    limit<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::QueryFilterFlags::</span>Reversed<span class="op">,</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> accounts <span class="op">=</span> client<span class="op">.</span>query_accounts(filter)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
-</div>
-<h2 id="coding-clients-rust-query-transfers"><a href="#coding-clients-rust-query-transfers" class="anchor">Query
-Transfers</a></h2>
-<p>NOTE: This is a preview API that is subject to breaking changes once
-we have a stable querying API.</p>
-<p>Query transfers by the intersection of some fields and by timestamp
-range.</p>
-<p>The transfers in the response are sorted by <code>timestamp</code> in
 chronological or reverse-chronological order.</p>
 <div class="code-wrapper">
 <button class="copy" title="Copy">
@@ -10417,7 +10431,36 @@ class="sourceCode rust"><code class="sourceCode rust"><span id="cb19-1"><a href=
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::QueryFilterFlags::</span>Reversed<span class="op">,</span></span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> client<span class="op">.</span>query_transfers(filter)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> accounts <span class="op">=</span> client<span class="op">.</span>query_accounts(filter)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
+</div>
+<h2 id="coding-clients-rust-query-transfers"><a href="#coding-clients-rust-query-transfers" class="anchor">Query
+Transfers</a></h2>
+<p>NOTE: This is a preview API that is subject to breaking changes once
+we have a stable querying API.</p>
+<p>Query transfers by the intersection of some fields and by timestamp
+range.</p>
+<p>The transfers in the response are sorted by <code>timestamp</code> in
+chronological or reverse-chronological order.</p>
+<div class="code-wrapper">
+<button class="copy" title="Copy">
+    <svg width="16" height="16"><use href="#svg-copy"></use></svg>
+</button>
+    
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> filter <span class="op">=</span> <span class="pp">tb::</span>QueryFilter <span class="op">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    user_data_128<span class="op">:</span> <span class="dv">1000</span><span class="op">,</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    user_data_64<span class="op">:</span> <span class="dv">100</span><span class="op">,</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    user_data_32<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    code<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    ledger<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    reserved<span class="op">:</span> <span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()<span class="op">,</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    timestamp_min<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    timestamp_max<span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    limit<span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> <span class="pp">tb::QueryFilterFlags::</span>Reversed<span class="op">,</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfers <span class="op">=</span> client<span class="op">.</span>query_transfers(filter)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span></code></pre></div>
 </div>
 <h2 id="coding-clients-rust-linked-events"><a href="#coding-clients-rust-linked-events" class="anchor">Linked
 Events</a></h2>
@@ -10441,68 +10484,68 @@ chain will have their error result set to
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb20"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> <span class="kw">mut</span> batch <span class="op">=</span> <span class="pp">vec!</span>[]<span class="op">;</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> linked_flag <span class="op">=</span> <span class="pp">tb::TransferFlags::</span>Linked<span class="op">;</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">// An individual transfer (successful):</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">// A chain of 4 transfers (the last transfer in the chain closes the chain with linked=false):</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> linked_flag<span class="op">,</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> linked_flag<span class="op">,</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> linked_flag<span class="op">,</span></span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">4</span><span class="op">,</span></span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a><span class="co">// An individual transfer (successful):</span></span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a><span class="co">// This should not see any effect from the failed chain above.</span></span>
-<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
-<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
-<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a><span class="co">// A chain of 2 transfers (the first transfer fails the chain):</span></span>
-<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
-<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> linked_flag<span class="op">,</span></span>
-<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
-<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
-<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
-<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a><span class="co">// A chain of 2 transfers (successful):</span></span>
-<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
-<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> linked_flag<span class="op">,</span></span>
-<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
-<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
-<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">4</span><span class="op">,</span></span>
-<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
-<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
-<span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-60"><a href="#cb20-60" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>batch)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
-<span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> <span class="kw">mut</span> batch <span class="op">=</span> <span class="pp">vec!</span>[]<span class="op">;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> linked_flag <span class="op">=</span> <span class="pp">tb::TransferFlags::</span>Linked<span class="op">;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">// An individual transfer (successful):</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co">// A chain of 4 transfers (the last transfer in the chain closes the chain with linked=false):</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> linked_flag<span class="op">,</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> linked_flag<span class="op">,</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> linked_flag<span class="op">,</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">4</span><span class="op">,</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a><span class="co">// An individual transfer (successful):</span></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a><span class="co">// This should not see any effect from the failed chain above.</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a><span class="co">// A chain of 2 transfers (the first transfer fails the chain):</span></span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> linked_flag<span class="op">,</span></span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a><span class="co">// A chain of 2 transfers (successful):</span></span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">:</span> linked_flag<span class="op">,</span></span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a>batch<span class="op">.</span>push(<span class="pp">tb::</span>Transfer <span class="op">{</span></span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a>    id<span class="op">:</span> <span class="dv">4</span><span class="op">,</span></span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a>    <span class="op">..</span><span class="bu">Default</span><span class="pp">::</span><span class="kw">default</span>()</span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>batch)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span></code></pre></div>
 </div>
 <h2 id="coding-clients-rust-imported-events"><a href="#coding-clients-rust-imported-events"
 class="anchor">Imported Events</a></h2>
@@ -10521,51 +10564,51 @@ re-submitting the batch again with the same user-defined timestamps.</p>
     <svg width="16" height="16"><use href="#svg-copy"></use></svg>
 </button>
     
-<div class="sourceCode" id="cb21"><pre
-class="sourceCode rust"><code class="sourceCode rust"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">// External source of time.</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> <span class="kw">mut</span> historical_timestamp<span class="op">:</span> <span class="dt">u64</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> historical_accounts<span class="op">:</span> <span class="dt">Vec</span><span class="op">&lt;</span><span class="pp">tb::</span>Account<span class="op">&gt;</span> <span class="op">=</span> <span class="pp">vec!</span>[]<span class="op">;</span> <span class="co">// Loaded from an external source.</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> historical_transfers<span class="op">:</span> <span class="dt">Vec</span><span class="op">&lt;</span><span class="pp">tb::</span>Transfer<span class="op">&gt;</span> <span class="op">=</span> <span class="pp">vec!</span>[]<span class="op">;</span> <span class="co">// Loaded from an external source.</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">// First, load and import all accounts with their timestamps from the historical source.</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> <span class="kw">mut</span> accounts_batch <span class="op">=</span> <span class="pp">vec!</span>[]<span class="op">;</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (index<span class="op">,</span> <span class="kw">mut</span> account) <span class="kw">in</span> historical_accounts<span class="op">.</span>into_iter()<span class="op">.</span>enumerate() <span class="op">{</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Set a unique and strictly increasing timestamp.</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    historical_timestamp <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    account<span class="op">.</span>timestamp <span class="op">=</span> historical_timestamp<span class="op">;</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    account<span class="op">.</span>flags <span class="op">=</span> <span class="cf">if</span> index <span class="op">&lt;</span> accounts_batch<span class="op">.</span>len() <span class="op">-</span> <span class="dv">1</span> <span class="op">{</span></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::AccountFlags::</span>Imported <span class="op">|</span> <span class="pp">tb::AccountFlags::</span>Linked</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::AccountFlags::</span>Imported</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    accounts_batch<span class="op">.</span>push(account)<span class="op">;</span></span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_results <span class="op">=</span> client<span class="op">.</span>create_accounts(<span class="op">&amp;</span>accounts_batch)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="co">// Then, load and import all transfers with their timestamps from the historical source.</span></span>
-<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> <span class="kw">mut</span> transfers_batch <span class="op">=</span> <span class="pp">vec!</span>[]<span class="op">;</span></span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (index<span class="op">,</span> <span class="kw">mut</span> transfer) <span class="kw">in</span> historical_transfers<span class="op">.</span>into_iter()<span class="op">.</span>enumerate() <span class="op">{</span></span>
-<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Set a unique and strictly increasing timestamp.</span></span>
-<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    historical_timestamp <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    transfer<span class="op">.</span>timestamp <span class="op">=</span> historical_timestamp<span class="op">;</span></span>
-<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    transfer<span class="op">.</span>flags <span class="op">=</span> <span class="cf">if</span> index <span class="op">&lt;</span> transfers_batch<span class="op">.</span>len() <span class="op">-</span> <span class="dv">1</span> <span class="op">{</span></span>
-<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::TransferFlags::</span>Imported <span class="op">|</span> <span class="pp">tb::TransferFlags::</span>Linked</span>
-<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::TransferFlags::</span>Imported</span>
-<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
-<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>    transfers_batch<span class="op">.</span>push(transfer)<span class="op">;</span></span>
-<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>transfers_batch)<span class="op">?.</span><span class="kw">await</span><span class="op">?;</span></span>
-<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span>
-<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a><span class="co">// Since it is a linked chain, in case of any error the entire batch is rolled back and can be retried</span></span>
-<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="co">// with the same historical timestamps without regressing the cluster timestamp.</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode rust"><code class="sourceCode rust"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">// External source of time.</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> <span class="kw">mut</span> historical_timestamp<span class="op">:</span> <span class="dt">u64</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> historical_accounts<span class="op">:</span> <span class="dt">Vec</span><span class="op">&lt;</span><span class="pp">tb::</span>Account<span class="op">&gt;</span> <span class="op">=</span> <span class="pp">vec!</span>[]<span class="op">;</span> <span class="co">// Loaded from an external source.</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> historical_transfers<span class="op">:</span> <span class="dt">Vec</span><span class="op">&lt;</span><span class="pp">tb::</span>Transfer<span class="op">&gt;</span> <span class="op">=</span> <span class="pp">vec!</span>[]<span class="op">;</span> <span class="co">// Loaded from an external source.</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">// First, load and import all accounts with their timestamps from the historical source.</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> <span class="kw">mut</span> accounts_batch <span class="op">=</span> <span class="pp">vec!</span>[]<span class="op">;</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (index<span class="op">,</span> <span class="kw">mut</span> account) <span class="kw">in</span> historical_accounts<span class="op">.</span>into_iter()<span class="op">.</span>enumerate() <span class="op">{</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Set a unique and strictly increasing timestamp.</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    historical_timestamp <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    account<span class="op">.</span>timestamp <span class="op">=</span> historical_timestamp<span class="op">;</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    account<span class="op">.</span>flags <span class="op">=</span> <span class="cf">if</span> index <span class="op">&lt;</span> accounts_batch<span class="op">.</span>len() <span class="op">-</span> <span class="dv">1</span> <span class="op">{</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::AccountFlags::</span>Imported <span class="op">|</span> <span class="pp">tb::AccountFlags::</span>Linked</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::AccountFlags::</span>Imported</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    accounts_batch<span class="op">.</span>push(account)<span class="op">;</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> account_results <span class="op">=</span> client<span class="op">.</span>create_accounts(<span class="op">&amp;</span>accounts_batch)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a><span class="co">// Then, load and import all transfers with their timestamps from the historical source.</span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> <span class="kw">mut</span> transfers_batch <span class="op">=</span> <span class="pp">vec!</span>[]<span class="op">;</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (index<span class="op">,</span> <span class="kw">mut</span> transfer) <span class="kw">in</span> historical_transfers<span class="op">.</span>into_iter()<span class="op">.</span>enumerate() <span class="op">{</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Set a unique and strictly increasing timestamp.</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>    historical_timestamp <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>    transfer<span class="op">.</span>timestamp <span class="op">=</span> historical_timestamp<span class="op">;</span></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>    transfer<span class="op">.</span>flags <span class="op">=</span> <span class="cf">if</span> index <span class="op">&lt;</span> transfers_batch<span class="op">.</span>len() <span class="op">-</span> <span class="dv">1</span> <span class="op">{</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::TransferFlags::</span>Imported <span class="op">|</span> <span class="pp">tb::TransferFlags::</span>Linked</span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>        <span class="pp">tb::TransferFlags::</span>Imported</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>    transfers_batch<span class="op">.</span>push(transfer)<span class="op">;</span></span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> transfer_results <span class="op">=</span> client<span class="op">.</span>create_transfers(<span class="op">&amp;</span>transfers_batch)<span class="op">.</span><span class="kw">await</span><span class="op">?;</span></span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a><span class="co">// Result handling omitted.</span></span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a><span class="co">// Since it is a linked chain, in case of any error the entire batch is rolled back and can be retried</span></span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a><span class="co">// with the same historical timestamps without regressing the cluster timestamp.</span></span></code></pre></div>
 </div>
 <h2 id="coding-clients-rust-timeouts-and-cancellation"><a href="#coding-clients-rust-timeouts-and-cancellation"
 class="anchor">Timeouts And Cancellation</a></h2>
@@ -10613,7 +10656,7 @@ reported outcomes only for failed events, returning a <em>sparse
 array</em> of results. Each result included the <code>index</code> of
 the failed element within the event batch and the corresponding error
 code. Successfully created events were not returned by the TigerBeetle
-cluster, and the application could safely assume them as
+cluster, and the application could safely assume they were
 <code>ok</code>.</p>
 <p>While this approach prioritized saving network bandwidth by omitting
 results for the common <em>happy path</em>, it didn’t provide enough
@@ -10718,8 +10761,7 @@ class="anchor">Client breaking changes</a></h3>
 <p>Along with the new result types, some client libraries have changed
 the API to be more idiomatic, for naming consistency, or even due to bug
 fixes in the previous API.</p>
-<p>See below is a list of API changes specific to each client
-library:</p>
+<p>Below is a list of API changes specific to each client library:</p>
 <details><summary><b>.NET</b></summary>
 
 <h3 id="coding-api-changes-net-client-breaking-changes"><a
@@ -10956,9 +10998,9 @@ href="#reference-requests-create_transfers"><code>create_transfers</code></a>
 operations respectively, were renamed to
 <code>CreateAccount<b>Status</b></code> and
 <code>CreateTransfer<b>Status</b></code>.</p>
-<p>The enum values <code>AccountOK</code> and <code>TransferOK</code>,
+<p>The enum values <code>AccountOK</code> and <code>TransferOK</code>
 were replaced by the new status codes <code>AccountCreated</code> and
-<code>TransferCreated</code>, which indicates the event was successfully
+<code>TransferCreated</code>, which indicate the event was successfully
 created by the operation.</p>
 <div class="table">
 <table>
@@ -11743,7 +11785,7 @@ class="anchor"><span>0.16.33</span></a></h2>
 <h3 id="coding-api-changes-oldest-supported-client-version-is-0164"><a
 href="#coding-api-changes-oldest-supported-client-version-is-0164" class="anchor">Oldest
 supported client version is <code>0.16.4</code></a></h3>
-<p>Please make sure that all of your clients are running on at
+<p>Please make sure that all of your clients are running
 <code>0.16.4</code> or newer before upgrading to this release!</p>
 <h2 id="coding-api-changes-0164"><a href="#coding-api-changes-0164"
 class="anchor"><span>0.16.4</span></a></h2>
@@ -11823,14 +11865,14 @@ class="anchor">Operating</a></h1>
 While tiger beetles thrive even in the harshest conditions, there’s
 certainly a preferred way to handle one!</p>
 <ul>
-<li><a href="#operating-installing">Installing</a> lists all the various way to
+<li><a href="#operating-installing">Installing</a> lists all the various ways to
 get the freshest TigerBeetle binary.</li>
 <li><a href="#operating-hardware">Hardware</a> specifies the host
 requirements.</li>
 <li><a href="#operating-cluster">Cluster</a> specifies the overall cluster
 requirements and recommendations.</li>
-<li><a href="#operating-deploying">Deploying</a> spells out deployment process
-and its variations.</li>
+<li><a href="#operating-deploying">Deploying</a> spells out the deployment
+process and its variations.</li>
 <li><a href="#operating-monitoring">Monitoring</a> details how to monitor a
 TigerBeetle cluster.</li>
 <li><a href="#operating-upgrading">Upgrading</a> explains how to move to a newer
@@ -13095,8 +13137,8 @@ href="#coding-two-phase-transfers">Two-Phase Transfers</a> for
 more details.</p></li>
 <li><p><code>timestamp</code>: The event timestamp.<br> Usually, it’s
 the same as the transfer’s timestamp, except when
-<code>event_type == 'two_phase_expired'</code> when it’s the expiry
-timestamp.</p></li>
+<code>event_type == 'two_phase_expired'</code>, in which case it’s the
+expiry timestamp.</p></li>
 <li><p><code>ledger</code>: The <a
 href="#coding-data-modeling-ledgers">ledger</a> code.</p></li>
 <li><p><code>transfer</code>: Full details of the <a
@@ -13669,7 +13711,7 @@ with <a href="#reference-account-flagsimported"><code>flags.imported</code></a>
 <em>not</em> set</p>
 <p>It is set by TigerBeetle to the moment the account arrives at the
 cluster.</p></li>
-<li><p>Must be greater than <code>0</code> and less than
+<li><p>Must be greater than <code>0</code> and not be larger than
 <code>2^63</code> when the <code>Account</code> is created with <a
 href="#reference-account-flagsimported"><code>flags.imported</code></a> set</p></li>
 </ul>
@@ -13736,6 +13778,21 @@ and then either Posted or Voided. For more details on the latter, see
 the <a href="#coding-two-phase-transfers">Two-Phase Transfer
 guide</a>.</p>
 <p>Fields used by each mode of transfer:</p>
+<h3 id="reference-transfer-fields-by-mode"><a href="#reference-transfer-fields-by-mode" class="anchor">Fields
+by Mode</a></h3>
+<ul>
+<li><em>Required</em> means a valid nonzero value must be supplied.</li>
+<li><em>Optional</em> means zero is allowed, with the behavior described
+below.</li>
+<li><em>Inherit or match</em> means zero copies the pending transfer’s
+value, while a nonzero value must equal the pending transfer’s value
+exactly. For each <code>user_data_*</code> field, <em>inherit or
+new</em> will either copy the old transfer’s <code>user_data</code>
+field if set to zero, or set the provided user data field on the newly
+created transfer. The original pending transfer is immutable.</li>
+<li>All values remain subject to the individual <a href="#reference-transfer-fields">field
+constraints</a>, account constraints, and balance limits.</li>
+</ul>
 <div class="table">
 <table>
 <thead>
@@ -13752,32 +13809,32 @@ guide</a>.</p>
 <td><code>id</code></td>
 <td>required</td>
 <td>required</td>
-<td>required</td>
-<td>required</td>
+<td>required¹</td>
+<td>required¹</td>
 </tr>
 <tr>
 <td><code>debit_account_id</code></td>
 <td>required</td>
 <td>required</td>
-<td>optional</td>
-<td>optional</td>
+<td>inherit or match</td>
+<td>inherit or match</td>
 </tr>
 <tr>
 <td><code>credit_account_id</code></td>
 <td>required</td>
 <td>required</td>
-<td>optional</td>
-<td>optional</td>
+<td>inherit or match</td>
+<td>inherit or match</td>
 </tr>
 <tr>
 <td><code>amount</code></td>
 <td>required</td>
-<td>required</td>
-<td>required</td>
 <td>optional</td>
+<td>optional</td>
+<td>inherit or match</td>
 </tr>
 <tr>
-<td><code>pending_id</code></td>
+<td><code>pending_id</code>²</td>
 <td>none</td>
 <td>none</td>
 <td>required</td>
@@ -13787,27 +13844,27 @@ guide</a>.</p>
 <td><code>user_data_128</code></td>
 <td>optional</td>
 <td>optional</td>
-<td>optional</td>
-<td>optional</td>
+<td>inherit or new</td>
+<td>inherit or new</td>
 </tr>
 <tr>
 <td><code>user_data_64</code></td>
 <td>optional</td>
 <td>optional</td>
-<td>optional</td>
-<td>optional</td>
+<td>inherit or new</td>
+<td>inherit or new</td>
 </tr>
 <tr>
 <td><code>user_data_32</code></td>
 <td>optional</td>
 <td>optional</td>
-<td>optional</td>
-<td>optional</td>
+<td>inherit or new</td>
+<td>inherit or new</td>
 </tr>
 <tr>
 <td><code>timeout</code></td>
 <td>none</td>
-<td>optional¹</td>
+<td>optional³</td>
 <td>none</td>
 <td>none</td>
 </tr>
@@ -13815,15 +13872,99 @@ guide</a>.</p>
 <td><code>ledger</code></td>
 <td>required</td>
 <td>required</td>
-<td>optional</td>
-<td>optional</td>
+<td>inherit or match</td>
+<td>inherit or match</td>
 </tr>
 <tr>
 <td><code>code</code></td>
 <td>required</td>
 <td>required</td>
+<td>inherit or match</td>
+<td>inherit or match</td>
+</tr>
+<tr>
+<td><code>timestamp</code></td>
+<td>none⁴</td>
+<td>none⁴</td>
+<td>none⁴</td>
+<td>none⁴</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><em>¹ Posting and voiding require a new transfer
+<code>id</code>.</em><br/> <em>² <code>pending_id</code> identifies an
+existing pending transfer that has not been posted, voided, or
+expired.</em><br/> <em>³ None if <code>flags.imported</code> is
+set.</em><br/> <em>⁴ Required if <code>flags.imported</code> is
+set.</em></p>
+</blockquote>
+<h3 id="reference-transfer-flags-by-mode"><a href="#reference-transfer-flags-by-mode" class="anchor">Flags by
+Mode</a></h3>
+<p><em>Required</em> means the flag must be set, <em>forbidden</em>
+means it must be unset, and <em>optional</em> means either is allowed
+subject to the rules below.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Single-Phase</th>
+<th>Pending</th>
+<th>Post-Pending</th>
+<th>Void-Pending</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>flags.pending</code></td>
+<td>forbidden</td>
+<td>required</td>
+<td>forbidden</td>
+<td>forbidden</td>
+</tr>
+<tr>
+<td><code>flags.post_pending_transfer</code></td>
+<td>forbidden</td>
+<td>forbidden</td>
+<td>required</td>
+<td>forbidden</td>
+</tr>
+<tr>
+<td><code>flags.void_pending_transfer</code></td>
+<td>forbidden</td>
+<td>forbidden</td>
+<td>forbidden</td>
+<td>required</td>
+</tr>
+<tr>
+<td><code>flags.balancing_debit</code></td>
 <td>optional</td>
 <td>optional</td>
+<td>forbidden</td>
+<td>forbidden</td>
+</tr>
+<tr>
+<td><code>flags.balancing_credit</code></td>
+<td>optional</td>
+<td>optional</td>
+<td>forbidden</td>
+<td>forbidden</td>
+</tr>
+<tr>
+<td><code>flags.closing_debit</code></td>
+<td>forbidden</td>
+<td>optional</td>
+<td>forbidden</td>
+<td>forbidden</td>
+</tr>
+<tr>
+<td><code>flags.closing_credit</code></td>
+<td>forbidden</td>
+<td>optional</td>
+<td>forbidden</td>
+<td>forbidden</td>
 </tr>
 <tr>
 <td><code>flags.linked</code></td>
@@ -13833,75 +13974,95 @@ guide</a>.</p>
 <td>optional</td>
 </tr>
 <tr>
-<td><code>flags.pending</code></td>
-<td>false</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td><code>flags.post_pending_transfer</code></td>
-<td>false</td>
-<td>false</td>
-<td>true</td>
-<td>false</td>
-</tr>
-<tr>
-<td><code>flags.void_pending_transfer</code></td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-<td>true</td>
-</tr>
-<tr>
-<td><code>flags.balancing_debit</code></td>
-<td>optional</td>
-<td>optional</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td><code>flags.balancing_credit</code></td>
-<td>optional</td>
-<td>optional</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td><code>flags.closing_debit</code></td>
-<td>optional</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td><code>flags.closing_credit</code></td>
-<td>optional</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
 <td><code>flags.imported</code></td>
 <td>optional</td>
 <td>optional</td>
 <td>optional</td>
 <td>optional</td>
 </tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>The three mode flags (<code>pending</code>,
+<code>post_pending_transfer</code>, and
+<code>void_pending_transfer</code>) are mutually exclusive.
+<ul>
+<li>Single-phase transfers set none of them.</li>
+</ul></li>
+<li><code>flags.balancing_debit</code> and
+<code>flags.balancing_credit</code> may be set together.
+<ul>
+<li>On a pending transfer, any combination of the two balancing and two
+closing flags is allowed, including all four or none.</li>
+</ul></li>
+<li>Only a pending transfer can set <code>flags.closing_debit</code> or
+<code>flags.closing_credit</code>.
+<ul>
+<li>Closed accounts can be reopened by voiding the closing transfer or
+once the closing transfer expires.</li>
+<li>Closing transfers cannot be posted.</li>
+</ul></li>
+<li>Pending does not require closing.</li>
+<li>The posting or voiding transfer must not repeat balancing or closing
+flags from the original pending transfer.</li>
+</ul>
+<h3 id="reference-transfer-linked-and-imported-transfers"><a
+href="#reference-transfer-linked-and-imported-transfers" class="anchor">Linked and Imported
+Transfers</a></h3>
+<p>These rules apply in every mode, including pending transfers with
+balancing or closing flags.</p>
+<div class="table">
+<table>
+<thead>
 <tr>
-<td><code>timestamp</code></td>
-<td>none²</td>
-<td>none²</td>
-<td>none²</td>
-<td>none²</td>
+<th>Condition</th>
+<th>Requirement / Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>flags.linked</code> set</td>
+<td>Link to the next event in the batch; the chain succeeds/fails as
+one</td>
+</tr>
+<tr>
+<td>Last event in linked chain</td>
+<td>Unset <code>linked</code>; otherwise
+<code>linked_event_chain_open</code></td>
+</tr>
+<tr>
+<td><code>flags.imported</code> unset</td>
+<td><code>timestamp = 0</code>; TigerBeetle assigns it</td>
+</tr>
+<tr>
+<td><code>flags.imported</code> set</td>
+<td>Supply valid imported <code>timestamp</code>;
+<code>timeout = 0</code></td>
+</tr>
+<tr>
+<td>Multiple transfers/request</td>
+<td>All must use the same <code>flags.imported</code> value</td>
+</tr>
+<tr>
+<td><code>linked</code> + <code>imported</code> set</td>
+<td>Both rules apply; last event unsets <code>linked</code>, keeps
+<code>imported</code></td>
 </tr>
 </tbody>
 </table>
 </div>
-<blockquote>
-<p><em>¹ None if <code>flags.imported</code> is set.</em><br/> <em>²
-Required if <code>flags.imported</code> is set.</em></p>
-</blockquote>
+<ul>
+<li>A valid imported <code>timestamp</code> is <code>&gt; 0</code> and
+<code>&lt; 2^63</code>, and must satisfy the <a
+href="#reference-transfer-flagsimported">import ordering and uniqueness
+constraints</a>.</li>
+<li>The <code>imported</code> flag on a posting or voiding transfer does
+not have to match the original pending transfer’s flag.</li>
+<li>Imported and regular transfers can post or void pending transfers of
+either type, including those with a <code>timeout</code> that have not
+yet expired.</li>
+</ul>
 <h2 id="reference-transfer-fields"><a href="#reference-transfer-fields" class="anchor">Fields</a></h2>
 <h3 id="reference-transfer-id"><a href="#reference-transfer-id" class="anchor"><code>id</code></a></h3>
 <p>This is a unique identifier for the transaction.</p>
@@ -14052,8 +14213,8 @@ must be nonzero:
 
 <h4 id="reference-transfer-examples"><a href="#reference-transfer-examples" class="anchor">Examples</a></h4>
 <ul>
-<li>For representing fractional amounts (e.g. <code>$12.34</code>), see
-<a
+<li>For representing fractional amounts (e.g. <code>12.34 USD</code>),
+see <a
 href="#coding-data-modeling-fractional-amounts-and-asset-scale">Fractional
 Amounts</a>.</li>
 <li>For balancing transfers, see <a
@@ -14397,7 +14558,8 @@ cluster clock at the time the request arrives.</p></li>
 <li><p>Timestamps must be strictly increasing.</p>
 <p>Even user-defined timestamps that are required to be past dates need
 to be at least one nanosecond ahead of the timestamp of the last
-transfer committed by the cluster.</p>
+transfer committed or <a href="#reference-transfer-timeout">automatically expired</a> by
+the cluster.</p>
 <p>Since the timestamp cannot regress, importing past events can be
 naturally restrictive without coordination, as the last timestamp can be
 updated using the cluster clock during regular cluster activity.
@@ -14431,7 +14593,7 @@ with <a href="#reference-transfer-flagsimported"><code>flags.imported</code></a>
 <em>not</em> set</p>
 <p>It is set by TigerBeetle to the moment the transfer arrives at the
 cluster.</p></li>
-<li><p>Must be greater than <code>0</code> and less than
+<li><p>Must be greater than <code>0</code> and not be larger than
 <code>2^63</code> when the <code>Transfer</code> is created with <a
 href="#reference-transfer-flagsimported"><code>flags.imported</code></a> set</p></li>
 </ul>
@@ -14583,9 +14745,9 @@ class="anchor"><code>reserved</code></a></h3>
 <h3 id="reference-account-filter-timestamp_min"><a href="#reference-account-filter-timestamp_min"
 class="anchor"><code>timestamp_min</code></a></h3>
 <p>The minimum <a
-href="#reference-transfer-timestamp"><code>Transfer.timestamp</code></a> from
-which results will be returned, inclusive range. Optional; set to zero
-to disable the lower-bound filter.</p>
+href="#reference-transfer-timestamp"><code>Transfer.timestamp</code></a> for
+which results will be returned (inclusive). Optional; set to zero to
+disable the lower-bound filter.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 64-bit unsigned integer (8 bytes)</li>
@@ -14594,9 +14756,9 @@ to disable the lower-bound filter.</p>
 <h3 id="reference-account-filter-timestamp_max"><a href="#reference-account-filter-timestamp_max"
 class="anchor"><code>timestamp_max</code></a></h3>
 <p>The maximum <a
-href="#reference-transfer-timestamp"><code>Transfer.timestamp</code></a> from
-which results will be returned, inclusive range. Optional; set to zero
-to disable the upper-bound filter.</p>
+href="#reference-transfer-timestamp"><code>Transfer.timestamp</code></a> for
+which results will be returned (inclusive). Optional; set to zero to
+disable the upper-bound filter.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 64-bit unsigned integer (8 bytes)</li>
@@ -14619,6 +14781,8 @@ class="anchor"><code>flags</code></a></h3>
 <p>Constraints:</p>
 <ul>
 <li>Type is 32-bit unsigned integer (4 bytes)</li>
+<li>At least one of <code>flags.debits</code> or
+<code>flags.credits</code> must be set. Both may be set.</li>
 </ul>
 <h4 id="reference-account-filter-flagsdebits"><a href="#reference-account-filter-flagsdebits"
 class="anchor"><code>flags.debits</code></a></h4>
@@ -14717,25 +14881,25 @@ class="anchor"><code>reserved</code></a></h3>
 class="anchor"><code>timestamp_min</code></a></h3>
 <p>The minimum <a
 href="#reference-account-timestamp"><code>Account.timestamp</code></a> or <a
-href="#reference-transfer-timestamp"><code>Transfer.timestamp</code></a> from
-which results will be returned, inclusive range. Optional; set to zero
-to disable the lower-bound filter.</p>
+href="#reference-transfer-timestamp"><code>Transfer.timestamp</code></a> for
+which results will be returned (inclusive). Optional; set to zero to
+disable the lower-bound filter.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 64-bit unsigned integer (8 bytes)</li>
-<li>Must not be <code>2^64 - 1</code></li>
+<li>Must not be larger than <code>2^63</code></li>
 </ul>
 <h3 id="reference-query-filter-timestamp_max"><a href="#reference-query-filter-timestamp_max"
 class="anchor"><code>timestamp_max</code></a></h3>
 <p>The maximum <a
 href="#reference-account-timestamp"><code>Account.timestamp</code></a> or <a
-href="#reference-transfer-timestamp"><code>Transfer.timestamp</code></a> from
-which results will be returned, inclusive range. Optional; set to zero
-to disable the upper-bound filter.</p>
+href="#reference-transfer-timestamp"><code>Transfer.timestamp</code></a> for
+which results will be returned (inclusive). Optional; set to zero to
+disable the upper-bound filter.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 64-bit unsigned integer (8 bytes)</li>
-<li>Must not be <code>2^64 - 1</code></li>
+<li>Must not be larger than <code>2^63</code></li>
 </ul>
 <h3 id="reference-query-filter-limit"><a href="#reference-query-filter-limit"
 class="anchor"><code>limit</code></a></h3>
@@ -15771,8 +15935,9 @@ is set.</p>
 <p>The transfer was not created. The user-defined <a
 href="#reference-transfer-timestamp"><code>Transfer.timestamp</code></a>
 regressed, but it must be greater than the last timestamp assigned to
-any <code>Transfer</code> in the cluster and cannot be equal to the
-timestamp of any existing <a
+any <code>Transfer</code> committed or <a
+href="#reference-transfer-timeout">automatically expired</a> by the cluster,
+and cannot be equal to the timestamp of any existing <a
 href="#reference-account"><code>Account</code></a>.</p>
 <h4 id="reference-requests-create_transfers-imported_event_timestamp_must_postdate_debit_account"><a
 href="#reference-requests-create_transfers-imported_event_timestamp_must_postdate_debit_account"

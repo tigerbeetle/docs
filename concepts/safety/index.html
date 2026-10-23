@@ -212,7 +212,7 @@ new data, it should be able to retrieve it later. Surprisingly, many
 databases don’t provide guaranteed durability – usually the data is
 there, but, under certain edge case conditions, it can get lost!</p>
 <p>As the purpose of TigerBeetle is to be the system of record for
-business transaction, associated with real-world value transfers, it is
+business transactions, associated with real-world value transfers, it is
 paramount that the data stored in TigerBeetle is safe.</p>
 <p>TigerBeetle is therefore designed, engineered, and tested to deliver
 unbreakable durability – even under the most extreme failure
@@ -417,7 +417,7 @@ implement its own access controls.</p>
 <p>Note on <code>io_uring</code>: it is a relatively recent (<a
 href="https://www.kernel.org/pub/linux/kernel/v5.x/ChangeLog-5.1">Linux
 5.1, 2019</a>) part of the Linux kernel. It had some kernel exploits,
-which made it problematic for sandboxed applications, and lead to
+which made it problematic for sandboxed applications, and led to
 <code>io_uring</code> being <a
 href="https://security.googleblog.com/2023/06/learnings-from-kctf-vrps-42-linux.html">disabled</a>
 for systems which deal with untrusted data. Because TigerBeetle, by

@@ -213,8 +213,8 @@ Transfers</a></h1>
 an account has at least a certain balance.</p>
 <p>It would be unsafe to check an account’s balance using the <a
 href="../../../reference/requests/lookup_accounts/"><code>lookup_accounts</code></a>
-and then perform the transfer, because these requests are not be atomic
-and the account’s balance may change between the lookup and the
+and then perform the transfer, because these requests are not atomic and
+the account’s balance may change between the lookup and the
 transfer.</p>
 <p>You can atomically run a check against an account’s balance before
 executing a transfer by using a control or temporary account and linked

@@ -913,8 +913,9 @@ is set.</p>
 <p>The transfer was not created. The user-defined <a
 href="../../transfer/#timestamp"><code>Transfer.timestamp</code></a>
 regressed, but it must be greater than the last timestamp assigned to
-any <code>Transfer</code> in the cluster and cannot be equal to the
-timestamp of any existing <a
+any <code>Transfer</code> committed or <a
+href="../../transfer/#timeout">automatically expired</a> by the cluster,
+and cannot be equal to the timestamp of any existing <a
 href="../../account/"><code>Account</code></a>.</p>
 <h4 id="imported_event_timestamp_must_postdate_debit_account"><a
 href="#imported_event_timestamp_must_postdate_debit_account"

@@ -277,25 +277,25 @@ class="anchor"><code>reserved</code></a></h3>
 class="anchor"><code>timestamp_min</code></a></h3>
 <p>The minimum <a
 href="../account/#timestamp"><code>Account.timestamp</code></a> or <a
-href="../transfer/#timestamp"><code>Transfer.timestamp</code></a> from
-which results will be returned, inclusive range. Optional; set to zero
-to disable the lower-bound filter.</p>
+href="../transfer/#timestamp"><code>Transfer.timestamp</code></a> for
+which results will be returned (inclusive). Optional; set to zero to
+disable the lower-bound filter.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 64-bit unsigned integer (8 bytes)</li>
-<li>Must not be <code>2^64 - 1</code></li>
+<li>Must not be larger than <code>2^63</code></li>
 </ul>
 <h3 id="timestamp_max"><a href="#timestamp_max"
 class="anchor"><code>timestamp_max</code></a></h3>
 <p>The maximum <a
 href="../account/#timestamp"><code>Account.timestamp</code></a> or <a
-href="../transfer/#timestamp"><code>Transfer.timestamp</code></a> from
-which results will be returned, inclusive range. Optional; set to zero
-to disable the upper-bound filter.</p>
+href="../transfer/#timestamp"><code>Transfer.timestamp</code></a> for
+which results will be returned (inclusive). Optional; set to zero to
+disable the upper-bound filter.</p>
 <p>Constraints:</p>
 <ul>
 <li>Type is 64-bit unsigned integer (8 bytes)</li>
-<li>Must not be <code>2^64 - 1</code></li>
+<li>Must not be larger than <code>2^63</code></li>
 </ul>
 <h3 id="limit"><a href="#limit"
 class="anchor"><code>limit</code></a></h3>

@@ -253,6 +253,21 @@ and then either Posted or Voided. For more details on the latter, see
 the <a href="../../coding/two-phase-transfers/">Two-Phase Transfer
 guide</a>.</p>
 <p>Fields used by each mode of transfer:</p>
+<h3 id="fields-by-mode"><a href="#fields-by-mode" class="anchor">Fields
+by Mode</a></h3>
+<ul>
+<li><em>Required</em> means a valid nonzero value must be supplied.</li>
+<li><em>Optional</em> means zero is allowed, with the behavior described
+below.</li>
+<li><em>Inherit or match</em> means zero copies the pending transfer’s
+value, while a nonzero value must equal the pending transfer’s value
+exactly. For each <code>user_data_*</code> field, <em>inherit or
+new</em> will either copy the old transfer’s <code>user_data</code>
+field if set to zero, or set the provided user data field on the newly
+created transfer. The original pending transfer is immutable.</li>
+<li>All values remain subject to the individual <a href="#fields">field
+constraints</a>, account constraints, and balance limits.</li>
+</ul>
 <div class="table">
 <table>
 <thead>
@@ -269,32 +284,32 @@ guide</a>.</p>
 <td><code>id</code></td>
 <td>required</td>
 <td>required</td>
-<td>required</td>
-<td>required</td>
+<td>required¹</td>
+<td>required¹</td>
 </tr>
 <tr>
 <td><code>debit_account_id</code></td>
 <td>required</td>
 <td>required</td>
-<td>optional</td>
-<td>optional</td>
+<td>inherit or match</td>
+<td>inherit or match</td>
 </tr>
 <tr>
 <td><code>credit_account_id</code></td>
 <td>required</td>
 <td>required</td>
-<td>optional</td>
-<td>optional</td>
+<td>inherit or match</td>
+<td>inherit or match</td>
 </tr>
 <tr>
 <td><code>amount</code></td>
 <td>required</td>
-<td>required</td>
-<td>required</td>
 <td>optional</td>
+<td>optional</td>
+<td>inherit or match</td>
 </tr>
 <tr>
-<td><code>pending_id</code></td>
+<td><code>pending_id</code>²</td>
 <td>none</td>
 <td>none</td>
 <td>required</td>
@@ -304,27 +319,27 @@ guide</a>.</p>
 <td><code>user_data_128</code></td>
 <td>optional</td>
 <td>optional</td>
-<td>optional</td>
-<td>optional</td>
+<td>inherit or new</td>
+<td>inherit or new</td>
 </tr>
 <tr>
 <td><code>user_data_64</code></td>
 <td>optional</td>
 <td>optional</td>
-<td>optional</td>
-<td>optional</td>
+<td>inherit or new</td>
+<td>inherit or new</td>
 </tr>
 <tr>
 <td><code>user_data_32</code></td>
 <td>optional</td>
 <td>optional</td>
-<td>optional</td>
-<td>optional</td>
+<td>inherit or new</td>
+<td>inherit or new</td>
 </tr>
 <tr>
 <td><code>timeout</code></td>
 <td>none</td>
-<td>optional¹</td>
+<td>optional³</td>
 <td>none</td>
 <td>none</td>
 </tr>
@@ -332,15 +347,99 @@ guide</a>.</p>
 <td><code>ledger</code></td>
 <td>required</td>
 <td>required</td>
-<td>optional</td>
-<td>optional</td>
+<td>inherit or match</td>
+<td>inherit or match</td>
 </tr>
 <tr>
 <td><code>code</code></td>
 <td>required</td>
 <td>required</td>
+<td>inherit or match</td>
+<td>inherit or match</td>
+</tr>
+<tr>
+<td><code>timestamp</code></td>
+<td>none⁴</td>
+<td>none⁴</td>
+<td>none⁴</td>
+<td>none⁴</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><em>¹ Posting and voiding require a new transfer
+<code>id</code>.</em><br/> <em>² <code>pending_id</code> identifies an
+existing pending transfer that has not been posted, voided, or
+expired.</em><br/> <em>³ None if <code>flags.imported</code> is
+set.</em><br/> <em>⁴ Required if <code>flags.imported</code> is
+set.</em></p>
+</blockquote>
+<h3 id="flags-by-mode"><a href="#flags-by-mode" class="anchor">Flags by
+Mode</a></h3>
+<p><em>Required</em> means the flag must be set, <em>forbidden</em>
+means it must be unset, and <em>optional</em> means either is allowed
+subject to the rules below.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Single-Phase</th>
+<th>Pending</th>
+<th>Post-Pending</th>
+<th>Void-Pending</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>flags.pending</code></td>
+<td>forbidden</td>
+<td>required</td>
+<td>forbidden</td>
+<td>forbidden</td>
+</tr>
+<tr>
+<td><code>flags.post_pending_transfer</code></td>
+<td>forbidden</td>
+<td>forbidden</td>
+<td>required</td>
+<td>forbidden</td>
+</tr>
+<tr>
+<td><code>flags.void_pending_transfer</code></td>
+<td>forbidden</td>
+<td>forbidden</td>
+<td>forbidden</td>
+<td>required</td>
+</tr>
+<tr>
+<td><code>flags.balancing_debit</code></td>
 <td>optional</td>
 <td>optional</td>
+<td>forbidden</td>
+<td>forbidden</td>
+</tr>
+<tr>
+<td><code>flags.balancing_credit</code></td>
+<td>optional</td>
+<td>optional</td>
+<td>forbidden</td>
+<td>forbidden</td>
+</tr>
+<tr>
+<td><code>flags.closing_debit</code></td>
+<td>forbidden</td>
+<td>optional</td>
+<td>forbidden</td>
+<td>forbidden</td>
+</tr>
+<tr>
+<td><code>flags.closing_credit</code></td>
+<td>forbidden</td>
+<td>optional</td>
+<td>forbidden</td>
+<td>forbidden</td>
 </tr>
 <tr>
 <td><code>flags.linked</code></td>
@@ -350,75 +449,95 @@ guide</a>.</p>
 <td>optional</td>
 </tr>
 <tr>
-<td><code>flags.pending</code></td>
-<td>false</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td><code>flags.post_pending_transfer</code></td>
-<td>false</td>
-<td>false</td>
-<td>true</td>
-<td>false</td>
-</tr>
-<tr>
-<td><code>flags.void_pending_transfer</code></td>
-<td>false</td>
-<td>false</td>
-<td>false</td>
-<td>true</td>
-</tr>
-<tr>
-<td><code>flags.balancing_debit</code></td>
-<td>optional</td>
-<td>optional</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td><code>flags.balancing_credit</code></td>
-<td>optional</td>
-<td>optional</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td><code>flags.closing_debit</code></td>
-<td>optional</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
-<td><code>flags.closing_credit</code></td>
-<td>optional</td>
-<td>true</td>
-<td>false</td>
-<td>false</td>
-</tr>
-<tr>
 <td><code>flags.imported</code></td>
 <td>optional</td>
 <td>optional</td>
 <td>optional</td>
 <td>optional</td>
 </tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>The three mode flags (<code>pending</code>,
+<code>post_pending_transfer</code>, and
+<code>void_pending_transfer</code>) are mutually exclusive.
+<ul>
+<li>Single-phase transfers set none of them.</li>
+</ul></li>
+<li><code>flags.balancing_debit</code> and
+<code>flags.balancing_credit</code> may be set together.
+<ul>
+<li>On a pending transfer, any combination of the two balancing and two
+closing flags is allowed, including all four or none.</li>
+</ul></li>
+<li>Only a pending transfer can set <code>flags.closing_debit</code> or
+<code>flags.closing_credit</code>.
+<ul>
+<li>Closed accounts can be reopened by voiding the closing transfer or
+once the closing transfer expires.</li>
+<li>Closing transfers cannot be posted.</li>
+</ul></li>
+<li>Pending does not require closing.</li>
+<li>The posting or voiding transfer must not repeat balancing or closing
+flags from the original pending transfer.</li>
+</ul>
+<h3 id="linked-and-imported-transfers"><a
+href="#linked-and-imported-transfers" class="anchor">Linked and Imported
+Transfers</a></h3>
+<p>These rules apply in every mode, including pending transfers with
+balancing or closing flags.</p>
+<div class="table">
+<table>
+<thead>
 <tr>
-<td><code>timestamp</code></td>
-<td>none²</td>
-<td>none²</td>
-<td>none²</td>
-<td>none²</td>
+<th>Condition</th>
+<th>Requirement / Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>flags.linked</code> set</td>
+<td>Link to the next event in the batch; the chain succeeds/fails as
+one</td>
+</tr>
+<tr>
+<td>Last event in linked chain</td>
+<td>Unset <code>linked</code>; otherwise
+<code>linked_event_chain_open</code></td>
+</tr>
+<tr>
+<td><code>flags.imported</code> unset</td>
+<td><code>timestamp = 0</code>; TigerBeetle assigns it</td>
+</tr>
+<tr>
+<td><code>flags.imported</code> set</td>
+<td>Supply valid imported <code>timestamp</code>;
+<code>timeout = 0</code></td>
+</tr>
+<tr>
+<td>Multiple transfers/request</td>
+<td>All must use the same <code>flags.imported</code> value</td>
+</tr>
+<tr>
+<td><code>linked</code> + <code>imported</code> set</td>
+<td>Both rules apply; last event unsets <code>linked</code>, keeps
+<code>imported</code></td>
 </tr>
 </tbody>
 </table>
 </div>
-<blockquote>
-<p><em>¹ None if <code>flags.imported</code> is set.</em><br/> <em>²
-Required if <code>flags.imported</code> is set.</em></p>
-</blockquote>
+<ul>
+<li>A valid imported <code>timestamp</code> is <code>&gt; 0</code> and
+<code>&lt; 2^63</code>, and must satisfy the <a
+href="#flagsimported">import ordering and uniqueness
+constraints</a>.</li>
+<li>The <code>imported</code> flag on a posting or voiding transfer does
+not have to match the original pending transfer’s flag.</li>
+<li>Imported and regular transfers can post or void pending transfers of
+either type, including those with a <code>timeout</code> that have not
+yet expired.</li>
+</ul>
 <h2 id="fields"><a href="#fields" class="anchor">Fields</a></h2>
 <h3 id="id"><a href="#id" class="anchor"><code>id</code></a></h3>
 <p>This is a unique identifier for the transaction.</p>
@@ -569,8 +688,8 @@ must be nonzero:
 
 <h4 id="examples"><a href="#examples" class="anchor">Examples</a></h4>
 <ul>
-<li>For representing fractional amounts (e.g. <code>$12.34</code>), see
-<a
+<li>For representing fractional amounts (e.g. <code>12.34 USD</code>),
+see <a
 href="../../coding/data-modeling/#fractional-amounts-and-asset-scale">Fractional
 Amounts</a>.</li>
 <li>For balancing transfers, see <a
@@ -914,7 +1033,8 @@ cluster clock at the time the request arrives.</p></li>
 <li><p>Timestamps must be strictly increasing.</p>
 <p>Even user-defined timestamps that are required to be past dates need
 to be at least one nanosecond ahead of the timestamp of the last
-transfer committed by the cluster.</p>
+transfer committed or <a href="#timeout">automatically expired</a> by
+the cluster.</p>
 <p>Since the timestamp cannot regress, importing past events can be
 naturally restrictive without coordination, as the last timestamp can be
 updated using the cluster clock during regular cluster activity.
@@ -948,7 +1068,7 @@ with <a href="#flagsimported"><code>flags.imported</code></a>
 <em>not</em> set</p>
 <p>It is set by TigerBeetle to the moment the transfer arrives at the
 cluster.</p></li>
-<li><p>Must be greater than <code>0</code> and less than
+<li><p>Must be greater than <code>0</code> and not be larger than
 <code>2^63</code> when the <code>Transfer</code> is created with <a
 href="#flagsimported"><code>flags.imported</code></a> set</p></li>
 </ul>
